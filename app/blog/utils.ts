@@ -26,16 +26,16 @@ function parseFrontmatter(fileContent: string) {
   return { metadata: metadata as Metadata, content }
 }
 
-function getMDXFiles(dir) {
+function getMDXFiles(dir: string) { // Added type annotation
   return fs.readdirSync(dir).filter((file) => path.extname(file) === '.mdx')
 }
 
-function readMDXFile(filePath) {
+function readMDXFile(filePath: string) { // Added type annotation
   let rawContent = fs.readFileSync(filePath, 'utf-8')
   return parseFrontmatter(rawContent)
 }
 
-function getMDXData(dir) {
+function getMDXData(dir: string) { // Added type annotation
   let mdxFiles = getMDXFiles(dir)
   return mdxFiles.map((file) => {
     let { metadata, content } = readMDXFile(path.join(dir, file))
@@ -53,7 +53,13 @@ export function getBlogPosts() {
   return getMDXData(path.join(process.cwd(), 'app', 'blog', 'posts'))
 }
 
-export function formatDate(date: string, includeRelative = false) {
+// MODIFIED FUNCTION SIGNATURE AND ADDED SAFETY CHECK
+export function formatDate(date: string | null | undefined, includeRelative = false) {
+  // SAFETY CHECK: If date is missing, return a default string immediately.
+  if (!date) {
+    return 'Date TBD' 
+  }
+
   let currentDate = new Date()
   if (!date.includes('T')) {
     date = `${date}T00:00:00`
