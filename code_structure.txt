@@ -1,0 +1,1933 @@
+./
+├── pnpm-lock.yaml
+├── next.config.js
+│   ├── /** @type {import('next').NextConfig} */
+│   ├── const nextConfig = {
+│   ├──   // Define redirects for old URLs
+│   ├──   async redirects() {
+│   ├──     return [
+│   ├──       // FIX: Redirects the base /project path to /blog
+│   ├──       {
+│   ├──         source: '/project',
+│   ├──         destination: '/blog',
+│   ├──         permanent: true, // 301 Permanent Redirect
+│   ├──       },
+│   ├── 
+│   ├──       // EXISTING: Redirects all content from /project/* to /blog/*
+│   ├──       {
+│   ├──         source: '/project/:slug',
+│   ├──         destination: '/blog/:slug',
+│   ├──         permanent: true, // 301 Permanent Redirect
+│   ├──       },
+│   ├──       
+│   ├──       // EXISTING: Handles the specific old URL structure from /f/
+│   ├──       {
+│   ├──         source: '/f/introduction-to-my-jazz-a-seamless-transition-from-classical-to-groovy-musi',
+│   ├──         destination: '/blog/introduction-to-my-jazz-a-seamless-transition-from-classical-to-groovy-musi',
+│   ├──         permanent: true, 
+│   ├──       },
+│   ├──     ];
+│   ├──   },
+│   ├── };
+│   ├── 
+│   ├── module.exports = nextConfig;
+
+├── next-env.d.ts
+│   ├── /// <reference types="next" />
+│   ├── /// <reference types="next/image-types/global" />
+│   ├── import "./.next/dev/types/routes.d.ts";
+│   ├── 
+│   ├── // NOTE: This file should not be edited
+│   ├── // see https://nextjs.org/docs/app/api-reference/config/typescript for more information.
+│   ├── 
+
+├── README.md
+├── code_structure.txt
+├── package.json
+│   ├── {
+│   ├──   "private": true,
+│   ├──   "scripts": {
+│   ├──     "dev": "next dev",
+│   ├──     "build": "next build",
+│   ├──     "start": "next start"
+│   ├──   },
+│   ├──   "dependencies": {
+│   ├──     "@tailwindcss/postcss": "4.0.0-alpha.13",
+│   ├──     "@types/node": "20.11.17",
+│   ├──     "@types/react": "18.2.55",
+│   ├──     "@types/react-dom": "18.2.19",
+│   ├──     "@vercel/analytics": "^1.1.3",
+│   ├──     "@vercel/speed-insights": "^1.0.9",
+│   ├──     "geist": "1.2.2",
+│   ├──     "next": "canary",
+│   ├──     "next-mdx-remote": "^4.4.1",
+│   ├──     "postcss": "^8.4.35",
+│   ├──     "react": "18.2.0",
+│   ├──     "react-dom": "18.2.0",
+│   ├──     "sugar-high": "^0.6.0",
+│   ├──     "tailwindcss": "4.0.0-alpha.13",
+│   ├──     "typescript": "5.3.3"
+│   ├──   }
+│   ├── }
+│   ├── 
+
+├── tsconfig.json
+│   ├── {
+│   ├──   "compilerOptions": {
+│   ├──     "target": "es5",
+│   ├──     "lib": [
+│   ├──       "dom",
+│   ├──       "dom.iterable",
+│   ├──       "esnext"
+│   ├──     ],
+│   ├──     "allowJs": true,
+│   ├──     "skipLibCheck": true,
+│   ├──     "strict": false,
+│   ├──     "forceConsistentCasingInFileNames": true,
+│   ├──     "noEmit": true,
+│   ├──     "esModuleInterop": true,
+│   ├──     "module": "esnext",
+│   ├──     "moduleResolution": "node",
+│   ├──     "resolveJsonModule": true,
+│   ├──     "isolatedModules": true,
+│   ├──     "jsx": "react-jsx",
+│   ├──     "baseUrl": ".",
+│   ├──     "incremental": true,
+│   ├──     "plugins": [
+│   ├──       {
+│   ├──         "name": "next"
+│   ├──       }
+│   ├──     ],
+│   ├──     "strictNullChecks": true
+│   ├──   },
+│   ├──   "include": [
+│   ├──     "next-env.d.ts",
+│   ├──     "**/*.ts",
+│   ├──     "**/*.tsx",
+│   ├──     ".next/types/**/*.ts",
+│   ├──     ".next/dev/types/**/*.ts"
+│   ├──   ],
+│   ├──   "exclude": [
+│   ├──     "node_modules"
+│   ├──   ]
+│   ├── }
+│   ├── 
+
+├── postcss.config.js
+│   ├── module.exports = {
+│   ├──   plugins: {
+│   ├──     '@tailwindcss/postcss': {},
+│   ├──   },
+│   ├── };
+│   ├── 
+
+├── extract.py
+├── app/
+│   ├── robots.ts
+│   │   ├── import { baseUrl } from 'app/sitemap'
+│   │   ├── 
+│   │   ├── export default function robots() {
+│   │   ├──   return {
+│   │   ├──     rules: [
+│   │   ├──       {
+│   │   ├──         userAgent: '*',
+│   │   ├──       },
+│   │   ├──     ],
+│   │   ├──     sitemap: `${baseUrl}/sitemap.xml`,
+│   │   ├──   }
+│   │   ├── }
+│   │   ├── 
+
+│   ├── global.css
+│   │   ├── @import 'tailwindcss';
+│   │   ├── 
+│   │   ├── ::selection {
+│   │   ├──   background-color: #47a3f3;
+│   │   ├──   color: #fefefe;
+│   │   ├── }
+│   │   ├── 
+│   │   ├── :root {
+│   │   ├──   --sh-class: #2d5e9d;
+│   │   ├──   --sh-identifier: #354150;
+│   │   ├──   --sh-sign: #8996a3;
+│   │   ├──   --sh-string: #007f7a;
+│   │   ├──   --sh-keyword: #e02518;
+│   │   ├──   --sh-comment: #a19595;
+│   │   ├──   --sh-jsxliterals: #6266d1;
+│   │   ├──   --sh-property: #e25a1c;
+│   │   ├──   --sh-entity: #e25a1c;
+│   │   ├── }
+│   │   ├── 
+│   │   ├── @media (prefers-color-scheme: dark) {
+│   │   ├──   :root {
+│   │   ├──     --sh-class: #4c97f8;
+│   │   ├──     --sh-identifier: white;
+│   │   ├──     --sh-keyword: #f47067;
+│   │   ├──     --sh-string: #0fa295;
+│   │   ├──   }
+│   │   ├──   html {
+│   │   ├──     color-scheme: dark;
+│   │   ├──   }
+│   │   ├── }
+│   │   ├── 
+│   │   ├── html {
+│   │   ├──   min-width: 360px;
+│   │   ├── }
+│   │   ├── 
+│   │   ├── .prose .anchor {
+│   │   ├──   @apply absolute invisible no-underline;
+│   │   ├── 
+│   │   ├──   margin-left: -1em;
+│   │   ├──   padding-right: 0.5em;
+│   │   ├──   width: 80%;
+│   │   ├──   max-width: 700px;
+│   │   ├──   cursor: pointer;
+│   │   ├── }
+│   │   ├── 
+│   │   ├── .anchor:hover {
+│   │   ├──   @apply visible;
+│   │   ├── }
+│   │   ├── 
+│   │   ├── .prose a {
+│   │   ├──   @apply underline transition-all decoration-neutral-400 dark:decoration-neutral-600 underline-offset-2 decoration-[0.1em];
+│   │   ├── }
+│   │   ├── 
+│   │   ├── .prose .anchor:after {
+│   │   ├──   @apply text-neutral-300 dark:text-neutral-700;
+│   │   ├──   content: '#';
+│   │   ├── }
+│   │   ├── 
+│   │   ├── .prose *:hover > .anchor {
+│   │   ├──   @apply visible;
+│   │   ├── }
+│   │   ├── 
+│   │   ├── .prose pre {
+│   │   ├──   @apply bg-neutral-50 dark:bg-neutral-900 rounded-lg overflow-x-auto border border-neutral-200 dark:border-neutral-900 py-2 px-3 text-sm;
+│   │   ├── }
+│   │   ├── 
+│   │   ├── .prose code {
+│   │   ├──   @apply px-1 py-0.5 rounded-lg;
+│   │   ├── }
+│   │   ├── 
+│   │   ├── .prose pre code {
+│   │   ├──   @apply p-0;
+│   │   ├──   border: initial;
+│   │   ├──   line-height: 1.5;
+│   │   ├── }
+│   │   ├── 
+│   │   ├── .prose code span {
+│   │   ├──   @apply font-medium;
+│   │   ├── }
+│   │   ├── 
+│   │   ├── .prose img {
+│   │   ├──   /* Don't apply styles to next/image */
+│   │   ├──   @apply m-0;
+│   │   ├── }
+│   │   ├── 
+│   │   ├── .prose p {
+│   │   ├──   @apply my-4 text-neutral-800 dark:text-neutral-200;
+│   │   ├── }
+│   │   ├── 
+│   │   ├── .prose h1 {
+│   │   ├──   @apply text-4xl font-medium tracking-tight mt-6 mb-2;
+│   │   ├── }
+│   │   ├── 
+│   │   ├── .prose h2 {
+│   │   ├──   @apply text-xl font-medium tracking-tight mt-6 mb-2;
+│   │   ├── }
+│   │   ├── 
+│   │   ├── .prose h3 {
+│   │   ├──   @apply text-xl font-medium tracking-tight mt-6 mb-2;
+│   │   ├── }
+│   │   ├── 
+│   │   ├── .prose h4 {
+│   │   ├──   @apply text-lg font-medium tracking-tight mt-6 mb-2;
+│   │   ├── }
+│   │   ├── 
+│   │   ├── .prose strong {
+│   │   ├──   @apply font-medium;
+│   │   ├── }
+│   │   ├── 
+│   │   ├── .prose ul {
+│   │   ├──   @apply list-disc pl-6;
+│   │   ├── }
+│   │   ├── 
+│   │   ├── .prose ol {
+│   │   ├──   @apply list-decimal pl-6;
+│   │   ├── }
+│   │   ├── 
+│   │   ├── .prose > :first-child {
+│   │   ├──   /* Override removing top margin, causing layout shift */
+│   │   ├──   margin-top: 1.25em !important;
+│   │   ├──   margin-bottom: 1.25em !important;
+│   │   ├── }
+│   │   ├── 
+│   │   ├── pre::-webkit-scrollbar {
+│   │   ├──   display: none;
+│   │   ├── }
+│   │   ├── 
+│   │   ├── pre {
+│   │   ├──   -ms-overflow-style: none; /* IE and Edge */
+│   │   ├──   scrollbar-width: none; /* Firefox */
+│   │   ├── }
+│   │   ├── 
+│   │   ├── /* Remove Safari input shadow on mobile */
+│   │   ├── input[type='text'],
+│   │   ├── input[type='email'] {
+│   │   ├──   -webkit-appearance: none;
+│   │   ├──   -moz-appearance: none;
+│   │   ├──   appearance: none;
+│   │   ├── }
+│   │   ├── 
+│   │   ├── table {
+│   │   ├──   display: block;
+│   │   ├──   max-width: fit-content;
+│   │   ├──   overflow-x: auto;
+│   │   ├──   white-space: nowrap;
+│   │   ├── }
+│   │   ├── 
+│   │   ├── .title {
+│   │   ├──   text-wrap: balance;
+│   │   ├── }
+│   │   ├── 
+
+│   ├── sitemap.ts
+│   │   ├── import { getBlogPosts } from 'app/blog/utils'
+│   │   ├── 
+│   │   ├── export const baseUrl = 'https://portfolio-blog-starter.vercel.app'
+│   │   ├── 
+│   │   ├── export default async function sitemap() {
+│   │   ├──   let blogs = getBlogPosts().map((post) => ({
+│   │   ├──     url: `${baseUrl}/blog/${post.slug}`,
+│   │   ├──     lastModified: post.metadata.publishedAt,
+│   │   ├──   }))
+│   │   ├── 
+│   │   ├──   let routes = ['', '/blog'].map((route) => ({
+│   │   ├──     url: `${baseUrl}${route}`,
+│   │   ├──     lastModified: new Date().toISOString().split('T')[0],
+│   │   ├──   }))
+│   │   ├── 
+│   │   ├──   return [...routes, ...blogs]
+│   │   ├── }
+│   │   ├── 
+
+│   ├── layout.tsx
+│   │   ├── import './global.css'
+│   │   ├── import type { Metadata } from 'next'
+│   │   ├── import { GeistSans } from 'geist/font/sans'
+│   │   ├── import { GeistMono } from 'geist/font/mono'
+│   │   ├── import { Navbar } from './components/nav'
+│   │   ├── import { Analytics } from '@vercel/analytics/react'
+│   │   ├── import { SpeedInsights } from '@vercel/speed-insights/next'
+│   │   ├── import { Footer } from './components/footer'
+│   │   ├──   import { baseUrl } from './sitemap'
+│   │   ├── 
+│   │   ├── export const metadata: Metadata = {
+│   │   ├──   metadataBase: new URL(baseUrl),
+│   │   ├──   title: {
+│   │   ├──     default: 'Next.js Portfolio Starter',
+│   │   ├──     template: '%s | Next.js Portfolio Starter',
+│   │   ├──   },
+│   │   ├──   description: 'This is my portfolio.',
+│   │   ├──   openGraph: {
+│   │   ├──     title: 'My Portfolio',
+│   │   ├──     description: 'This is my portfolio.',
+│   │   ├──     url: baseUrl,
+│   │   ├──     siteName: 'My Portfolio',
+│   │   ├──     locale: 'en_US',
+│   │   ├──     type: 'website',
+│   │   ├──   },
+│   │   ├──   robots: {
+│   │   ├──     index: true,
+│   │   ├──     follow: true,
+│   │   ├──     googleBot: {
+│   │   ├──       index: true,
+│   │   ├──       follow: true,
+│   │   ├──       'max-video-preview': -1,
+│   │   ├──       'max-image-preview': 'large',
+│   │   ├──       'max-snippet': -1,
+│   │   ├──     },
+│   │   ├──   },
+│   │   ├── }
+│   │   ├── 
+│   │   ├── const cx = (...classes) => classes.filter(Boolean).join(' ')
+│   │   ├── 
+│   │   ├── export default function RootLayout({
+│   │   ├──   children,
+│   │   ├── }: {
+│   │   ├──   children: React.ReactNode
+│   │   ├── }) {
+│   │   ├──   return (
+│   │   ├──     <html
+│   │   ├──       lang="en"
+│   │   ├──       className={cx(
+│   │   ├──         'text-black bg-white dark:text-white dark:bg-black',
+│   │   ├──         GeistSans.variable,
+│   │   ├──         GeistMono.variable
+│   │   ├──       )}
+│   │   ├──     >
+│   │   ├──       <body className="antialiased max-w-xl mx-4 mt-8 lg:mx-auto">
+│   │   ├──         <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
+│   │   ├──           <Navbar />
+│   │   ├──           {children}
+│   │   ├──           <Footer />
+│   │   ├──           <Analytics />
+│   │   ├──           <SpeedInsights />
+│   │   ├──         </main>
+│   │   ├──       </body>
+│   │   ├──     </html>
+│   │   ├──   )
+│   │   ├── }
+│   │   ├── 
+
+│   ├── page.tsx
+│   │   ├── import Link from 'next/link';
+│   │   ├── // Assuming BlogPosts is located in app/components/
+│   │   ├── import { BlogPosts } from './components/posts'; 
+│   │   ├── import { SubscribeCTA } from './components/subscribe-cta';
+│   │   ├── import { AlbumCTA } from './components/album-cta';
+│   │   ├── import { NewReleasesSpotlight } from './components/new-releases-spotlight';
+│   │   ├── 
+│   │   ├── 
+│   │   ├── export default function Page() {
+│   │   ├──   return (
+│   │   ├──     <section>
+│   │   ├──       {/* HERO SECTION: Main Introduction & Bio */}
+│   │   ├──       <h1 className="font-bold text-4xl font-serif mb-6 tracking-tighter">
+│   │   ├──         Arman Ayva
+│   │   ├──       </h1>
+│   │   ├──       
+│   │   ├──       <div className="prose prose-neutral dark:prose-invert">
+│   │   ├──         <p className="text-xl leading-8">
+│   │   ├──           Welcome to Arman's Musical Journey! I'm an innovative artist and composer 
+│   │   ├──           based in Montreal, breaking new ground in the realms of **jazz-folk, 
+│   │   ├──           jazz-funk, ambient, electronic, and experimental genres**. My music is 
+│   │   ├──           an exploration of jazz, funk, and folk, with rich bass, lively drums, 
+│   │   ├──           and captivating beats.
+│   │   ├──         </p>
+│   │   ├──         
+│   │   ├──         <p>
+│   │   ├──           My music is a fusion of diverse influences, inspired by luminaries like 
+│   │   ├──           **Marcus Miller, US3, and Dave Brubeck**. I craft compositions that are 
+│   │   ├──           brimming with authenticity, telling stories and radiating positivity, 
+│   │   ├──           creating an immersive experience for listeners.
+│   │   ├──         </p>
+│   │   ├── 
+│   │   ├──         <p>
+│   │   ├──           I'm not a performing artist, but my music is a testament to life's symphony—a journey 
+│   │   ├──           evolving. Join me in traversing sound realms, experimenting, creating, 
+│   │   ├──           and sharing harmonies that echo through the corridors of my unconventional, 
+│   │   ├──           melodic life.
+│   │   ├──         </p>
+│   │   ├── 
+│   │   ├──         {/* SPOTIFY EMBED */}
+│   │   ├──         <h2 className="font-bold text-2xl font-serif mt-12 mb-6 tracking-tighter">
+│   │   ├──           Funky Jazz Mood Lifter Playlist
+│   │   ├──         </h2>
+│   │   ├──         
+│   │   ├──         <div className="rounded-xl overflow-hidden shadow-2xl">
+│   │   ├──           <iframe 
+│   │   ├──               style={{ borderRadius: '12px' }} 
+│   │   ├──               src="https://open.spotify.com/embed/playlist/0kQ3ZMgLoc9UoFtJz96qYa?utm_source=generator"
+│   │   ├──               width="100%" 
+│   │   ├──               height="352" 
+│   │   ├──               frameBorder="0" 
+│   │   ├──               allowFullScreen={true} 
+│   │   ├──               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+│   │   ├──               loading="lazy"
+│   │   ├──             />
+│   │   ├──         </div>
+│   │   ├──       </div>
+│   │   ├── 
+│   │   ├──       <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
+│   │   ├──       
+│   │   ├──       {/* NEW RELEASES SECTION */}
+│   │   ├──       <NewReleasesSpotlight />
+│   │   ├──       
+│   │   ├──       <Link 
+│   │   ├──         href="/blog" 
+│   │   ├──         className="text-sm font-semibold mt-6 inline-block text-neutral-900 dark:text-neutral-100 hover:text-blue-500 transition-colors"
+│   │   ├──       >
+│   │   ├──         View All Music & Stories →
+│   │   ├──       </Link>
+│   │   ├──       
+│   │   ├──       <hr className="my-16 border-neutral-200 dark:border-neutral-800" />
+│   │   ├──       
+│   │   ├──       {/* SUBSCRIBE CTA COMPONENT */}
+│   │   ├──       <SubscribeCTA />
+│   │   ├── 
+│   │   ├──       <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
+│   │   ├──       
+│   │   ├──       {/* BANDCAMP EMBED + ALBUM CTA */}
+│   │   ├──       <h2 className="font-bold text-2xl font-serif mb-6 tracking-tighter">
+│   │   ├──         Featured Album: My Funky Jazzification
+│   │   ├──       </h2>
+│   │   ├──     
+│   │   ├──       <div className="flex flex-col items-center mb-10">
+│   │   ├──         {/* Bandcamp iFrame - Corrected self-closing tag */}
+│   │   ├──         <iframe 
+│   │   ├──           style={{ border: 0, width: '350px', height: '470px' }} 
+│   │   ├──           src="https://bandcamp.com/EmbeddedPlayer/album=854312660/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/transparent=true/" 
+│   │   ├──           seamless
+│   │   ├──           title="My Funky Jazzification by Arman Ayva"
+│   │   ├──         /> 
+│   │   ├──         <p className="text-xs mt-2 text-neutral-600 dark:text-neutral-400">
+│   │   ├──           <a href="https://armanayva.bandcamp.com/album/my-funky-jazzification" target="_blank" rel="noopener noreferrer">
+│   │   ├──             My Funky Jazzification by Arman Ayva
+│   │   ├──           </a>
+│   │   ├──         </p>
+│   │   ├──       </div>
+│   │   ├──       
+│   │   ├──       <AlbumCTA /> 
+│   │   ├── 
+│   │   ├──       <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
+│   │   ├──       
+│   │   ├──       {/* ALL OTHER STORIES */}
+│   │   ├──       <h2 className="font-bold text-2xl font-serif mb-6 tracking-tighter">
+│   │   ├──         All Other Stories
+│   │   ├──       </h2>
+│   │   ├──       <BlogPosts />
+│   │   ├──       
+│   │   ├──       <Link 
+│   │   ├──         href="/blog" 
+│   │   ├──         className="text-sm font-semibold mt-6 inline-block text-neutral-900 dark:text-neutral-100 hover:text-blue-500 transition-colors"
+│   │   ├──       >
+│   │   ├──         View All Music & Stories →
+│   │   ├──       </Link>
+│   │   ├──       
+│   │   ├──     </section>
+│   │   ├──   )
+│   │   ├── }
+
+│   ├── not-found.tsx
+│   │   ├── export default function NotFound() {
+│   │   ├──   return (
+│   │   ├──     <section>
+│   │   ├──       <h1 className="mb-8 text-2xl font-semibold tracking-tighter">
+│   │   ├──         404 - Page Not Found
+│   │   ├──       </h1>
+│   │   ├──       <p className="mb-4">The page you are looking for does not exist.</p>
+│   │   ├──     </section>
+│   │   ├──   )
+│   │   ├── }
+│   │   ├── 
+
+│   ├── contact/
+│   │   ├── page.tsx
+│   │   │   ├── import { ContactForm } from '../components/contact-form'; // Import the new form component
+│   │   │   ├── 
+│   │   │   ├── 
+│   │   │   ├── export default function ContactPage() {
+│   │   │   ├──   // Define the JotForm embed details
+│   │   │   ├──   //const jotFormId = "250527544444255";
+│   │   │   ├──   //const jotFormSrc = `https://form.jotform.com/${jotFormId}`;
+│   │   │   ├── 
+│   │   │   ├──   return (
+│   │   │   ├──     <section className="py-8">
+│   │   │   ├──       <h1 className="font-bold text-4xl font-serif mb-6 tracking-tighter">
+│   │   │   ├──         Get in Touch 📩
+│   │   │   ├──       </h1>
+│   │   │   ├──       
+│   │   │   ├──       {/* <div className="prose prose-neutral dark:prose-invert mb-10">
+│   │   │   ├──         <p className="text-lg">
+│   │   │   ├──           Do you have a project idea, a press inquiry, or a potential collaboration? 
+│   │   │   ├──           I'd love to hear from you! Please use the form below to reach **Arman Ayva**.
+│   │   │   ├──         </p>
+│   │   │   ├──         <ul className="list-disc ml-6">
+│   │   │   ├──           <li>For licensing and commercial inquiries, please be as specific as possible.</li>
+│   │   │   ├──           <li>For collaborations, please include links to your work.</li>
+│   │   │   ├──         </ul>
+│   │   │   ├──       </div>
+│   │   │   ├── 
+│   │   │   ├──       {/* JotForm Embed Section
+│   │   │   ├──       <div className="w-full mx-auto" style={{ minHeight: '800px' }}>
+│   │   │   ├──         <iframe
+│   │   │   ├──           id="ContactJotFormEmbed"
+│   │   │   ├──           // Set src to the JotForm URL
+│   │   │   ├──           src={jotFormSrc}
+│   │   │   ├──           // The title is important for accessibility
+│   │   │   ├──           title="Arman Ayva Contact Form"
+│   │   │   ├──           // Set dimensions to full width and a generous height
+│   │   │   ├──           width="100%"
+│   │   │   ├──           height="800px"
+│   │   │   ├──           frameBorder="0"
+│   │   │   ├──           scrolling="yes" 
+│   │   │   ├──           style={{ minHeight: '800px', border: 'none' }}
+│   │   │   ├──         />
+│   │   │   ├──       </div>
+│   │   │   ├──  */}
+│   │   │   ├──       <div className="mt-8 text-sm text-neutral-500 dark:text-neutral-400">
+│   │   │   ├──         <p>
+│   │   │   ├──           I strive to respond to all inquiries within 48 hours. Thank you for your interest!
+│   │   │   ├── 
+│   │   │   ├──         </p>
+│   │   │   ├──       </div>
+│   │   │   ├── <br></br>
+│   │   │   ├──       <h1 className="font-bold text-4xl font-serif mb-6 tracking-tighter text-center">
+│   │   │   ├──         Get In Touch
+│   │   │   ├──       </h1>
+│   │   │   ├──       
+│   │   │   ├──       <div className="prose prose-neutral dark:prose-invert max-w-xl mx-auto text-center mb-8">
+│   │   │   ├──         <p className="text-lg">
+│   │   │   ├──           Do you have a project idea, a licensing inquiry, or just want to talk about jazz-funk? 
+│   │   │   ├──           Send a message below, and I'll get back to you as soon as possible.
+│   │   │   ├──         </p>
+│   │   │   ├──       </div>
+│   │   │   ├── 
+│   │   │   ├── 
+│   │   │   ├──       <div className="max-w-xl mx-auto text-center mt-10 p-4 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-50 dark:bg-neutral-900">
+│   │   │   ├──         <h2 className="font-bold text-xl mb-2">Licensing & Commercial Use</h2>
+│   │   │   ├──         <p className="text-sm text-neutral-600 dark:text-neutral-400">
+│   │   │   ├──           For all professional licensing or synchronization requests, please include details about the usage 
+│   │   │   ├──           (e.g., film, advertisement, game) and the specific tracks you are interested in.
+│   │   │   ├──         </p>
+│   │   │   ├──       </div>
+│   │   │   ├── 
+│   │   │   ├── 
+│   │   │   ├──       <ContactForm />
+│   │   │   ├──     </section>
+│   │   │   ├──   );
+│   │   │   ├── }
+
+│   ├── radio/
+│   │   ├── page.tsx
+│   │   │   ├── export default function RadioPage() {
+│   │   │   ├──   // Define all your radio station embeds and the YouTube playlist
+│   │   │   ├──   const embeds = [
+│   │   │   ├──     {
+│   │   │   ├──       name: "CHOM 97.7 (Montreal Rock)",
+│   │   │   ├──       src: "https://www.iheart.com/live/chom-97-7-7463/?embed=true",
+│   │   │   ├──       height: "200",
+│   │   │   ├──     },
+│   │   │   ├──     {
+│   │   │   ├──       name: "Noël c'est Rouge (Holiday)",
+│   │   │   ├──       src: "https://www.iheart.com/live/noel-cest-rouge-8140/?embed=true",
+│   │   │   ├──       height: "200",
+│   │   │   ├──     },
+│   │   │   ├──     {
+│   │   │   ├──       name: "CJAD 800 (Montreal News)",
+│   │   │   ├──       src: "https://www.iheart.com/live/cjad-800-7455/?embed=true",
+│   │   │   ├──       height: "200",
+│   │   │   ├──     },
+│   │   │   ├──     {
+│   │   │   ├──       // YouTube Embed is taller and should span the grid if possible, 
+│   │   │   ├──       // but here we keep the uniform style for simplicity.
+│   │   │   ├──       name: "Arman Ayva Music Playlist (YouTube)",
+│   │   │   ├──       src: "https://www.youtube.com/embed/videoseries?list=PLdh9NdS_IkkUwmhmrqNy0oQTtjxr683kC&autoplay=0",
+│   │   │   ├──       height: "315", // Height adjusted for YouTube player size
+│   │   │   ├──     },
+│   │   │   ├──     {
+│   │   │   ├──       name: "95.9 Virgin Radio (Pop)",
+│   │   │   ├──       src: "https://www.iheart.com/live/959-virgin-radio-7453/?embed=true",
+│   │   │   ├──       height: "200",
+│   │   │   ├──     },
+│   │   │   ├──     {
+│   │   │   ├──       name: "Vinyl Jazz (iHeart)",
+│   │   │   ├──       src: "https://www.iheart.com/live/vinyl-jazz-7079/?embed=true",
+│   │   │   ├──       height: "200",
+│   │   │   ├──     },
+│   │   │   ├──     {
+│   │   │   ├──       name: "iHeartJazz Classics",
+│   │   │   ├──       src: "https://www.iheart.com/live/iheartjazz-classics-9918/?embed=true",
+│   │   │   ├──       height: "200",
+│   │   │   ├──     },
+│   │   │   ├──     {
+│   │   │   ├──       name: "CHUM 104.5 (Toronto Pop)",
+│   │   │   ├──       src: "https://www.iheart.com/live/chum-1045-6270/?embed=true",
+│   │   │   ├──       height: "200",
+│   │   │   ├──     },
+│   │   │   ├──     {
+│   │   │   ├──       name: "Q104.3 (New York Rock)",
+│   │   │   ├──       src: "https://www.iheart.com/live/q1043-1465/?embed=true",
+│   │   │   ├──       height: "200",
+│   │   │   ├──     },
+│   │   │   ├──     {
+│   │   │   ├──       name: "Power 105.1 (New York Hip Hop)",
+│   │   │   ├──       src: "https://www.iheart.com/live/power-1051-1481/?embed=true",
+│   │   │   ├──       height: "200",
+│   │   │   ├──     },
+│   │   │   ├──   ];
+│   │   │   ├── 
+│   │   │   ├──   return (
+│   │   │   ├──     <section className="py-8">
+│   │   │   ├──       <h1 className="font-bold text-4xl font-serif mb-6 tracking-tighter">
+│   │   │   ├──         Arman Ayva's Detached Radio 📻
+│   │   │   ├──       </h1>
+│   │   │   ├──       
+│   │   │   ├──       <div className="prose prose-neutral dark:prose-invert mb-10">
+│   │   │   ├──         <p className="text-lg">
+│   │   │   ├──           Tune into a curated selection of great radio—from Montreal classics and New York grooves 
+│   │   │   ├──           to chill jazz stations and my own featured music playlist. Enjoy the mix!
+│   │   │   ├──         </p>
+│   │   │   ├──       </div>
+│   │   │   ├── 
+│   │   │   ├──       {/* Tailwind CSS Grid Layout: 2 columns on small screens, 3 on large */}
+│   │   │   ├──       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+│   │   │   ├──         {embeds.map((embed) => (
+│   │   │   ├──           <div 
+│   │   │   ├──             key={embed.name} 
+│   │   │   ├──             // The old 'circle-td' style is converted to Tailwind: 
+│   │   │   ├──             // rounded-xl for rounded corners and overflow-hidden
+│   │   │   ├──             className="rounded-xl overflow-hidden border border-neutral-200 dark:border-neutral-800 shadow-lg"
+│   │   │   ├──             // Set min-height based on the content to prevent layout shifts
+│   │   │   ├──             style={{ minHeight: `${parseInt(embed.height) + 10}px` }} 
+│   │   │   ├──           >
+│   │   │   ├──             {/* Embed Name/Title for context */}
+│   │   │   ├──             <h3 className="font-semibold text-sm p-3 bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200">
+│   │   │   ├──               {embed.name}
+│   │   │   ├──             </h3>
+│   │   │   ├──             <iframe 
+│   │   │   ├──               // Standard iframe properties from your source
+│   │   │   ├──               allow="autoplay" 
+│   │   │   ├──               width="100%" 
+│   │   │   ├──               height={embed.height} 
+│   │   │   ├──               src={embed.src} 
+│   │   │   ├──               frameBorder="0" 
+│   │   │   ├──               // YouTube iframe also needs 'allowfullscreen'
+│   │   │   ├──               allowFullScreen={embed.name.includes("YouTube") ? true : undefined}
+│   │   │   ├──               title={embed.name}
+│   │   │   ├──             />
+│   │   │   ├──           </div>
+│   │   │   ├──         ))}
+│   │   │   ├──       </div>
+│   │   │   ├──     </section>
+│   │   │   ├──   );
+│   │   │   ├── }
+
+│   ├── rss/
+│   │   ├── route.ts
+│   │   │   ├── import { baseUrl } from 'app/sitemap'
+│   │   │   ├── import { getBlogPosts } from 'app/blog/utils'
+│   │   │   ├── 
+│   │   │   ├── export async function GET() {
+│   │   │   ├──   let allBlogs = await getBlogPosts()
+│   │   │   ├── 
+│   │   │   ├──   const itemsXml = allBlogs
+│   │   │   ├──     .sort((a, b) => {
+│   │   │   ├──       if (new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt)) {
+│   │   │   ├──         return -1
+│   │   │   ├──       }
+│   │   │   ├──       return 1
+│   │   │   ├──     })
+│   │   │   ├──     .map(
+│   │   │   ├──       (post) =>
+│   │   │   ├──         `<item>
+│   │   │   ├──           <title>${post.metadata.title}</title>
+│   │   │   ├──           <link>${baseUrl}/blog/${post.slug}</link>
+│   │   │   ├──           <description>${post.metadata.summary || ''}</description>
+│   │   │   ├──           <pubDate>${new Date(
+│   │   │   ├──             post.metadata.publishedAt
+│   │   │   ├──           ).toUTCString()}</pubDate>
+│   │   │   ├──         </item>`
+│   │   │   ├──     )
+│   │   │   ├──     .join('\n')
+│   │   │   ├── 
+│   │   │   ├──   const rssFeed = `<?xml version="1.0" encoding="UTF-8" ?>
+│   │   │   ├──   <rss version="2.0">
+│   │   │   ├──     <channel>
+│   │   │   ├──         <title>My Portfolio</title>
+│   │   │   ├──         <link>${baseUrl}</link>
+│   │   │   ├──         <description>This is my portfolio RSS feed</description>
+│   │   │   ├──         ${itemsXml}
+│   │   │   ├──     </channel>
+│   │   │   ├──   </rss>`
+│   │   │   ├── 
+│   │   │   ├──   return new Response(rssFeed, {
+│   │   │   ├──     headers: {
+│   │   │   ├──       'Content-Type': 'text/xml',
+│   │   │   ├──     },
+│   │   │   ├──   })
+│   │   │   ├── }
+│   │   │   ├── 
+
+│   ├── other/
+│   │   ├── subscribe/
+│   │   │   ├── page.tsx
+│   │   │   │   ├── import Link from 'next/link';
+│   │   │   │   ├── 
+│   │   │   │   ├── export default function SubscribePage() {
+│   │   │   │   ├──   // Define the JotForm embed details
+│   │   │   │   ├──   const jotFormId = "253107289846264";
+│   │   │   │   ├──   const jotFormSrc = `https://form.jotform.com/${jotFormId}`;
+│   │   │   │   ├── 
+│   │   │   │   ├──   return (
+│   │   │   │   ├──     <section className="py-8">
+│   │   │   │   ├──       <h1 className="font-bold text-4xl font-serif mb-6 tracking-tighter">
+│   │   │   │   ├──         Subscribe to Arman Ayva Projects 🎵
+│   │   │   │   ├──       </h1>
+│   │   │   │   ├──       
+│   │   │   │   ├──       <div className="prose prose-neutral dark:prose-invert mb-10">
+│   │   │   │   ├──         <p className="text-lg">
+│   │   │   │   ├──           Join the exclusive mailing list to receive the latest updates on new music releases, 
+│   │   │   │   ├──           creative projects, and collaboration opportunities from **Arman Ayva – Montreal Jazz Composer**. 
+│   │   │   │   ├──           We promise to keep your inbox groovy!
+│   │   │   │   ├──         </p>
+│   │   │   │   ├──       </div>
+│   │   │   │   ├── 
+│   │   │   │   ├──       {/* JotForm Embed Section */}
+│   │   │   │   ├──       <div className="w-full mx-auto" style={{ minHeight: '800px' }}>
+│   │   │   │   ├──         <iframe
+│   │   │   │   ├──           id="JotFormEmbed"
+│   │   │   │   ├──           // Set src to the JotForm URL
+│   │   │   │   ├──           src={jotFormSrc}
+│   │   │   │   ├──           // The title is important for accessibility (SEO/Screen readers)
+│   │   │   │   ├──           title="Arman Ayva Email Subscription Form"
+│   │   │   │   ├──           // Frameborder=0 removes the default border
+│   │   │   │   ├──           frameBorder="0"
+│   │   │   │   ├──           // Scrolling=no can prevent scrollbars if the height is exact, but "yes" is safer for forms
+│   │   │   │   ├──           scrolling="yes" 
+│   │   │   │   ├──           // Set dimensions to full width and a reasonable height
+│   │   │   │   ├──           width="100%"
+│   │   │   │   ├──           height="800px"
+│   │   │   │   ├──           // Set a minimum height for better mobile display, adjust as needed
+│   │   │   │   ├──           style={{ minHeight: '800px', border: 'none' }}
+│   │   │   │   ├──         />
+│   │   │   │   ├──       </div>
+│   │   │   │   ├── 
+│   │   │   │   ├──       <div className="mt-8 text-sm text-neutral-500 dark:text-neutral-400">
+│   │   │   │   ├──         <p>
+│   │   │   │   ├──           Need to change your mind? You can <Link href="/contact" className="underline hover:text-blue-500">contact me</Link> anytime to manage your subscription.
+│   │   │   │   ├──         </p>
+│   │   │   │   ├──       </div>
+│   │   │   │   ├──     </section>
+│   │   │   │   ├──   );
+│   │   │   │   ├── }
+
+│   ├── about/
+│   │   ├── page.tsx
+│   │   │   ├── import Link from 'next/link';
+│   │   │   ├── 
+│   │   │   ├── export default function AboutPage() {
+│   │   │   ├──   return (
+│   │   │   ├──     <section className="py-8">
+│   │   │   ├──       <h1 className="font-bold text-4xl font-serif mb-6 tracking-tighter">
+│   │   │   ├──         Arman Ayva – Montreal Indie Jazz Composer 🎷
+│   │   │   ├──       </h1>
+│   │   │   ├──       
+│   │   │   ├──       <div className="prose prose-neutral dark:prose-invert">
+│   │   │   ├──         <p className="lead text-xl">
+│   │   │   ├──           Where modern jazz meets cinematic storytelling. Arman Ayva is a Montreal-based 
+│   │   │   ├──           indie jazz composer whose sound merges the soul of classic jazz with the 
+│   │   │   ├──           freedom of funk, cinematic energy, and the mysticism of world music. 
+│   │   │   ├──           His work is an exploration of rhythm, culture, and emotional landscapes — 
+│   │   │   ├──           a fusion that feels both timeless and contemporary.
+│   │   │   ├──         </p>
+│   │   │   ├── 
+│   │   │   ├──         <hr />
+│   │   │   ├──         
+│   │   │   ├──         {/* A Modern Jazz Visionary */}
+│   │   │   ├──         <h2>A Modern Jazz Visionary</h2>
+│   │   │   ├──         <p>
+│   │   │   ├──           Unlike traditional jazz artists, Arman’s compositions often start as vivid images 
+│   │   │   ├──           — a desert horizon, a city at dusk, or a dance in an old saloon. From there, he 
+│   │   │   ├──           builds grooves and melodies that evoke movement and story. His sound blends 
+│   │   │   ├──           **electric bass lines, analog synth textures, and global percussion**, creating 
+│   │   │   ├──           music that speaks to both jazz purists and adventurous listeners alike.
+│   │   │   ├──         </p>
+│   │   │   ├── 
+│   │   │   ├──         {/* From Photographer to Jazz Composer */}
+│   │   │   ├──         <h3>From Photographer to Jazz Composer</h3>
+│   │   │   ├──         <p>
+│   │   │   ├──           Before composing jazz, I was behind the lens — a **photographer and amateur filmmaker** crafting odd family videos. I dreamed of directing movies, but music became my medium. 
+│   │   │   ├──           Now, I storyboard with sound. Two years into music production, I blend jazz fusion 
+│   │   │   ├──           with storytelling, looping beats like camera shots, turning melodies into cinematic plots.
+│   │   │   ├──         </p>
+│   │   │   ├── 
+│   │   │   ├──         {/* Montreal Roots, Global Spirit */}
+│   │   │   ├──         <h2>Montreal Roots, Global Spirit</h2>
+│   │   │   ├──         <p>
+│   │   │   ├──           Based in Montreal, Arman draws from the city’s creative energy — a crossroads of 
+│   │   │   ├──           cultures and styles — while also channeling the warmth and rhythm of global traditions. 
+│   │   │   ├──           Whether it’s a funky bass groove inspired by 1970s fusion, a mysterious modal piano 
+│   │   │   ├──           line, or an **Armenian folk motif** reimagined through jazz harmony, his music bridges worlds.
+│   │   │   ├──         </p>
+│   │   │   ├── 
+│   │   │   ├──         {/* The Story Behind the Sound */}
+│   │   │   ├──         <h2>The Story Behind the Sound</h2>
+│   │   │   ├──         <p>
+│   │   │   ├──           Arman’s approach to music is deeply personal: 
+│   │   │   ├──           *“Every melody begins as a conversation between emotion and imagination. I compose 
+│   │   │   ├──           like I’m painting scenes from invisible films — each track has a story waiting to be heard.”*
+│   │   │   ├──         </p>
+│   │   │   ├──         <p>
+│   │   │   ├──           His songs like *The Crusade*, *Vintage Electric*, and *Thirsty Arab (Tales of Scheherazade)* tell cinematic tales that flow through desert jazz, funk-rock, and soulful improvisation. 
+│   │   │   ├──           Each piece stands alone but also fits into a larger musical universe — one defined by 
+│   │   │   ├──           curiosity and rhythm.
+│   │   │   ├──         </p>
+│   │   │   ├──         
+│   │   │   ├──         <hr />
+│   │   │   ├──         
+│   │   │   ├──         {/* Call to Action */}
+│   │   │   ├──         <p className="text-center font-bold">
+│   │   │   ├──           <Link 
+│   │   │   ├──             href="/blog"
+│   │   │   ├──             className="text-lg text-blue-500 hover:text-blue-700 transition-colors"
+│   │   │   ├──           >
+│   │   │   ├──             Explore the Music & Cinematic Stories →
+│   │   │   ├──           </Link>
+│   │   │   ├──         </p>
+│   │   │   ├──       </div>
+│   │   │   ├──     </section>
+│   │   │   ├──   );
+│   │   │   ├── }
+
+│   ├── blog/
+│   │   ├── utils.ts
+│   │   │   ├── import fs from 'fs'
+│   │   │   ├── import path from 'path'
+│   │   │   ├── 
+│   │   │   ├── type Metadata = {
+│   │   │   ├──   title: string
+│   │   │   ├──   publishedAt: string
+│   │   │   ├──   summary: string
+│   │   │   ├──   image?: string
+│   │   │   ├── }
+│   │   │   ├── 
+│   │   │   ├── function parseFrontmatter(fileContent: string) {
+│   │   │   ├──   let frontmatterRegex = /---\s*([\s\S]*?)\s*---/
+│   │   │   ├──   let match = frontmatterRegex.exec(fileContent)
+│   │   │   ├──   let frontMatterBlock = match![1]
+│   │   │   ├──   let content = fileContent.replace(frontmatterRegex, '').trim()
+│   │   │   ├──   let frontMatterLines = frontMatterBlock.trim().split('\n')
+│   │   │   ├──   let metadata: Partial<Metadata> = {}
+│   │   │   ├── 
+│   │   │   ├──   frontMatterLines.forEach((line) => {
+│   │   │   ├──     let [key, ...valueArr] = line.split(': ')
+│   │   │   ├──     let value = valueArr.join(': ').trim()
+│   │   │   ├──     value = value.replace(/^['"](.*)['"]$/, '$1') // Remove quotes
+│   │   │   ├──     metadata[key.trim() as keyof Metadata] = value
+│   │   │   ├──   })
+│   │   │   ├── 
+│   │   │   ├──   return { metadata: metadata as Metadata, content }
+│   │   │   ├── }
+│   │   │   ├── 
+│   │   │   ├── function getMDXFiles(dir) {
+│   │   │   ├──   return fs.readdirSync(dir).filter((file) => path.extname(file) === '.mdx')
+│   │   │   ├── }
+│   │   │   ├── 
+│   │   │   ├── function readMDXFile(filePath) {
+│   │   │   ├──   let rawContent = fs.readFileSync(filePath, 'utf-8')
+│   │   │   ├──   return parseFrontmatter(rawContent)
+│   │   │   ├── }
+│   │   │   ├── 
+│   │   │   ├── function getMDXData(dir) {
+│   │   │   ├──   let mdxFiles = getMDXFiles(dir)
+│   │   │   ├──   return mdxFiles.map((file) => {
+│   │   │   ├──     let { metadata, content } = readMDXFile(path.join(dir, file))
+│   │   │   ├──     let slug = path.basename(file, path.extname(file))
+│   │   │   ├── 
+│   │   │   ├──     return {
+│   │   │   ├──       metadata,
+│   │   │   ├──       slug,
+│   │   │   ├──       content,
+│   │   │   ├──     }
+│   │   │   ├──   })
+│   │   │   ├── }
+│   │   │   ├── 
+│   │   │   ├── export function getBlogPosts() {
+│   │   │   ├──   return getMDXData(path.join(process.cwd(), 'app', 'blog', 'posts'))
+│   │   │   ├── }
+│   │   │   ├── 
+│   │   │   ├── export function formatDate(date: string, includeRelative = false) {
+│   │   │   ├──   let currentDate = new Date()
+│   │   │   ├──   if (!date.includes('T')) {
+│   │   │   ├──     date = `${date}T00:00:00`
+│   │   │   ├──   }
+│   │   │   ├──   let targetDate = new Date(date)
+│   │   │   ├── 
+│   │   │   ├──   let yearsAgo = currentDate.getFullYear() - targetDate.getFullYear()
+│   │   │   ├──   let monthsAgo = currentDate.getMonth() - targetDate.getMonth()
+│   │   │   ├──   let daysAgo = currentDate.getDate() - targetDate.getDate()
+│   │   │   ├── 
+│   │   │   ├──   let formattedDate = ''
+│   │   │   ├── 
+│   │   │   ├──   if (yearsAgo > 0) {
+│   │   │   ├──     formattedDate = `${yearsAgo}y ago`
+│   │   │   ├──   } else if (monthsAgo > 0) {
+│   │   │   ├──     formattedDate = `${monthsAgo}mo ago`
+│   │   │   ├──   } else if (daysAgo > 0) {
+│   │   │   ├──     formattedDate = `${daysAgo}d ago`
+│   │   │   ├──   } else {
+│   │   │   ├──     formattedDate = 'Today'
+│   │   │   ├──   }
+│   │   │   ├── 
+│   │   │   ├──   let fullDate = targetDate.toLocaleString('en-us', {
+│   │   │   ├──     month: 'long',
+│   │   │   ├──     day: 'numeric',
+│   │   │   ├──     year: 'numeric',
+│   │   │   ├──   })
+│   │   │   ├── 
+│   │   │   ├──   if (!includeRelative) {
+│   │   │   ├──     return fullDate
+│   │   │   ├──   }
+│   │   │   ├── 
+│   │   │   ├──   return `${fullDate} (${formattedDate})`
+│   │   │   ├── }
+│   │   │   ├── 
+
+│   │   ├── page.tsx
+│   │   │   ├── import { BlogPosts } from 'app/components/posts'
+│   │   │   ├── 
+│   │   │   ├── export const metadata = {
+│   │   │   ├──   title: 'Blog',
+│   │   │   ├──   description: 'Read my blog.',
+│   │   │   ├── }
+│   │   │   ├── 
+│   │   │   ├── export default function Page() {
+│   │   │   ├──   return (
+│   │   │   ├──     <section>
+│   │   │   ├──       <h1 className="font-semibold text-2xl mb-8 tracking-tighter">My Blog</h1>
+│   │   │   ├──       <BlogPosts />
+│   │   │   ├──     </section>
+│   │   │   ├──   )
+│   │   │   ├── }
+│   │   │   ├── 
+
+│   │   ├── posts/
+│   │   │   ├── spaces-vs-tabs.mdx
+│   │   │   ├── vim.mdx
+│   │   │   ├── static-typing.mdx
+│   │   ├── [slug]/
+│   │   │   ├── page.tsx
+│   │   │   │   ├── import { notFound } from 'next/navigation'
+│   │   │   │   ├── import { CustomMDX } from 'app/components/mdx'
+│   │   │   │   ├── import { formatDate, getBlogPosts } from 'app/blog/utils'
+│   │   │   │   ├── import { baseUrl } from 'app/sitemap'
+│   │   │   │   ├── 
+│   │   │   │   ├── export async function generateStaticParams() {
+│   │   │   │   ├──   let posts = getBlogPosts()
+│   │   │   │   ├── 
+│   │   │   │   ├──   return posts.map((post) => ({
+│   │   │   │   ├──     slug: post.slug,
+│   │   │   │   ├──   }))
+│   │   │   │   ├── }
+│   │   │   │   ├── 
+│   │   │   │   ├── export function generateMetadata({ params }) {
+│   │   │   │   ├──   let post = getBlogPosts().find((post) => post.slug === params.slug)
+│   │   │   │   ├──   if (!post) {
+│   │   │   │   ├──     return
+│   │   │   │   ├──   }
+│   │   │   │   ├── 
+│   │   │   │   ├──   let {
+│   │   │   │   ├──     title,
+│   │   │   │   ├──     publishedAt: publishedTime,
+│   │   │   │   ├──     summary: description,
+│   │   │   │   ├──     image,
+│   │   │   │   ├──   } = post.metadata
+│   │   │   │   ├──   let ogImage = image
+│   │   │   │   ├──     ? image
+│   │   │   │   ├──     : `${baseUrl}/og?title=${encodeURIComponent(title)}`
+│   │   │   │   ├── 
+│   │   │   │   ├──   return {
+│   │   │   │   ├──     title,
+│   │   │   │   ├──     description,
+│   │   │   │   ├──     openGraph: {
+│   │   │   │   ├──       title,
+│   │   │   │   ├──       description,
+│   │   │   │   ├──       type: 'article',
+│   │   │   │   ├──       publishedTime,
+│   │   │   │   ├──       url: `${baseUrl}/blog/${post.slug}`,
+│   │   │   │   ├──       images: [
+│   │   │   │   ├──         {
+│   │   │   │   ├──           url: ogImage,
+│   │   │   │   ├──         },
+│   │   │   │   ├──       ],
+│   │   │   │   ├──     },
+│   │   │   │   ├──     twitter: {
+│   │   │   │   ├──       card: 'summary_large_image',
+│   │   │   │   ├──       title,
+│   │   │   │   ├──       description,
+│   │   │   │   ├──       images: [ogImage],
+│   │   │   │   ├──     },
+│   │   │   │   ├──   }
+│   │   │   │   ├── }
+│   │   │   │   ├── 
+│   │   │   │   ├── export default function Blog({ params }) {
+│   │   │   │   ├──   let post = getBlogPosts().find((post) => post.slug === params.slug)
+│   │   │   │   ├── 
+│   │   │   │   ├──   if (!post) {
+│   │   │   │   ├──     notFound()
+│   │   │   │   ├──   }
+│   │   │   │   ├── 
+│   │   │   │   ├──   return (
+│   │   │   │   ├──     <section>
+│   │   │   │   ├──       <script
+│   │   │   │   ├──         type="application/ld+json"
+│   │   │   │   ├──         suppressHydrationWarning
+│   │   │   │   ├──         dangerouslySetInnerHTML={{
+│   │   │   │   ├──           __html: JSON.stringify({
+│   │   │   │   ├──             '@context': 'https://schema.org',
+│   │   │   │   ├──             '@type': 'BlogPosting',
+│   │   │   │   ├──             headline: post.metadata.title,
+│   │   │   │   ├──             datePublished: post.metadata.publishedAt,
+│   │   │   │   ├──             dateModified: post.metadata.publishedAt,
+│   │   │   │   ├──             description: post.metadata.summary,
+│   │   │   │   ├──             image: post.metadata.image
+│   │   │   │   ├──               ? `${baseUrl}${post.metadata.image}`
+│   │   │   │   ├──               : `/og?title=${encodeURIComponent(post.metadata.title)}`,
+│   │   │   │   ├──             url: `${baseUrl}/blog/${post.slug}`,
+│   │   │   │   ├──             author: {
+│   │   │   │   ├──               '@type': 'Person',
+│   │   │   │   ├──               name: 'My Portfolio',
+│   │   │   │   ├──             },
+│   │   │   │   ├──           }),
+│   │   │   │   ├──         }}
+│   │   │   │   ├──       />
+│   │   │   │   ├──       <h1 className="title font-semibold text-2xl tracking-tighter">
+│   │   │   │   ├──         {post.metadata.title}
+│   │   │   │   ├──       </h1>
+│   │   │   │   ├──       <div className="flex justify-between items-center mt-2 mb-8 text-sm">
+│   │   │   │   ├──         <p className="text-sm text-neutral-600 dark:text-neutral-400">
+│   │   │   │   ├──           {formatDate(post.metadata.publishedAt)}
+│   │   │   │   ├──         </p>
+│   │   │   │   ├──       </div>
+│   │   │   │   ├──       <article className="prose">
+│   │   │   │   ├──         <CustomMDX source={post.content} />
+│   │   │   │   ├──       </article>
+│   │   │   │   ├──     </section>
+│   │   │   │   ├──   )
+│   │   │   │   ├── }
+│   │   │   │   ├── 
+
+│   ├── components/
+│   │   ├── nav.tsx
+│   │   │   ├── 'use client';
+│   │   │   ├── 
+│   │   │   ├── import Link from 'next/link';
+│   │   │   ├── import { usePathname } from 'next/navigation';
+│   │   │   ├── 
+│   │   │   ├── // Define the navigation items based on your site structure
+│   │   │   ├── const navItems = {
+│   │   │   ├──   '/': {
+│   │   │   ├──     name: 'Home',
+│   │   │   ├──   },
+│   │   │   ├──   '/blog': {
+│   │   │   ├──     name: 'Music & Blog',
+│   │   │   ├──   },
+│   │   │   ├──   '/radio': {
+│   │   │   ├──     name: 'Radio',
+│   │   │   ├──   },
+│   │   │   ├──   '/about': {
+│   │   │   ├──     name: 'About',
+│   │   │   ├──   },
+│   │   │   ├──   '/contact': {
+│   │   │   ├──     name: 'Contact',
+│   │   │   ├──   },
+│   │   │   ├──   '/music-production-disclaimer': {
+│   │   │   ├──     name: 'Disclaimer',
+│   │   │   ├──   },
+│   │   │   ├── };
+│   │   │   ├── 
+│   │   │   ├── export function Navbar() {
+│   │   │   ├──   let pathname = usePathname() || '/';
+│   │   │   ├──   
+│   │   │   ├──   // Clean up pathname for active state highlighting
+│   │   │   ├──   if (pathname.includes('/blog/') && pathname !== '/blog') {
+│   │   │   ├──     pathname = '/blog';
+│   │   │   ├──   }
+│   │   │   ├── 
+│   │   │   ├──   return (
+│   │   │   ├──     <aside className="mb-16 tracking-tight">
+│   │   │   ├──       <div className="lg:sticky lg:top-20">
+│   │   │   ├──         <nav
+│   │   │   ├──           className="flex flex-row items-start relative px-0 pb-0 fade md:overflow-auto scroll-pr-6 md:relative"
+│   │   │   ├──           id="nav"
+│   │   │   ├──         >
+│   │   │   ├──           <div className="flex flex-row space-x-0">
+│   │   │   ├──             {Object.entries(navItems).map(([path, { name }]) => {
+│   │   │   ├──               const isActive = path === pathname;
+│   │   │   ├──               return (
+│   │   │   ├──                 <Link
+│   │   │   ├──                   key={path}
+│   │   │   ├──                   href={path}
+│   │   │   ├──                   className={`
+│   │   │   ├──                     transition-all hover:text-neutral-800 dark:hover:text-neutral-200 py-1 px-3 
+│   │   │   ├──                     ${isActive 
+│   │   │   ├──                       ? 'font-bold text-neutral-900 dark:text-neutral-100' 
+│   │   │   ├──                       : 'font-normal text-neutral-600 dark:text-neutral-400'
+│   │   │   ├──                     }
+│   │   │   ├──                   `}
+│   │   │   ├──                 >
+│   │   │   ├──                   {name}
+│   │   │   ├──                 </Link>
+│   │   │   ├──               );
+│   │   │   ├──             })}
+│   │   │   ├──           </div>
+│   │   │   ├──         </nav>
+│   │   │   ├──       </div>
+│   │   │   ├──     </aside>
+│   │   │   ├──   );
+│   │   │   ├── }
+
+│   │   ├── mdx.tsx
+│   │   │   ├── import Link from 'next/link'
+│   │   │   ├── import Image from 'next/image'
+│   │   │   ├── import { MDXRemote } from 'next-mdx-remote/rsc'
+│   │   │   ├── import { highlight } from 'sugar-high'
+│   │   │   ├── import React from 'react'
+│   │   │   ├── 
+│   │   │   ├── function Table({ data }) {
+│   │   │   ├──   let headers = data.headers.map((header, index) => (
+│   │   │   ├──     <th key={index}>{header}</th>
+│   │   │   ├──   ))
+│   │   │   ├──   let rows = data.rows.map((row, index) => (
+│   │   │   ├──     <tr key={index}>
+│   │   │   ├──       {row.map((cell, cellIndex) => (
+│   │   │   ├──         <td key={cellIndex}>{cell}</td>
+│   │   │   ├──       ))}
+│   │   │   ├──     </tr>
+│   │   │   ├──   ))
+│   │   │   ├── 
+│   │   │   ├──   return (
+│   │   │   ├──     <table>
+│   │   │   ├──       <thead>
+│   │   │   ├──         <tr>{headers}</tr>
+│   │   │   ├──       </thead>
+│   │   │   ├──       <tbody>{rows}</tbody>
+│   │   │   ├──     </table>
+│   │   │   ├──   )
+│   │   │   ├── }
+│   │   │   ├── 
+│   │   │   ├── function CustomLink(props) {
+│   │   │   ├──   let href = props.href
+│   │   │   ├── 
+│   │   │   ├──   if (href.startsWith('/')) {
+│   │   │   ├──     return (
+│   │   │   ├──       <Link href={href} {...props}>
+│   │   │   ├──         {props.children}
+│   │   │   ├──       </Link>
+│   │   │   ├──     )
+│   │   │   ├──   }
+│   │   │   ├── 
+│   │   │   ├──   if (href.startsWith('#')) {
+│   │   │   ├──     return <a {...props} />
+│   │   │   ├──   }
+│   │   │   ├── 
+│   │   │   ├──   return <a target="_blank" rel="noopener noreferrer" {...props} />
+│   │   │   ├── }
+│   │   │   ├── 
+│   │   │   ├── function RoundedImage(props) {
+│   │   │   ├──   return <Image alt={props.alt} className="rounded-lg" {...props} />
+│   │   │   ├── }
+│   │   │   ├── 
+│   │   │   ├── function Code({ children, ...props }) {
+│   │   │   ├──   let codeHTML = highlight(children)
+│   │   │   ├──   return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />
+│   │   │   ├── }
+│   │   │   ├── 
+│   │   │   ├── function slugify(str) {
+│   │   │   ├──   return str
+│   │   │   ├──     .toString()
+│   │   │   ├──     .toLowerCase()
+│   │   │   ├──     .trim() // Remove whitespace from both ends of a string
+│   │   │   ├──     .replace(/\s+/g, '-') // Replace spaces with -
+│   │   │   ├──     .replace(/&/g, '-and-') // Replace & with 'and'
+│   │   │   ├──     .replace(/[^\w\-]+/g, '') // Remove all non-word characters except for -
+│   │   │   ├──     .replace(/\-\-+/g, '-') // Replace multiple - with single -
+│   │   │   ├── }
+│   │   │   ├── 
+│   │   │   ├── function createHeading(level) {
+│   │   │   ├──   const Heading = ({ children }) => {
+│   │   │   ├──     let slug = slugify(children)
+│   │   │   ├──     return React.createElement(
+│   │   │   ├──       `h${level}`,
+│   │   │   ├──       { id: slug },
+│   │   │   ├──       [
+│   │   │   ├──         React.createElement('a', {
+│   │   │   ├──           href: `#${slug}`,
+│   │   │   ├──           key: `link-${slug}`,
+│   │   │   ├──           className: 'anchor',
+│   │   │   ├──         }),
+│   │   │   ├──       ],
+│   │   │   ├──       children
+│   │   │   ├──     )
+│   │   │   ├──   }
+│   │   │   ├── 
+│   │   │   ├──   Heading.displayName = `Heading${level}`
+│   │   │   ├── 
+│   │   │   ├──   return Heading
+│   │   │   ├── }
+│   │   │   ├── 
+│   │   │   ├── let components = {
+│   │   │   ├──   h1: createHeading(1),
+│   │   │   ├──   h2: createHeading(2),
+│   │   │   ├──   h3: createHeading(3),
+│   │   │   ├──   h4: createHeading(4),
+│   │   │   ├──   h5: createHeading(5),
+│   │   │   ├──   h6: createHeading(6),
+│   │   │   ├──   Image: RoundedImage,
+│   │   │   ├──   a: CustomLink,
+│   │   │   ├──   code: Code,
+│   │   │   ├──   Table,
+│   │   │   ├── }
+│   │   │   ├── 
+│   │   │   ├── export function CustomMDX(props) {
+│   │   │   ├──   return (
+│   │   │   ├──     <MDXRemote
+│   │   │   ├──       {...props}
+│   │   │   ├──       components={{ ...components, ...(props.components || {}) }}
+│   │   │   ├──     />
+│   │   │   ├──   )
+│   │   │   ├── }
+│   │   │   ├── 
+
+│   │   ├── new-releases-spotlight.tsx
+│   │   │   ├── import Link from 'next/link';
+│   │   │   ├── 
+│   │   │   ├── export function NewReleasesSpotlight() {
+│   │   │   ├──   return (
+│   │   │   ├──     <div className="py-6">
+│   │   │   ├──       
+│   │   │   ├──       {/* SECTION HEADER */}
+│   │   │   ├──       <h2 className="font-bold text-3xl font-serif mb-6 tracking-tighter">
+│   │   │   ├──         New Releases & Highlights
+│   │   │   ├──       </h2>
+│   │   │   ├── 
+│   │   │   ├──       {/* 1. SINGLE SPOTLIGHT: Take Five, Get One */}
+│   │   │   ├──       <div className="border border-neutral-200 dark:border-neutral-800 p-6 rounded-xl mb-8 bg-neutral-50 dark:bg-neutral-900 shadow-xl">
+│   │   │   ├──         <div className="flex items-center mb-4">
+│   │   │   ├──           <span className="text-4xl mr-3">🎵</span>
+│   │   │   ├──           <h3 className="font-bold text-2xl tracking-tight">
+│   │   │   ├──             New Single: Take Five, Get One
+│   │   │   ├──           </h3>
+│   │   │   ├──         </div>
+│   │   │   ├──         <p className="text-lg mb-3">
+│   │   │   ├──           In this track, Arman Ayva fuses **electronic textures, electric piano chords, 
+│   │   │   ├──           and live bass grooves** into a lush instrumental story. It's a modern groove 
+│   │   │   ├──           that feels both calm and alive, blending **Jazz Fusion, Electronic, and Ambient** genres.
+│   │   │   ├──         </p>
+│   │   │   ├──         <p className="text-sm font-semibold text-neutral-600 dark:text-neutral-400">
+│   │   │   ├──           Key: F minor • BPM: 120 • Mood: Happy / Chill / Sexy
+│   │   │   ├──         </p>
+│   │   │   ├──         <Link 
+│   │   │   ├──           href="/blog/take-five-get-one" // Assume a dedicated blog post
+│   │   │   ├──           className="text-sm font-semibold mt-4 inline-block text-blue-500 hover:text-blue-700 transition-colors"
+│   │   │   ├──         >
+│   │   │   ├──           Explore the Track Details →
+│   │   │   ├──         </Link>
+│   │   │   ├──       </div>
+│   │   │   ├── 
+│   │   │   ├──       {/* 2. ALBUM HIGHLIGHTS */}
+│   │   │   ├──       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+│   │   │   ├──         
+│   │   │   ├──         {/* The Pizzicata Blues */}
+│   │   │   ├──         <div className="p-4 border border-neutral-200 dark:border-neutral-800 rounded-lg">
+│   │   │   ├──           <h4 className="font-bold text-lg mb-2">The Pizzicata Blues (6 Tracks)</h4>
+│   │   │   ├──           <p className="text-sm text-neutral-700 dark:text-neutral-300">
+│   │   │   ├──             A conversational album reflecting on the life of an indie artist, moving through
+│   │   │   ├──             playful funk (Pour In) and moody, soulful jazz (Je m'appelle Blues).
+│   │   │   ├──           </p>
+│   │   │   ├──           <Link 
+│   │   │   ├──             href="/blog/pizzicata-blues"
+│   │   │   ├──             className="text-xs font-semibold mt-2 inline-block text-neutral-500 hover:text-blue-500 transition-colors"
+│   │   │   ├──           >
+│   │   │   ├──             See Full Track Story →
+│   │   │   ├──           </Link>
+│   │   │   ├──         </div>
+│   │   │   ├── 
+│   │   │   ├──         {/* Montreal Heist: Criminal Case #68 */}
+│   │   │   ├──         <div className="p-4 border border-neutral-200 dark:border-neutral-800 rounded-lg">
+│   │   │   ├──           <h4 className="font-bold text-lg mb-2">Montreal Heist: Criminal Case #68</h4>
+│   │   │   ├──           <p className="text-sm text-neutral-700 dark:text-neutral-300">
+│   │   │   ├──             A musical crime story in four songs: *Rolling Buzz, Underground, Morning,* and *Criminal Case 68*. A narrative-driven instrumental experience.
+│   │   │   ├──           </p>
+│   │   │   ├──           <Link 
+│   │   │   ├──             href="https://ffm.to/criminal_case_68"
+│   │   │   ├──             target="_blank"
+│   │   │   ├──             rel="noopener noreferrer"
+│   │   │   ├──             className="text-xs font-semibold mt-2 inline-block text-neutral-500 hover:text-blue-500 transition-colors"
+│   │   │   ├──           >
+│   │   │   ├──             Listen on All Platforms →
+│   │   │   ├──           </Link>
+│   │   │   ├──         </div>
+│   │   │   ├──       </div>
+│   │   │   ├──     </div>
+│   │   │   ├──   )
+│   │   │   ├── }
+
+│   │   ├── footer.tsx
+│   │   │   ├── import Link from 'next/link';
+│   │   │   ├── 
+│   │   │   ├── export function Footer() {
+│   │   │   ├──   const currentYear = new Date().getFullYear();
+│   │   │   ├── 
+│   │   │   ├──   return (
+│   │   │   ├──     <footer className="mt-24 border-t border-neutral-200 dark:border-neutral-800 pt-10 pb-16 bg-neutral-50 dark:bg-neutral-950">
+│   │   │   ├──       <div className="mx-auto max-w-2xl px-4">
+│   │   │   ├──         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+│   │   │   ├──           
+│   │   │   ├──           {/* Section 1: Music */}
+│   │   │   ├──           <div>
+│   │   │   ├──             <h3 className="text-md font-bold mb-3 tracking-tight text-neutral-900 dark:text-neutral-100">Music</h3>
+│   │   │   ├──             <ul className="space-y-2 text-sm">
+│   │   │   ├──               <li><Link href="/blog" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">All Releases</Link></li>
+│   │   │   ├──               <li><Link href="/videos" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">Videos (YouTube)</Link></li>
+│   │   │   ├──               <li><Link href="/radio" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">Detached Radio</Link></li>
+│   │   │   ├──               <li><Link href="https://armanayva.bandcamp.com/" target="_blank" rel="noopener noreferrer" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">Bandcamp</Link></li>
+│   │   │   ├──             </ul>
+│   │   │   ├──           </div>
+│   │   │   ├── 
+│   │   │   ├──           {/* Section 2: Info & Legal */}
+│   │   │   ├──           <div>
+│   │   │   ├──             <h3 className="text-md font-bold mb-3 tracking-tight text-neutral-900 dark:text-neutral-100">Info</h3>
+│   │   │   ├──             <ul className="space-y-2 text-sm">
+│   │   │   ├──               <li><Link href="/about" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">About Arman</Link></li>
+│   │   │   ├──               <li><Link href="/contact" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">Contact</Link></li>
+│   │   │   ├──               <li><Link href="/other/subscribe" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">Subscribe</Link></li>
+│   │   │   ├──               <li><Link href="/music-production-disclaimer" className="text-neutral-600 dark:text-neutral-400 hover:text-red-500 transition-colors">Production Disclaimer</Link></li> 
+│   │   │   ├──             </ul>
+│   │   │   ├──           </div>
+│   │   │   ├──           
+│   │   │   ├──           {/* Section 3 & 4: Connect */}
+│   │   │   ├──           <div className="col-span-2">
+│   │   │   ├──             <h3 className="text-md font-bold mb-3 tracking-tight text-neutral-900 dark:text-neutral-100">Connect</h3>
+│   │   │   ├──              <p className="text-sm text-neutral-600 dark:text-neutral-400">
+│   │   │   ├──                 Follow Arman Ayva for the latest news on jazz-funk releases, collaborations, and cinematic soundscapes.
+│   │   │   ├──              </p>
+│   │   │   ├──              <div className="mt-4 space-x-4 text-neutral-600 dark:text-neutral-400">
+│   │   │   ├──                 {/* Placeholder for actual social media icons */}
+│   │   │   ├──                 <span className="hover:text-blue-500 transition-colors">Spotify</span>
+│   │   │   ├──                 <span className="hover:text-blue-500 transition-colors">Instagram</span>
+│   │   │   ├──                 <span className="hover:text-blue-500 transition-colors">Facebook</span>
+│   │   │   ├──              </div>
+│   │   │   ├──           </div>
+│   │   │   ├──         </div>
+│   │   │   ├── 
+│   │   │   ├──         <div className="mt-12 text-center text-sm text-neutral-500 dark:text-neutral-500">
+│   │   │   ├──           © {currentYear} Arman Ayva. All rights reserved.
+│   │   │   ├──         </div>
+│   │   │   ├──       </div>
+│   │   │   ├──     </footer>
+│   │   │   ├──   );
+│   │   │   ├── }
+
+│   │   ├── album-cta.tsx
+│   │   │   ├── import Link from 'next/link';
+│   │   │   ├── 
+│   │   │   ├── export function AlbumCTA() {
+│   │   │   ├──   return (
+│   │   │   ├──     // Equivalent to style="background-color:#111111; color:#ffffff; text-align:center; padding:60px 20px;"
+│   │   │   ├──     <section className="bg-neutral-950 text-white text-center py-16 px-4 sm:px-6 lg:px-8">
+│   │   │   ├──       
+│   │   │   ├──       {/* Equivalent to h2 style="font-size:2rem; margin-bottom:20px;" */}
+│   │   │   ├──       <h2 className="text-3xl sm:text-4xl font-bold mb-5 tracking-tight">
+│   │   │   ├──         Get the Album – My Funky Jazzification 🎷
+│   │   │   ├──       </h2>
+│   │   │   ├──       
+│   │   │   ├──       {/* Equivalent to p style="font-size:1.1rem; margin-bottom:30px; max-width:600px;" */}
+│   │   │   ├──       <p className="text-lg mb-8 max-w-2xl mx-auto text-neutral-300">
+│   │   │   ├──         Dive into 10 tracks of <strong className="text-white">jazz, funk, and world fusion</strong> crafted by 
+│   │   │   ├──         **Arman Ayva – Montreal Jazz Composer**. Experience the full album now and support 
+│   │   │   ├──         independent music for just <strong className="text-white">$9</strong>.
+│   │   │   ├──       </p>
+│   │   │   ├──       
+│   │   │   ├──       {/* Button using Bandcamp's signature orange color (bg-orange-600 is a good match) */}
+│   │   │   ├──       <Link
+│   │   │   ├──         href="https://armanayva.bandcamp.com/album/my-funky-jazzification" 
+│   │   │   ├──         target="_blank"
+│   │   │   ├──         rel="noopener noreferrer"
+│   │   │   ├──         className="inline-block bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 px-10 rounded-lg text-lg transition-colors duration-300 shadow-xl"
+│   │   │   ├──       >
+│   │   │   ├──         Buy Album for $9
+│   │   │   ├──       </Link>
+│   │   │   ├──       
+│   │   │   ├──       {/* Equivalent to p style="font-size:0.9rem; margin-top:15px; color:#cccccc;" */}
+│   │   │   ├──       <p className="text-sm mt-4 text-neutral-400">
+│   │   │   ├──         Available now on Bandcamp – support independent jazz-funk music!
+│   │   │   ├──       </p>
+│   │   │   ├──     </section>
+│   │   │   ├──   );
+│   │   │   ├── }
+
+│   │   ├── subscribe-cta.tsx
+│   │   │   ├── import Link from 'next/link';
+│   │   │   ├── 
+│   │   │   ├── export function SubscribeCTA() {
+│   │   │   ├──   return (
+│   │   │   ├──     // Equivalent to style="background-color:#1a1a1a; color:#ffffff; text-align:center; padding:60px 20px;"
+│   │   │   ├──     <section className="bg-neutral-900 text-white text-center py-16 px-4 sm:px-6 lg:px-8">
+│   │   │   ├──       
+│   │   │   ├──       {/* Equivalent to h2 style="font-size:2rem; margin-bottom:20px;" */}
+│   │   │   ├──       <h2 className="text-3xl sm:text-4xl font-bold mb-5 tracking-tight">
+│   │   │   ├──         Stay Updated on Arman Ayva Projects
+│   │   │   ├──       </h2>
+│   │   │   ├──       
+│   │   │   ├──       {/* Equivalent to p style="font-size:1.1rem; margin-bottom:30px; max-width:600px;" */}
+│   │   │   ├──       <p className="text-lg mb-8 max-w-2xl mx-auto text-neutral-300">
+│   │   │   ├──         Subscribe to receive the latest news, releases, and collaboration opportunities from 
+│   │   │   ├──         <strong className="text-white"> Arman Ayva – Montreal Jazz Composer</strong>. Discover new tracks, playlists 
+│   │   │   ├──         like <em className="text-blue-300">Funky Jazz Mood Lifter</em>, and upcoming creative projects first!
+│   │   │   ├──       </p>
+│   │   │   ├──       
+│   │   │   ├──       {/* The anchor tag is converted to a Next.js <Link> for best practice.
+│   │   │   ├──         Styles are equivalent to: display:inline-block; background-color:#00bfff; color:#fff; 
+│   │   │   ├──         font-weight:bold; text-decoration:none; padding:15px 40px; border-radius:8px; 
+│   │   │   ├──         font-size:1.1rem; transition:background-color 0.3s;
+│   │   │   ├──       */}
+│   │   │   ├──       <Link
+│   │   │   ├──         href="/other/subscribe" // Using the relative path from your original link
+│   │   │   ├──         target="_blank"
+│   │   │   ├──         rel="noopener noreferrer"
+│   │   │   ├──         className="inline-block bg-sky-500 hover:bg-sky-600 text-white font-bold py-4 px-10 rounded-lg text-lg transition-colors duration-300 shadow-xl"
+│   │   │   ├──       >
+│   │   │   ├──         Subscribe Now
+│   │   │   ├──       </Link>
+│   │   │   ├──       
+│   │   │   ├──       {/* Equivalent to p style="font-size:0.9rem; margin-top:15px; color:#cccccc;" */}
+│   │   │   ├──       <p className="text-sm mt-4 text-neutral-400">
+│   │   │   ├──         Your email will only be used for Arman Ayva project updates.
+│   │   │   ├──       </p>
+│   │   │   ├──     </section>
+│   │   │   ├──   );
+│   │   │   ├── }
+
+│   │   ├── header.tsx
+│   │   │   ├── import Link from 'next/link';
+│   │   │   ├── 
+│   │   │   ├── const navItems = [
+│   │   │   ├──   { name: 'About', path: '/about' },
+│   │   │   ├──   { name: 'Blog', path: '/blog' },
+│   │   │   ├──   { name: 'Videos', path: '/videos' }, // New
+│   │   │   ├──   { name: 'Radio', path: '/radio' },   // New
+│   │   │   ├──   { name: 'Contact', path: '/contact' },
+│   │   │   ├── ];
+│   │   │   ├── 
+│   │   │   ├── export function Header() {
+│   │   │   ├──   return (
+│   │   │   ├──     <header className="fixed w-full top-0 z-10 bg-white/70 dark:bg-black/70 backdrop-blur-md transition-colors duration-500 border-b border-neutral-200 dark:border-neutral-800">
+│   │   │   ├──       <div className="mx-auto max-w-2xl px-4">
+│   │   │   ├──         <nav className="flex items-center justify-between py-4">
+│   │   │   ├──           
+│   │   │   ├──           {/* Logo/Home Link */}
+│   │   │   ├──           <Link href="/" className="text-lg font-bold tracking-tighter text-neutral-900 dark:text-neutral-100 hover:text-blue-500 transition-colors">
+│   │   │   ├──             Arman Ayva
+│   │   │   ├──           </Link>
+│   │   │   ├── 
+│   │   │   ├──           {/* Navigation Links */}
+│   │   │   ├──           <div className="flex space-x-4">
+│   │   │   ├──             {navItems.map((item) => (
+│   │   │   ├──               <Link 
+│   │   │   ├──                 key={item.name} 
+│   │   │   ├──                 href={item.path} 
+│   │   │   ├──                 className="text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+│   │   │   ├──               >
+│   │   │   ├──                 {item.name}
+│   │   │   ├──               </Link>
+│   │   │   ├──             ))}
+│   │   │   ├──           </div>
+│   │   │   ├──         </nav>
+│   │   │   ├──       </div>
+│   │   │   ├──     </header>
+│   │   │   ├──   );
+│   │   │   ├── }
+
+│   │   ├── posts.tsx
+│   │   │   ├── import Link from 'next/link'
+│   │   │   ├── import { formatDate, getBlogPosts } from 'app/blog/utils'
+│   │   │   ├── 
+│   │   │   ├── export function BlogPosts() {
+│   │   │   ├──   let allBlogs = getBlogPosts()
+│   │   │   ├── 
+│   │   │   ├──   return (
+│   │   │   ├──     <div>
+│   │   │   ├──       {allBlogs
+│   │   │   ├──         .sort((a, b) => {
+│   │   │   ├──           if (
+│   │   │   ├──             new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt)
+│   │   │   ├──           ) {
+│   │   │   ├──             return -1
+│   │   │   ├──           }
+│   │   │   ├──           return 1
+│   │   │   ├──         })
+│   │   │   ├──         .map((post) => (
+│   │   │   ├──           <Link
+│   │   │   ├──             key={post.slug}
+│   │   │   ├──             className="flex flex-col space-y-1 mb-4"
+│   │   │   ├──             href={`/blog/${post.slug}`}
+│   │   │   ├──           >
+│   │   │   ├──             <div className="w-full flex flex-col md:flex-row space-x-0 md:space-x-2">
+│   │   │   ├──               <p className="text-neutral-600 dark:text-neutral-400 w-[100px] tabular-nums">
+│   │   │   ├──                 {formatDate(post.metadata.publishedAt, false)}
+│   │   │   ├──               </p>
+│   │   │   ├──               <p className="text-neutral-900 dark:text-neutral-100 tracking-tight">
+│   │   │   ├──                 {post.metadata.title}
+│   │   │   ├──               </p>
+│   │   │   ├──             </div>
+│   │   │   ├──           </Link>
+│   │   │   ├──         ))}
+│   │   │   ├──     </div>
+│   │   │   ├──   )
+│   │   │   ├── }
+│   │   │   ├── 
+
+│   │   ├── contact-form.tsx
+│   │   │   ├── 'use client';
+│   │   │   ├── 
+│   │   │   ├── import React, { useState } from 'react';
+│   │   │   ├── 
+│   │   │   ├── // Define the shape of the form data
+│   │   │   ├── interface FormData {
+│   │   │   ├──   name: string;
+│   │   │   ├──   email: string;
+│   │   │   ├──   message: string;
+│   │   │   ├── }
+│   │   │   ├── 
+│   │   │   ├── export function ContactForm() {
+│   │   │   ├──   const [formData, setFormData] = useState<FormData>({
+│   │   │   ├──     name: '',
+│   │   │   ├──     email: '',
+│   │   │   ├──     message: '',
+│   │   │   ├──   });
+│   │   │   ├──   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+│   │   │   ├──   const [message, setMessage] = useState<string>('');
+│   │   │   ├── 
+│   │   │   ├──   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+│   │   │   ├──     setFormData({
+│   │   │   ├──       ...formData,
+│   │   │   ├──       [e.target.name]: e.target.value,
+│   │   │   ├──     });
+│   │   │   ├──   };
+│   │   │   ├── 
+│   │   │   ├──   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+│   │   │   ├──     e.preventDefault();
+│   │   │   ├──     setStatus('loading');
+│   │   │   ├──     setMessage('');
+│   │   │   ├── 
+│   │   │   ├──     try {
+│   │   │   ├──       const response = await fetch('/api/contact', {
+│   │   │   ├──         method: 'POST',
+│   │   │   ├──         headers: {
+│   │   │   ├──           'Content-Type': 'application/json',
+│   │   │   ├──         },
+│   │   │   ├──         body: JSON.stringify(formData),
+│   │   │   ├──       });
+│   │   │   ├── 
+│   │   │   ├──       const result = await response.json();
+│   │   │   ├── 
+│   │   │   ├──       if (response.ok) {
+│   │   │   ├──         setStatus('success');
+│   │   │   ├──         setMessage(result.message || 'Message sent successfully! I will be in touch soon.');
+│   │   │   ├──         setFormData({ name: '', email: '', message: '' }); // Clear form
+│   │   │   ├──       } else {
+│   │   │   ├──         setStatus('error');
+│   │   │   ├──         setMessage(result.message || 'Failed to send message. Please check your inputs.');
+│   │   │   ├──       }
+│   │   │   ├──     } catch (error) {
+│   │   │   ├──       console.error('Submission error:', error);
+│   │   │   ├──       setStatus('error');
+│   │   │   ├──       setMessage('A network error occurred. Please try again.');
+│   │   │   ├──     }
+│   │   │   ├──   };
+│   │   │   ├── 
+│   │   │   ├──   const getStatusMessage = () => {
+│   │   │   ├──     if (status === 'loading') return 'Sending...';
+│   │   │   ├──     if (status === 'success') return message;
+│   │   │   ├──     if (status === 'error') return message;
+│   │   │   ├──     return '';
+│   │   │   ├──   };
+│   │   │   ├── 
+│   │   │   ├──   return (
+│   │   │   ├──     <div className="max-w-xl mx-auto py-10">
+│   │   │   ├──       
+│   │   │   ├──       {/* Form Status Message */}
+│   │   │   ├──       {status !== 'idle' && (
+│   │   │   ├──         <div 
+│   │   │   ├──           className={`p-4 mb-6 rounded-lg font-medium transition-opacity ${
+│   │   │   ├──             status === 'success' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
+│   │   │   ├──             status === 'error' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' :
+│   │   │   ├──             'bg-neutral-100 text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200'
+│   │   │   ├──           }`}
+│   │   │   ├──         >
+│   │   │   ├──           {getStatusMessage()}
+│   │   │   ├──         </div>
+│   │   │   ├──       )}
+│   │   │   ├── 
+│   │   │   ├──       <form onSubmit={handleSubmit} className="space-y-6">
+│   │   │   ├──         
+│   │   │   ├──         {/* Name Input */}
+│   │   │   ├──         <div>
+│   │   │   ├──           <label htmlFor="name" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+│   │   │   ├──             Name
+│   │   │   ├──           </label>
+│   │   │   ├──           <input
+│   │   │   ├──             type="text"
+│   │   │   ├──             id="name"
+│   │   │   ├──             name="name"
+│   │   │   ├──             value={formData.name}
+│   │   │   ├──             onChange={handleChange}
+│   │   │   ├──             required
+│   │   │   ├──             disabled={status === 'loading'}
+│   │   │   ├──             className="w-full px-4 py-2 border border-neutral-300 dark:border-neutral-700 rounded-xl bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 focus:ring-blue-500 focus:border-blue-500 transition-shadow disabled:opacity-70"
+│   │   │   ├──           />
+│   │   │   ├──         </div>
+│   │   │   ├── 
+│   │   │   ├──         {/* Email Input */}
+│   │   │   ├──         <div>
+│   │   │   ├──           <label htmlFor="email" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+│   │   │   ├──             Email
+│   │   │   ├──           </label>
+│   │   │   ├──           <input
+│   │   │   ├──             type="email"
+│   │   │   ├──             id="email"
+│   │   │   ├──             name="email"
+│   │   │   ├──             value={formData.email}
+│   │   │   ├──             onChange={handleChange}
+│   │   │   ├──             required
+│   │   │   ├──             disabled={status === 'loading'}
+│   │   │   ├──             className="w-full px-4 py-2 border border-neutral-300 dark:border-neutral-700 rounded-xl bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 focus:ring-blue-500 focus:border-blue-500 transition-shadow disabled:opacity-70"
+│   │   │   ├──           />
+│   │   │   ├──         </div>
+│   │   │   ├── 
+│   │   │   ├──         {/* Message Textarea */}
+│   │   │   ├──         <div>
+│   │   │   ├──           <label htmlFor="message" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+│   │   │   ├──             Message
+│   │   │   ├──           </label>
+│   │   │   ├──           <textarea
+│   │   │   ├──             id="message"
+│   │   │   ├──             name="message"
+│   │   │   ├──             rows={5}
+│   │   │   ├──             value={formData.message}
+│   │   │   ├──             onChange={handleChange}
+│   │   │   ├──             required
+│   │   │   ├──             disabled={status === 'loading'}
+│   │   │   ├──             className="w-full px-4 py-2 border border-neutral-300 dark:border-neutral-700 rounded-xl bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 focus:ring-blue-500 focus:border-blue-500 transition-shadow resize-none disabled:opacity-70"
+│   │   │   ├──           />
+│   │   │   ├──         </div>
+│   │   │   ├── 
+│   │   │   ├──         {/* Submit Button */}
+│   │   │   ├──         <button
+│   │   │   ├──           type="submit"
+│   │   │   ├──           disabled={status === 'loading'}
+│   │   │   ├──           className="w-full flex justify-center items-center py-3 px-6 border border-transparent rounded-xl shadow-sm text-lg font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 disabled:bg-blue-400 dark:disabled:bg-blue-800"
+│   │   │   ├──         >
+│   │   │   ├──           {status === 'loading' ? (
+│   │   │   ├──             <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+│   │   │   ├──               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+│   │   │   ├──               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+│   │   │   ├──             </svg>
+│   │   │   ├──           ) : (
+│   │   │   ├──             'Send Message'
+│   │   │   ├──           )}
+│   │   │   ├──         </button>
+│   │   │   ├──       </form>
+│   │   │   ├──     </div>
+│   │   │   ├──   );
+│   │   │   ├── }
+
+│   ├── videos/
+│   │   ├── page.tsx
+│   │   │   ├── export default function VideosPage() {
+│   │   │   ├──   const videoEmbeds = [
+│   │   │   ├──     {
+│   │   │   ├──       title: "Arman Ayva – Topic Channel",
+│   │   │   ├──       description: "Official auto-generated Topic channel for full catalog listening.",
+│   │   │   ├──       embedId: "videoseries?list=PLdh9NdS_IkkUwmhmrqNy0oQTtjxr683kC", 
+│   │   │   ├──       isPlaylist: true,
+│   │   │   ├──     },
+│   │   │   ├──     {
+│   │   │   ├──       title: "Thirsty Arab (Tales of Scheherazade)",
+│   │   │   ├──       description: "A track blending Arabic jazz fusion, desert funk, and soulful sax lines.",
+│   │   │   ├──       embedId: "YOUR_THIRSTY_ARAB_VIDEO_ID", // ⚠️ Replace with the actual video ID
+│   │   │   ├──       isPlaylist: false,
+│   │   │   ├──     },
+│   │   │   ├──     {
+│   │   │   ├──       title: "Criminal Case N68 Album Visualizer",
+│   │   │   ├──       description: "The full musical crime story in one visual experience.",
+│   │   │   ├──       embedId: "YOUR_CRIMINAL_CASE_VIDEO_ID", // ⚠️ Replace with the actual video ID
+│   │   │   ├──       isPlaylist: false,
+│   │   │   ├──     },
+│   │   │   ├──     {
+│   │   │   ├──       title: "Juanito Moving to the US Score",
+│   │   │   ├──       description: "The original instrumental jazz score capturing Juanito's bittersweet journey.",
+│   │   │   ├──       embedId: "YOUR_JUANITO_SCORE_VIDEO_ID", // ⚠️ Replace with the actual video ID
+│   │   │   ├──       isPlaylist: false,
+│   │   │   ├──     },
+│   │   │   ├──   ];
+│   │   │   ├── 
+│   │   │   ├──   return (
+│   │   │   ├──     <section className="py-8">
+│   │   │   ├──       <h1 className="font-bold text-4xl font-serif mb-6 tracking-tighter">
+│   │   │   ├──         Watch & Listen: Arman Ayva on YouTube 🎥
+│   │   │   ├──       </h1>
+│   │   │   ├──       
+│   │   │   ├──       <div className="prose prose-neutral dark:prose-invert mb-10">
+│   │   │   ├──         <p className="text-lg">
+│   │   │   ├──           Dive into my visual and sonic stories. From full-length album visualizers to official Topic
+│   │   │   ├──           channel playlists, explore the cinematic jazz fusion of Arman Ayva.
+│   │   │   ├──         </p>
+│   │   │   ├──       </div>
+│   │   │   ├── 
+│   │   │   ├──       {/* Responsive Grid for Video Embeds */}
+│   │   │   ├──       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+│   │   │   ├──         {videoEmbeds.map((video) => (
+│   │   │   ├──           <div key={video.embedId} className="space-y-3">
+│   │   │   ├──             <h2 className="font-bold text-xl tracking-tight">
+│   │   │   ├──               {video.title}
+│   │   │   ├──             </h2>
+│   │   │   ├──             <div className="aspect-w-16 aspect-h-9 w-full rounded-xl overflow-hidden shadow-2xl">
+│   │   │   ├──               {/* YouTube Embed Setup: using 16:9 aspect ratio */}
+│   │   │   ├──               <iframe
+│   │   │   ├──                 className="w-full h-full"
+│   │   │   ├──                 src={`https://www.youtube.com/embed/${video.embedId}`}
+│   │   │   ├──                 title={`YouTube video player for ${video.title}`}
+│   │   │   ├──                 frameBorder="0"
+│   │   │   ├──                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+│   │   │   ├──                 allowFullScreen
+│   │   │   ├──               />
+│   │   │   ├──             </div>
+│   │   │   ├──             <p className="text-sm text-neutral-600 dark:text-neutral-400">
+│   │   │   ├──               {video.description}
+│   │   │   ├──             </p>
+│   │   │   ├──           </div>
+│   │   │   ├──         ))}
+│   │   │   ├──       </div>
+│   │   │   ├──     </section>
+│   │   │   ├──   );
+│   │   │   ├── }
+
+│   ├── music-production-disclaimer/
+│   │   ├── page.tsx
+│   │   │   ├── import Link from 'next/link';
+│   │   │   ├── 
+│   │   │   ├── export default function MusicProductionDisclaimerPage() {
+│   │   │   ├──   return (
+│   │   │   ├──     <section className="py-8">
+│   │   │   ├──       <h1 className="font-bold text-4xl font-serif mb-6 tracking-tighter">
+│   │   │   ├──         Music Production & Licensing Disclaimer
+│   │   │   ├──       </h1>
+│   │   │   ├──       
+│   │   │   ├──       <div className="prose prose-neutral dark:prose-invert">
+│   │   │   ├──         
+│   │   │   ├──         <p className="lead text-lg">
+│   │   │   ├──           All music compositions, recordings, and soundtracks presented on this website are **original works** produced by **Arman Ayva**. We adhere to the highest standards of artistic and legal integrity.
+│   │   │   ├──         </p>
+│   │   │   ├── 
+│   │   │   ├──         <hr />
+│   │   │   ├──         
+│   │   │   ├──         <h2>Technical Production Details</h2>
+│   │   │   ├──         <p>
+│   │   │   ├──           These works are created primarily using **Apple Logic Pro (version 10.7.9)** and other professional 
+│   │   │   ├──           digital audio tools. 
+│   │   │   ├──         </p>
+│   │   │   ├──         <p>
+│   │   │   ├──           Some compositions may include sounds, loops, or samples that come pre-installed within Logic Pro’s 
+│   │   │   ├──           software library.
+│   │   │   ├──         </p>
+│   │   │   ├──         
+│   │   │   ├──         <h2>Royalty-Free Usage (Apple Logic Pro)</h2>
+│   │   │   ├──         <p>
+│   │   │   ├──           According to **Apple Inc.’s Logic Pro Software License Agreement (Section C – Sample Content)**, 
+│   │   │   ├──           all Apple-provided loops and samples are **royalty-free** for use in original compositions and 
+│   │   │   ├──           can be **distributed, broadcast, and monetized** as part of a complete musical or audiovisual work.
+│   │   │   ├──         </p>
+│   │   │   ├──         
+│   │   │   ├──         <blockquote className="border-l-4 border-blue-500 pl-4 italic text-neutral-600 dark:text-neutral-400">
+│   │   │   ├──           <p>
+│   │   │   ├──             “All Sample Content included in the Apple Software may be used on a royalty-free basis to create your own original soundtracks for your film, video and audio projects. You may broadcast and/or distribute your own soundtracks that were created using the Sample Content…”
+│   │   │   ├──           </p>
+│   │   │   ├──         </blockquote>
+│   │   │   ├── 
+│   │   │   ├──         <h2>Artistic Integrity Guarantee</h2>
+│   │   │   ├──         <p>
+│   │   │   ├──           **No individual Apple loops, samples, or sound assets are redistributed or sold on a standalone basis.** Every track published by Arman Ayva represents an **original artistic composition** that has been 
+│   │   │   ├──           significantly transformed and arranged.
+│   │   │   ├──         </p>
+│   │   │   ├──       </div>
+│   │   │   ├── 
+│   │   │   ├──       <div className="mt-12 text-sm text-neutral-500 dark:text-neutral-400">
+│   │   │   ├──         <p>
+│   │   │   ├──           For licensing inquiries regarding commercial use of Arman Ayva's compositions, please visit the 
+│   │   │   ├──           <Link href="/contact" className="underline hover:text-blue-500">Contact page</Link>.
+│   │   │   ├──         </p>
+│   │   │   ├──       </div>
+│   │   │   ├──     </section>
+│   │   │   ├──   );
+│   │   │   ├── }
+
+│   ├── lib/
+│   ├── api/
+│   │   ├── contact/
+│   │   │   ├── route.ts
+│   │   │   │   ├── // This Next.js API route handles the form submission securely.
+│   │   │   │   ├── // In a production environment, this is where you would integrate a service 
+│   │   │   │   ├── // like SendGrid, Resend, or Nodemailer to send the actual email.
+│   │   │   │   ├── 
+│   │   │   │   ├── // NOTE: You must install 'nodemailer' to run this code locally, if you use it.
+│   │   │   │   ├── // e.g., npm install nodemailer @types/nodemailer
+│   │   │   │   ├── 
+│   │   │   │   ├── export async function POST(req: Request) {
+│   │   │   │   ├──   try {
+│   │   │   │   ├──     const { name, email, message } = await req.json();
+│   │   │   │   ├── 
+│   │   │   │   ├──     // 1. Basic Validation
+│   │   │   │   ├──     if (!name || !email || !message) {
+│   │   │   │   ├──       return new Response(JSON.stringify({ message: 'Missing required fields: name, email, and message are needed.' }), {
+│   │   │   │   ├──         status: 400,
+│   │   │   │   ├──         headers: { 'Content-Type': 'application/json' },
+│   │   │   │   ├──       });
+│   │   │   │   ├──     }
+│   │   │   │   ├── 
+│   │   │   │   ├──     // 2. Email Sending Logic (Simulated/Placeholder)
+│   │   │   │   ├──     
+│   │   │   │   ├──     // --------------------------------------------------------------------------------
+│   │   │   │   ├──     // !!! IMPORTANT: PRODUCTION IMPLEMENTATION !!!
+│   │   │   │   ├──     // The code below is a placeholder. You must replace it with actual email sending 
+│   │   │   │   ├──     // code using a service and your private API key/credentials (stored in environment variables).
+│   │   │   │   ├──     // --------------------------------------------------------------------------------
+│   │   │   │   ├── 
+│   │   │   │   ├──     console.log(`--- New Contact Form Submission ---
+│   │   │   │   ├── Name: ${name}
+│   │   │   │   ├── Email: ${email}
+│   │   │   │   ├── Message: ${message}
+│   │   │   │   ├── ---------------------------------`);
+│   │   │   │   ├── 
+│   │   │   │   ├──     // Example using a fictional external email sender:
+│   │   │   │   ├──     // await sendEmail({
+│   │   │   │   ├──     //   to: 'your-google-inbox@gmail.com',
+│   │   │   │   ├──     //   from: 'contact-form@armanayva.com',
+│   │   │   │   ├──     //   subject: `New Message from ArmanAyva.com Contact Form by ${name}`,
+│   │   │   │   ├──     //   html: `<p>Name: ${name}</p><p>Email: ${email}</p><p>Message: ${message}</p>`,
+│   │   │   │   ├──     // });
+│   │   │   │   ├──     
+│   │   │   │   ├──     // If the email sending logic succeeds:
+│   │   │   │   ├──     return new Response(JSON.stringify({ message: 'Success! Your message has been sent.' }), {
+│   │   │   │   ├──       status: 200,
+│   │   │   │   ├──       headers: { 'Content-Type': 'application/json' },
+│   │   │   │   ├──     });
+│   │   │   │   ├── 
+│   │   │   │   ├──   } catch (error) {
+│   │   │   │   ├──     console.error('API Error processing contact form:', error);
+│   │   │   │   ├──     return new Response(JSON.stringify({ message: 'Internal Server Error. Please try again later.' }), {
+│   │   │   │   ├──       status: 500,
+│   │   │   │   ├──       headers: { 'Content-Type': 'application/json' },
+│   │   │   │   ├──     });
+│   │   │   │   ├──   }
+│   │   │   │   ├── }
+
+│   ├── og/
+│   │   ├── route.tsx
+│   │   │   ├── import { ImageResponse } from 'next/og'
+│   │   │   ├── 
+│   │   │   ├── export function GET(request: Request) {
+│   │   │   ├──   let url = new URL(request.url)
+│   │   │   ├──   let title = url.searchParams.get('title') || 'Next.js Portfolio Starter'
+│   │   │   ├── 
+│   │   │   ├──   return new ImageResponse(
+│   │   │   ├──     (
+│   │   │   ├──       <div tw="flex flex-col w-full h-full items-center justify-center bg-white">
+│   │   │   ├──         <div tw="flex flex-col md:flex-row w-full py-12 px-4 md:items-center justify-between p-8">
+│   │   │   ├──           <h2 tw="flex flex-col text-4xl font-bold tracking-tight text-left">
+│   │   │   ├──             {title}
+│   │   │   ├──           </h2>
+│   │   │   ├──         </div>
+│   │   │   ├──       </div>
+│   │   │   ├──     ),
+│   │   │   ├──     {
+│   │   │   ├──       width: 1200,
+│   │   │   ├──       height: 630,
+│   │   │   ├──     }
+│   │   │   ├──   )
+│   │   │   ├── }
+│   │   │   ├── 
+
