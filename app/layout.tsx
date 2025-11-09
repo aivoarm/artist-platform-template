@@ -22,7 +22,11 @@ export const metadata: Metadata = {
     default: 'Arman Ayva Personal Website',
     template: '%s | Arman Ayva', // Updated template for better branding
   },
-  
+  icons: {
+    icon: '/favicon.ico', // Or '/favicon.ico' - Must be in the app directory
+    shortcut: '/shortcut-icon.png', // Optional, usually same as icon
+    apple: '/apple-icon.png', // For iOS Home Screen
+  },
   description: 'Explore the music of Arman Ayva, a Montreal-based composer blending Armenian folk, progressive jazz, and funky beats. New releases include Criminal Case N68 and Happy Bundle. Available for sync licensing.',
   keywords: [
     'Arman Ayva',
