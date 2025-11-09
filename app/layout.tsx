@@ -10,11 +10,14 @@ import { Footer } from './components/footer'
 import { baseUrl } from './sitemap'
 import { Providers } from './Providers'; 
 import { GoogleAnalytics } from '@next/third-parties/google'
+import Script from 'next/script'; // ⬅️ IMPORTED: For TikTok Pixel
 
+// --- ENVIRONMENT VARIABLES / CONSTANTS ---
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || ''
 const YOUR_APP_ID = 'YOUR_FACEBOOK_APP_ID'; // ⬅️ ⭐️ CRITICAL: REPLACE THIS WITH YOUR REAL APP ID
-// If you don't have one, please create one on the Meta for Developers site.
+const TIKTOK_PIXEL_ID = process.env.NEXT_PUBLIC_TIKTOK_ID || 'YOUR_TIKTOK_PIXEL_ID'; // ⬅️ REPLACE WITH YOUR TIKTOK PIXEL ID
 
+// --- METADATA EXPORT ---
 export const metadata: Metadata = {
 
   metadataBase: new URL(baseUrl),
@@ -23,8 +26,8 @@ export const metadata: Metadata = {
     template: '%s | Arman Ayva', // Updated template for better branding
   },
   icons: {
-    icon: '/favicon.ico', // Or '/favicon.ico' - Must be in the app directory
-    shortcut: '/shortcut-icon.png', // Optional, usually same as icon
+    icon: '/favicon.ico', // Must be in the app directory
+    shortcut: '/shortcut-icon.png', // Optional
     apple: '/apple-icon.png', // For iOS Home Screen
   },
   description: 'Explore the music of Arman Ayva, a Montreal-based composer blending Armenian folk, progressive jazz, and funky beats. New releases include Criminal Case N68 and Happy Bundle. Available for sync licensing.',
@@ -47,10 +50,9 @@ export const metadata: Metadata = {
     siteName: 'Arman Ayva Personal Website',
     locale: 'en_US',
     type: 'website',
-    // ⬅️ FIX: Use your dynamic OG image route (/og) as the robust default
     images: [
       {
-        // This leverages your /og/route.tsx for a Vercel-optimized image
+        // Use the dynamic OG image route
         url: '/og?title=Arman+Ayva+Music',
         width: 1200, 
         height: 630, 
@@ -58,17 +60,15 @@ export const metadata: Metadata = {
       },
     ],
   },
- // ⭐️ CRITICAL FIX: EXPLICITLY DEFINE ABSOLUTE URL FOR TWITTER IMAGE ⭐️
+  // ⭐️ CRITICAL FIX: Explicitly set Twitter Card with Absolute URL ⭐️
   twitter: {
-    // We explicitly set this to large image, but the image URL must work.
     card: 'summary_large_image', 
-    site: '@yourtwitterhandle',   
-    creator: '@yourtwitterhandle',
+    site: '@yourtwitterhandle',   // ⬅️ REPLACE with your Twitter handle
+    creator: '@yourtwitterhandle',// ⬅️ REPLACE with your Twitter handle
     title: 'Arman Ayva | Mood-lifter behind the music',
     description: 'Jazz, funk, folk fan. Composer, artist, and mood-lifter.',
     images: {
-        // ⬅️ FIX: Using a template literal to ensure the URL is ABSOLUTE.
-        // The URL needs to start with 'https://' for the crawler to accept it.
+        // FIX: Ensure the image URL is ABSOLUTE for X.com crawler
         url: `${baseUrl}/og?title=Arman+Ayva+Music`, 
         alt: 'Arman Ayva Music Portfolio',
     },
@@ -104,9 +104,7 @@ export default function RootLayout({
       suppressHydrationWarning 
     >
       <head>
-        {/* ⭐️ CRITICAL FIX: Add the Facebook App ID tag directly to the head 
-          to clear the "Missing Properties" warning. 
-        */}
+        {/* ⭐️ FIX: Add the Facebook App ID tag directly to the head */}
         <meta property="fb:app_id" content={YOUR_APP_ID} />
       </head>
       <body className="antialiased max-w-6xl mx-4 mt-8 lg:mx-auto bg-white dark:bg-black">
@@ -121,6 +119,29 @@ export default function RootLayout({
           </main>
         </Providers>
         <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
+
+        {/* ⭐️ TIKTOK PIXEL IMPLEMENTATION ⭐️ */}
+        {TIKTOK_PIXEL_ID && TIKTOK_PIXEL_ID !== 'YOUR_TIKTOK_PIXEL_ID' && (
+          <>
+            <Script
+              id="tiktok-pixel-base"
+              strategy="afterInteractive" // Loads after the page is interactive
+              dangerouslySetInnerHTML={{
+                __html: `
+                  !function (w, d, t) {
+                    w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","load","ready","trackCustom","trackEvent","subscribe","ttee"];ttq.setAndDefer=function(t,n){t[n]=function(){t.push([n].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var n=ttq.slice(0),i=0;i<ttq.methods.length;i++)ttq.setAndDefer(n,ttq.methods[i]);return n.load(t),n};
+                    ttq.load('${TIKTOK_PIXEL_ID}');
+                    ttq.page();
+                    }(window, document, 'ttq');
+                `,
+              }}
+            />
+            <Script
+                src="https://analytics.tiktok.com/i18n/pixel/sdk.js?sdk_version=2.0.0"
+                strategy="afterInteractive"
+            />
+          </>
+        )}
       </body>
     </html>
   );
