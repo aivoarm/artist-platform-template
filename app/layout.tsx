@@ -15,10 +15,7 @@ export const metadata: Metadata = {
     default: 'Arman Ayva Personal Website',
     template: '%s | Next.js Portfolio Starter',
   },
-  icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-icon.png', 
-  },
+  
   description: 'Arman Ayva Personal Website',
   openGraph: {
     title: 'My Musical Journey, Jazz is everywhere',
@@ -27,6 +24,15 @@ export const metadata: Metadata = {
     siteName: 'Arman Ayva Personal Website',
     locale: 'en_US',
     type: 'website',
+    // ⬅️ ADD THIS BLOCK 
+    images: [
+      {
+        url: 'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.50/v1570237691/mjhQ_Gvsp_rS5MypjAfbo0o0cJwN1W0WAsSQJE2hxzEPWaOEtI-X8m301QiyxQotGNzGDdF9_w600-h0_yuyoia.jpg', // Use your desired default image
+        width: 1200, // Standard OG image width
+        height: 630, // Standard OG image height
+        alt: 'Arman Ayva Jazz Portfolio',
+      },
+    ],
   },
   robots: {
     index: true,

@@ -2,7 +2,9 @@ import { notFound } from 'next/navigation'
 import { CustomMDX } from 'app/components/mdx'
 import { formatDate, getBlogPosts } from 'app/blog/utils'
 import { baseUrl } from 'app/sitemap'
+import type { Metadata } from 'next'
 
+// Next.js automatically calls this to pre-render pages
 export async function generateStaticParams() {
   let posts = getBlogPosts()
 
@@ -11,12 +13,16 @@ export async function generateStaticParams() {
   }))
 }
 
-// FIX 1: Make function async and use await for params access
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const awaitedParams = await params;
-  const urlSlug = decodeURIComponent(awaitedParams.slug); // Decode URL to match stored slug
+// Generate metadata for the shareable link card
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string }
+}): Promise<Metadata | undefined> {
   
-  let post = getBlogPosts().find((post) => post.slug === urlSlug)
+  // FIX: Access params.slug directly (no need for await or decode)
+  const post = getBlogPosts().find((post) => post.slug === params.slug)
+  
   if (!post) {
     return
   }
@@ -27,6 +33,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     summary: description,
     image,
   } = post.metadata
+  
+  // 🔑 KEY TO NICE LOOKING LINKS: Use the dynamic /og route if no specific image is set.
   let ogImage = image
     ? image
     : `${baseUrl}/og?title=${encodeURIComponent(title)}`
@@ -43,9 +51,12 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       images: [
         {
           url: ogImage,
+          width: 1200, // Standard OG image width
+          height: 630, // Standard OG image height
         },
       ],
     },
+    // Twitter card setup is essential for platforms like Slack, Discord, and X (Twitter)
     twitter: {
       card: 'summary_large_image',
       title,
@@ -55,12 +66,10 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 }
 
-// FIX 2: Make function async and use await for params access
+// The main component that renders the post
 export default async function Blog({ params }: { params: { slug: string } }) {
-  const awaitedParams = await params;
-  const urlSlug = decodeURIComponent(awaitedParams.slug); // Decode URL to match stored slug
-  
-  let post = getBlogPosts().find((post) => post.slug === urlSlug)
+  // FIX: Access params.slug directly (no need for await)
+  const post = getBlogPosts().find((post) => post.slug === params.slug)
 
   if (!post) {
     notFound()
@@ -79,9 +88,10 @@ export default async function Blog({ params }: { params: { slug: string } }) {
             datePublished: post.metadata.publishedAt,
             dateModified: post.metadata.publishedAt,
             description: post.metadata.summary,
+            // Use the OG route for Schema if no specific image is provided
             image: post.metadata.image
               ? `${baseUrl}${post.metadata.image}`
-              : `/og?title=${encodeURIComponent(post.metadata.title)}`,
+              : `${baseUrl}/og?title=${encodeURIComponent(post.metadata.title)}`,
             url: `${baseUrl}/blog/${post.slug}`,
             author: {
               '@type': 'Person',
