@@ -7,6 +7,7 @@ import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Footer } from './components/footer'
 import { baseUrl } from './sitemap'
+import { Providers } from './Providers'; // ⬅️ NEW IMPORT
 
 export const metadata: Metadata = {
 
@@ -58,22 +59,29 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      // ⬅️ CRITICAL FIX: Add dark:bg-black here
       className={cx(
-        'text-black bg-white dark:text-white dark:bg-black',
+        'text-black bg-white dark:bg-black', // ⬅️ ADD dark:bg-black
         GeistSans.variable,
         GeistMono.variable
       )}
+      suppressHydrationWarning // Needed for next-themes to work on <html>
     >
-     {/* MODIFIED LINE: Added bg-white and dark:bg-black to reinforce background */}
+      {/* The <body> uses mx-4, mt-8, and max-w-6xl which creates the gap.
+        The HTML background (now black) will fill that gap correctly.
+      */}
       <body className="antialiased max-w-6xl mx-4 mt-8 lg:mx-auto bg-white dark:bg-black">
-        <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
-          <Navbar />
-          {children}
-          <Footer />
-          <Analytics />
-          <SpeedInsights />
-        </main>
+        
+        <Providers> 
+          <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
+            <Navbar />
+            {children}
+            <Footer />
+            <Analytics />
+            <SpeedInsights />
+          </main>
+        </Providers>
       </body>
     </html>
-  )
+  );
 }
