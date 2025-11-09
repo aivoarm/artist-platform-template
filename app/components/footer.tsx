@@ -110,6 +110,16 @@ export function Footer() {
         <SiLinktree />
     </a>
 
+    {/* ⬅️ NEW OLD SITE LINK ⬅️ */}
+    <a 
+        href="https://sites.google.com/view/armanayva/home" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className="text-sm font-bold ml-4 py-1 px-2 border border-neutral-600 rounded hover:bg-neutral-100 dark:border-neutral-400 dark:hover:bg-neutral-800 transition-colors"
+    >
+        Old Site
+    </a>
+
 </div>
              </div>
           </div>

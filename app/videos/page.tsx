@@ -7,21 +7,22 @@ export default function VideosPage() {
       isPlaylist: true,
     },
     {
-      title: "Thirsty Arab (Tales of Scheherazade)",
-      description: "A track blending Arabic jazz fusion, desert funk, and soulful sax lines.",
-      embedId: "YOUR_THIRSTY_ARAB_VIDEO_ID", // ⚠️ Replace with the actual video ID
+      title: "Classic Folk Armenian",
+      description: "Humanity is stepping into the AI age—it’s only the beginning. Some are frightened, some resist, but me? I’m excited. I can’t wait for the day I see an intelligent robot walking down the street.",
+embedId: "videoseries?list=PLdh9NdS_IkkVM3UatJqXqwod_4a8LxRTJ&si", 
       isPlaylist: false,
     },
     {
-      title: "Criminal Case N68 Album Visualizer",
+      title: "The Shrink-Ep.1 -And The Journey Begins (Pilot) - Satirical Sci-Fi",
       description: "The full musical crime story in one visual experience.",
-      embedId: "YOUR_CRIMINAL_CASE_VIDEO_ID", // ⚠️ Replace with the actual video ID
+      // FIXED: Inserted the correct video ID and the start time parameter
+      embedId: "3JD0fx0gqqY?start=0", 
       isPlaylist: false,
     },
     {
-      title: "Juanito Moving to the US Score",
-      description: "The original instrumental jazz score capturing Juanito's bittersweet journey.",
-      embedId: "YOUR_JUANITO_SCORE_VIDEO_ID", // ⚠️ Replace with the actual video ID
+      title: "Stuck in the Past – Jazz Funk Fusion by Arman Ayva (Official Video)",
+      description: "The original instrumental jazz score capturing. Release Date: Sep 1- 2025. Spotify: Arman Ayva",
+      embedId: "ycXxiJdXSbw", // ⚠️ Replace with the actual video ID
       isPlaylist: false,
     },
   ];
