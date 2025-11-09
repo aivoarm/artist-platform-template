@@ -9,10 +9,15 @@ import { Footer } from './components/footer'
 import { baseUrl } from './sitemap'
 
 export const metadata: Metadata = {
+
   metadataBase: new URL(baseUrl),
   title: {
     default: 'Arman Ayva Personal Website',
     template: '%s | Next.js Portfolio Starter',
+  },
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-icon.png', 
   },
   description: 'Arman Ayva Personal Website',
   openGraph: {
