@@ -1,3 +1,4 @@
+// app/layout.tsx
 import './global.css'
 import type { Metadata } from 'next'
 import { GeistSans } from 'geist/font/sans'
@@ -7,18 +8,22 @@ import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Footer } from './components/footer'
 import { baseUrl } from './sitemap'
-import { Providers } from './Providers'; // ⬅️ NEW IMPORT
+import { Providers } from './Providers'; 
 import { GoogleAnalytics } from '@next/third-parties/google'
+
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || ''
+const YOUR_APP_ID = 'YOUR_FACEBOOK_APP_ID'; // ⬅️ ⭐️ CRITICAL: REPLACE THIS WITH YOUR REAL APP ID
+// If you don't have one, please create one on the Meta for Developers site.
+
 export const metadata: Metadata = {
 
   metadataBase: new URL(baseUrl),
   title: {
     default: 'Arman Ayva Personal Website',
-    template: '%s | Next.js Portfolio Starter',
+    template: '%s | Arman Ayva', // Updated template for better branding
   },
   
-  description: 'Arman Ayva Personal Website',
+  description: 'Explore the music of Arman Ayva, a Montreal-based composer blending Armenian folk, progressive jazz, and funky beats. New releases include Criminal Case N68 and Happy Bundle. Available for sync licensing.',
   keywords: [
     'Arman Ayva',
     'Montreal Jazz Composer',
@@ -32,19 +37,19 @@ export const metadata: Metadata = {
     'Jazz Music Sync Licensing',
   ],
   openGraph: {
-    title: 'My Musical Journey, Jazz is everywhere',
+    title: 'My Musical Journey, Jazz is everywhere | Arman Ayva',
     description: 'Explore the music of Arman Ayva, a Montreal-based composer blending Armenian folk, progressive jazz, and funky beats. New releases include Criminal Case N68 and Happy Bundle. Available for sync licensing.',
     url: baseUrl,
     siteName: 'Arman Ayva Personal Website',
     locale: 'en_US',
     type: 'website',
-    // ⬅️ ADD THIS BLOCK 
+    // ⬅️ FIX: Use your dynamic OG image route (/og) as the robust default
     images: [
       {
-       url:'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.50/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center:Jazz%20Now,w_0.5,y_0.18/v1570237649/17160429878_68460aeb25_o-1_udg7bx.jpg',
-        //url: 'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.50/v1570237691/mjhQ_Gvsp_rS5MypjAfbo0o0cJwN1W0WAsSQJE2hxzEPWaOEtI-X8m301QiyxQotGNzGDdF9_w600-h0_yuyoia.jpg', // Use your desired default image
-        width: 1200, // Standard OG image width
-        height: 630, // Standard OG image height
+        // This leverages your /og/route.tsx for a Vercel-optimized image
+        url: '/og?title=Arman+Ayva+Music',
+        width: 1200, 
+        height: 630, 
         alt: 'Arman Ayva Jazz Portfolio',
       },
     ],
@@ -72,17 +77,19 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      // ⬅️ CRITICAL FIX: Add dark:bg-black here
       className={cx(
-        'text-black bg-white dark:bg-black', // ⬅️ ADD dark:bg-black
+        'text-black bg-white dark:bg-black',
         GeistSans.variable,
         GeistMono.variable
       )}
-      suppressHydrationWarning // Needed for next-themes to work on <html>
+      suppressHydrationWarning 
     >
-      {/* The <body> uses mx-4, mt-8, and max-w-6xl which creates the gap.
-        The HTML background (now black) will fill that gap correctly.
-      */}
+      <head>
+        {/* ⭐️ CRITICAL FIX: Add the Facebook App ID tag directly to the head 
+          to clear the "Missing Properties" warning. 
+        */}
+        <meta property="fb:app_id" content={YOUR_APP_ID} />
+      </head>
       <body className="antialiased max-w-6xl mx-4 mt-8 lg:mx-auto bg-white dark:bg-black">
         
         <Providers> 

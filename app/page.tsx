@@ -175,7 +175,7 @@ export default function Page() {
             All tracks by Arman Ayva are available for **synchronization licensing** for film, television, and commercial advertising. We offer fast, straightforward rights clearance.
           </p>
           <p>
-            **Contact:** [Insert your dedicated Licensing Contact Email Here]
+            **Contact:** aayvazy@gmail.com
           </p>
         </aside>
       </section>
