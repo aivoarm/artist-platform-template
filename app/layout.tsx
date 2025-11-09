@@ -54,6 +54,19 @@ export const metadata: Metadata = {
       },
     ],
   },
+  // ⭐️ CRITICAL FIX: ADD TWITTER CARD METADATA HERE
+  twitter: {
+    card: 'summary_large_image', // Use summary_large_image for a prominent preview
+    site: '@yourtwitterhandle',   // ⬅️ IMPORTANT: REPLACE with your official Twitter handle
+    creator: '@yourtwitterhandle',// ⬅️ IMPORTANT: REPLACE with your official Twitter handle
+    title: 'Arman Ayva | Mood-lifter behind the music',
+    description: 'Jazz, funk, folk fan. Composer, artist, and mood-lifter.',
+    images: {
+        // Use the same dynamic OG image route for consistency
+        url: '/og?title=Arman+Ayva+Music', 
+        alt: 'Arman Ayva Music Portfolio',
+    },
+  },
   robots: {
     index: true,
     follow: true,
