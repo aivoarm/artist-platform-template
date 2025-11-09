@@ -8,7 +8,8 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Footer } from './components/footer'
 import { baseUrl } from './sitemap'
 import { Providers } from './Providers'; // ⬅️ NEW IMPORT
-
+import { GoogleAnalytics } from '@next/third-parties/google'
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || ''
 export const metadata: Metadata = {
 
   metadataBase: new URL(baseUrl),
@@ -18,9 +19,21 @@ export const metadata: Metadata = {
   },
   
   description: 'Arman Ayva Personal Website',
+  keywords: [
+    'Arman Ayva',
+    'Montreal Jazz Composer',
+    'Jazz Funk Pioneer',
+    'Armenian Jazz Innovator',
+    'Fusion Artist',
+    'Progressive Jazz',
+    'Instrumental Music for TV',
+    'Criminal Case N68',
+    'Happy Bundle',
+    'Jazz Music Sync Licensing',
+  ],
   openGraph: {
     title: 'My Musical Journey, Jazz is everywhere',
-    description: 'My Musical Journey, Jazz is everywhere',
+    description: 'Explore the music of Arman Ayva, a Montreal-based composer blending Armenian folk, progressive jazz, and funky beats. New releases include Criminal Case N68 and Happy Bundle. Available for sync licensing.',
     url: baseUrl,
     siteName: 'Arman Ayva Personal Website',
     locale: 'en_US',
@@ -81,6 +94,7 @@ export default function RootLayout({
             <SpeedInsights />
           </main>
         </Providers>
+        <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
       </body>
     </html>
   );
