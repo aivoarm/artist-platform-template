@@ -21,7 +21,7 @@ embedId: "videoseries?list=PLdh9NdS_IkkVM3UatJqXqwod_4a8LxRTJ&si",
     },
     {
       title: "Stuck in the Past – Jazz Funk Fusion by Arman Ayva (Official Video)",
-      description: "The original instrumental jazz score capturing. Release Date: Sep 1- 2025. Spotify: Arman Ayva",
+      description: "The original instrumental jazz score capturing.  Release Date: Sep 1- 2025. Spotify: Arman Ayva",
       embedId: "ycXxiJdXSbw", // ⚠️ Replace with the actual video ID
       isPlaylist: false,
     },

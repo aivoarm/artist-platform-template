@@ -2,12 +2,15 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ThemeToggle } from './ThemeToggle'; // ⬅️ IMPORTED
+import { useState } from 'react'; // ⬅️ NEW: Import useState
+import { FaBars, FaTimes } from 'react-icons/fa'; // ⬅️ NEW: Icons for hamburger
+import { ThemeToggle } from './ThemeToggle'; 
+
 // Define the navigation items based on your site structure
 const navItems = {
   '/': {
     name: 'Home',
-    type: 'internal', // Added type for internal link handling
+    type: 'internal',
   },
   '/blog': {
     name: 'Music & Blog',
@@ -37,10 +40,10 @@ const navItems = {
     name: 'Disclaimer',
     type: 'internal',
   },
-  
 };
 
 export function Navbar() {
+  const [isOpen, setIsOpen] = useState(false); // State for mobile menu visibility
   let pathname = usePathname() || '/';
   
   // Clean up pathname for active state highlighting
@@ -48,62 +51,89 @@ export function Navbar() {
     pathname = '/blog';
   }
 
+  // Common function to render links for both mobile and desktop
+  const renderLinks = (isMobile: boolean) => {
+    return Object.entries(navItems).map(([path, { name, type }]) => {
+      const isActive = type !== 'external' && path === pathname; 
+      
+      // Classes adjusted for mobile (w-full block) vs. desktop (inline-block)
+      const baseClasses = `
+        transition-all py-1 px-3 
+        ${isActive 
+          ? 'font-bold text-neutral-900 dark:text-neutral-100' 
+          : 'font-normal text-neutral-600 dark:text-neutral-400'
+        }
+        hover:text-neutral-800 dark:hover:text-neutral-200
+        ${isMobile ? 'block w-full' : 'inline-block'}
+      `;
+
+      const Component = type === 'external' ? 'a' : Link;
+      const props = type === 'external' 
+        ? { target: '_blank', rel: 'noopener noreferrer' } 
+        : {};
+
+      return (
+        <Component
+          key={path}
+          href={path}
+          className={baseClasses}
+          // Close menu on mobile link click
+          onClick={() => isMobile && setIsOpen(false)} 
+          {...props}
+        >
+          {name}
+        </Component>
+      );
+    });
+  };
+
   return (
     <aside className="mb-16 tracking-tight">
       <div className="lg:sticky lg:top-20">
-        <nav
-          className="flex flex-row items-start relative px-0 pb-0 fade md:overflow-auto scroll-pr-6 md:relative"
-          id="nav"
-        >
-          {/* MODIFIED: Use flex container to space out links and toggle */}
-          <div className="flex flex-row items-center justify-between w-full">
-            <div className="flex flex-row space-x-0">
-              {Object.entries(navItems).map(([path, { name, type }]) => { // ⬅️ Destructured 'type'
-              
-                // Only internal links are checked for active state
-                const isActive = type !== 'external' && path === pathname; 
-                
-                const baseClasses = `
-                  transition-all py-1 px-3 
-                  ${isActive 
-                    ? 'font-bold text-neutral-900 dark:text-neutral-100' 
-                    : 'font-normal text-neutral-600 dark:text-neutral-400'
-                  }
-                  hover:text-neutral-800 dark:hover:text-neutral-200
-                `;
-
-                if (type === 'external') {
-                  return (
-                    <a
-                      key={path}
-                      href={path} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className={baseClasses}
-                    >
-                      {name}
-                    </a>
-                  );
-                }
-
-                // Default: Render internal links using Next's Link
-                return (
-                  <Link
-                    key={path}
-                    href={path}
-                    className={baseClasses}
-                  >
-                    {name}
-                  </Link>
-                );
-
-              })}
+        <nav className="flex flex-col relative" id="nav">
+          
+          {/* 1. Header Row (Contains Logo/Title, Desktop Links, Toggle, and Hamburger) */}
+          <div className="flex justify-between items-center w-full py-1">
+            
+            {/* Menu Links (Desktop: Always Visible) */}
+            <div className="hidden md:flex flex-row space-x-0">
+              {renderLinks(false)}
             </div>
-            {/* ⬅️ ADD THE TOGGLE HERE ⬅️ */}
-            <div className="ml-4">
-               <ThemeToggle />
+
+            {/* Title/Logo for Mobile View when links are hidden */}
+            <div className="md:hidden text-lg font-bold text-neutral-900 dark:text-neutral-100">
+                Arman Ayva
+            </div>
+
+            {/* Toggle and Hamburger Container */}
+            <div className="flex items-center space-x-4">
+              <ThemeToggle />
+
+              {/* Hamburger Button (Only on Mobile) */}
+              <button
+                aria-label="Toggle Menu"
+                onClick={() => setIsOpen(!isOpen)}
+                className="md:hidden p-2 text-2xl transition-colors text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100"
+              >
+                {isOpen ? <FaTimes /> : <FaBars />}
+              </button>
             </div>
           </div>
+          
+          {/* 2. Mobile Menu Dropdown (Conditionally Visible below md:) */}
+          <div 
+            className={`
+              md:hidden w-full transition-all duration-300 ease-in-out
+              ${isOpen 
+                ? 'max-h-screen opacity-100 py-2' 
+                : 'max-h-0 opacity-0 overflow-hidden'
+              }
+              flex flex-col space-y-2 border-t border-neutral-200 dark:border-neutral-800
+            `}
+          >
+            {renderLinks(true)}
+          </div>
+
         </nav>
       </div>
     </aside>

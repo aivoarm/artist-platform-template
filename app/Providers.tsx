@@ -1,7 +1,7 @@
 // app/Providers.tsx
 // app/Providers.tsx
 
-'use client'; 
+'use client'; // ⬅️ MUST BE THE VERY FIRST LINE
 
 import * as React from 'react';
 import { ThemeProvider } from 'next-themes';
