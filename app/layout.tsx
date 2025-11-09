@@ -58,16 +58,18 @@ export const metadata: Metadata = {
       },
     ],
   },
-  // ⭐️ CRITICAL FIX: ADD TWITTER CARD METADATA HERE
+ // ⭐️ CRITICAL FIX: EXPLICITLY DEFINE ABSOLUTE URL FOR TWITTER IMAGE ⭐️
   twitter: {
-    card: 'summary_large_image', // Use summary_large_image for a prominent preview
-    site: '@yourtwitterhandle',   // ⬅️ IMPORTANT: REPLACE with your official Twitter handle
-    creator: '@yourtwitterhandle',// ⬅️ IMPORTANT: REPLACE with your official Twitter handle
+    // We explicitly set this to large image, but the image URL must work.
+    card: 'summary_large_image', 
+    site: '@yourtwitterhandle',   
+    creator: '@yourtwitterhandle',
     title: 'Arman Ayva | Mood-lifter behind the music',
     description: 'Jazz, funk, folk fan. Composer, artist, and mood-lifter.',
     images: {
-        // Use the same dynamic OG image route for consistency
-        url: '/og?title=Arman+Ayva+Music', 
+        // ⬅️ FIX: Using a template literal to ensure the URL is ABSOLUTE.
+        // The URL needs to start with 'https://' for the crawler to accept it.
+        url: `${baseUrl}/og?title=Arman+Ayva+Music`, 
         alt: 'Arman Ayva Music Portfolio',
     },
   },
