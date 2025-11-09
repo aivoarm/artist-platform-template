@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { FaSpotify, FaInstagram, FaFacebook, FaYoutube, FaTiktok } from 'react-icons/fa';
+import { SiLinktree, SiX } from 'react-icons/si';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -38,9 +40,77 @@ export function Footer() {
              </p>
              <div className="mt-4 space-x-4 text-neutral-600 dark:text-neutral-400">
                 {/* Placeholder for actual social media icons */}
-                <span className="hover:text-blue-500 transition-colors">Spotify</span>
-                <span className="hover:text-blue-500 transition-colors">Instagram</span>
-                <span className="hover:text-blue-500 transition-colors">Facebook</span>
+              {/* Replace the static <span> tags with this code block */}
+                  <div className="flex space-x-4"> {/* Assuming this is the surrounding div from your footer */}
+    
+    {/* Spotify */}
+    <a 
+        href="https://open.spotify.com/artist/1DukxxMpzFcNZx5iIJiSK4" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className="text-2xl text-neutral-600 hover:text-blue-500 dark:text-neutral-400 dark:hover:text-blue-500 transition-colors"
+        aria-label="Spotify"
+    >
+        <FaSpotify />
+    </a>
+    
+    {/* YouTube */}
+    <a 
+        href="https://www.youtube.com/@armanayva" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className="text-2xl text-neutral-600 hover:text-red-600 dark:text-neutral-400 dark:hover:text-red-600 transition-colors"
+        aria-label="YouTube"
+    >
+        <FaYoutube />
+    </a>
+    
+    {/* Instagram */}
+    <a 
+        href="https://www.instagram.com/armanayva/" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className="text-2xl text-neutral-600 hover:text-pink-600 dark:text-neutral-400 dark:hover:text-pink-600 transition-colors"
+        aria-label="Instagram"
+    >
+        <FaInstagram />
+    </a>
+    
+    {/* TikTok */}
+    {/* Note: Corrected the malformed URL based on the TikTok handle you provided */}
+    <a 
+        href="https://www.tiktok.com/@armanayva" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className="text-2xl text-neutral-600 hover:text-black dark:text-neutral-400 dark:hover:text-white transition-colors"
+        aria-label="TikTok"
+    >
+        <FaTiktok />
+    </a>
+
+    {/* X (formerly Twitter) */}
+    <a 
+        href="https://x.com/ArmanAyva" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className="text-2xl text-neutral-600 hover:text-black dark:text-neutral-400 dark:hover:text-white transition-colors"
+        aria-label="X (Twitter)"
+    >
+        <SiX />
+    </a>
+    
+    {/* Linktree */}
+    <a 
+        href="https://linktr.ee/armanayva" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className="text-2xl text-neutral-600 hover:text-green-500 dark:text-neutral-400 dark:hover:text-green-500 transition-colors"
+        aria-label="Linktree"
+    >
+        <SiLinktree />
+    </a>
+
+</div>
              </div>
           </div>
         </div>

@@ -14,6 +14,13 @@ const navItems = {
   '/radio': {
     name: 'Radio',
   },
+  '/videos': {
+    name: 'Videos',
+  },
+  'https://medium.com/@arman_ayva': { // ⬅️ KEY: Use the full URL as the key
+    name: 'Medium',
+    type: 'external', // ⬅️ NEW: Flag it as external
+  },
   '/about': {
     name: 'About',
   },
@@ -23,6 +30,7 @@ const navItems = {
   '/music-production-disclaimer': {
     name: 'Disclaimer',
   },
+  
 };
 
 export function Navbar() {

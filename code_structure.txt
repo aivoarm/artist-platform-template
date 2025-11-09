@@ -3,6 +3,16 @@
 ├── next.config.js
 │   ├── /** @type {import('next').NextConfig} */
 │   ├── const nextConfig = {
+│   ├──   images: {
+│   ├──     remotePatterns: [
+│   ├──       {
+│   ├──         protocol: 'https',
+│   ├──         hostname: 'res.cloudinary.com',
+│   ├──         port: '',
+│   ├──         pathname: '/**', // Allows any path from this domain
+│   ├──       },
+│   ├──     ],
+│   ├──   },
 │   ├──   // Define redirects for old URLs
 │   ├──   async redirects() {
 │   ├──     return [
@@ -12,6 +22,13 @@
 │   ├──         destination: '/blog',
 │   ├──         permanent: true, // 301 Permanent Redirect
 │   ├──       },
+│   ├── 
+│   ├── {
+│   ├──         source: '/f',
+│   ├──         destination: '/blog',
+│   ├──         permanent: true, // 301 Permanent Redirect
+│   ├──       },
+│   ├── 
 │   ├── 
 │   ├──       // EXISTING: Redirects all content from /project/* to /blog/*
 │   ├──       {
@@ -32,13 +49,13 @@
 │   ├── 
 │   ├── module.exports = nextConfig;
 
+├── .npmrc
 ├── next-env.d.ts
 │   ├── /// <reference types="next" />
 │   ├── /// <reference types="next/image-types/global" />
-│   ├── import "./.next/dev/types/routes.d.ts";
 │   ├── 
 │   ├── // NOTE: This file should not be edited
-│   ├── // see https://nextjs.org/docs/app/api-reference/config/typescript for more information.
+│   ├── // see https://nextjs.org/docs/basic-features/typescript for more information.
 │   ├── 
 
 ├── README.md
@@ -51,6 +68,12 @@
 │   ├──     "build": "next build",
 │   ├──     "start": "next start"
 │   ├──   },
+│   ├──   "pnpm": {
+│   ├──     "overrides": {
+│   ├──       "react": "$react",
+│   ├──       "react-dom": "$react-dom"
+│   ├──     }
+│   ├──   },
 │   ├──   "dependencies": {
 │   ├──     "@tailwindcss/postcss": "4.0.0-alpha.13",
 │   ├──     "@types/node": "20.11.17",
@@ -59,11 +82,12 @@
 │   ├──     "@vercel/analytics": "^1.1.3",
 │   ├──     "@vercel/speed-insights": "^1.0.9",
 │   ├──     "geist": "1.2.2",
-│   ├──     "next": "canary",
+│   ├──     "next": "14.2.5",
 │   ├──     "next-mdx-remote": "^4.4.1",
 │   ├──     "postcss": "^8.4.35",
 │   ├──     "react": "18.2.0",
 │   ├──     "react-dom": "18.2.0",
+│   ├──     "react-icons": "^5.5.0",
 │   ├──     "sugar-high": "^0.6.0",
 │   ├──     "tailwindcss": "4.0.0-alpha.13",
 │   ├──     "typescript": "5.3.3"
@@ -90,7 +114,7 @@
 │   ├──     "moduleResolution": "node",
 │   ├──     "resolveJsonModule": true,
 │   ├──     "isolatedModules": true,
-│   ├──     "jsx": "react-jsx",
+│   ├──     "jsx": "preserve",
 │   ├──     "baseUrl": ".",
 │   ├──     "incremental": true,
 │   ├──     "plugins": [
@@ -320,22 +344,34 @@
 │   │   ├── import { Analytics } from '@vercel/analytics/react'
 │   │   ├── import { SpeedInsights } from '@vercel/speed-insights/next'
 │   │   ├── import { Footer } from './components/footer'
-│   │   ├──   import { baseUrl } from './sitemap'
+│   │   ├── import { baseUrl } from './sitemap'
 │   │   ├── 
 │   │   ├── export const metadata: Metadata = {
+│   │   ├── 
 │   │   ├──   metadataBase: new URL(baseUrl),
 │   │   ├──   title: {
-│   │   ├──     default: 'Next.js Portfolio Starter',
+│   │   ├──     default: 'Arman Ayva Personal Website',
 │   │   ├──     template: '%s | Next.js Portfolio Starter',
 │   │   ├──   },
-│   │   ├──   description: 'This is my portfolio.',
+│   │   ├──   
+│   │   ├──   description: 'Arman Ayva Personal Website',
 │   │   ├──   openGraph: {
-│   │   ├──     title: 'My Portfolio',
-│   │   ├──     description: 'This is my portfolio.',
+│   │   ├──     title: 'My Musical Journey, Jazz is everywhere',
+│   │   ├──     description: 'My Musical Journey, Jazz is everywhere',
 │   │   ├──     url: baseUrl,
-│   │   ├──     siteName: 'My Portfolio',
+│   │   ├──     siteName: 'Arman Ayva Personal Website',
 │   │   ├──     locale: 'en_US',
 │   │   ├──     type: 'website',
+│   │   ├──     // ⬅️ ADD THIS BLOCK 
+│   │   ├──     images: [
+│   │   ├──       {
+│   │   ├──        url:'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.50/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center:Jazz%20Now,w_0.5,y_0.18/v1570237649/17160429878_68460aeb25_o-1_udg7bx.jpg',
+│   │   ├──         //url: 'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.50/v1570237691/mjhQ_Gvsp_rS5MypjAfbo0o0cJwN1W0WAsSQJE2hxzEPWaOEtI-X8m301QiyxQotGNzGDdF9_w600-h0_yuyoia.jpg', // Use your desired default image
+│   │   ├──         width: 1200, // Standard OG image width
+│   │   ├──         height: 630, // Standard OG image height
+│   │   ├──         alt: 'Arman Ayva Jazz Portfolio',
+│   │   ├──       },
+│   │   ├──     ],
 │   │   ├──   },
 │   │   ├──   robots: {
 │   │   ├──     index: true,
@@ -366,7 +402,8 @@
 │   │   ├──         GeistMono.variable
 │   │   ├──       )}
 │   │   ├──     >
-│   │   ├──       <body className="antialiased max-w-xl mx-4 mt-8 lg:mx-auto">
+│   │   ├──      {/* MODIFIED LINE: Added bg-white and dark:bg-black to reinforce background */}
+│   │   ├──       <body className="antialiased max-w-6xl mx-4 mt-8 lg:mx-auto bg-white dark:bg-black">
 │   │   ├──         <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
 │   │   ├──           <Navbar />
 │   │   ├──           {children}
@@ -378,7 +415,6 @@
 │   │   ├──     </html>
 │   │   ├──   )
 │   │   ├── }
-│   │   ├── 
 
 │   ├── page.tsx
 │   │   ├── import Link from 'next/link';
@@ -387,18 +423,36 @@
 │   │   ├── import { SubscribeCTA } from './components/subscribe-cta';
 │   │   ├── import { AlbumCTA } from './components/album-cta';
 │   │   ├── import { NewReleasesSpotlight } from './components/new-releases-spotlight';
+│   │   ├── import Image from 'next/image';
+│   │   ├── const HERO_IMAGE_URL = 'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.50/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center:Your%20Funky%20Jazz,w_0.2,y_0.3/v1570237649/17160429878_68460aeb25_o-1_udg7bx.jpg'
+│   │   ├── //const HERO_IMAGE_URL = 'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.30/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center:Jazz%20Now,w_0.2,y_0/v1570237614/img_2437-copy-copy_pzebz7.jpg'
 │   │   ├── 
 │   │   ├── 
 │   │   ├── export default function Page() {
 │   │   ├──   return (
 │   │   ├──     <section>
+│   │   ├── 
+│   │   ├──       <div className="hero-container">
+│   │   ├──         <Image
+│   │   ├──           src={HERO_IMAGE_URL}
+│   │   ├──           // The image URL specifies a height of 250 and width of 970.
+│   │   ├──           // These should be set here for the Next.js Image component to work correctly.
+│   │   ├──           width={970} 
+│   │   ├──           height={250} 
+│   │   ├──           alt="Arman Ayva - Musical Journey "
+│   │   ├──           // 'layout=fill' or styling can be used if you want the image to span the full width
+│   │   ├──           className="w-full h-auto object-cover" 
+│   │   ├──           priority // Load this image first as it's the hero element
+│   │   ├──         />
+│   │   ├──       </div>
+│   │   ├── 
 │   │   ├──       {/* HERO SECTION: Main Introduction & Bio */}
 │   │   ├──       <h1 className="font-bold text-4xl font-serif mb-6 tracking-tighter">
 │   │   ├──         Arman Ayva
 │   │   ├──       </h1>
 │   │   ├──       
 │   │   ├──       <div className="prose prose-neutral dark:prose-invert">
-│   │   ├──         <p className="text-xl leading-8">
+│   │   ├──         <p >
 │   │   ├──           Welcome to Arman's Musical Journey! I'm an innovative artist and composer 
 │   │   ├──           based in Montreal, breaking new ground in the realms of **jazz-folk, 
 │   │   ├──           jazz-funk, ambient, electronic, and experimental genres**. My music is 
@@ -519,8 +573,8 @@
 │   │   │   ├── 
 │   │   │   ├── export default function ContactPage() {
 │   │   │   ├──   // Define the JotForm embed details
-│   │   │   ├──   //const jotFormId = "250527544444255";
-│   │   │   ├──   //const jotFormSrc = `https://form.jotform.com/${jotFormId}`;
+│   │   │   ├──   const jotFormId = "250527544444255";
+│   │   │   ├──   const jotFormSrc = `https://form.jotform.com/${jotFormId}`;
 │   │   │   ├── 
 │   │   │   ├──   return (
 │   │   │   ├──     <section className="py-8">
@@ -528,7 +582,7 @@
 │   │   │   ├──         Get in Touch 📩
 │   │   │   ├──       </h1>
 │   │   │   ├──       
-│   │   │   ├──       {/* <div className="prose prose-neutral dark:prose-invert mb-10">
+│   │   │   ├──       <div className="prose prose-neutral dark:prose-invert mb-10">
 │   │   │   ├──         <p className="text-lg">
 │   │   │   ├──           Do you have a project idea, a press inquiry, or a potential collaboration? 
 │   │   │   ├──           I'd love to hear from you! Please use the form below to reach **Arman Ayva**.
@@ -539,7 +593,7 @@
 │   │   │   ├──         </ul>
 │   │   │   ├──       </div>
 │   │   │   ├── 
-│   │   │   ├──       {/* JotForm Embed Section
+│   │   │   ├──        JotForm Embed Section
 │   │   │   ├──       <div className="w-full mx-auto" style={{ minHeight: '800px' }}>
 │   │   │   ├──         <iframe
 │   │   │   ├──           id="ContactJotFormEmbed"
@@ -555,7 +609,7 @@
 │   │   │   ├──           style={{ minHeight: '800px', border: 'none' }}
 │   │   │   ├──         />
 │   │   │   ├──       </div>
-│   │   │   ├──  */}
+│   │   │   ├── {/*
 │   │   │   ├──       <div className="mt-8 text-sm text-neutral-500 dark:text-neutral-400">
 │   │   │   ├──         <p>
 │   │   │   ├──           I strive to respond to all inquiries within 48 hours. Thank you for your interest!
@@ -585,9 +639,13 @@
 │   │   │   ├── 
 │   │   │   ├── 
 │   │   │   ├──       <ContactForm />
+│   │   │   ├── 
+│   │   │   ├──        */} 
 │   │   │   ├──     </section>
 │   │   │   ├──   );
 │   │   │   ├── }
+│   │   │   ├── 
+│   │   │   ├── //1015 Rue du Marché Central, Montréal, QC H4N 3J8
 
 │   ├── radio/
 │   │   ├── page.tsx
@@ -796,10 +854,28 @@
 │   ├── about/
 │   │   ├── page.tsx
 │   │   │   ├── import Link from 'next/link';
+│   │   │   ├── import Image from 'next/image';
+│   │   │   ├── 
+│   │   │   ├── const HERO_IMAGE_URL = 'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.30/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center:Jazz%20Now,w_0.2,y_0/v1570237614/img_2437-copy-copy_pzebz7.jpg'
 │   │   │   ├── 
 │   │   │   ├── export default function AboutPage() {
 │   │   │   ├──   return (
 │   │   │   ├──     <section className="py-8">
+│   │   │   ├── 
+│   │   │   ├──        <div className="hero-container">
+│   │   │   ├──               <Image
+│   │   │   ├──                 src={HERO_IMAGE_URL}
+│   │   │   ├──                 // The image URL specifies a height of 250 and width of 970.
+│   │   │   ├──                 // These should be set here for the Next.js Image component to work correctly.
+│   │   │   ├──                 width={970} 
+│   │   │   ├──                 height={250} 
+│   │   │   ├──                 alt="Arman Ayva - Musical Journey "
+│   │   │   ├──                 // 'layout=fill' or styling can be used if you want the image to span the full width
+│   │   │   ├──                 className="w-full h-auto object-cover" 
+│   │   │   ├──                 priority // Load this image first as it's the hero element
+│   │   │   ├──               />
+│   │   │   ├──             </div>
+│   │   │   ├── 
 │   │   │   ├──       <h1 className="font-bold text-4xl font-serif mb-6 tracking-tighter">
 │   │   │   ├──         Arman Ayva – Montreal Indie Jazz Composer 🎷
 │   │   │   ├──       </h1>
@@ -901,16 +977,16 @@
 │   │   │   ├──   return { metadata: metadata as Metadata, content }
 │   │   │   ├── }
 │   │   │   ├── 
-│   │   │   ├── function getMDXFiles(dir) {
+│   │   │   ├── function getMDXFiles(dir: string) { // Added type annotation
 │   │   │   ├──   return fs.readdirSync(dir).filter((file) => path.extname(file) === '.mdx')
 │   │   │   ├── }
 │   │   │   ├── 
-│   │   │   ├── function readMDXFile(filePath) {
+│   │   │   ├── function readMDXFile(filePath: string) { // Added type annotation
 │   │   │   ├──   let rawContent = fs.readFileSync(filePath, 'utf-8')
 │   │   │   ├──   return parseFrontmatter(rawContent)
 │   │   │   ├── }
 │   │   │   ├── 
-│   │   │   ├── function getMDXData(dir) {
+│   │   │   ├── function getMDXData(dir: string) { // Added type annotation
 │   │   │   ├──   let mdxFiles = getMDXFiles(dir)
 │   │   │   ├──   return mdxFiles.map((file) => {
 │   │   │   ├──     let { metadata, content } = readMDXFile(path.join(dir, file))
@@ -928,7 +1004,13 @@
 │   │   │   ├──   return getMDXData(path.join(process.cwd(), 'app', 'blog', 'posts'))
 │   │   │   ├── }
 │   │   │   ├── 
-│   │   │   ├── export function formatDate(date: string, includeRelative = false) {
+│   │   │   ├── // MODIFIED FUNCTION SIGNATURE AND ADDED SAFETY CHECK
+│   │   │   ├── export function formatDate(date: string | null | undefined, includeRelative = false) {
+│   │   │   ├──   // SAFETY CHECK: If date is missing, return a default string immediately.
+│   │   │   ├──   if (!date) {
+│   │   │   ├──     return 'Date TBD' 
+│   │   │   ├──   }
+│   │   │   ├── 
 │   │   │   ├──   let currentDate = new Date()
 │   │   │   ├──   if (!date.includes('T')) {
 │   │   │   ├──     date = `${date}T00:00:00`
@@ -963,7 +1045,6 @@
 │   │   │   ├── 
 │   │   │   ├──   return `${fullDate} (${formattedDate})`
 │   │   │   ├── }
-│   │   │   ├── 
 
 │   │   ├── page.tsx
 │   │   │   ├── import { BlogPosts } from 'app/components/posts'
@@ -984,16 +1065,19 @@
 │   │   │   ├── 
 
 │   │   ├── posts/
-│   │   │   ├── spaces-vs-tabs.mdx
-│   │   │   ├── vim.mdx
-│   │   │   ├── static-typing.mdx
+│   │   │   ├── take-five-get-one.mdx
+│   │   │   ├── juanito-moving-to-us.mdx
+│   │   │   ├── My-Funky-Jazzification.mdx
+│   │   │   ├── Funky-Jazz-Mood-Lifter.mdx
 │   │   ├── [slug]/
 │   │   │   ├── page.tsx
 │   │   │   │   ├── import { notFound } from 'next/navigation'
 │   │   │   │   ├── import { CustomMDX } from 'app/components/mdx'
 │   │   │   │   ├── import { formatDate, getBlogPosts } from 'app/blog/utils'
 │   │   │   │   ├── import { baseUrl } from 'app/sitemap'
-│   │   │   │   ├── 
+│   │   │   │   ├── import type { Metadata } from 'next'
+│   │   │   │   ├── import Image from 'next/image' // <-- 1. Import Next.js Image Component
+│   │   │   │   ├── // Next.js automatically calls this to pre-render pages
 │   │   │   │   ├── export async function generateStaticParams() {
 │   │   │   │   ├──   let posts = getBlogPosts()
 │   │   │   │   ├── 
@@ -1002,8 +1086,16 @@
 │   │   │   │   ├──   }))
 │   │   │   │   ├── }
 │   │   │   │   ├── 
-│   │   │   │   ├── export function generateMetadata({ params }) {
-│   │   │   │   ├──   let post = getBlogPosts().find((post) => post.slug === params.slug)
+│   │   │   │   ├── // Generate metadata for the shareable link card
+│   │   │   │   ├── export async function generateMetadata({
+│   │   │   │   ├──   params,
+│   │   │   │   ├── }: {
+│   │   │   │   ├──   params: { slug: string }
+│   │   │   │   ├── }): Promise<Metadata | undefined> {
+│   │   │   │   ├──   
+│   │   │   │   ├──   // FIX: Access params.slug directly (no need for await or decode)
+│   │   │   │   ├──   const post = getBlogPosts().find((post) => post.slug === params.slug)
+│   │   │   │   ├──   
 │   │   │   │   ├──   if (!post) {
 │   │   │   │   ├──     return
 │   │   │   │   ├──   }
@@ -1014,6 +1106,8 @@
 │   │   │   │   ├──     summary: description,
 │   │   │   │   ├──     image,
 │   │   │   │   ├──   } = post.metadata
+│   │   │   │   ├──   
+│   │   │   │   ├──   // 🔑 KEY TO NICE LOOKING LINKS: Use the dynamic /og route if no specific image is set.
 │   │   │   │   ├──   let ogImage = image
 │   │   │   │   ├──     ? image
 │   │   │   │   ├──     : `${baseUrl}/og?title=${encodeURIComponent(title)}`
@@ -1030,9 +1124,12 @@
 │   │   │   │   ├──       images: [
 │   │   │   │   ├──         {
 │   │   │   │   ├──           url: ogImage,
+│   │   │   │   ├──           width: 1200, // Standard OG image width
+│   │   │   │   ├──           height: 630, // Standard OG image height
 │   │   │   │   ├──         },
 │   │   │   │   ├──       ],
 │   │   │   │   ├──     },
+│   │   │   │   ├──     // Twitter card setup is essential for platforms like Slack, Discord, and X (Twitter)
 │   │   │   │   ├──     twitter: {
 │   │   │   │   ├──       card: 'summary_large_image',
 │   │   │   │   ├──       title,
@@ -1042,12 +1139,15 @@
 │   │   │   │   ├──   }
 │   │   │   │   ├── }
 │   │   │   │   ├── 
-│   │   │   │   ├── export default function Blog({ params }) {
-│   │   │   │   ├──   let post = getBlogPosts().find((post) => post.slug === params.slug)
+│   │   │   │   ├── export default async function Blog({ params }: { params: { slug: string } }) {
+│   │   │   │   ├──   const post = getBlogPosts().find((post) => post.slug === params.slug)
 │   │   │   │   ├── 
 │   │   │   │   ├──   if (!post) {
 │   │   │   │   ├──     notFound()
 │   │   │   │   ├──   }
+│   │   │   │   ├── 
+│   │   │   │   ├──   // Destructure the headerImage from metadata
+│   │   │   │   ├──   const { title, publishedAt, headerImage } = post.metadata;
 │   │   │   │   ├── 
 │   │   │   │   ├──   return (
 │   │   │   │   ├──     <section>
@@ -1056,29 +1156,33 @@
 │   │   │   │   ├──         suppressHydrationWarning
 │   │   │   │   ├──         dangerouslySetInnerHTML={{
 │   │   │   │   ├──           __html: JSON.stringify({
-│   │   │   │   ├──             '@context': 'https://schema.org',
-│   │   │   │   ├──             '@type': 'BlogPosting',
-│   │   │   │   ├──             headline: post.metadata.title,
-│   │   │   │   ├──             datePublished: post.metadata.publishedAt,
-│   │   │   │   ├──             dateModified: post.metadata.publishedAt,
-│   │   │   │   ├──             description: post.metadata.summary,
-│   │   │   │   ├──             image: post.metadata.image
-│   │   │   │   ├──               ? `${baseUrl}${post.metadata.image}`
-│   │   │   │   ├──               : `/og?title=${encodeURIComponent(post.metadata.title)}`,
-│   │   │   │   ├──             url: `${baseUrl}/blog/${post.slug}`,
-│   │   │   │   ├──             author: {
-│   │   │   │   ├──               '@type': 'Person',
-│   │   │   │   ├──               name: 'My Portfolio',
-│   │   │   │   ├──             },
+│   │   │   │   ├──             // ... (your schema markup) ...
 │   │   │   │   ├──           }),
 │   │   │   │   ├──         }}
 │   │   │   │   ├──       />
 │   │   │   │   ├──       <h1 className="title font-semibold text-2xl tracking-tighter">
-│   │   │   │   ├──         {post.metadata.title}
+│   │   │   │   ├──         {title}
 │   │   │   │   ├──       </h1>
+│   │   │   │   ├── 
+│   │   │   │   ├──       {/* 2. CONDITIONAL HEADER IMAGE RENDERING */}
+│   │   │   │   ├──       {headerImage && (
+│   │   │   │   ├──         // The image container must be relative if using fill
+│   │   │   │   ├──         <div className="relative w-full overflow-hidden mb-8" style={{ height: '250px' }}>
+│   │   │   │   ├──           <Image
+│   │   │   │   ├──             // Use the headerImage URL from the post's frontmatter
+│   │   │   │   ├──             src={headerImage}
+│   │   │   │   ├──             alt={title} 
+│   │   │   │   ├──             fill // Fills the parent div (height: 250px)
+│   │   │   │   ├──             sizes="100vw" // Tells Next.js the image spans the full width of the screen
+│   │   │   │   ├──             className="object-cover" 
+│   │   │   │   ├──             priority
+│   │   │   │   ├──           />
+│   │   │   │   ├──         </div>
+│   │   │   │   ├──       )}
+│   │   │   │   ├──       
 │   │   │   │   ├──       <div className="flex justify-between items-center mt-2 mb-8 text-sm">
 │   │   │   │   ├──         <p className="text-sm text-neutral-600 dark:text-neutral-400">
-│   │   │   │   ├──           {formatDate(post.metadata.publishedAt)}
+│   │   │   │   ├──           {formatDate(publishedAt)}
 │   │   │   │   ├──         </p>
 │   │   │   │   ├──       </div>
 │   │   │   │   ├──       <article className="prose">
@@ -1087,7 +1191,6 @@
 │   │   │   │   ├──     </section>
 │   │   │   │   ├──   )
 │   │   │   │   ├── }
-│   │   │   │   ├── 
 
 │   ├── components/
 │   │   ├── nav.tsx
@@ -1107,6 +1210,13 @@
 │   │   │   ├──   '/radio': {
 │   │   │   ├──     name: 'Radio',
 │   │   │   ├──   },
+│   │   │   ├──   '/videos': {
+│   │   │   ├──     name: 'Videos',
+│   │   │   ├──   },
+│   │   │   ├──   'https://medium.com/@arman_ayva': { // ⬅️ KEY: Use the full URL as the key
+│   │   │   ├──     name: 'Medium',
+│   │   │   ├──     type: 'external', // ⬅️ NEW: Flag it as external
+│   │   │   ├──   },
 │   │   │   ├──   '/about': {
 │   │   │   ├──     name: 'About',
 │   │   │   ├──   },
@@ -1116,6 +1226,7 @@
 │   │   │   ├──   '/music-production-disclaimer': {
 │   │   │   ├──     name: 'Disclaimer',
 │   │   │   ├──   },
+│   │   │   ├──   
 │   │   │   ├── };
 │   │   │   ├── 
 │   │   │   ├── export function Navbar() {
@@ -1165,6 +1276,8 @@
 │   │   │   ├── import { MDXRemote } from 'next-mdx-remote/rsc'
 │   │   │   ├── import { highlight } from 'sugar-high'
 │   │   │   ├── import React from 'react'
+│   │   │   ├── import BandcampCTA from './BandcampCTA';
+│   │   │   ├── import MusicCTA from './MusicCTA'; // ⬅️ Updated import
 │   │   │   ├── 
 │   │   │   ├── function Table({ data }) {
 │   │   │   ├──   let headers = data.headers.map((header, index) => (
@@ -1259,6 +1372,8 @@
 │   │   │   ├──   a: CustomLink,
 │   │   │   ├──   code: Code,
 │   │   │   ├──   Table,
+│   │   │   ├──   BandcampCTA,
+│   │   │   ├──   MusicCTA,
 │   │   │   ├── }
 │   │   │   ├── 
 │   │   │   ├── export function CustomMDX(props) {
@@ -1345,8 +1460,57 @@
 │   │   │   ├──   )
 │   │   │   ├── }
 
+│   │   ├── MusicCTA.tsx
+│   │   │   ├── "use client"; // ⬅️ Must stay at the top!
+│   │   │   ├── 
+│   │   │   ├── import React from 'react';
+│   │   │   ├── 
+│   │   │   ├── // Make the component accept label, background color, and URL as props
+│   │   │   ├── export default function MusicCTA({ 
+│   │   │   ├──     albumUrl, 
+│   │   │   ├──     label, 
+│   │   │   ├──     baseColor, 
+│   │   │   ├──     hoverColor 
+│   │   │   ├── }: { 
+│   │   │   ├──     albumUrl: string; 
+│   │   │   ├──     label: string; 
+│   │   │   ├──     baseColor: string; 
+│   │   │   ├──     hoverColor: string; 
+│   │   │   ├── }) {
+│   │   │   ├──   
+│   │   │   ├──   const baseStyle: React.CSSProperties = {
+│   │   │   ├──     display: 'inline-block',
+│   │   │   ├──     padding: '12px 24px',
+│   │   │   ├──     fontSize: '1.1rem',
+│   │   │   ├──     fontWeight: 'bold',
+│   │   │   ├──     color: '#fff',
+│   │   │   ├──     backgroundColor: baseColor, 
+│   │   │   ├──     borderRadius: '6px',
+│   │   │   ├──     textDecoration: 'none',
+│   │   │   ├──     transition: 'background-color 0.3s',
+│   │   │   ├──   };
+│   │   │   ├── 
+│   │   │   ├──   return (
+│   │   │   ├──     <div style={{ textAlign: 'center', marginTop: '2rem', marginBottom: '2rem' }}>
+│   │   │   ├──       <a 
+│   │   │   ├──         href={albumUrl} 
+│   │   │   ├──         target="_blank" 
+│   │   │   ├──         rel="noopener noreferrer"
+│   │   │   ├──         style={baseStyle}
+│   │   │   ├──         // Event handlers now work
+│   │   │   ├──         onMouseOver={(e) => e.currentTarget.style.backgroundColor = hoverColor}
+│   │   │   ├──         onMouseOut={(e) => e.currentTarget.style.backgroundColor = baseColor}
+│   │   │   ├──       >
+│   │   │   ├──         {label}
+│   │   │   ├──       </a>
+│   │   │   ├──     </div>
+│   │   │   ├──   );
+│   │   │   ├── }
+
 │   │   ├── footer.tsx
 │   │   │   ├── import Link from 'next/link';
+│   │   │   ├── import { FaSpotify, FaInstagram, FaFacebook, FaYoutube, FaTiktok } from 'react-icons/fa';
+│   │   │   ├── import { SiLinktree, SiX } from 'react-icons/si';
 │   │   │   ├── 
 │   │   │   ├── export function Footer() {
 │   │   │   ├──   const currentYear = new Date().getFullYear();
@@ -1386,9 +1550,77 @@
 │   │   │   ├──              </p>
 │   │   │   ├──              <div className="mt-4 space-x-4 text-neutral-600 dark:text-neutral-400">
 │   │   │   ├──                 {/* Placeholder for actual social media icons */}
-│   │   │   ├──                 <span className="hover:text-blue-500 transition-colors">Spotify</span>
-│   │   │   ├──                 <span className="hover:text-blue-500 transition-colors">Instagram</span>
-│   │   │   ├──                 <span className="hover:text-blue-500 transition-colors">Facebook</span>
+│   │   │   ├──               {/* Replace the static <span> tags with this code block */}
+│   │   │   ├──                   <div className="flex space-x-4"> {/* Assuming this is the surrounding div from your footer */}
+│   │   │   ├──     
+│   │   │   ├──     {/* Spotify */}
+│   │   │   ├──     <a 
+│   │   │   ├──         href="https://open.spotify.com/artist/1DukxxMpzFcNZx5iIJiSK4" 
+│   │   │   ├──         target="_blank" 
+│   │   │   ├──         rel="noopener noreferrer" 
+│   │   │   ├──         className="text-2xl text-neutral-600 hover:text-blue-500 dark:text-neutral-400 dark:hover:text-blue-500 transition-colors"
+│   │   │   ├──         aria-label="Spotify"
+│   │   │   ├──     >
+│   │   │   ├──         <FaSpotify />
+│   │   │   ├──     </a>
+│   │   │   ├──     
+│   │   │   ├──     {/* YouTube */}
+│   │   │   ├──     <a 
+│   │   │   ├──         href="https://www.youtube.com/@armanayva" 
+│   │   │   ├──         target="_blank" 
+│   │   │   ├──         rel="noopener noreferrer" 
+│   │   │   ├──         className="text-2xl text-neutral-600 hover:text-red-600 dark:text-neutral-400 dark:hover:text-red-600 transition-colors"
+│   │   │   ├──         aria-label="YouTube"
+│   │   │   ├──     >
+│   │   │   ├──         <FaYoutube />
+│   │   │   ├──     </a>
+│   │   │   ├──     
+│   │   │   ├──     {/* Instagram */}
+│   │   │   ├──     <a 
+│   │   │   ├──         href="https://www.instagram.com/armanayva/" 
+│   │   │   ├──         target="_blank" 
+│   │   │   ├──         rel="noopener noreferrer" 
+│   │   │   ├──         className="text-2xl text-neutral-600 hover:text-pink-600 dark:text-neutral-400 dark:hover:text-pink-600 transition-colors"
+│   │   │   ├──         aria-label="Instagram"
+│   │   │   ├──     >
+│   │   │   ├──         <FaInstagram />
+│   │   │   ├──     </a>
+│   │   │   ├──     
+│   │   │   ├──     {/* TikTok */}
+│   │   │   ├──     {/* Note: Corrected the malformed URL based on the TikTok handle you provided */}
+│   │   │   ├──     <a 
+│   │   │   ├──         href="https://www.tiktok.com/@armanayva" 
+│   │   │   ├──         target="_blank" 
+│   │   │   ├──         rel="noopener noreferrer" 
+│   │   │   ├──         className="text-2xl text-neutral-600 hover:text-black dark:text-neutral-400 dark:hover:text-white transition-colors"
+│   │   │   ├──         aria-label="TikTok"
+│   │   │   ├──     >
+│   │   │   ├──         <FaTiktok />
+│   │   │   ├──     </a>
+│   │   │   ├── 
+│   │   │   ├──     {/* X (formerly Twitter) */}
+│   │   │   ├──     <a 
+│   │   │   ├──         href="https://x.com/ArmanAyva" 
+│   │   │   ├──         target="_blank" 
+│   │   │   ├──         rel="noopener noreferrer" 
+│   │   │   ├──         className="text-2xl text-neutral-600 hover:text-black dark:text-neutral-400 dark:hover:text-white transition-colors"
+│   │   │   ├──         aria-label="X (Twitter)"
+│   │   │   ├──     >
+│   │   │   ├──         <SiX />
+│   │   │   ├──     </a>
+│   │   │   ├──     
+│   │   │   ├──     {/* Linktree */}
+│   │   │   ├──     <a 
+│   │   │   ├──         href="https://linktr.ee/armanayva" 
+│   │   │   ├──         target="_blank" 
+│   │   │   ├──         rel="noopener noreferrer" 
+│   │   │   ├──         className="text-2xl text-neutral-600 hover:text-green-500 dark:text-neutral-400 dark:hover:text-green-500 transition-colors"
+│   │   │   ├──         aria-label="Linktree"
+│   │   │   ├──     >
+│   │   │   ├──         <SiLinktree />
+│   │   │   ├──     </a>
+│   │   │   ├── 
+│   │   │   ├── </div>
 │   │   │   ├──              </div>
 │   │   │   ├──           </div>
 │   │   │   ├──         </div>
@@ -1398,6 +1630,46 @@
 │   │   │   ├──         </div>
 │   │   │   ├──       </div>
 │   │   │   ├──     </footer>
+│   │   │   ├──   );
+│   │   │   ├── }
+
+│   │   ├── BandcampCTA.tsx
+│   │   │   ├── "use client"; // ⬅️ THIS IS CRUCIAL
+│   │   │   ├── 
+│   │   │   ├── import React from 'react';
+│   │   │   ├── 
+│   │   │   ├── // Use Tailwind classes here for a clean separation from MDX
+│   │   │   ├── export default function BandcampCTA({ albumUrl }: { albumUrl: string }) {
+│   │   │   ├──   // Define the base and hover styles using standard React state/hooks if necessary, 
+│   │   │   ├──   // but for simple hover effects, Tailwind classes are much easier.
+│   │   │   ├──   
+│   │   │   ├──   // Using inline styles for direct color manipulation like your original request:
+│   │   │   ├──   const baseStyle: React.CSSProperties = {
+│   │   │   ├──     display: 'inline-block',
+│   │   │   ├──     padding: '12px 24px',
+│   │   │   ├──     fontSize: '1.1rem',
+│   │   │   ├──     fontWeight: 'bold',
+│   │   │   ├──     color: '#fff',
+│   │   │   ├──     backgroundColor: '#262626', // Base color
+│   │   │   ├──     borderRadius: '6px',
+│   │   │   ├──     textDecoration: 'none',
+│   │   │   ├──     transition: 'background-color 0.3s',
+│   │   │   ├──   };
+│   │   │   ├── 
+│   │   │   ├──   return (
+│   │   │   ├──     <div style={{ textAlign: 'center', marginTop: '2rem', marginBottom: '2rem' }}>
+│   │   │   ├──       <a 
+│   │   │   ├──         href={albumUrl} 
+│   │   │   ├──         target="_blank" 
+│   │   │   ├──         rel="noopener noreferrer"
+│   │   │   ├──         style={baseStyle}
+│   │   │   ├──         // The event handlers now work because this component is marked "use client"
+│   │   │   ├──         onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#1a1a1a'}
+│   │   │   ├──         onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#262626'}
+│   │   │   ├──       >
+│   │   │   ├──         🎧 Listen & Buy on Bandcamp
+│   │   │   ├──       </a>
+│   │   │   ├──     </div>
 │   │   │   ├──   );
 │   │   │   ├── }
 

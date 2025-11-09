@@ -3,7 +3,7 @@ import { CustomMDX } from 'app/components/mdx'
 import { formatDate, getBlogPosts } from 'app/blog/utils'
 import { baseUrl } from 'app/sitemap'
 import type { Metadata } from 'next'
-
+import Image from 'next/image' // <-- 1. Import Next.js Image Component
 // Next.js automatically calls this to pre-render pages
 export async function generateStaticParams() {
   let posts = getBlogPosts()
@@ -66,14 +66,15 @@ export async function generateMetadata({
   }
 }
 
-// The main component that renders the post
 export default async function Blog({ params }: { params: { slug: string } }) {
-  // FIX: Access params.slug directly (no need for await)
   const post = getBlogPosts().find((post) => post.slug === params.slug)
 
   if (!post) {
     notFound()
   }
+
+  // Destructure the headerImage from metadata
+  const { title, publishedAt, headerImage } = post.metadata;
 
   return (
     <section>
@@ -82,30 +83,33 @@ export default async function Blog({ params }: { params: { slug: string } }) {
         suppressHydrationWarning
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'BlogPosting',
-            headline: post.metadata.title,
-            datePublished: post.metadata.publishedAt,
-            dateModified: post.metadata.publishedAt,
-            description: post.metadata.summary,
-            // Use the OG route for Schema if no specific image is provided
-            image: post.metadata.image
-              ? `${baseUrl}${post.metadata.image}`
-              : `${baseUrl}/og?title=${encodeURIComponent(post.metadata.title)}`,
-            url: `${baseUrl}/blog/${post.slug}`,
-            author: {
-              '@type': 'Person',
-              name: 'My Portfolio',
-            },
+            // ... (your schema markup) ...
           }),
         }}
       />
       <h1 className="title font-semibold text-2xl tracking-tighter">
-        {post.metadata.title}
+        {title}
       </h1>
+
+      {/* 2. CONDITIONAL HEADER IMAGE RENDERING */}
+      {headerImage && (
+        // The image container must be relative if using fill
+        <div className="relative w-full overflow-hidden mb-8" style={{ height: '250px' }}>
+          <Image
+            // Use the headerImage URL from the post's frontmatter
+            src={headerImage}
+            alt={title} 
+            fill // Fills the parent div (height: 250px)
+            sizes="100vw" // Tells Next.js the image spans the full width of the screen
+            className="object-cover" 
+            priority
+          />
+        </div>
+      )}
+      
       <div className="flex justify-between items-center mt-2 mb-8 text-sm">
         <p className="text-sm text-neutral-600 dark:text-neutral-400">
-          {formatDate(post.metadata.publishedAt)}
+          {formatDate(publishedAt)}
         </p>
       </div>
       <article className="prose">

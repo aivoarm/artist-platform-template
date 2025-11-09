@@ -27,7 +27,8 @@ export const metadata: Metadata = {
     // ⬅️ ADD THIS BLOCK 
     images: [
       {
-        url: 'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.50/v1570237691/mjhQ_Gvsp_rS5MypjAfbo0o0cJwN1W0WAsSQJE2hxzEPWaOEtI-X8m301QiyxQotGNzGDdF9_w600-h0_yuyoia.jpg', // Use your desired default image
+       url:'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.50/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center:Jazz%20Now,w_0.5,y_0.18/v1570237649/17160429878_68460aeb25_o-1_udg7bx.jpg',
+        //url: 'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.50/v1570237691/mjhQ_Gvsp_rS5MypjAfbo0o0cJwN1W0WAsSQJE2hxzEPWaOEtI-X8m301QiyxQotGNzGDdF9_w600-h0_yuyoia.jpg', // Use your desired default image
         width: 1200, // Standard OG image width
         height: 630, // Standard OG image height
         alt: 'Arman Ayva Jazz Portfolio',
@@ -63,11 +64,8 @@ export default function RootLayout({
         GeistMono.variable
       )}
     >
-     {/* MODIFIED LINE: 
-        max-w-xl is too narrow. Changed it to max-w-5xl 
-        (1024px) or max-w-6xl (1152px) for wider views. 
-      */}
-      <body className="antialiased max-w-6xl mx-4 mt-8 lg:mx-auto">
+     {/* MODIFIED LINE: Added bg-white and dark:bg-black to reinforce background */}
+      <body className="antialiased max-w-6xl mx-4 mt-8 lg:mx-auto bg-white dark:bg-black">
         <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
           <Navbar />
           {children}

@@ -1,8 +1,26 @@
 import Link from 'next/link';
+import Image from 'next/image';
+
+const HERO_IMAGE_URL = 'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.30/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center:Jazz%20Now,w_0.2,y_0/v1570237614/img_2437-copy-copy_pzebz7.jpg'
 
 export default function AboutPage() {
   return (
     <section className="py-8">
+
+       <div className="hero-container">
+              <Image
+                src={HERO_IMAGE_URL}
+                // The image URL specifies a height of 250 and width of 970.
+                // These should be set here for the Next.js Image component to work correctly.
+                width={970} 
+                height={250} 
+                alt="Arman Ayva - Musical Journey "
+                // 'layout=fill' or styling can be used if you want the image to span the full width
+                className="w-full h-auto object-cover" 
+                priority // Load this image first as it's the hero element
+              />
+            </div>
+
       <h1 className="font-bold text-4xl font-serif mb-6 tracking-tighter">
         Arman Ayva – Montreal Indie Jazz Composer 🎷
       </h1>
