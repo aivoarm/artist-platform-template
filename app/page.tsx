@@ -55,6 +55,27 @@ export default function Page() {
           melodic life.
         </p>
 
+        {/* BANDCAMP EMBED + ALBUM CTA */}
+      <h2 className="dark ">
+        Featured Album: My Funky Jazzification
+      </h2>
+    
+      <div className="flex flex-col items-center mb-10 **text-neutral-900 dark:text-neutral-50**">
+        {/* Bandcamp iFrame - Corrected self-closing tag */}
+        <iframe 
+          style={{ border: 0, width: '350px', height: '470px' }} 
+          src="https://bandcamp.com/EmbeddedPlayer/album=854312660/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/transparent=true/" 
+          seamless
+          title="My Funky Jazzification by Arman Ayva"
+        /> 
+        <p className="text-xs mt-2 text-neutral-600 dark:text-neutral-400">
+          <a href="https://armanayva.bandcamp.com/album/my-funky-jazzification" target="_blank" rel="noopener noreferrer">
+            My Funky Jazzification by Arman Ayva
+          </a>
+        </p>
+      </div>
+      <hr className="my-10 border-neutral-200 dark:border-neutral-800 text-neutral-900 dark:text-neutral-50" />
+
         {/* SPOTIFY EMBED */}
         <h2 className="font-bold text-2xl font-serif mt-12 mb-6 tracking-tighter">
           Funky Jazz Mood Lifter Playlist
@@ -93,25 +114,7 @@ export default function Page() {
 
       <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
       
-      {/* BANDCAMP EMBED + ALBUM CTA */}
-      <h2 className="dark ">
-        Featured Album: My Funky Jazzification
-      </h2>
-    
-      <div className="flex flex-col items-center mb-10 **text-neutral-900 dark:text-neutral-50**">
-        {/* Bandcamp iFrame - Corrected self-closing tag */}
-        <iframe 
-          style={{ border: 0, width: '350px', height: '470px' }} 
-          src="https://bandcamp.com/EmbeddedPlayer/album=854312660/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/transparent=true/" 
-          seamless
-          title="My Funky Jazzification by Arman Ayva"
-        /> 
-        <p className="text-xs mt-2 text-neutral-600 dark:text-neutral-400">
-          <a href="https://armanayva.bandcamp.com/album/my-funky-jazzification" target="_blank" rel="noopener noreferrer">
-            My Funky Jazzification by Arman Ayva
-          </a>
-        </p>
-      </div>
+      
       
       <AlbumCTA /> 
 

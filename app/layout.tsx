@@ -15,7 +15,7 @@ import Script from 'next/script'; // ⬅️ IMPORTED: For TikTok Pixel
 // --- ENVIRONMENT VARIABLES / CONSTANTS ---
 const fullImageUrl = new URL('/og?title=Arman+Ayva+Music', baseUrl).toString();
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || ''
-const YOUR_APP_ID = 'YOUR_FACEBOOK_APP_ID'; // ⬅️ ⭐️ CRITICAL: REPLACE THIS WITH YOUR REAL APP ID
+const YOUR_APP_ID = process.env.YOUR_FACEBOOK_APP_ID; // ⬅️ ⭐️ CRITICAL: REPLACE THIS WITH YOUR REAL APP ID
 const TIKTOK_PIXEL_ID = process.env.NEXT_PUBLIC_TIKTOK_ID || 'YOUR_TIKTOK_PIXEL_ID'; // ⬅️ REPLACE WITH YOUR TIKTOK PIXEL ID
 
 
@@ -65,13 +65,13 @@ export const metadata: Metadata = {
   // ⭐️ CRITICAL FIX: Explicitly set Twitter Card with Absolute URL ⭐️
   twitter: {
     card: 'summary_large_image', 
-    site: '@yourtwitterhandle',   // ⬅️ REPLACE with your Twitter handle
-    creator: '@yourtwitterhandle',// ⬅️ REPLACE with your Twitter handle
+    site: '@armanayva',   // ⬅️ REPLACE with your Twitter handle
+    creator: '@armanayva',// ⬅️ REPLACE with your Twitter handle
     title: 'Arman Ayva | Mood-lifter behind the music',
     description: 'Jazz, funk, folk fan. Composer, artist, and mood-lifter.',
     images: {
         // FIX: Ensure the image URL is ABSOLUTE for X.com crawler
-        url: `${baseUrl}/og?title=Arman+Ayva+Music`, 
+        url: fullImageUrl, 
         alt: 'Arman Ayva Music Portfolio',
     },
   },
