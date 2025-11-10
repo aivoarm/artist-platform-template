@@ -130,13 +130,7 @@ export default function Page() {
         View All Music & Stories →
       </Link>
 
-{/* 1. Primary Heading (Use once!) - Enhanced Title and Subtitle */}
-<header>
-    <h1>Arman Ayva | Montreal Jazz Composer, Funk Pioneer & Fusion Artist</h1>
-    <p className="subtitle">Pioneering the modern fusion of Cinematic Jazz, Funk, and Global Rhythms.</p>
-</header>
 
-{/* --- */}
 
 {/* 2. Secondary Heading for Releases */}
 <section id="releases">
