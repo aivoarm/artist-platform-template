@@ -87,9 +87,9 @@ export default async function Blog({ params }: { params: { slug: string } }) {
           }),
         }}
       />
-      <h1 className="title font-semibold text-2xl tracking-tighter">
-        {title}
-      </h1>
+<h1 className="title font-semibold text-2xl tracking-tighter text-neutral-900 dark:text-neutral-50">
+  {title}
+</h1>        
 
       {/* 2. CONDITIONAL HEADER IMAGE RENDERING */}
       {headerImage && (
@@ -108,10 +108,10 @@ export default async function Blog({ params }: { params: { slug: string } }) {
       )}
       
       <div className="flex justify-between items-center mt-2 mb-8 text-sm">
-        <p className="text-sm text-neutral-600 dark:text-neutral-400">
-          {formatDate(publishedAt)}
-        </p>
-      </div>
+  <p className="text-sm **text-neutral-600 dark:text-neutral-50**">
+    {formatDate(publishedAt)}
+  </p>
+</div>
       <article className="prose">
         <CustomMDX source={post.content} />
       </article>

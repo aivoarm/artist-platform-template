@@ -97,8 +97,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={cx(
-        'text-black dark:bg-black',
-        GeistSans.variable,
+'text-black dark:bg-black **dark:text-white**', // ⬅️ ADD THIS CLASS        GeistSans.variable,
         GeistMono.variable
       )}
       suppressHydrationWarning 

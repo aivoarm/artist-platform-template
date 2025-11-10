@@ -49,9 +49,17 @@ html {
   @apply visible;
 }
 
+/* LINKS: Setting high-contrast link colors for both themes */
 .prose a {
-  @apply underline transition-all decoration-neutral-400 dark:decoration-neutral-600 underline-offset-2 decoration-[0.1em];
+  /* Set base link color for light mode (darker neutral) */
+  @apply underline transition-all text-neutral-800 decoration-neutral-400 underline-offset-2 decoration-[0.1em];
 }
+
+.dark .prose a {
+  /* Set link color to white/light neutral for dark mode */
+  @apply text-neutral-50 decoration-neutral-600;
+}
+
 
 .prose .anchor:after {
   @apply text-neutral-300 dark:text-neutral-700;
@@ -85,37 +93,59 @@ html {
   @apply m-0;
 }
 
+/* --- TEXT COLOR FIXES FOR DARK MODE START HERE --- */
+
+/* 1. Paragraphs (p) */
 .prose p {
-  @apply my-4 text-neutral-800 dark:text-neutral-200;
+  @apply my-4 text-neutral-800; /* Dark text for light mode */
+}
+.dark .prose p {
+  @apply text-neutral-50; /* White text for dark mode */
 }
 
-.prose h1 {
-  @apply text-4xl font-medium tracking-tight mt-6 mb-2;
-}
-
-.prose h2 {
-  @apply text-xl font-medium tracking-tight mt-6 mb-2;
-}
-
-.prose h3 {
-  @apply text-xl font-medium tracking-tight mt-6 mb-2;
-}
-
+/* 2. Headings (h1, h2, h3, h4) - Streamlined to remove redundancy */
+.prose h1,
+.prose h2,
+.prose h3,
 .prose h4 {
-  @apply text-lg font-medium tracking-tight mt-6 mb-2;
+  @apply text-lg font-medium tracking-tight mt-6 mb-2 text-neutral-900; /* Dark text for light mode */
+}
+.dark .prose h1,
+.dark .prose h2,
+.dark .prose h3,
+.dark .prose h4 {
+  @apply text-neutral-50; /* White Text for dark mode */
 }
 
+
+/* 3. Strong Text (Bolding) */
 .prose strong {
-  @apply font-medium;
+  @apply font-medium text-neutral-900; /* Default Dark Text */
+}
+.dark .prose strong {
+  @apply text-neutral-50; /* White Text */
+}
+
+
+/* 4. Lists (ul, ol) - Applies to list content and bullets/numbers */
+.prose ul,
+.prose ol {
+  @apply pl-6 text-neutral-800; /* Default Dark Text */
+}
+.dark .prose ul,
+.dark .prose ol {
+  @apply text-neutral-50; /* White Text */
 }
 
 .prose ul {
-  @apply list-disc pl-6;
+  @apply list-disc;
 }
 
 .prose ol {
-  @apply list-decimal pl-6;
+  @apply list-decimal;
 }
+/* --- TEXT COLOR FIXES FOR DARK MODE END HERE --- */
+
 
 .prose > :first-child {
   /* Override removing top margin, causing layout shift */

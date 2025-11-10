@@ -74,14 +74,14 @@ export default function Page() {
         </div>
       </div>
 
-      <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
+      <hr className="my-10 border-neutral-200 dark:border-neutral-800 text-neutral-900 dark:text-neutral-50" />
       
       {/* NEW RELEASES SECTION */}
       <NewReleasesSpotlight />
       
       <Link 
         href="/blog" 
-        className="text-sm font-semibold mt-6 inline-block text-neutral-900 dark:text-neutral-100 hover:text-blue-500 transition-colors"
+        className="text-sm font-semibold mt-6 inline-block text-neutral-900 dark:text-neutral-100 hover:text-blue-500 transition-colors "
       >
         View All Music & Stories →
       </Link>
@@ -94,11 +94,11 @@ export default function Page() {
       <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
       
       {/* BANDCAMP EMBED + ALBUM CTA */}
-      <h2 className="font-bold text-2xl font-serif mb-6 tracking-tighter">
+      <h2 className="dark ">
         Featured Album: My Funky Jazzification
       </h2>
     
-      <div className="flex flex-col items-center mb-10">
+      <div className="flex flex-col items-center mb-10 **text-neutral-900 dark:text-neutral-50**">
         {/* Bandcamp iFrame - Corrected self-closing tag */}
         <iframe 
           style={{ border: 0, width: '350px', height: '470px' }} 
@@ -118,22 +118,26 @@ export default function Page() {
       <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
       
       {/* ALL OTHER STORIES */}
-      <h2 className="font-bold text-2xl font-serif mb-6 tracking-tighter">
+      <h2 className="font-bold text-2xl font-serif mb-6 tracking-tighter text-neutral-400 ">
         All Other Stories
       </h2>
       <BlogPosts />
       
       <Link 
         href="/blog" 
-        className="text-sm font-semibold mt-6 inline-block text-neutral-900 dark:text-neutral-100 hover:text-blue-500 transition-colors"
+        className="text-sm font-semibold mt-6 inline-block text-neutral-400 dark:text-neutral-50 hover:text-blue-500 transition-colors"
       >
         View All Music & Stories →
       </Link>
 
 
+      <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
 
 {/* 2. Secondary Heading for Releases */}
-<section id="releases">
+<section id="releases"
+        className="text-sm font-semibold mt-6 inline-block text-neutral-400 dark:text-neutral-50 hover:text-neutral-600 transition-colors"
+
+>
     <h2>🎷 Latest Releases & New Music</h2>
     
     {/* Release: Criminal Case N68 - Clearer structure with bolded hook */}
@@ -148,6 +152,7 @@ export default function Page() {
             **Listen Now:** <a href="https://ffm.to/criminal_case_68" target="_blank" rel="noopener noreferrer">Stream Criminal Case N68</a>
         </p>
     </article>
+      <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
 
     {/* Release: Happy Bundle - Structured as a separate article */}
     <article>
@@ -160,31 +165,28 @@ export default function Page() {
             <a href="/happy-bundle-link" className="button">Hear 'Happy Bundle'</a>
         </p>
     </article>
-    
+          <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
+    <article>
+
     {/* ... continue with other individual track/release sections using <article> and <h3> ... */}
-</section>
 
-{/* --- */}
-
-{/* 3. Secondary Heading for Biography - Emphasis on Location and Fusion */}
-<section id="biography">
     <h2>🎵 Biography: The Musical Odyssey of Arman Ayva</h2>
     <p>
         Arman Ayva is more than just a name in the world of music—he’s a **premier Montreal jazz artist** whose melodies weave a tapestry of tradition and innovation... (Integrate the full, keyword-rich biography text here.) 
         <br/>
         He is internationally recognized for **pioneering the Funk and Jazz Fusion genre**, creating soundscapes that are both sophisticated and deeply groovy.
     </p>
-</section>
 
-{/* --- */}
+      <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
 
-{/* 4. Secondary Heading for Licensing - Clearer purpose and stronger CTA */}
-<section id="licensing">
     <h2>🎬 Instrumental Music Licensing for TV, Ads, and Film</h2>
     <p>
         Need the perfect soundtrack? Arman Ayva’s extensive catalog of instrumental music—spanning cinematic jazz, funk, fusion, and lo-fi—is ideal for scoring **TV shows, commercials, and independent films**. Our versatile tracks can capture any mood, target audience, or message you require... (Integrate the full licensing/sync text here.)
     </p>
-    
+        </article>
+
+
+    <article>
     {/* HIGH-VALUE CALL TO ACTION (CTA) - Styled as a prominent <aside> box */}
     <aside className="cta-licensing">
         <h3>Fast-Track Synchronization Licensing</h3>
@@ -195,8 +197,11 @@ export default function Page() {
             **Start Licensing Today:** <a href="mailto:aayvazy@gmail.com">aayvazy@gmail.com</a>
         </p>
     </aside>
+        </article>
+
+      </section>
 </section>
-      
-    </section>
+
+  
   )
 }

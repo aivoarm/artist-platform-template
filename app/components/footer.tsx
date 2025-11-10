@@ -6,13 +6,13 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="mt-24 border-t border-neutral-200 dark:border-neutral-800 pt-10 pb-16 bg-neutral-50 dark:bg-neutral-950">
+    <footer className="mt-24 border-t border-neutral-200 dark:border-neutral-800 pt-10 pb-16 bg-neutral-50 dark:bg-neutral-700">
       <div className="mx-auto max-w-2xl px-4">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           
           {/* Section 1: Music */}
           <div>
-            <h3 className="text-md font-bold mb-3 tracking-tight text-neutral-900 dark:text-neutral-100">Music</h3>
+            <h3 className="text-md font-bold mb-3 tracking-tight text-neutral-700 dark:text-neutral-100">Music</h3>
             <ul className="space-y-2 text-sm">
               <li><Link href="/blog" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">All Releases</Link></li>
               <li><Link href="/videos" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">Videos (YouTube)</Link></li>
@@ -23,7 +23,7 @@ export function Footer() {
 
           {/* Section 2: Info & Legal */}
           <div>
-            <h3 className="text-md font-bold mb-3 tracking-tight text-neutral-900 dark:text-neutral-100">Info</h3>
+            <h3 className="text-md font-bold mb-3 tracking-tight text-neutral-700 dark:text-neutral-100">Info</h3>
             <ul className="space-y-2 text-sm">
               <li><Link href="/about" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">About Arman</Link></li>
               <li><Link href="/contact" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">Contact</Link></li>
@@ -34,7 +34,7 @@ export function Footer() {
           
           {/* Section 3 & 4: Connect */}
           <div className="col-span-2">
-            <h3 className="text-md font-bold mb-3 tracking-tight text-neutral-900 dark:text-neutral-100">Connect</h3>
+            <h3 className="text-md font-bold mb-3 tracking-tight text-neutral-700 dark:text-neutral-100">Connect</h3>
              <p className="text-sm text-neutral-600 dark:text-neutral-400">
                 Follow Arman Ayva for the latest news on jazz-funk releases, collaborations, and cinematic soundscapes.
              </p>
