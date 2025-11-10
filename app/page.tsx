@@ -130,55 +130,78 @@ export default function Page() {
         View All Music & Stories →
       </Link>
 
+{/* 1. Primary Heading (Use once!) - Enhanced Title and Subtitle */}
+<header>
+    <h1>Arman Ayva | Montreal Jazz Composer, Funk Pioneer & Fusion Artist</h1>
+    <p className="subtitle">Pioneering the modern fusion of Cinematic Jazz, Funk, and Global Rhythms.</p>
+</header>
 
-      {/* 1. Primary Heading (Use once!) */}
-      <h1>Arman Ayva | Montreal Jazz Composer, Funk Pioneer & Fusion Artist</h1>
+{/* --- */}
 
-      {/* 2. Secondary Heading for Releases */}
-      <section>
-        <h2>Recent Releases & New Music by Arman Ayva</h2>
-        
-        {/* Release: Criminal Case N68 */}
-        <h3>Criminal Case N68 Album Details</h3>
+{/* 2. Secondary Heading for Releases */}
+<section id="releases">
+    <h2>🎷 Latest Releases & New Music</h2>
+    
+    {/* Release: Criminal Case N68 - Clearer structure with bolded hook */}
+    <article>
+        <h3>**Criminal Case N68** | Cinematic Jazz Album (2023)</h3>
         <p>
-          "Criminal Case n68” is a musical crime story, it is an album containing four songs: Rolling Buzz... (Keep the original text here) ...afterfact investigation happens. **Listen to the best example of a modern, cinematic jazz album released in 2023.** <a href="https://ffm.to/criminal_case_68">https://ffm.to/criminal_case_68</a>
+            "Criminal Case N68” is a musical crime story, an album containing four tracks: Rolling Buzz... (Keep the original text here) ...afterfact investigation happens. 
+            <br />
+            **Hook:** Immerse yourself in the **best example of a modern, cinematic jazz album released in 2023.**
         </p>
-
-        {/* Release: Happy Bundle */}
-        <h3>Happy Bundle Album | Soulful Jazz Music</h3>
         <p>
-          Explore the soulful world of jazz with Arman Ayva’s latest musical masterpiece, ‘Happy Bundle.’... (Keep original text) ...leave you with a musical experience like no other.
+            **Listen Now:** <a href="https://ffm.to/criminal_case_68" target="_blank" rel="noopener noreferrer">Stream Criminal Case N68</a>
         </p>
-        
-        {/* ... continue with other individual track/release sections using <h3> ... */}
-      </section>
+    </article>
 
-      {/* 3. Secondary Heading for Biography */}
-      <section>
-        <h2>Biography: The Musical Odyssey of Arman Ayva</h2>
+    {/* Release: Happy Bundle - Structured as a separate article */}
+    <article>
+        <h3>**Happy Bundle** Album | Soulful Jazz & Funk Fusion</h3>
         <p>
-          Arman Ayva is more than just a name in the world of music—he’s a Montreal jazz artist whose melodies weave a tapestry of tradition and innovation... (Integrate the full, keyword-rich biography text here.) **He is a premier Montreal jazz artist pioneering the fusion genre.**
+            Explore the soulful world of jazz with Arman Ayva’s latest musical masterpiece, ‘Happy Bundle.’... (Keep original text) ...leave you with a musical experience like no other.
         </p>
-      </section>
+        <p>
+            {/* CTA for Happy Bundle */}
+            <a href="/happy-bundle-link" className="button">Hear 'Happy Bundle'</a>
+        </p>
+    </article>
+    
+    {/* ... continue with other individual track/release sections using <article> and <h3> ... */}
+</section>
 
-      {/* 4. Secondary Heading for Licensing */}
-      <section>
-        <h2>Instrumental Music Licensing for TV, Ads, and Film</h2>
+{/* --- */}
+
+{/* 3. Secondary Heading for Biography - Emphasis on Location and Fusion */}
+<section id="biography">
+    <h2>🎵 Biography: The Musical Odyssey of Arman Ayva</h2>
+    <p>
+        Arman Ayva is more than just a name in the world of music—he’s a **premier Montreal jazz artist** whose melodies weave a tapestry of tradition and innovation... (Integrate the full, keyword-rich biography text here.) 
+        <br/>
+        He is internationally recognized for **pioneering the Funk and Jazz Fusion genre**, creating soundscapes that are both sophisticated and deeply groovy.
+    </p>
+</section>
+
+{/* --- */}
+
+{/* 4. Secondary Heading for Licensing - Clearer purpose and stronger CTA */}
+<section id="licensing">
+    <h2>🎬 Instrumental Music Licensing for TV, Ads, and Film</h2>
+    <p>
+        Need the perfect soundtrack? Arman Ayva’s extensive catalog of instrumental music—spanning cinematic jazz, funk, fusion, and lo-fi—is ideal for scoring **TV shows, commercials, and independent films**. Our versatile tracks can capture any mood, target audience, or message you require... (Integrate the full licensing/sync text here.)
+    </p>
+    
+    {/* HIGH-VALUE CALL TO ACTION (CTA) - Styled as a prominent <aside> box */}
+    <aside className="cta-licensing">
+        <h3>Fast-Track Synchronization Licensing</h3>
         <p>
-          Instrumental music for TV and ads varies widely depending on the mood, target audience, and message of the advertisement... (Integrate the full licensing/sync text here.)
+            All tracks by Arman Ayva are pre-cleared and available for **synchronization licensing**. We guarantee a **fast, straightforward rights clearance** process for your next project.
         </p>
-        
-        {/* HIGH-VALUE CALL TO ACTION (CTA) */}
-        <aside>
-          <h3>Fast-Track Music Licensing</h3>
-          <p>
-            All tracks by Arman Ayva are available for **synchronization licensing** for film, television, and commercial advertising. We offer fast, straightforward rights clearance.
-          </p>
-          <p>
-            **Contact:** aayvazy@gmail.com
-          </p>
-        </aside>
-      </section>
+        <p>
+            **Start Licensing Today:** <a href="mailto:aayvazy@gmail.com">aayvazy@gmail.com</a>
+        </p>
+    </aside>
+</section>
       
     </section>
   )

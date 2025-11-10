@@ -46,8 +46,13 @@ blog/
 │   │   |         destination: '/blog',
 │   │   |         permanent: true, // 301 Permanent Redirect
 │   │   |       },
+│   │   |       {
+│   │   |   source: '/f/:slug', 
+│   │   |   destination: '/blog/:slug', 
+│   │   |   permanent: true, 
+│   │   | }
 │   │   | 
-│   │   | 
+│   │   | ,
 │   │   |       // EXISTING: Redirects all content from /project/* to /blog/*
 │   │   |       {
 │   │   |         source: '/project/:slug',
@@ -578,7 +583,7 @@ app/
 │   │   | --- FILE CONTENT START (sitemap.ts) ---
 │   │   | import { getBlogPosts } from 'app/blog/utils'
 │   │   | 
-│   │   | export const baseUrl = 'https://portfolio-blog-starter.vercel.app'
+│   │   | export const baseUrl = 'https://www.armanayva.com'
 │   │   | 
 │   │   | export default async function sitemap() {
 │   │   |   let blogs = getBlogPosts().map((post) => ({

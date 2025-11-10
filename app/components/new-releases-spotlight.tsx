@@ -10,7 +10,7 @@ export function NewReleasesSpotlight() {
       </h2>
 
       {/* 1. SINGLE SPOTLIGHT: Take Five, Get One */}
-      <div className="border border-neutral-200 dark:border-neutral-800 p-6 rounded-xl mb-8 bg-neutral-50 dark:bg-neutral-900 shadow-xl">
+      <div className="border border-neutral-200 dark:border-neutral-800 p-6 rounded-xl mb-8 bg-neutral-50 :bg-neutral-900 shadow-xl">
         <div className="flex items-center mb-4">
           <span className="text-4xl mr-3">🎵</span>
           <h3 className="font-bold text-2xl tracking-tight">
@@ -38,8 +38,8 @@ export function NewReleasesSpotlight() {
         
         {/* The Pizzicata Blues */}
         <div className="p-4 border border-neutral-200 dark:border-neutral-800 rounded-lg">
-          <h4 className="font-bold text-lg mb-2">The Pizzicata Blues (6 Tracks)</h4>
-          <p className="text-sm text-neutral-700 dark:text-neutral-300">
+          <h4 className="font-bold text-lg mb-2 ">The Pizzicata Blues (6 Tracks)</h4>
+          <p className="text-sm text-neutral-700 :text-neutral-300">
             A conversational album reflecting on the life of an indie artist, moving through
             playful funk (Pour In) and moody, soulful jazz (Je m'appelle Blues).
           </p>
@@ -54,7 +54,7 @@ export function NewReleasesSpotlight() {
         {/* Montreal Heist: Criminal Case #68 */}
         <div className="p-4 border border-neutral-200 dark:border-neutral-800 rounded-lg">
           <h4 className="font-bold text-lg mb-2">Montreal Heist: Criminal Case #68</h4>
-          <p className="text-sm text-neutral-700 dark:text-neutral-300">
+          <p className="text-sm text-neutral-700 :text-neutral-300">
             A musical crime story in four songs: *Rolling Buzz, Underground, Morning,* and *Criminal Case 68*. A narrative-driven instrumental experience.
           </p>
           <Link 
