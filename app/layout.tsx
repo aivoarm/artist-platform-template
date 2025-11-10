@@ -97,10 +97,12 @@ export default function RootLayout({
     <html
       lang="en"
       className={cx(
-'text-black dark:bg-black **dark:text-white**', // ⬅️ ADD THIS CLASS        GeistSans.variable,
+        // 🔑 THE FIX: Added the 'dark' class here to make it the default theme
+        'dark text-black dark:bg-black dark:text-white', 
+        GeistSans.variable,
         GeistMono.variable
       )}
-      suppressHydrationWarning 
+      suppressHydrationWarning
     >
       <head>
         {/* ⭐️ FIX: Add the Facebook App ID tag directly to the head */}
