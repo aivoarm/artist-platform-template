@@ -37,14 +37,7 @@ const nextConfig = {
         source: '/project/:slug',
         destination: '/blog/:slug',
         permanent: true, // 301 Permanent Redirect
-      },
-      
-      // EXISTING: Handles the specific old URL structure from /f/
-      {
-        source: '/f/introduction-to-my-jazz-a-seamless-transition-from-classical-to-groovy-musi',
-        destination: '/blog/introduction-to-my-jazz-a-seamless-transition-from-classical-to-groovy-musi',
-        permanent: true, 
-      },
+      }
     ];
   },
 };
