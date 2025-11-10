@@ -87,7 +87,7 @@ export default async function Blog({ params }: { params: { slug: string } }) {
           }),
         }}
       />
-<h1 className="title font-semibold text-2xl tracking-tighter text-neutral-900 dark:text-neutral-50">
+<h1 className="title font-semibold text-2xl tracking-tighter text-neutral-600 dark:text-neutral-50">
   {title}
 </h1>        
 
