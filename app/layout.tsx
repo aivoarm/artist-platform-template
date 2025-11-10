@@ -107,7 +107,7 @@ export default function RootLayout({
         {/* ⭐️ FIX: Add the Facebook App ID tag directly to the head */}
         <meta property="fb:app_id" content={YOUR_APP_ID} />
       </head>
-      <body className="antialiased max-w-6xl mx-4 mt-8 lg:mx-auto bg-white dark:bg-black">
+      <body className="antialiased max-w-6xl mx-4 mt-8 lg:mx-auto dark:bg-black">
         
         <Providers> 
           <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
