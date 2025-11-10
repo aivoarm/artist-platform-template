@@ -25,8 +25,13 @@ const nextConfig = {
         destination: '/blog',
         permanent: true, // 301 Permanent Redirect
       },
+      {
+  source: '/f/:slug', 
+  destination: '/blog/:slug', 
+  permanent: true, 
+}
 
-
+,
       // EXISTING: Redirects all content from /project/* to /blog/*
       {
         source: '/project/:slug',
