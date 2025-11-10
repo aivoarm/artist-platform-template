@@ -13,9 +13,11 @@ import { GoogleAnalytics } from '@next/third-parties/google'
 import Script from 'next/script'; // ⬅️ IMPORTED: For TikTok Pixel
 
 // --- ENVIRONMENT VARIABLES / CONSTANTS ---
+const fullImageUrl = new URL('/og?title=Arman+Ayva+Music', baseUrl).toString();
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || ''
 const YOUR_APP_ID = 'YOUR_FACEBOOK_APP_ID'; // ⬅️ ⭐️ CRITICAL: REPLACE THIS WITH YOUR REAL APP ID
 const TIKTOK_PIXEL_ID = process.env.NEXT_PUBLIC_TIKTOK_ID || 'YOUR_TIKTOK_PIXEL_ID'; // ⬅️ REPLACE WITH YOUR TIKTOK PIXEL ID
+
 
 // --- METADATA EXPORT ---
 export const metadata: Metadata = {
@@ -53,7 +55,7 @@ export const metadata: Metadata = {
     images: [
       {
         // Use the dynamic OG image route
-        url: '/og?title=Arman+Ayva+Music',
+        url: fullImageUrl,
         width: 1200, 
         height: 630, 
         alt: 'Arman Ayva Jazz Portfolio',

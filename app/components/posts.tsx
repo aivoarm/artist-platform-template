@@ -23,7 +23,7 @@ export function BlogPosts() {
           >
             <div className="w-full flex flex-col md:flex-row space-x-0 md:space-x-2 text-neutral-400" >
               {/* FIX 1: Changed dark:text-neutral-400 to dark:text-neutral-50 for white date text */}
-              <p className="text-neutral-600 dark:text-neutral-50 w-[100px] tabular-nums">
+              <p className="text-neutral-600 dark:text-neutral-50 w-[150px] tabular-nums">
                 {formatDate(post.metadata.publishedAt, false)}
               </p>
               {/* FIX 2: Changed dark:text-neutral-100 to dark:text-neutral-50 for white title text */}
