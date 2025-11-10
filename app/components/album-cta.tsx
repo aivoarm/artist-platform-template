@@ -3,7 +3,7 @@ import Link from 'next/link';
 export function AlbumCTA() {
   return (
     // Equivalent to style="background-color:#111111; color:#ffffff; text-align:center; padding:60px 20px;"
-    <section className="bg-neutral-950 text-white text-center py-16 px-4 sm:px-6 lg:px-8">
+    <section className="s text-white text-center py-16 px-4 sm:px-6 lg:px-8">
       
       {/* Equivalent to h2 style="font-size:2rem; margin-bottom:20px;" */}
       <h2 className="text-3xl sm:text-4xl font-bold mb-5 tracking-tight">

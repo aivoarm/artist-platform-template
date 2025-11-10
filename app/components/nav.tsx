@@ -1,13 +1,13 @@
 'use client';
 
-import { SmartLink } from './SmartLink'; // ⬅️ NEW: Import SmartLink
+import { SmartLink } from './SmartLink';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
-import { FaBars, FaTimes } from 'react-icons/fa';
+import { useState } from 'react'; // ⬅️ NEW: Import useState
+import { FaBars, FaTimes } from 'react-icons/fa'; // ⬅️ NEW: Icons for hamburger
 import { ThemeToggle } from './ThemeToggle'; 
 
-// NOTE: We don't need 'Link' anymore, as SmartLink handles it.
-// NOTE: We still need 'type' to determine the active state.
+// Define the navigation items based on your site structure
 const navItems = {
   '/': {
     name: 'Home',
@@ -55,7 +55,6 @@ export function Navbar() {
   // Common function to render links for both mobile and desktop
   const renderLinks = (isMobile: boolean) => {
     return Object.entries(navItems).map(([path, { name, type }]) => {
-      // isActive check remains the same
       const isActive = type !== 'external' && path === pathname; 
       
       // Classes adjusted for mobile (w-full block) vs. desktop (inline-block)
@@ -69,28 +68,22 @@ export function Navbar() {
         ${isMobile ? 'block w-full' : 'inline-block'}
       `;
 
-      // Define the single click handler
-      // This handler is passed to SmartLink, which applies it to the 
-      // underlying <a> or Link component.
-      const handleClick = () => {
-          // Only close the menu on mobile links
-          if (isMobile) {
-              setIsOpen(false);
-          }
-          // The SmartLink handles the actual navigation.
-      };
+      const Component = type === 'external' ? 'a' : Link;
+      const props = type === 'external' 
+        ? { target: '_blank', rel: 'noopener noreferrer' } 
+        : {};
 
-
-      // --- Use the SmartLink Component ---
       return (
-        <SmartLink
+        <Component
           key={path}
           href={path}
           className={baseClasses}
-          onClick={handleClick} // Pass the single click handler
+          // Close menu on mobile link click
+          onClick={() => isMobile && setIsOpen(false)} 
+          {...props}
         >
           {name}
-        </SmartLink>
+        </Component>
       );
     });
   };
