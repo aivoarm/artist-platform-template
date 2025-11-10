@@ -56,10 +56,12 @@ export default function Page() {
         </p>
 
         {/* BANDCAMP EMBED + ALBUM CTA */}
-      <h2 className="dark ">
+        <h2 className="font-bold text-2xl font-serif mt-12 mb-6 tracking-tighter">
         Featured Album: My Funky Jazzification
       </h2>
     
+          <AlbumCTA /> 
+
       <div className="flex flex-col items-center mb-10 **text-neutral-900 dark:text-neutral-50**">
         {/* Bandcamp iFrame - Corrected self-closing tag */}
         <iframe 
@@ -80,6 +82,22 @@ export default function Page() {
         <h2 className="font-bold text-2xl font-serif mt-12 mb-6 tracking-tighter">
           Funky Jazz Mood Lifter Playlist
         </h2>
+        <p>
+          Now you can submit your jazz composition to be added to the "Funky Jazz Mood Lifter" Playlist on Spotify!
+
+This is a high-energy, curated playlist featuring funky, fresh jazz vibes from ~130 tracks by over 100 artists. Curated by Arman Ayva, the selection includes upbeat grooves like Tukka Yoot’s Riddim and Herbie Hancock's Cantaloupe Island. It’s bass-heavy, instrumental, and mood-lifting, typically running at 122 BPM.
+
+It's the perfect backdrop for urban nights, workouts, chill café environments, or focused concentration at work.
+<br></br>
+
+ <Link 
+        href="/blog/Funky-Jazz-Mood-Lifter" 
+        className="text-sm font-semibold mt-6 inline-block text-neutral-900 dark:text-neutral-100 hover:text-blue-500 transition-colors "
+      >
+        Funky-Jazz-Mood-Lifter →
+      </Link>
+        
+        </p>
         
         <div className="rounded-xl overflow-hidden shadow-2xl">
           <iframe 
@@ -116,7 +134,6 @@ export default function Page() {
       
       
       
-      <AlbumCTA /> 
 
       <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
       
