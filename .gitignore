@@ -37,4 +37,4 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-code_structure.txt
+/code_structure.txt
