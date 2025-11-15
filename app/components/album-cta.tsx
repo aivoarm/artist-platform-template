@@ -8,7 +8,7 @@ export function AlbumCTA() {
 
       {/* Equivalent to h2 style="font-size:2rem; margin-bottom:20px;" */}
       <h2 className="text-3xl sm:text-4xl font-bold mb-5 tracking-tight">
-        Get the Album – My Funky Jazzification 🎷
+        Listet to new release – Cowboy by Arman Ayva 🎷
       </h2>
       
       {/* Equivalent to p style="font-size:1.1rem; margin-bottom:30px; max-width:600px;" */}

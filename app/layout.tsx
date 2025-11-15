@@ -11,7 +11,7 @@ import { baseUrl } from './sitemap'
 import { Providers } from './Providers'; 
 import { GoogleAnalytics } from '@next/third-parties/google'
 import Script from 'next/script'; // ⬅️ IMPORTED: For TikTok Pixel
-
+import { DelayedSubscribePopup } from './components/DelayedSubscribePopup'; // Adjust import path
 // --- ENVIRONMENT VARIABLES / CONSTANTS ---
 const fullImageUrl = new URL('/og?title=Arman+Ayva+Music', baseUrl).toString();
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || ''
@@ -145,6 +145,7 @@ export default function RootLayout({
             />
           </>
         )}
+        <DelayedSubscribePopup />
       </body>
     </html>
   );

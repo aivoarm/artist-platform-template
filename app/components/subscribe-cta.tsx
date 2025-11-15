@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 export function SubscribeCTA() {
   return (
+    
     // Equivalent to style="background-color:#1a1a1a; color:#ffffff; text-align:center; padding:60px 20px;"
     <section className="bg-neutral-900 text-white text-center py-16 px-4 sm:px-6 lg:px-8">
       
