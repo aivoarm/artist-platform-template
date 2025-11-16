@@ -151,7 +151,7 @@ export default function RootLayout({
         )}
         <DelayedSubscribePopup />
 
-        <GoogleTagManager gtmId="{GTM_ID}" />
+        <GoogleTagManager gtmId='GTM_ID' />
         
       </body>
     </html>
