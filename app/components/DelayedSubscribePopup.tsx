@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { sendGTMEvent } from '@next/third-parties/google';
 
 // Your original SubscribeCTA content, slightly modified to be the *content*
 // of the popup rather than the popup itself.
@@ -24,7 +25,13 @@ function SubscribeCTAContent() {
         target="_blank"
         rel="noopener noreferrer"
         className="inline-block bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors duration-300 shadow-xl"
+      
+        onClick={() => {
+        sendGTMEvent({ event: 'conversion_click', action: 'subscribe_cta' })
+         }}
       >
+
+        
         Subscribe Now
       </Link>
       
