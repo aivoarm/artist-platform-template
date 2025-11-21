@@ -51,7 +51,7 @@ export default function Logo() {
   return (
     <img
       src={CLOUDINARY_LOGO_URL} // Use the absolute URL from Cloudinary
-      alt="Animated Company Logo"
+      alt="Arman Ayva Company Logo"
       width={50} 
       height={50} 
       style={{
