@@ -52,7 +52,7 @@ export default function Logo() {
     <img
       src={CLOUDINARY_LOGO_URL} // Use the absolute URL here
       alt="Animated Company Logo"
-      width={100}
+      width={30}
       height={50}
       // Use Tailwind for styling instead of height/width props if possible
       className="w-[100px] h-auto" 
