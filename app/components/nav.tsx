@@ -47,15 +47,15 @@ const navItems = {
 // Logo.tsx - TEMPORARY SIMPLE HTML TEST
 const CLOUDINARY_LOGO_URL = "https://res.cloudinary.com/dpmkshcky/image/upload/v1763746293/logo_dxzmtf.gif";
 
+//const CLOUDINARY_LOGO_URL ="https://res.cloudinary.com/dpmkshcky/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1763746293/logo_dxzmtf.gif"
 export default function Logo() {
   return (
     <img
       src={CLOUDINARY_LOGO_URL} // Use the absolute URL here
       alt="Animated Company Logo"
-      width={30}
-      height={50}
-      // Use Tailwind for styling instead of height/width props if possible
-      className="w-[30px] h-auto" 
+      width={50} 
+      height={50} // IMPORTANT: Set equal width and height for a perfect circle
+      className="w-[70px] h-[70px] object-cover rounded-full border-2 border-black shadow-lg"
     />
   );
 }
