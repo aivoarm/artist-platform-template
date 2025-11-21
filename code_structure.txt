@@ -58,14 +58,7 @@ blog/
 │   │   |         source: '/project/:slug',
 │   │   |         destination: '/blog/:slug',
 │   │   |         permanent: true, // 301 Permanent Redirect
-│   │   |       },
-│   │   |       
-│   │   |       // EXISTING: Handles the specific old URL structure from /f/
-│   │   |       {
-│   │   |         source: '/f/introduction-to-my-jazz-a-seamless-transition-from-classical-to-groovy-musi',
-│   │   |         destination: '/blog/introduction-to-my-jazz-a-seamless-transition-from-classical-to-groovy-musi',
-│   │   |         permanent: true, 
-│   │   |       },
+│   │   |       }
 │   │   |     ];
 │   │   |   },
 │   │   | };
@@ -390,6 +383,7 @@ app/
 │   │   | --- FILE CONTENT END ---
 
 │   ├── favicon.ico
+│   ├── logo.gif
 │   ├── ClientContentWrapper.tsx
 │   │   | --- FILE CONTENT START (ClientContentWrapper.tsx) ---
 │   │   | 'use client';
@@ -475,9 +469,17 @@ app/
 │   │   |   @apply visible;
 │   │   | }
 │   │   | 
+│   │   | /* LINKS: Setting high-contrast link colors for both themes */
 │   │   | .prose a {
-│   │   |   @apply underline transition-all decoration-neutral-400 dark:decoration-neutral-600 underline-offset-2 decoration-[0.1em];
+│   │   |   /* Set base link color for light mode (darker neutral) */
+│   │   |   @apply underline transition-all text-neutral-800 decoration-neutral-400 underline-offset-2 decoration-[0.1em];
 │   │   | }
+│   │   | 
+│   │   | .dark .prose a {
+│   │   |   /* Set link color to white/light neutral for dark mode */
+│   │   |   @apply text-neutral-50 decoration-neutral-600;
+│   │   | }
+│   │   | 
 │   │   | 
 │   │   | .prose .anchor:after {
 │   │   |   @apply text-neutral-300 dark:text-neutral-700;
@@ -511,37 +513,59 @@ app/
 │   │   |   @apply m-0;
 │   │   | }
 │   │   | 
+│   │   | /* --- TEXT COLOR FIXES FOR DARK MODE START HERE --- */
+│   │   | 
+│   │   | /* 1. Paragraphs (p) */
 │   │   | .prose p {
-│   │   |   @apply my-4 text-neutral-800 dark:text-neutral-200;
+│   │   |   @apply my-4 text-neutral-800; /* Dark text for light mode */
+│   │   | }
+│   │   | .dark .prose p {
+│   │   |   @apply text-neutral-50; /* White text for dark mode */
 │   │   | }
 │   │   | 
-│   │   | .prose h1 {
-│   │   |   @apply text-4xl font-medium tracking-tight mt-6 mb-2;
-│   │   | }
-│   │   | 
-│   │   | .prose h2 {
-│   │   |   @apply text-xl font-medium tracking-tight mt-6 mb-2;
-│   │   | }
-│   │   | 
-│   │   | .prose h3 {
-│   │   |   @apply text-xl font-medium tracking-tight mt-6 mb-2;
-│   │   | }
-│   │   | 
+│   │   | /* 2. Headings (h1, h2, h3, h4) - Streamlined to remove redundancy */
+│   │   | .prose h1,
+│   │   | .prose h2,
+│   │   | .prose h3,
 │   │   | .prose h4 {
-│   │   |   @apply text-lg font-medium tracking-tight mt-6 mb-2;
+│   │   |   @apply text-lg font-medium tracking-tight mt-6 mb-2 text-neutral-900; /* Dark text for light mode */
+│   │   | }
+│   │   | .dark .prose h1,
+│   │   | .dark .prose h2,
+│   │   | .dark .prose h3,
+│   │   | .dark .prose h4 {
+│   │   |   @apply text-neutral-50; /* White Text for dark mode */
 │   │   | }
 │   │   | 
+│   │   | 
+│   │   | /* 3. Strong Text (Bolding) */
 │   │   | .prose strong {
-│   │   |   @apply font-medium;
+│   │   |   @apply font-medium text-neutral-900; /* Default Dark Text */
+│   │   | }
+│   │   | .dark .prose strong {
+│   │   |   @apply text-neutral-50; /* White Text */
+│   │   | }
+│   │   | 
+│   │   | 
+│   │   | /* 4. Lists (ul, ol) - Applies to list content and bullets/numbers */
+│   │   | .prose ul,
+│   │   | .prose ol {
+│   │   |   @apply pl-6 text-neutral-800; /* Default Dark Text */
+│   │   | }
+│   │   | .dark .prose ul,
+│   │   | .dark .prose ol {
+│   │   |   @apply text-neutral-50; /* White Text */
 │   │   | }
 │   │   | 
 │   │   | .prose ul {
-│   │   |   @apply list-disc pl-6;
+│   │   |   @apply list-disc;
 │   │   | }
 │   │   | 
 │   │   | .prose ol {
-│   │   |   @apply list-decimal pl-6;
+│   │   |   @apply list-decimal;
 │   │   | }
+│   │   | /* --- TEXT COLOR FIXES FOR DARK MODE END HERE --- */
+│   │   | 
 │   │   | 
 │   │   | .prose > :first-child {
 │   │   |   /* Override removing top margin, causing layout shift */
@@ -576,7 +600,6 @@ app/
 │   │   | .title {
 │   │   |   text-wrap: balance;
 │   │   | }
-│   │   | 
 │   │   | --- FILE CONTENT END ---
 
 │   ├── sitemap.ts
@@ -616,11 +639,17 @@ app/
 │   │   | import { Providers } from './Providers'; 
 │   │   | import { GoogleAnalytics } from '@next/third-parties/google'
 │   │   | import Script from 'next/script'; // ⬅️ IMPORTED: For TikTok Pixel
+│   │   | import { DelayedSubscribePopup } from './components/DelayedSubscribePopup'; // Adjust import path
+│   │   | 
+│   │   | import { GoogleTagManager } from '@next/third-parties/google'
+│   │   | 
 │   │   | 
 │   │   | // --- ENVIRONMENT VARIABLES / CONSTANTS ---
+│   │   | const fullImageUrl = new URL('/og?title=Arman+Ayva+Music', baseUrl).toString();
 │   │   | const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || ''
-│   │   | const YOUR_APP_ID = 'YOUR_FACEBOOK_APP_ID'; // ⬅️ ⭐️ CRITICAL: REPLACE THIS WITH YOUR REAL APP ID
+│   │   | const YOUR_APP_ID = process.env.YOUR_FACEBOOK_APP_ID; // ⬅️ ⭐️ CRITICAL: REPLACE THIS WITH YOUR REAL APP ID
 │   │   | const TIKTOK_PIXEL_ID = process.env.NEXT_PUBLIC_TIKTOK_ID || 'YOUR_TIKTOK_PIXEL_ID'; // ⬅️ REPLACE WITH YOUR TIKTOK PIXEL ID
+│   │   | 
 │   │   | 
 │   │   | // --- METADATA EXPORT ---
 │   │   | export const metadata: Metadata = {
@@ -658,7 +687,7 @@ app/
 │   │   |     images: [
 │   │   |       {
 │   │   |         // Use the dynamic OG image route
-│   │   |         url: '/og?title=Arman+Ayva+Music',
+│   │   |         url: fullImageUrl,
 │   │   |         width: 1200, 
 │   │   |         height: 630, 
 │   │   |         alt: 'Arman Ayva Jazz Portfolio',
@@ -668,13 +697,13 @@ app/
 │   │   |   // ⭐️ CRITICAL FIX: Explicitly set Twitter Card with Absolute URL ⭐️
 │   │   |   twitter: {
 │   │   |     card: 'summary_large_image', 
-│   │   |     site: '@yourtwitterhandle',   // ⬅️ REPLACE with your Twitter handle
-│   │   |     creator: '@yourtwitterhandle',// ⬅️ REPLACE with your Twitter handle
+│   │   |     site: '@armanayva',   // ⬅️ REPLACE with your Twitter handle
+│   │   |     creator: '@armanayva',// ⬅️ REPLACE with your Twitter handle
 │   │   |     title: 'Arman Ayva | Mood-lifter behind the music',
 │   │   |     description: 'Jazz, funk, folk fan. Composer, artist, and mood-lifter.',
 │   │   |     images: {
 │   │   |         // FIX: Ensure the image URL is ABSOLUTE for X.com crawler
-│   │   |         url: `${baseUrl}/og?title=Arman+Ayva+Music`, 
+│   │   |         url: fullImageUrl, 
 │   │   |         alt: 'Arman Ayva Music Portfolio',
 │   │   |     },
 │   │   |   },
@@ -702,17 +731,18 @@ app/
 │   │   |     <html
 │   │   |       lang="en"
 │   │   |       className={cx(
-│   │   |         'text-black bg-white dark:bg-black',
+│   │   |         // 🔑 THE FIX: Added the 'dark' class here to make it the default theme
+│   │   |         'dark text-black dark:bg-black dark:text-white', 
 │   │   |         GeistSans.variable,
 │   │   |         GeistMono.variable
 │   │   |       )}
-│   │   |       suppressHydrationWarning 
+│   │   |       suppressHydrationWarning
 │   │   |     >
 │   │   |       <head>
 │   │   |         {/* ⭐️ FIX: Add the Facebook App ID tag directly to the head */}
 │   │   |         <meta property="fb:app_id" content={YOUR_APP_ID} />
 │   │   |       </head>
-│   │   |       <body className="antialiased max-w-6xl mx-4 mt-8 lg:mx-auto bg-white dark:bg-black">
+│   │   |       <body className="antialiased max-w-6xl mx-4 mt-8 lg:mx-auto dark:bg-black">
 │   │   |         
 │   │   |         <Providers> 
 │   │   |           <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
@@ -747,6 +777,10 @@ app/
 │   │   |             />
 │   │   |           </>
 │   │   |         )}
+│   │   |         <DelayedSubscribePopup />
+│   │   | 
+│   │   |         <GoogleTagManager gtmId='GTM-TKFS52TF' />
+│   │   |         
 │   │   |       </body>
 │   │   |     </html>
 │   │   |   );
@@ -812,10 +846,45 @@ app/
 │   │   |           melodic life.
 │   │   |         </p>
 │   │   | 
+│   │   |         <h2 className="font-bold text-2xl font-serif mt-12 mb-6 tracking-tighter">
+│   │   |         Featured Album: My Funky Jazzification
+│   │   |         </h2>
+│   │   |     
+│   │   |           <AlbumCTA /> 
+│   │   | 
+│   │   |       <div className="flex flex-col items-center mb-10 text-neutral-400 dark:text-neutral-50">
+│   │   |         {/* Bandcamp iFrame - Corrected self-closing tag */}
+│   │   |         <iframe 
+│   │   |           style={{ border: 0, width: '350px', height: '470px' }} 
+│   │   |           src="https://bandcamp.com/EmbeddedPlayer/album=854312660/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/transparent=true/" 
+│   │   |           seamless
+│   │   |           title="My Funky Jazzification by Arman Ayva"
+│   │   |         /> 
+│   │   |         <p className="text-xs mt-2 text-neutral-600 dark:text-neutral-400">
+│   │   |           <a href="https://armanayva.bandcamp.com/album/my-funky-jazzification" target="_blank" rel="noopener noreferrer">
+│   │   |             My Funky Jazzification by Arman Ayva
+│   │   |           </a>
+│   │   |         </p>
+│   │   |       </div>
+│   │   | 
 │   │   |         {/* SPOTIFY EMBED */}
 │   │   |         <h2 className="font-bold text-2xl font-serif mt-12 mb-6 tracking-tighter">
 │   │   |           Funky Jazz Mood Lifter Playlist
 │   │   |         </h2>
+│   │   |         <p>
+│   │   |           Now you can submit your jazz composition to be added to the "Funky Jazz Mood Lifter" Playlist on Spotify!
+│   │   |           This is a high-energy, curated playlist featuring funky, fresh jazz vibes from ~130 tracks by over 100 artists. Curated by Arman Ayva, the selection includes upbeat grooves like Tukka Yoot’s Riddim and Herbie Hancock's Cantaloupe Island. It’s bass-heavy, instrumental, and mood-lifting, typically running at 122 BPM.
+│   │   |         It's the perfect backdrop for urban nights, workouts, chill café environments, or focused concentration at work.
+│   │   | <br></br>
+│   │   | 
+│   │   |       <Link 
+│   │   |         href="/blog/Funky-Jazz-Mood-Lifter" 
+│   │   |         className="text-sm font-semibold mt-6 inline-block text-neutral-400 dark:text-neutral-50 hover:text-blue-500 transition-colors "
+│   │   |       >
+│   │   |         Funky-Jazz-Mood-Lifter →
+│   │   |       </Link>
+│   │   |         
+│   │   |         </p>
 │   │   |         
 │   │   |         <div className="rounded-xl overflow-hidden shadow-2xl">
 │   │   |           <iframe 
@@ -831,14 +900,14 @@ app/
 │   │   |         </div>
 │   │   |       </div>
 │   │   | 
-│   │   |       <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
+│   │   |       <hr className="my-16 border-neutral-200 dark:border-neutral-800" />
 │   │   |       
 │   │   |       {/* NEW RELEASES SECTION */}
 │   │   |       <NewReleasesSpotlight />
 │   │   |       
 │   │   |       <Link 
 │   │   |         href="/blog" 
-│   │   |         className="text-sm font-semibold mt-6 inline-block text-neutral-900 dark:text-neutral-100 hover:text-blue-500 transition-colors"
+│   │   |         className="text-sm font-semibold mt-6 inline-block text-neutral-900 dark:text-neutral-100 hover:text-blue-500 transition-colors "
 │   │   |       >
 │   │   |         View All Music & Stories →
 │   │   |       </Link>
@@ -848,96 +917,98 @@ app/
 │   │   |       {/* SUBSCRIBE CTA COMPONENT */}
 │   │   |       <SubscribeCTA />
 │   │   | 
-│   │   |       <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
 │   │   |       
-│   │   |       {/* BANDCAMP EMBED + ALBUM CTA */}
-│   │   |       <h2 className="font-bold text-2xl font-serif mb-6 tracking-tighter">
-│   │   |         Featured Album: My Funky Jazzification
-│   │   |       </h2>
-│   │   |     
-│   │   |       <div className="flex flex-col items-center mb-10">
-│   │   |         {/* Bandcamp iFrame - Corrected self-closing tag */}
-│   │   |         <iframe 
-│   │   |           style={{ border: 0, width: '350px', height: '470px' }} 
-│   │   |           src="https://bandcamp.com/EmbeddedPlayer/album=854312660/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/transparent=true/" 
-│   │   |           seamless
-│   │   |           title="My Funky Jazzification by Arman Ayva"
-│   │   |         /> 
-│   │   |         <p className="text-xs mt-2 text-neutral-600 dark:text-neutral-400">
-│   │   |           <a href="https://armanayva.bandcamp.com/album/my-funky-jazzification" target="_blank" rel="noopener noreferrer">
-│   │   |             My Funky Jazzification by Arman Ayva
-│   │   |           </a>
-│   │   |         </p>
-│   │   |       </div>
 │   │   |       
-│   │   |       <AlbumCTA /> 
+│   │   |       
 │   │   | 
 │   │   |       <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
 │   │   |       
 │   │   |       {/* ALL OTHER STORIES */}
-│   │   |       <h2 className="font-bold text-2xl font-serif mb-6 tracking-tighter">
+│   │   |       <h2 className="font-bold text-2xl font-serif mb-6 tracking-tighter text-neutral-400 ">
 │   │   |         All Other Stories
 │   │   |       </h2>
 │   │   |       <BlogPosts />
 │   │   |       
 │   │   |       <Link 
 │   │   |         href="/blog" 
-│   │   |         className="text-sm font-semibold mt-6 inline-block text-neutral-900 dark:text-neutral-100 hover:text-blue-500 transition-colors"
+│   │   |         className="text-sm font-semibold mt-6 inline-block text-neutral-400 dark:text-neutral-50 hover:text-blue-500 transition-colors"
 │   │   |       >
 │   │   |         View All Music & Stories →
 │   │   |       </Link>
 │   │   | 
 │   │   | 
-│   │   |       {/* 1. Primary Heading (Use once!) */}
-│   │   |       <h1>Arman Ayva | Montreal Jazz Composer, Funk Pioneer & Fusion Artist</h1>
+│   │   |       <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
 │   │   | 
-│   │   |       {/* 2. Secondary Heading for Releases */}
-│   │   |       <section>
-│   │   |         <h2>Recent Releases & New Music by Arman Ayva</h2>
-│   │   |         
-│   │   |         {/* Release: Criminal Case N68 */}
-│   │   |         <h3>Criminal Case N68 Album Details</h3>
-│   │   |         <p>
-│   │   |           "Criminal Case n68” is a musical crime story, it is an album containing four songs: Rolling Buzz... (Keep the original text here) ...afterfact investigation happens. **Listen to the best example of a modern, cinematic jazz album released in 2023.** <a href="https://ffm.to/criminal_case_68">https://ffm.to/criminal_case_68</a>
-│   │   |         </p>
+│   │   | {/* 2. Secondary Heading for Releases */}
+│   │   | <section id="releases"
+│   │   |         className="text-sm font-semibold mt-6 inline-block text-neutral-400 dark:text-neutral-50 hover:text-neutral-600 transition-colors"
 │   │   | 
-│   │   |         {/* Release: Happy Bundle */}
-│   │   |         <h3>Happy Bundle Album | Soulful Jazz Music</h3>
+│   │   | >
+│   │   |     <h2>🎷 Latest Releases & New Music</h2>
+│   │   |     
+│   │   |     {/* Release: Criminal Case N68 - Clearer structure with bolded hook */}
+│   │   |     <article>
+│   │   |         <h3>**Criminal Case N68** | Cinematic Jazz Album (2023)</h3>
 │   │   |         <p>
-│   │   |           Explore the soulful world of jazz with Arman Ayva’s latest musical masterpiece, ‘Happy Bundle.’... (Keep original text) ...leave you with a musical experience like no other.
+│   │   |             "Criminal Case N68” is a musical crime story, an album containing four tracks: Rolling Buzz... (Keep the original text here) ...afterfact investigation happens. 
+│   │   |             <br />
+│   │   |             **Hook:** Immerse yourself in the **best example of a modern, cinematic jazz album released in 2023.**
 │   │   |         </p>
-│   │   |         
-│   │   |         {/* ... continue with other individual track/release sections using <h3> ... */}
+│   │   |         <p>
+│   │   |             **Listen Now:** <a href="https://ffm.to/criminal_case_68" target="_blank" rel="noopener noreferrer">Stream Criminal Case N68</a>
+│   │   |         </p>
+│   │   |     </article>
+│   │   |       <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
+│   │   | 
+│   │   |     {/* Release: Happy Bundle - Structured as a separate article */}
+│   │   |     <article>
+│   │   |         <h3>**Happy Bundle** Album | Soulful Jazz & Funk Fusion</h3>
+│   │   |         <p>
+│   │   |             Explore the soulful world of jazz with Arman Ayva’s latest musical masterpiece, ‘Happy Bundle.’... (Keep original text) ...leave you with a musical experience like no other.
+│   │   |         </p>
+│   │   |         <p>
+│   │   |             {/* CTA for Happy Bundle */}
+│   │   |             <a href="/happy-bundle-link" className="button">Hear 'Happy Bundle'</a>
+│   │   |         </p>
+│   │   |     </article>
+│   │   |           <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
+│   │   |     <article>
+│   │   | 
+│   │   |     {/* ... continue with other individual track/release sections using <article> and <h3> ... */}
+│   │   | 
+│   │   |     <h2>🎵 Biography: The Musical Odyssey of Arman Ayva</h2>
+│   │   |     <p>
+│   │   |         Arman Ayva is more than just a name in the world of music—he’s a **premier Montreal jazz artist** whose melodies weave a tapestry of tradition and innovation... (Integrate the full, keyword-rich biography text here.) 
+│   │   |         <br/>
+│   │   |         He is internationally recognized for **pioneering the Funk and Jazz Fusion genre**, creating soundscapes that are both sophisticated and deeply groovy.
+│   │   |     </p>
+│   │   | 
+│   │   |       <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
+│   │   | 
+│   │   |     <h2>🎬 Instrumental Music Licensing for TV, Ads, and Film</h2>
+│   │   |     <p>
+│   │   |         Need the perfect soundtrack? Arman Ayva’s extensive catalog of instrumental music—spanning cinematic jazz, funk, fusion, and lo-fi—is ideal for scoring **TV shows, commercials, and independent films**. Our versatile tracks can capture any mood, target audience, or message you require... (Integrate the full licensing/sync text here.)
+│   │   |     </p>
+│   │   |         </article>
+│   │   | 
+│   │   | 
+│   │   |     <article>
+│   │   |     {/* HIGH-VALUE CALL TO ACTION (CTA) - Styled as a prominent <aside> box */}
+│   │   |     <aside className="cta-licensing">
+│   │   |         <h3>Fast-Track Synchronization Licensing</h3>
+│   │   |         <p>
+│   │   |             All tracks by Arman Ayva are pre-cleared and available for **synchronization licensing**. We guarantee a **fast, straightforward rights clearance** process for your next project.
+│   │   |         </p>
+│   │   |         <p>
+│   │   |             **Start Licensing Today:** <a href="mailto:aayvazy@gmail.com">aayvazy@gmail.com</a>
+│   │   |         </p>
+│   │   |     </aside>
+│   │   |         </article>
+│   │   | 
 │   │   |       </section>
+│   │   | </section>
 │   │   | 
-│   │   |       {/* 3. Secondary Heading for Biography */}
-│   │   |       <section>
-│   │   |         <h2>Biography: The Musical Odyssey of Arman Ayva</h2>
-│   │   |         <p>
-│   │   |           Arman Ayva is more than just a name in the world of music—he’s a Montreal jazz artist whose melodies weave a tapestry of tradition and innovation... (Integrate the full, keyword-rich biography text here.) **He is a premier Montreal jazz artist pioneering the fusion genre.**
-│   │   |         </p>
-│   │   |       </section>
-│   │   | 
-│   │   |       {/* 4. Secondary Heading for Licensing */}
-│   │   |       <section>
-│   │   |         <h2>Instrumental Music Licensing for TV, Ads, and Film</h2>
-│   │   |         <p>
-│   │   |           Instrumental music for TV and ads varies widely depending on the mood, target audience, and message of the advertisement... (Integrate the full licensing/sync text here.)
-│   │   |         </p>
-│   │   |         
-│   │   |         {/* HIGH-VALUE CALL TO ACTION (CTA) */}
-│   │   |         <aside>
-│   │   |           <h3>Fast-Track Music Licensing</h3>
-│   │   |           <p>
-│   │   |             All tracks by Arman Ayva are available for **synchronization licensing** for film, television, and commercial advertising. We offer fast, straightforward rights clearance.
-│   │   |           </p>
-│   │   |           <p>
-│   │   |             **Contact:** aayvazy@gmail.com
-│   │   |           </p>
-│   │   |         </aside>
-│   │   |       </section>
-│   │   |       
-│   │   |     </section>
+│   │   |   
 │   │   |   )
 │   │   | }
 │   │   | --- FILE CONTENT END ---
@@ -1219,6 +1290,45 @@ app/
 │   │   │   | --- FILE CONTENT END ---
 
 │   ├── other/
+│   │   ├── thank-you/
+│   │   │   ├── page.tsx
+│   │   │   │   | --- FILE CONTENT START (page.tsx) ---
+│   │   │   │   | import Link from 'next/link';
+│   │   │   │   | // Note: No extra Google Tag code needed here if GTM is in layout.js
+│   │   │   │   | 
+│   │   │   │   | export default function SubscribeThankYouPage() {
+│   │   │   │   |   return (
+│   │   │   │   |     // Equivalent to style="text-align:center; padding:100px 20px;"
+│   │   │   │   |     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
+│   │   │   │   |       
+│   │   │   │   |       <div className="bg-white p-8 sm:p-12 rounded-lg shadow-xl max-w-lg w-full text-center">
+│   │   │   │   |         
+│   │   │   │   |         {/* Checkmark or Thank You Header */}
+│   │   │   │   |         <div className="text-green-500 mb-6">
+│   │   │   │   |           <svg className="w-20 h-20 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+│   │   │   │   |             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+│   │   │   │   |           </svg>
+│   │   │   │   |         </div>
+│   │   │   │   |         
+│   │   │   │   |         <h1 className="text-4xl font-extrabold text-gray-900 mb-4">
+│   │   │   │   |           Thank You for Subscribing!
+│   │   │   │   |         </h1>
+│   │   │   │   |         
+│   │   │   │   |         <p className="text-xl text-gray-600 mb-8">
+│   │   │   │   |           You're all set. Check your inbox shortly for a confirmation email and the latest updates from Arman Ayva.
+│   │   │   │   |         </p>
+│   │   │   │   |         gtag('config', 'AW-11429089260');
+│   │   │   │   |         
+│   │   │   │   |         <Link href="/" className="inline-block bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors duration-300 shadow-lg">
+│   │   │   │   |           Return to Homepage
+│   │   │   │   |         </Link>
+│   │   │   │   |       </div>
+│   │   │   │   |       
+│   │   │   │   |     </div>
+│   │   │   │   |   );
+│   │   │   │   | }   
+│   │   │   │   | --- FILE CONTENT END ---
+
 │   │   ├── subscribe/
 │   │   │   ├── page.tsx
 │   │   │   │   | --- FILE CONTENT START (page.tsx) ---
@@ -1485,7 +1595,9 @@ app/
 │   │   │   | export default function Page() {
 │   │   │   |   return (
 │   │   │   |     <section>
-│   │   │   |       <h1 className="font-semibold text-2xl mb-8 tracking-tighter">My Blog</h1>
+│   │   │   |       <h1 className="font-semibold text-2xl mb-8 tracking-tighter text-neutral-400 dark:text-neutral-50">
+│   │   │   |         My Blog
+│   │   │   |       </h1>
 │   │   │   |       <BlogPosts />
 │   │   │   |     </section>
 │   │   │   |   )
@@ -1495,9 +1607,13 @@ app/
 
 │   │   ├── posts/
 │   │   │   ├── take-five-get-one.mdx
+│   │   │   ├── Zero-Dollar_Website_For_Artist.mdx
+│   │   │   ├── Arabic_Night.mdx
+│   │   │   ├── The_Indie_Blueprint.mdx
 │   │   │   ├── juanito-moving-to-us.mdx
 │   │   │   ├── My-Funky-Jazzification.mdx
 │   │   │   ├── Funky-Jazz-Mood-Lifter.mdx
+│   │   │   ├── pizzicata-blues.mdx
 │   │   ├── [slug]/
 │   │   │   ├── page.tsx
 │   │   │   │   | --- FILE CONTENT START (page.tsx) ---
@@ -1590,9 +1706,9 @@ app/
 │   │   │   │   |           }),
 │   │   │   │   |         }}
 │   │   │   │   |       />
-│   │   │   │   |       <h1 className="title font-semibold text-2xl tracking-tighter">
-│   │   │   │   |         {title}
-│   │   │   │   |       </h1>
+│   │   │   │   | <h1 className="title font-semibold text-2xl tracking-tighter text-neutral-600 dark:text-neutral-50">
+│   │   │   │   |   {title}
+│   │   │   │   | </h1>        
 │   │   │   │   | 
 │   │   │   │   |       {/* 2. CONDITIONAL HEADER IMAGE RENDERING */}
 │   │   │   │   |       {headerImage && (
@@ -1611,10 +1727,10 @@ app/
 │   │   │   │   |       )}
 │   │   │   │   |       
 │   │   │   │   |       <div className="flex justify-between items-center mt-2 mb-8 text-sm">
-│   │   │   │   |         <p className="text-sm text-neutral-600 dark:text-neutral-400">
-│   │   │   │   |           {formatDate(publishedAt)}
-│   │   │   │   |         </p>
-│   │   │   │   |       </div>
+│   │   │   │   |   <p className="text-sm **text-neutral-600 dark:text-neutral-50**">
+│   │   │   │   |     {formatDate(publishedAt)}
+│   │   │   │   |   </p>
+│   │   │   │   | </div>
 │   │   │   │   |       <article className="prose">
 │   │   │   │   |         <CustomMDX source={post.content} />
 │   │   │   │   |       </article>
@@ -1628,12 +1744,13 @@ app/
 │   │   │   | --- FILE CONTENT START (nav.tsx) ---
 │   │   │   | 'use client';
 │   │   │   | 
+│   │   │   | import { SmartLink } from './SmartLink';
 │   │   │   | import Link from 'next/link';
 │   │   │   | import { usePathname } from 'next/navigation';
 │   │   │   | import { useState } from 'react'; // ⬅️ NEW: Import useState
 │   │   │   | import { FaBars, FaTimes } from 'react-icons/fa'; // ⬅️ NEW: Icons for hamburger
 │   │   │   | import { ThemeToggle } from './ThemeToggle'; 
-│   │   │   | 
+│   │   │   | import Logo from './Logo'; // Adjust the path if Logo.tsx is not in the same directory
 │   │   │   | // Define the navigation items based on your site structure
 │   │   │   | const navItems = {
 │   │   │   |   '/': {
@@ -1722,12 +1839,20 @@ app/
 │   │   │   |           
 │   │   │   |           {/* 1. Header Row (Contains Logo/Title, Desktop Links, Toggle, and Hamburger) */}
 │   │   │   |           <div className="flex justify-between items-center w-full py-1">
+│   │   │   | 
+│   │   │   |             {/* 2. ✅ ADD THE LOGO COMPONENT HERE FOR ALL VIEWS (REPLACING STATIC TITLE) */}
+│   │   │   |             <div className="md:flex flex-row space-x-0">
+│   │   │   |                 <Link href="/">
+│   │   │   |                     {/* The Logo component goes inside a Link to ensure it's clickable and routes home */}
+│   │   │   |                     <Logo /> 
+│   │   │   |                 </Link>
+│   │   │   |             </div>
 │   │   │   |             
 │   │   │   |             {/* Menu Links (Desktop: Always Visible) */}
 │   │   │   |             <div className="hidden md:flex flex-row space-x-0">
 │   │   │   |               {renderLinks(false)}
 │   │   │   |             </div>
-│   │   │   | 
+│   │   │   |             x
 │   │   │   |             {/* Title/Logo for Mobile View when links are hidden */}
 │   │   │   |             <div className="md:hidden text-lg font-bold text-neutral-900 dark:text-neutral-100">
 │   │   │   |                 Arman Ayva
@@ -1895,8 +2020,8 @@ app/
 │   │   │   |   return (
 │   │   │   |     <div className="py-6">
 │   │   │   |       
-│   │   │   |       {/* SECTION HEADER */}
-│   │   │   |       <h2 className="font-bold text-3xl font-serif mb-6 tracking-tighter">
+│   │   │   |       {/* SECTION HEADER - Added explicit dark mode color */}
+│   │   │   |       <h2 className="font-bold text-3xl font-serif mb-6 tracking-tighter text-neutral-400 dark:text-neutral-50">
 │   │   │   |         New Releases & Highlights
 │   │   │   |       </h2>
 │   │   │   | 
@@ -1904,21 +2029,25 @@ app/
 │   │   │   |       <div className="border border-neutral-200 dark:border-neutral-800 p-6 rounded-xl mb-8 bg-neutral-50 dark:bg-neutral-900 shadow-xl">
 │   │   │   |         <div className="flex items-center mb-4">
 │   │   │   |           <span className="text-4xl mr-3">🎵</span>
-│   │   │   |           <h3 className="font-bold text-2xl tracking-tight">
+│   │   │   |           {/* Heading - Added explicit dark mode color */}
+│   │   │   |           <h3 className="font-bold text-2xl tracking-tight text-neutral-900 dark:text-neutral-50">
 │   │   │   |             New Single: Take Five, Get One
 │   │   │   |           </h3>
 │   │   │   |         </div>
-│   │   │   |         <p className="text-lg mb-3">
+│   │   │   |         {/* Body Paragraph - Added explicit dark mode color */}
+│   │   │   |         <p className="text-lg mb-3 text-neutral-800 dark:text-neutral-50">
 │   │   │   |           In this track, Arman Ayva fuses **electronic textures, electric piano chords, 
 │   │   │   |           and live bass grooves** into a lush instrumental story. It's a modern groove 
 │   │   │   |           that feels both calm and alive, blending **Jazz Fusion, Electronic, and Ambient** genres.
 │   │   │   |         </p>
-│   │   │   |         <p className="text-sm font-semibold text-neutral-600 dark:text-neutral-400">
+│   │   │   |         {/* Key Info - Changed dark:text-neutral-400 to dark:text-neutral-50 */}
+│   │   │   |         <p className="text-sm font-semibold text-neutral-600 dark:text-neutral-50">
 │   │   │   |           Key: F minor • BPM: 120 • Mood: Happy / Chill / Sexy
 │   │   │   |         </p>
 │   │   │   |         <Link 
 │   │   │   |           href="/blog/take-five-get-one" // Assume a dedicated blog post
-│   │   │   |           className="text-sm font-semibold mt-4 inline-block text-blue-500 hover:text-blue-700 transition-colors"
+│   │   │   |           // Links look good (using blue-500)
+│   │   │   |           className="text-sm font-semibold mt-4 inline-block text-blue-600 hover:text-blue-600 transition-colors"
 │   │   │   |         >
 │   │   │   |           Explore the Track Details →
 │   │   │   |         </Link>
@@ -1929,13 +2058,16 @@ app/
 │   │   │   |         
 │   │   │   |         {/* The Pizzicata Blues */}
 │   │   │   |         <div className="p-4 border border-neutral-200 dark:border-neutral-800 rounded-lg">
-│   │   │   |           <h4 className="font-bold text-lg mb-2">The Pizzicata Blues (6 Tracks)</h4>
-│   │   │   |           <p className="text-sm text-neutral-700 dark:text-neutral-300">
+│   │   │   |           {/* Heading - Added explicit dark mode color */}
+│   │   │   |           <h4 className="font-bold text-lg mb-2 text-neutral-900 dark:text-neutral-50">The Pizzicata Blues (6 Tracks)</h4>
+│   │   │   |           {/* Body Text - Corrected dark mode utility and set to dark:text-neutral-50 */}
+│   │   │   |           <p className="text-sm text-neutral-700 dark:text-neutral-50">
 │   │   │   |             A conversational album reflecting on the life of an indie artist, moving through
 │   │   │   |             playful funk (Pour In) and moody, soulful jazz (Je m'appelle Blues).
 │   │   │   |           </p>
 │   │   │   |           <Link 
 │   │   │   |             href="/blog/pizzicata-blues"
+│   │   │   |             // Link color looks good (neutral-500 in light, but blue on hover is fine)
 │   │   │   |             className="text-xs font-semibold mt-2 inline-block text-neutral-500 hover:text-blue-500 transition-colors"
 │   │   │   |           >
 │   │   │   |             See Full Track Story →
@@ -1944,14 +2076,17 @@ app/
 │   │   │   | 
 │   │   │   |         {/* Montreal Heist: Criminal Case #68 */}
 │   │   │   |         <div className="p-4 border border-neutral-200 dark:border-neutral-800 rounded-lg">
-│   │   │   |           <h4 className="font-bold text-lg mb-2">Montreal Heist: Criminal Case #68</h4>
-│   │   │   |           <p className="text-sm text-neutral-700 dark:text-neutral-300">
+│   │   │   |           {/* Heading - Added explicit dark mode color */}
+│   │   │   |           <h4 className="font-bold text-lg mb-2 text-neutral-900 dark:text-neutral-50">Montreal Heist: Criminal Case #68</h4>
+│   │   │   |           {/* Body Text - Corrected dark mode utility and set to dark:text-neutral-50 */}
+│   │   │   |           <p className="text-sm text-neutral-700 dark:text-neutral-50">
 │   │   │   |             A musical crime story in four songs: *Rolling Buzz, Underground, Morning,* and *Criminal Case 68*. A narrative-driven instrumental experience.
 │   │   │   |           </p>
 │   │   │   |           <Link 
 │   │   │   |             href="https://ffm.to/criminal_case_68"
 │   │   │   |             target="_blank"
 │   │   │   |             rel="noopener noreferrer"
+│   │   │   |             // Link color looks good
 │   │   │   |             className="text-xs font-semibold mt-2 inline-block text-neutral-500 hover:text-blue-500 transition-colors"
 │   │   │   |           >
 │   │   │   |             Listen on All Platforms →
@@ -2012,6 +2147,113 @@ app/
 │   │   │   | }
 │   │   │   | --- FILE CONTENT END ---
 
+│   │   ├── DelayedSubscribePopup.tsx
+│   │   │   | --- FILE CONTENT START (DelayedSubscribePopup.tsx) ---
+│   │   │   | // src/components/DelayedSubscribePopup.jsx (or wherever you keep your components)
+│   │   │   | 'use client';
+│   │   │   | 
+│   │   │   | import { useState, useEffect } from 'react';
+│   │   │   | import Link from 'next/link';
+│   │   │   | import { sendGTMEvent } from '@next/third-parties/google';
+│   │   │   | 
+│   │   │   | // Your original SubscribeCTA content, slightly modified to be the *content*
+│   │   │   | // of the popup rather than the popup itself.
+│   │   │   | function SubscribeCTAContent() {
+│   │   │   |   return (
+│   │   │   |     <section className="bg-neutral-900 text-white text-center py-12 px-4 rounded-lg shadow-2xl relative">
+│   │   │   |       
+│   │   │   |       <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight">
+│   │   │   |         Stay Updated on Arman Ayva Projects
+│   │   │   |       </h2>
+│   │   │   |       
+│   │   │   |       <p className="text-lg mb-6 max-w-lg mx-auto text-neutral-300">
+│   │   │   |         Subscribe to receive the latest news, releases, and collaboration opportunities from 
+│   │   │   |         <strong className="text-white"> Arman Ayva – Montreal Jazz Composer</strong>. Discover new tracks and upcoming projects first!
+│   │   │   |       </p>
+│   │   │   |       
+│   │   │   |       <Link
+│   │   │   |         href="/other/subscribe"
+│   │   │   |         target="_blank"
+│   │   │   |         rel="noopener noreferrer"
+│   │   │   |         className="inline-block bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors duration-300 shadow-xl"
+│   │   │   |       
+│   │   │   |         onClick={() => {
+│   │   │   |         sendGTMEvent({ event: 'conversion_click', action: 'subscribe_cta' })
+│   │   │   |          }}
+│   │   │   |       >
+│   │   │   | 
+│   │   │   |         
+│   │   │   |         Subscribe Now
+│   │   │   |       </Link>
+│   │   │   |       
+│   │   │   |       <p className="text-sm mt-3 text-neutral-400">
+│   │   │   |         Your email will only be used for Arman Ayva project updates.
+│   │   │   |       </p>
+│   │   │   |     </section>
+│   │   │   |   );
+│   │   │   | }
+│   │   │   | 
+│   │   │   | // The main component that implements the delayed popup logic
+│   │   │   | export function DelayedSubscribePopup() {
+│   │   │   |   const [isVisible, setIsVisible] = useState(false);
+│   │   │   |   const DELAY_TIME_MS = 10000; // 10 seconds
+│   │   │   | 
+│   │   │   |   useEffect(() => {
+│   │   │   |     // 1. Set a timer to show the popup
+│   │   │   |     const timer = setTimeout(() => {
+│   │   │   |       setIsVisible(true);
+│   │   │   |     }, DELAY_TIME_MS);
+│   │   │   | 
+│   │   │   |     // 2. Clear the timeout if the component unmounts (cleanup)
+│   │   │   |     return () => clearTimeout(timer);
+│   │   │   |   }, []); // Empty dependency array means this runs only once on mount
+│   │   │   | 
+│   │   │   |   // Optional: Function to close the popup manually
+│   │   │   |   const closePopup = () => {
+│   │   │   |     setIsVisible(false);
+│   │   │   |   };
+│   │   │   | 
+│   │   │   |   if (!isVisible) {
+│   │   │   |     return null; // Don't render anything if it's not visible
+│   │   │   |   }
+│   │   │   | 
+│   │   │   |   return (
+│   │   │   |     // Backdrop for the modal
+│   │   │   |     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 p-4" onClick={closePopup}>
+│   │   │   |       
+│   │   │   |       {/* Container for the content, stopping propagation prevents closing when clicking the content */}
+│   │   │   |       <div 
+│   │   │   |         className="relative max-w-xl w-full transform transition-all duration-300 scale-100 opacity-100" 
+│   │   │   |         onClick={(e) => e.stopPropagation()}
+│   │   │   |       >
+│   │   │   |         <SubscribeCTAContent />
+│   │   │   |         
+│   │   │   |         {/* Close button */}
+│   │   │   |         <button
+│   │   │   |           onClick={closePopup}
+│   │   │   |           className="absolute top-2 right-2 text-white hover:text-gray-300 text-2xl font-bold p-1 leading-none transition-colors"
+│   │   │   |           aria-label="Close subscription popup"
+│   │   │   |         >
+│   │   │   |           &times;
+│   │   │   |         </button>
+│   │   │   |       </div>
+│   │   │   |     </div>
+│   │   │   |   );
+│   │   │   | }
+│   │   │   | 
+│   │   │   | // Example usage in a page component:
+│   │   │   | // export default function HomePage() {
+│   │   │   | //   return (
+│   │   │   | //     <>
+│   │   │   | //       <main>
+│   │   │   | //         {/* Other page content */}
+│   │   │   | //       </main>
+│   │   │   | //       <DelayedSubscribePopup /> {/* This will appear after 10 seconds */}
+│   │   │   | //     </>
+│   │   │   | //   );
+│   │   │   | // }
+│   │   │   | --- FILE CONTENT END ---
+
 │   │   ├── footer.tsx
 │   │   │   | --- FILE CONTENT START (footer.tsx) ---
 │   │   │   | import Link from 'next/link';
@@ -2022,13 +2264,13 @@ app/
 │   │   │   |   const currentYear = new Date().getFullYear();
 │   │   │   | 
 │   │   │   |   return (
-│   │   │   |     <footer className="mt-24 border-t border-neutral-200 dark:border-neutral-800 pt-10 pb-16 bg-neutral-50 dark:bg-neutral-950">
+│   │   │   |     <footer className="mt-24 border-t border-neutral-200 dark:border-neutral-800 pt-10 pb-16 bg-neutral-50 dark:bg-neutral-700">
 │   │   │   |       <div className="mx-auto max-w-2xl px-4">
 │   │   │   |         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
 │   │   │   |           
 │   │   │   |           {/* Section 1: Music */}
 │   │   │   |           <div>
-│   │   │   |             <h3 className="text-md font-bold mb-3 tracking-tight text-neutral-900 dark:text-neutral-100">Music</h3>
+│   │   │   |             <h3 className="text-md font-bold mb-3 tracking-tight text-neutral-700 dark:text-neutral-100">Music</h3>
 │   │   │   |             <ul className="space-y-2 text-sm">
 │   │   │   |               <li><Link href="/blog" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">All Releases</Link></li>
 │   │   │   |               <li><Link href="/videos" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">Videos (YouTube)</Link></li>
@@ -2039,7 +2281,7 @@ app/
 │   │   │   | 
 │   │   │   |           {/* Section 2: Info & Legal */}
 │   │   │   |           <div>
-│   │   │   |             <h3 className="text-md font-bold mb-3 tracking-tight text-neutral-900 dark:text-neutral-100">Info</h3>
+│   │   │   |             <h3 className="text-md font-bold mb-3 tracking-tight text-neutral-700 dark:text-neutral-100">Info</h3>
 │   │   │   |             <ul className="space-y-2 text-sm">
 │   │   │   |               <li><Link href="/about" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">About Arman</Link></li>
 │   │   │   |               <li><Link href="/contact" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">Contact</Link></li>
@@ -2050,7 +2292,7 @@ app/
 │   │   │   |           
 │   │   │   |           {/* Section 3 & 4: Connect */}
 │   │   │   |           <div className="col-span-2">
-│   │   │   |             <h3 className="text-md font-bold mb-3 tracking-tight text-neutral-900 dark:text-neutral-100">Connect</h3>
+│   │   │   |             <h3 className="text-md font-bold mb-3 tracking-tight text-neutral-700 dark:text-neutral-100">Connect</h3>
 │   │   │   |              <p className="text-sm text-neutral-600 dark:text-neutral-400">
 │   │   │   |                 Follow Arman Ayva for the latest news on jazz-funk releases, collaborations, and cinematic soundscapes.
 │   │   │   |              </p>
@@ -2195,12 +2437,58 @@ app/
 │   │   ├── album-cta.tsx
 │   │   │   | --- FILE CONTENT START (album-cta.tsx) ---
 │   │   │   | import Link from 'next/link';
+│   │   │   | import Image from 'next/image'; // <-- Must be imported
 │   │   │   | 
+│   │   │   | const imageUrl = "https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.10/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center:%20,w_0.1,y_0.1/v1763230260/Cowboy_a3mnzs.png";
+│   │   │   |   const imageAlt = "Album art for Cowboy by Arman Ayva";
+│   │   │   |   const imageWidth = 970; // Based on the w_970 in the URL
+│   │   │   |   const imageHeight = 250; // Based on the h_250 in the URL
 │   │   │   | export function AlbumCTA() {
 │   │   │   |   return (
 │   │   │   |     // Equivalent to style="background-color:#111111; color:#ffffff; text-align:center; padding:60px 20px;"
-│   │   │   |     <section className="bg-neutral-950 text-white text-center py-16 px-4 sm:px-6 lg:px-8">
+│   │   │   |     <section className="s text-white text-center py-16 px-4 sm:px-6 lg:px-8">
+│   │   │   |             <hr></hr>
+│   │   │   | 
+│   │   │   |       {/* Equivalent to h2 style="font-size:2rem; margin-bottom:20px;" */}
+│   │   │   |       <h2 className="text-3xl sm:text-4xl font-bold mb-5 tracking-tight">
+│   │   │   |         Listet to new release – Cowboy by Arman Ayva 🎷
+│   │   │   |       </h2>
 │   │   │   |       
+│   │   │   |       <div className="mx-auto mb-10 max-w-4xl rounded-lg overflow-hidden shadow-2xl">
+│   │   │   |         <Image
+│   │   │   |           src={imageUrl}
+│   │   │   |           alt={imageAlt}
+│   │   │   |           width={imageWidth}
+│   │   │   |           height={imageHeight}
+│   │   │   |           // The 'layout' prop is often replaced by 'fill' or implied sizing in newer Next.js versions.
+│   │   │   |           // Since you provided fixed w and h in the URL, we use standard width/height and 'object-cover'.
+│   │   │   |           className="object-cover w-full h-full" 
+│   │   │   |           priority // Use 'priority' if this is a high-priority image on the page (e.g., above the fold)
+│   │   │   |         />
+│   │   │   |       </div>
+│   │   │   |       {/* Equivalent to p style="font-size:1.1rem; margin-bottom:30px; max-width:600px;" */}
+│   │   │   |       <p className="text-lg mb-8 max-w-2xl mx-auto text-neutral-300">
+│   │   │   |         New music is out!<strong className="text-white">jazz, funk, and world fusion</strong> crafted by 
+│   │   │   |         **Arman Ayva – Montreal Jazz Composer**. Ride over to Spotify — find “Cowboy.” <strong className="text-white">$9</strong>.
+│   │   │   |       </p>
+│   │   │   |       
+│   │   │   |       {/* Button using Bandcamp's signature orange color (bg-orange-600 is a good match) */}
+│   │   │   |       <Link
+│   │   │   |         href="https://ffm.to/thecowboy" 
+│   │   │   |         target="_blank"
+│   │   │   |         rel="noopener noreferrer"
+│   │   │   |         className="inline-block bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 px-10 rounded-lg text-lg transition-colors duration-300 shadow-xl"
+│   │   │   |       >
+│   │   │   |         Listen Now!
+│   │   │   |       </Link>
+│   │   │   |       
+│   │   │   |       {/* Equivalent to p style="font-size:0.9rem; margin-top:15px; color:#cccccc;" */}
+│   │   │   |       <p className="text-sm mt-4 text-neutral-400">
+│   │   │   |         Available now every musical platform !
+│   │   │   |       </p>
+│   │   │   |       <hr></hr>
+│   │   │   | 
+│   │   │   |    
 │   │   │   |       {/* Equivalent to h2 style="font-size:2rem; margin-bottom:20px;" */}
 │   │   │   |       <h2 className="text-3xl sm:text-4xl font-bold mb-5 tracking-tight">
 │   │   │   |         Get the Album – My Funky Jazzification 🎷
@@ -2212,7 +2500,6 @@ app/
 │   │   │   |         **Arman Ayva – Montreal Jazz Composer**. Experience the full album now and support 
 │   │   │   |         independent music for just <strong className="text-white">$9</strong>.
 │   │   │   |       </p>
-│   │   │   |       
 │   │   │   |       {/* Button using Bandcamp's signature orange color (bg-orange-600 is a good match) */}
 │   │   │   |       <Link
 │   │   │   |         href="https://armanayva.bandcamp.com/album/my-funky-jazzification" 
@@ -2227,6 +2514,8 @@ app/
 │   │   │   |       <p className="text-sm mt-4 text-neutral-400">
 │   │   │   |         Available now on Bandcamp – support independent jazz-funk music!
 │   │   │   |       </p>
+│   │   │   |             <hr></hr>
+│   │   │   | 
 │   │   │   |     </section>
 │   │   │   |   );
 │   │   │   | }
@@ -2238,6 +2527,7 @@ app/
 │   │   │   | 
 │   │   │   | export function SubscribeCTA() {
 │   │   │   |   return (
+│   │   │   |     
 │   │   │   |     // Equivalent to style="background-color:#1a1a1a; color:#ffffff; text-align:center; padding:60px 20px;"
 │   │   │   |     <section className="bg-neutral-900 text-white text-center py-16 px-4 sm:px-6 lg:px-8">
 │   │   │   |       
@@ -2313,6 +2603,24 @@ app/
 │   │   │   | 
 │   │   │   | --- FILE CONTENT END ---
 
+│   │   ├── Logo.tsx
+│   │   │   | --- FILE CONTENT START (Logo.tsx) ---
+│   │   │   | // components/Logo.tsx
+│   │   │   | import Image from 'next/image';
+│   │   │   | 
+│   │   │   | export default function Logo() {
+│   │   │   |   return (
+│   │   │   |     <Image
+│   │   │   |       src="/logo.gif" 
+│   │   │   |       alt="Animated Company Logo"
+│   │   │   |       width={100} // Ensure this is set to the GIF's size or desired size
+│   │   │   |       height={50} // Ensure this is set
+│   │   │   |       unoptimized={true} // CRITICAL for GIF animation
+│   │   │   |     />
+│   │   │   |   );
+│   │   │   | }
+│   │   │   | --- FILE CONTENT END ---
+
 │   │   ├── header.tsx
 │   │   │   | --- FILE CONTENT START (header.tsx) ---
 │   │   │   | import Link from 'next/link';
@@ -2380,11 +2688,13 @@ app/
 │   │   │   |             className="flex flex-col space-y-1 mb-4"
 │   │   │   |             href={`/blog/${post.slug}`}
 │   │   │   |           >
-│   │   │   |             <div className="w-full flex flex-col md:flex-row space-x-0 md:space-x-2">
-│   │   │   |               <p className="text-neutral-600 dark:text-neutral-400 w-[100px] tabular-nums">
+│   │   │   |             <div className="w-full flex flex-col md:flex-row space-x-0 md:space-x-2 text-neutral-400" >
+│   │   │   |               {/* FIX 1: Changed dark:text-neutral-400 to dark:text-neutral-50 for white date text */}
+│   │   │   |               <p className="text-neutral-600 dark:text-neutral-50 w-[150px] tabular-nums">
 │   │   │   |                 {formatDate(post.metadata.publishedAt, false)}
 │   │   │   |               </p>
-│   │   │   |               <p className="text-neutral-900 dark:text-neutral-100 tracking-tight">
+│   │   │   |               {/* FIX 2: Changed dark:text-neutral-100 to dark:text-neutral-50 for white title text */}
+│   │   │   |               <p className="tracking-tight text-neutral-400">
 │   │   │   |                 {post.metadata.title}
 │   │   │   |               </p>
 │   │   │   |             </div>
@@ -2393,7 +2703,58 @@ app/
 │   │   │   |     </div>
 │   │   │   |   )
 │   │   │   | }
+│   │   │   | --- FILE CONTENT END ---
+
+│   │   ├── SmartLink.tsx
+│   │   │   | --- FILE CONTENT START (SmartLink.tsx) ---
+│   │   │   | 'use client';
 │   │   │   | 
+│   │   │   | import Link from 'next/link';
+│   │   │   | import React, { ReactNode } from 'react';
+│   │   │   | 
+│   │   │   | // Define the props for our smart link component
+│   │   │   | interface SmartLinkProps {
+│   │   │   |   href: string;
+│   │   │   |   children: ReactNode;
+│   │   │   |   className?: string;
+│   │   │   |   onClick?: () => void; // Optional click handler (for things like closing a menu)
+│   │   │   | }
+│   │   │   | 
+│   │   │   | /**
+│   │   │   |  * A reusable component that intelligently renders either:
+│   │   │   |  * 1. An internal Next.js <Link> component (for internal navigation).
+│   │   │   |  * 2. A standard <a> tag with target="_blank" and rel="noopener noreferrer" 
+│   │   │   |  * (for external URLs, preventing popup/security issues).
+│   │   │   |  */
+│   │   │   | export function SmartLink({ href, children, className, onClick }: SmartLinkProps) {
+│   │   │   |   // Check if the link starts with 'http://', 'https://', or 'mailto:'
+│   │   │   |   const isExternal = 
+│   │   │   |     href.startsWith('http://') || 
+│   │   │   |     href.startsWith('https://') || 
+│   │   │   |     href.startsWith('mailto:');
+│   │   │   | 
+│   │   │   |   if (isExternal) {
+│   │   │   |     // Render a standard <a> tag for external links
+│   │   │   |     return (
+│   │   │   |       <a
+│   │   │   |         href={href}
+│   │   │   |         className={className}
+│   │   │   |         target="_blank" // Opens in a new tab
+│   │   │   |         rel="noopener noreferrer" // Essential security attributes
+│   │   │   |         onClick={onClick} // Pass through the click handler (optional)
+│   │   │   |       >
+│   │   │   |         {children}
+│   │   │   |       </a>
+│   │   │   |     );
+│   │   │   |   }
+│   │   │   | 
+│   │   │   |   // Render the Next.js Link component for internal links
+│   │   │   |   return (
+│   │   │   |     <Link href={href} className={className} onClick={onClick}>
+│   │   │   |       {children}
+│   │   │   |     </Link>
+│   │   │   |   );
+│   │   │   | }
 │   │   │   | --- FILE CONTENT END ---
 
 │   │   ├── contact-form.tsx
@@ -2754,17 +3115,65 @@ app/
 │   │   │   | --- FILE CONTENT START (route.tsx) ---
 │   │   │   | import { ImageResponse } from 'next/og'
 │   │   │   | 
-│   │   │   | export function GET(request: Request) {
-│   │   │   |   let url = new URL(request.url)
-│   │   │   |   let title = url.searchParams.get('title') || 'Next.js Portfolio Starter'
+│   │   │   | // IMPORTANT: Define the runtime as 'edge' for this API to work correctly.
+│   │   │   | export const runtime = 'edge'
 │   │   │   | 
+│   │   │   | // The URL for the Cloudinary background image
+│   │   │   | const HERO_IMAGE_URL = 'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.50/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center:Your%20Funky%20Jazz,w_0.2,y_0.3/v1570237649/17160429878_68460aeb25_o-1_udg7bx.jpg'
+│   │   │   | 
+│   │   │   | // The GET function MUST be async to use fetch
+│   │   │   | export async function GET(request: Request) {
+│   │   │   |   let url = new URL(request.url)
+│   │   │   |   let title = url.searchParams.get('title') || 'My Musical Journey, Jazz is everywhere'
+│   │   │   | 
+│   │   │   |   // --- 1. Fetch the External Image ---
+│   │   │   |   let imageBuffer: ArrayBuffer | undefined;
+│   │   │   |   try {
+│   │   │   |       // Use fetch to get the image data
+│   │   │   |       const response = await fetch(HERO_IMAGE_URL);
+│   │   │   |       if (response.ok) {
+│   │   │   |           imageBuffer = await response.arrayBuffer();
+│   │   │   |       } else {
+│   │   │   |           console.error(`Failed to fetch background image: ${response.status}`);
+│   │   │   |       }
+│   │   │   |   } catch (error) {
+│   │   │   |       console.error('Error fetching image:', error);
+│   │   │   |   }
+│   │   │   | 
+│   │   │   |   // --- 2. Render the ImageResponse with the image data ---
 │   │   │   |   return new ImageResponse(
 │   │   │   |     (
-│   │   │   |       <div tw="flex flex-col w-full h-full items-center justify-center bg-white">
-│   │   │   |         <div tw="flex flex-col md:flex-row w-full py-12 px-4 md:items-center justify-between p-8">
-│   │   │   |           <h2 tw="flex flex-col text-4xl font-bold tracking-tight text-left">
+│   │   │   |       <div 
+│   │   │   |         tw="flex flex-col w-full h-full items-center justify-center text-white"
+│   │   │   |         style={{
+│   │   │   |           // Fallback background color if image fails to load
+│   │   │   |           backgroundColor: '#000', 
+│   │   │   |         }}
+│   │   │   |       >
+│   │   │   |         {/* Render the Image element using the fetched URL */}
+│   │   │   |         {imageBuffer ? (
+│   │   │   |             // Use the <img> tag and the full URL
+│   │   │   |             <img 
+│   │   │   |                 src={HERO_IMAGE_URL} 
+│   │   │   |                 alt="Arman Ayva Background" 
+│   │   │   |                 width={1200}
+│   │   │   |                 height={630}
+│   │   │   |                 tw="absolute inset-0 w-full h-full object-cover" 
+│   │   │   |             />
+│   │   │   |         ) : (
+│   │   │   |              // Simple fallback text if the image fails to load
+│   │   │   |             <div tw="text-4xl">Image Failed to Load</div>
+│   │   │   |         )}
+│   │   │   |         
+│   │   │   |         {/* Black Overlay for Readability */}
+│   │   │   |         <div tw="absolute inset-0 bg-black opacity-60" />
+│   │   │   |         
+│   │   │   |         {/* Content container - place it on top of the overlay */}
+│   │   │   |         <div tw="relative flex flex-col w-full p-16 justify-center items-center">
+│   │   │   |           <h1 tw="text-6xl font-bold tracking-tight text-center max-w-4xl">
 │   │   │   |             {title}
-│   │   │   |           </h2>
+│   │   │   |           </h1>
+│   │   │   |           <p tw="text-2xl mt-4">Arman Ayva | Composer & Musician</p>
 │   │   │   |         </div>
 │   │   │   |       </div>
 │   │   │   |     ),
@@ -2774,6 +3183,5 @@ app/
 │   │   │   |     }
 │   │   │   |   )
 │   │   │   | }
-│   │   │   | 
 │   │   │   | --- FILE CONTENT END ---
 

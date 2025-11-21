@@ -6,7 +6,8 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react'; // ⬅️ NEW: Import useState
 import { FaBars, FaTimes } from 'react-icons/fa'; // ⬅️ NEW: Icons for hamburger
 import { ThemeToggle } from './ThemeToggle'; 
-
+import Image from 'next/image';
+//import Logo from './Logo'; // Adjust the path if Logo.tsx is not in the same directory
 // Define the navigation items based on your site structure
 const navItems = {
   '/': {
@@ -42,6 +43,24 @@ const navItems = {
     type: 'internal',
   },
 };
+
+// Logo.tsx - TEMPORARY SIMPLE HTML TEST
+const CLOUDINARY_LOGO_URL = "https://res.cloudinary.com/dpmkshcky/image/upload/v1763746293/logo_dxzmtf.gif";
+
+export default function Logo() {
+  return (
+    <img
+      src={CLOUDINARY_LOGO_URL} // Use the absolute URL from Cloudinary
+      alt="Animated Company Logo"
+      width={50} 
+      height={50} 
+      style={{
+        maxWidth: '100%',
+        height: 'auto',
+      }}
+    />
+  );
+}
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false); // State for mobile menu visibility
@@ -95,12 +114,20 @@ export function Navbar() {
           
           {/* 1. Header Row (Contains Logo/Title, Desktop Links, Toggle, and Hamburger) */}
           <div className="flex justify-between items-center w-full py-1">
+
+            {/* 2. ✅ ADD THE LOGO COMPONENT HERE FOR ALL VIEWS (REPLACING STATIC TITLE) */}
+            <div className="md:flex flex-row space-x-0">
+                <Link href="/">
+                    {/* The Logo component goes inside a Link to ensure it's clickable and routes home */}
+                    <Logo /> 
+                </Link>
+            </div>
             
             {/* Menu Links (Desktop: Always Visible) */}
             <div className="hidden md:flex flex-row space-x-0">
               {renderLinks(false)}
             </div>
-
+            x
             {/* Title/Logo for Mobile View when links are hidden */}
             <div className="md:hidden text-lg font-bold text-neutral-900 dark:text-neutral-100">
                 Arman Ayva
