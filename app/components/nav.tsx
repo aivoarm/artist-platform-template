@@ -55,7 +55,7 @@ export default function Logo() {
       width={30}
       height={50}
       // Use Tailwind for styling instead of height/width props if possible
-      className="w-[100px] h-auto" 
+      className="w-[30px] h-auto" 
     />
   );
 }
