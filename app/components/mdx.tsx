@@ -8,7 +8,7 @@ import React from 'react'
 import BandcampCTA from 'app/components/BandcampCTA'
 import MusicCTA from 'app/components/MusicCTA'
 import { PlaylistStats } from 'app/components/PlaylistStats'
-
+import PlaylistUrlInput from 'app/components/PlaylistUrlInput' 
 // --- HELPER FUNCTIONS (Must be defined before usage) ---
 
 function Table({ data }: { data: { headers: string[]; rows: string[][] } }) {
@@ -106,7 +106,8 @@ let components = {
   Table,         // Ensure Table is here
   BandcampCTA,
   MusicCTA,
-  PlaylistStats, // Ensure PlaylistStats is here
+  PlaylistStats, 
+  PlaylistUrlInput,// Ensure PlaylistStats is here
 }
 
 export function CustomMDX(props: any) {

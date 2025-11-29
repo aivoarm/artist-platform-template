@@ -71,3 +71,44 @@ export async function analyzePlaylistDiscovery(playlistId: string, playlistName:
     analyzed_count: sampleArtists.length
   };
 }
+
+export async function fetchPlaylistMetadata(url: string) {
+  const { access_token } = await getAccessToken();
+  if (!access_token) return { error: "Server Error: No Access Token" };
+
+  // 1. Extract Playlist ID using Regex
+  const match = url.match(/playlist\/([a-zA-Z0-9]+)/);
+  if (!match) return { error: "Invalid Spotify Playlist URL. Please copy the link from the 'Share' menu." };
+  const id = match[1];
+
+  try {
+    // 2. Fetch Playlist Details (Name + Tracks)
+    // We request specific fields to keep the payload light
+    const res = await fetch(`https://api.spotify.com/v1/playlists/${id}?fields=name,id,tracks.items(track(artists(name)))`, {
+      headers: { Authorization: `Bearer ${access_token}` },
+      next: { revalidate: 0 } // Always fetch fresh data for user inputs
+    });
+    
+    if (!res.ok) return { error: "Playlist not found. Is it private?" };
+    
+    const data = await res.json();
+
+    // 3. Extract unique artist names
+    const artists = data.tracks.items
+      .map((item: any) => item.track?.artists[0]?.name)
+      .filter(Boolean);
+      
+    const uniqueArtists = Array.from(new Set(artists)) as string[];
+
+    if (uniqueArtists.length === 0) return { error: "This playlist seems empty." };
+
+    return {
+        id: data.id,
+        name: data.name,
+        artists: uniqueArtists
+    };
+  } catch (e) {
+    console.error(e);
+    return { error: "Failed to connect to Spotify." };
+  }
+}
