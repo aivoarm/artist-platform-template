@@ -8,6 +8,25 @@ const nextConfig = {
         port: '',
         pathname: '/**', // Allows any path from this domain
       },
+      // 👇 NEW: Allow Spotify Images
+      {
+        protocol: 'https',
+        hostname: 'i.scdn.co',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'image-cdn-ak.spotifycdn.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'mosaic.scdn.co',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   // Define redirects for old URLs
@@ -20,24 +39,23 @@ const nextConfig = {
         permanent: true, // 301 Permanent Redirect
       },
 
-{
+      {
         source: '/f',
         destination: '/blog',
         permanent: true, // 301 Permanent Redirect
       },
       {
-  source: '/f/:slug', 
-  destination: '/blog/:slug', 
-  permanent: true, 
-}
+        source: '/f/:slug',
+        destination: '/blog/:slug',
+        permanent: true,
+      },
 
-,
       // EXISTING: Redirects all content from /project/* to /blog/*
       {
         source: '/project/:slug',
         destination: '/blog/:slug',
         permanent: true, // 301 Permanent Redirect
-      }
+      },
     ];
   },
 };
