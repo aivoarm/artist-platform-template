@@ -10,18 +10,22 @@ export async function analyzePlaylistDiscovery(playlistId: string, playlistName:
   const sampleArtists = artists.slice(0, 10);
   let discoveryCount = 0;
 
-  // Use the specific context search (Artist + Playlist) to verify indexing
+  // Search Context: "Artist Name + Playlist Name"
   const checks = await Promise.all(
     sampleArtists.map(async (artist) => {
       try {
         const query = `${artist} ${playlistName}`;
+        
+        // Updated limit to 50 (MAX) to catch all possible results
         const res = await fetch(
-          `https://api.spotify.com/v1/search?q=$${encodeURIComponent(query)}&type=playlist&limit=5`,
+          `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=playlist&limit=50`,
           { headers: { Authorization: `Bearer ${access_token}` } }
         );
+        
         const data = await res.json();
         return data.playlists?.items || [];
       } catch (e) {
+        console.error(e);
         return [];
       }
     })
@@ -33,7 +37,7 @@ export async function analyzePlaylistDiscovery(playlistId: string, playlistName:
     // Filter out nulls
     const validResults = searchResults.filter(item => item !== null);
 
-    // Check match
+    // Check if OUR playlist appears in the results
     const isFound = validResults.some((pl: any) => 
         pl.id === playlistId || 
         (pl.name && pl.name.toLowerCase() === playlistName.toLowerCase())
@@ -42,15 +46,17 @@ export async function analyzePlaylistDiscovery(playlistId: string, playlistName:
     if (isFound) discoveryCount++;
   });
 
-  // --- NEW SCORING LOGIC ---
+  // --- SCORING LOGIC ---
   
-  // 1. Calculate Percentage (Artists in Discovered On)
+  // 1. Calculate Percentage
   const percentage = Math.round((discoveryCount / sampleArtists.length) * 100);
   
-  // 2. Discovery Score (0-100)
-  // We map the percentage directly to the score. 
-  // (You can add a multiplier here if you want to curve the grades, e.g. percentage * 1.2)
-  const score = percentage;
+  // 2. Discovery Score Logic
+  // Rule: If percentage is > 70, Score = 100. Otherwise, Score = Percentage.
+  let score = percentage;
+  if (percentage > 70) {
+    score = 100;
+  }
 
   // 3. Determine Rating Badge
   let rating = "Bad 🔻";
