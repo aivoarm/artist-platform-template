@@ -8,6 +8,8 @@ import React from 'react'
 import BandcampCTA from 'app/components/BandcampCTA'
 import MusicCTA from 'app/components/MusicCTA'
 import { PlaylistStats } from 'app/components/PlaylistStats'
+import { PlaylistDiscovery } from 'app/components/PlaylistDiscovery'
+
 
 // --- HELPER FUNCTIONS (Must be defined before usage) ---
 
@@ -106,7 +108,8 @@ let components = {
   Table,         // Ensure Table is here
   BandcampCTA,
   MusicCTA,
-  PlaylistStats, // Ensure PlaylistStats is here
+  PlaylistStats, 
+  PlaylistDiscovery,// Ensure PlaylistStats is here
 }
 
 export function CustomMDX(props: any) {

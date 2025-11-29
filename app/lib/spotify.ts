@@ -5,7 +5,7 @@ const basic = Buffer.from(`${client_id}:${client_secret}`).toString('base64');
 
 const TOKEN_ENDPOINT = `https://accounts.spotify.com/api/token`;
 
-async function getAccessToken() {
+export async function getAccessToken() {
   // 1. Debug: Check if keys exist (Do not log the actual secret!)
   console.log("🔑 [Spotify] Checking credentials...");
   if (!client_id) console.error("❌ [Spotify] Missing SPOTIFY_CLIENT_ID");
