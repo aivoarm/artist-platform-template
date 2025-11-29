@@ -3,8 +3,8 @@ import { CustomMDX } from 'app/components/mdx'
 import { formatDate, getBlogPosts } from 'app/blog/utils'
 import { baseUrl } from 'app/sitemap'
 import type { Metadata } from 'next'
-import Image from 'next/image' // <-- 1. Import Next.js Image Component
-// Next.js automatically calls this to pre-render pages
+import Image from 'next/image'
+
 export async function generateStaticParams() {
   let posts = getBlogPosts()
 
@@ -13,14 +13,11 @@ export async function generateStaticParams() {
   }))
 }
 
-// Generate metadata for the shareable link card
 export async function generateMetadata({
   params,
 }: {
   params: { slug: string }
 }): Promise<Metadata | undefined> {
-  
-  // FIX: Access params.slug directly (no need for await or decode)
   const post = getBlogPosts().find((post) => post.slug === params.slug)
   
   if (!post) {
@@ -34,7 +31,6 @@ export async function generateMetadata({
     image,
   } = post.metadata
   
-  // 🔑 KEY TO NICE LOOKING LINKS: Use the dynamic /og route if no specific image is set.
   let ogImage = image
     ? image
     : `${baseUrl}/og?title=${encodeURIComponent(title)}`
@@ -51,12 +47,11 @@ export async function generateMetadata({
       images: [
         {
           url: ogImage,
-          width: 1200, // Standard OG image width
-          height: 630, // Standard OG image height
+          width: 1200,
+          height: 630,
         },
       ],
     },
-    // Twitter card setup is essential for platforms like Slack, Discord, and X (Twitter)
     twitter: {
       card: 'summary_large_image',
       title,
@@ -73,7 +68,6 @@ export default async function Blog({ params }: { params: { slug: string } }) {
     notFound()
   }
 
-  // Destructure the headerImage from metadata
   const { title, publishedAt, headerImage } = post.metadata;
 
   return (
@@ -83,35 +77,50 @@ export default async function Blog({ params }: { params: { slug: string } }) {
         suppressHydrationWarning
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
-            // ... (your schema markup) ...
+            '@context': 'https://schema.org',
+            '@type': 'BlogPosting',
+            headline: title,
+            datePublished: publishedAt,
+            dateModified: publishedAt,
+            description: post.metadata.summary,
+            image: post.metadata.image
+              ? `${baseUrl}${post.metadata.image}`
+              : `/og?title=${encodeURIComponent(title)}`,
+            url: `${baseUrl}/blog/${post.slug}`,
+            author: {
+              '@type': 'Person',
+              name: 'My Portfolio',
+            },
           }),
         }}
       />
-<h1 className="title font-semibold text-2xl tracking-tighter text-neutral-600 dark:text-neutral-50">
-  {title}
-</h1>        
+      
+      {/* ADDED mb-8 HERE FOR SPACING 👇 */}
+      <h1 className="title font-semibold text-2xl tracking-tighter text-neutral-600 dark:text-neutral-50 mb-8">
+        {title}
+      </h1>        
 
       {/* 2. CONDITIONAL HEADER IMAGE RENDERING */}
       {headerImage && (
-        // The image container must be relative if using fill
         <div className="relative w-full overflow-hidden mb-8" style={{ height: '250px' }}>
           <Image
-            // Use the headerImage URL from the post's frontmatter
             src={headerImage}
             alt={title} 
-            fill // Fills the parent div (height: 250px)
-            sizes="100vw" // Tells Next.js the image spans the full width of the screen
-            className="object-cover" 
+            fill
+            sizes="100vw"
+            className="object-cover rounded-lg" // Added rounded-lg for nicer corners
             priority
           />
         </div>
       )}
       
       <div className="flex justify-between items-center mt-2 mb-8 text-sm">
-  <p className="text-sm text-neutral-600 dark:text-neutral-50**">
-    {formatDate(publishedAt)}
-  </p>
-</div>
+        {/* FIXED TYPO: removed '**' from end of class string */}
+        <p className="text-sm text-neutral-600 dark:text-neutral-50">
+          {formatDate(publishedAt)}
+        </p>
+      </div>
+
       <article className="prose">
         <CustomMDX source={post.content} />
       </article>
