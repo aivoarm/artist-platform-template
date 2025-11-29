@@ -1750,7 +1750,8 @@ app/
 │   │   │   | import { useState } from 'react'; // ⬅️ NEW: Import useState
 │   │   │   | import { FaBars, FaTimes } from 'react-icons/fa'; // ⬅️ NEW: Icons for hamburger
 │   │   │   | import { ThemeToggle } from './ThemeToggle'; 
-│   │   │   | import Logo from './Logo'; // Adjust the path if Logo.tsx is not in the same directory
+│   │   │   | import Image from 'next/image';
+│   │   │   | //import Logo from './Logo'; // Adjust the path if Logo.tsx is not in the same directory
 │   │   │   | // Define the navigation items based on your site structure
 │   │   │   | const navItems = {
 │   │   │   |   '/': {
@@ -1786,6 +1787,22 @@ app/
 │   │   │   |     type: 'internal',
 │   │   │   |   },
 │   │   │   | };
+│   │   │   | 
+│   │   │   | // Logo.tsx - TEMPORARY SIMPLE HTML TEST
+│   │   │   | const CLOUDINARY_LOGO_URL = "https://res.cloudinary.com/dpmkshcky/image/upload/v1763746293/logo_dxzmtf.gif";
+│   │   │   | 
+│   │   │   | //const CLOUDINARY_LOGO_URL ="https://res.cloudinary.com/dpmkshcky/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1763746293/logo_dxzmtf.gif"
+│   │   │   | export default function Logo() {
+│   │   │   |   return (
+│   │   │   |     <img
+│   │   │   |       src={CLOUDINARY_LOGO_URL} // Use the absolute URL here
+│   │   │   |       alt="Animated Company Logo"
+│   │   │   |       width={50} 
+│   │   │   |       height={50} // IMPORTANT: Set equal width and height for a perfect circle
+│   │   │   |       className="w-[70px] h-[70px] object-cover rounded-full border-2 border-black shadow-lg"
+│   │   │   |     />
+│   │   │   |   );
+│   │   │   | }
 │   │   │   | 
 │   │   │   | export function Navbar() {
 │   │   │   |   const [isOpen, setIsOpen] = useState(false); // State for mobile menu visibility
@@ -2612,7 +2629,7 @@ app/
 │   │   │   |   return (
 │   │   │   |     <Image
 │   │   │   |       src="/logo.gif" 
-│   │   │   |       alt="Animated Company Logo"
+│   │   │   |       alt="Arman Ayva Company Logo"
 │   │   │   |       width={100} // Ensure this is set to the GIF's size or desired size
 │   │   │   |       height={50} // Ensure this is set
 │   │   │   |       unoptimized={true} // CRITICAL for GIF animation

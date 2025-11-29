@@ -108,7 +108,7 @@ export default async function Blog({ params }: { params: { slug: string } }) {
       )}
       
       <div className="flex justify-between items-center mt-2 mb-8 text-sm">
-  <p className="text-sm **text-neutral-600 dark:text-neutral-50**">
+  <p className="text-sm text-neutral-600 dark:text-neutral-50**">
     {formatDate(publishedAt)}
   </p>
 </div>
