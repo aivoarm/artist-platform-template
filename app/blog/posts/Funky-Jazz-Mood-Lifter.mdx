@@ -2,85 +2,160 @@
 title: '🎵 Funky-Jazz-Mood-Lifter: Submit Your Music & Vibe with the Best'
 publishedAt: '2025-04-07'
 summary: 'A high-energy, curated playlist featuring over 100 artists, perfect for urban nights, concentration, or workouts. Submit your own composition to be added!'
-image: "/images/juanito-og-card.jpg" 
-headerImage: "https://res.cloudinary.com/dpmkshcky/image/upload/v1764445473/jazz_5_ea2idb_a97cc1.png" 
+image: "/images/juanito-og-card.jpg"
+headerImage: "https://res.cloudinary.com/dpmkshcky/image/upload/v1764445473/jazz_5_ea2idb_a97cc1.png"
 ---
 
-## 🎧 The Funky Jazz Mood Lifter Playlist
+  
+{/* --- FLOATING SAVE BUTTON (Fixed Bottom Right) --- */}
 
-Now you can submit your jazz composition to be added to the **"Funky Jazz Mood Lifter"** Playlist on Spotify!
+<div className="fixed bottom-6 right-6 z-50">
+<a
+href="https://open.spotify.com/playlist/0kQ3ZMgLoc9UoFtJz96qYa"
+target="_blank"
+rel="noopener noreferrer"
+className="flex items-center gap-3 bg-[#1DB954] hover:bg-[#1ed760] text-black font-bold px-6 py-4 rounded-full shadow-2xl transition-transform hover:scale-105 hover:shadow-[0_0_20px_rgba(29,185,84,0.5)] no-underline"
+>
+<span className="text-xl">❤</span>
+<span>SAVE PLAYLIST</span>
+</a>
+</div>
 
-This is a high-energy, curated playlist featuring **funky, fresh jazz vibes** from **~130 tracks** by over **100 artists**. Curated by Arman Ayva, the selection includes upbeat grooves like Tukka Yoot’s Riddim and Herbie Hancock's *Cantaloupe Island*. It’s bass-heavy, instrumental, and mood-lifting, typically running at **122 BPM**.
+🎧 The Funky Jazz Mood Lifter Playlist
+
+Now you can submit your jazz composition to be added to the "Funky Jazz Mood Lifter" Playlist on Spotify!
+
+This is a high-energy, curated playlist featuring funky, fresh jazz vibes from ~130 tracks by over 100 artists. Curated by Arman Ayva, the selection includes upbeat grooves like Tukka Yoot’s Riddim and Herbie Hancock's Cantaloupe Island. It’s bass-heavy, instrumental, and mood-lifting, typically running at 122 BPM.
 
 It's the perfect backdrop for urban nights, workouts, chill café environments, or focused concentration at work.
 
----
-<MusicCTA 
-  albumUrl="https://open.spotify.com/playlist/0kQ3ZMgLoc9UoFtJz96qYa" 
-  label="⭐ SAVE ON SPOTIFY"
-  baseColor="#1DB954" 
-  hoverColor="#1ed760" 
+<br />
+
+<MusicCTA
+albumUrl="https://open.spotify.com/playlist/0kQ3ZMgLoc9UoFtJz96qYa"
+label="⭐ SAVE ON SPOTIFY"
+baseColor="#1DB954"
+hoverColor="#1ed760"
 />
-### Track Spotlight
 
-<PlaylistStats id="0kQ3ZMgLoc9UoFtJz96qYa" />
-
-
-<h2 className="font-bold text-2xl font-serif mt-12 mb-6 tracking-tighter">
-    Funky Jazz Mood Lifter Playlist
+<h2 className="font-bold text-2xl font-serif mt-12 mb-4 tracking-tighter">
+Funky Jazz Mood Lifter Playlist
 </h2>
-<div className="rounded-xl overflow-hidden shadow-2xl">
-    <iframe 
-        style={{ borderRadius: '12px' }} 
-        src="https://open.spotify.com/embed/playlist/0kQ3ZMgLoc9UoFtJz96qYa?utm_source=generator"
-        width="100%" 
-        height="352" 
-        frameBorder="0" 
-        allowFullScreen={true} 
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-        loading="lazy"
-    />
+
+<div className="mb-8">
+<PlaylistStats id="0kQ3ZMgLoc9UoFtJz96qYa" />
+</div>
+
+<div className="grid md:grid-cols-2 gap-8 items-start mb-12">
+{/* SPOTIFY PLAYER */}
+<div className="rounded-xl overflow-hidden shadow-2xl border border-gray-100 dark:border-gray-800">
+<iframe
+style={{ borderRadius: '12px' }}
+src="https://open.spotify.com/embed/playlist/0kQ3ZMgLoc9UoFtJz96qYa?utm_source=generator"
+width="100%"
+height="450"
+frameBorder="0"
+allowFullScreen={true}
+allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+loading="lazy"
+/>
+</div>
+
+{/* TRACK LIST PREVIEW (Static Data from your CSV) */}
+<div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-4 border border-gray-200 dark:border-gray-800 h-[450px] overflow-y-auto custom-scrollbar">
+    <div className="flex justify-between items-center mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
+        <h3 className="font-bold text-gray-700 dark:text-gray-200 m-0 text-sm uppercase tracking-wide">🔥 Top Picks</h3>
+        <span className="text-xs bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 px-2 py-1 rounded-full">130+ Tracks</span>
+    </div>
+    
+    <div className="space-y-1">
+        <div className="flex items-center gap-3 p-2 hover:bg-gray-200 dark:hover:bg-gray-800 rounded transition-colors cursor-default group">
+            <span className="text-xs font-bold text-gray-400 w-4">1</span>
+            <div className="flex-1 min-w-0">
+                <div className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">Whiplash</div>
+                <div className="text-xs text-gray-500 truncate">Hank Levy</div>
+            </div>
+            <div className="text-xs text-gray-400">01:55</div>
+        </div>
+
+         <div className="flex items-center gap-3 p-2 hover:bg-gray-200 dark:hover:bg-gray-800 rounded transition-colors cursor-default group">
+            <span className="text-xs font-bold text-gray-400 w-4">2</span>
+            <div className="flex-1 min-w-0">
+                <div className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">Cantaloupe Island</div>
+                <div className="text-xs text-gray-500 truncate">Herbie Hancock</div>
+            </div>
+            <div className="text-xs text-gray-400">05:28</div>
+        </div>
+
+        <div className="flex items-center gap-3 p-2 hover:bg-gray-200 dark:hover:bg-gray-800 rounded transition-colors cursor-default group">
+            <span className="text-xs font-bold text-gray-400 w-4">3</span>
+            <div className="flex-1 min-w-0">
+                <div className="text-sm font-semibold text-green-600 dark:text-green-400 truncate">Cowboy</div>
+                <div className="text-xs text-gray-500 truncate">Arman Ayva</div>
+            </div>
+            <div className="text-xs text-gray-400">01:55</div>
+        </div>
+
+        <div className="flex items-center gap-3 p-2 hover:bg-gray-200 dark:hover:bg-gray-800 rounded transition-colors cursor-default group">
+            <span className="text-xs font-bold text-gray-400 w-4">4</span>
+            <div className="flex-1 min-w-0">
+                <div className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">Lingus</div>
+                <div className="text-xs text-gray-500 truncate">Snarky Puppy</div>
+            </div>
+            <div className="text-xs text-gray-400">10:45</div>
+        </div>
+
+        <div className="flex items-center gap-3 p-2 hover:bg-gray-200 dark:hover:bg-gray-800 rounded transition-colors cursor-default group">
+            <span className="text-xs font-bold text-gray-400 w-4">5</span>
+            <div className="flex-1 min-w-0">
+                <div className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">Tank!</div>
+                <div className="text-xs text-gray-500 truncate">Seatbelts</div>
+            </div>
+            <div className="text-xs text-gray-400">03:30</div>
+        </div>
+
+        <div className="flex items-center gap-3 p-2 hover:bg-gray-200 dark:hover:bg-gray-800 rounded transition-colors cursor-default group">
+            <span className="text-xs font-bold text-gray-400 w-4">6</span>
+            <div className="flex-1 min-w-0">
+                <div className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">Strasbourg / St. Denis</div>
+                <div className="text-xs text-gray-500 truncate">Roy Hargrove</div>
+            </div>
+            <div className="text-xs text-gray-400">04:39</div>
+        </div>
+        
+         <div className="pt-4 text-center">
+            <a href="https://open.spotify.com/playlist/0kQ3ZMgLoc9UoFtJz96qYa" target="_blank" className="text-xs text-gray-500 hover:text-green-600 no-underline">
+                View 100+ more on Spotify &rarr;
+            </a>
+        </div>
+    </div>
 </div>
 
 
-| Detail | Description |
-| :--- | :--- |
-| **Track:** | N.E.W. |
-| **Artist:** | Hiromi, Tomoaki Baba, Shun Ishiwaka |
-| **Album:** | BLUE GIANT (Original Soundtrack) (2023, Universal Music LLC) |
-| **About the Artist:** | Hiromi, a virtuosic Japanese pianist, is renowned for her dazzling technique and genre-defying compositions. Joined by saxophonist Tomoaki Baba and drummer Shun Ishikawa, this trio creates intricate, energetic jazz fusion that blends jazz, rock, and electronic elements, captivating audiences worldwide. |
-| **Why it fits:** | This track’s complex rhythms and vibrant energy showcase Hiromi’s signature style, making it a perfect fit for a funky jazz playlist. The trio’s synergy and innovative sound add depth and excitement, appealing to fans of jazz fusion. |
+</div>
 
----
 
-## 🚀 Submit Your Jazz Composition
+<hr className="my-12 border-gray-200 dark:border-gray-800" />
+
+🚀 Submit Your Jazz Composition
 
 Ready to be heard by thousands of listeners? Submit your track to be considered for addition to the official playlist using the form below:
 
 <div style={{ margin: '2rem 0' }}>
-    <iframe 
-        id="JotFormIFrame-250527544444255"
-        title="Jazz Submission Form"
-        allowFullScreen="true"
-        allow="microphone; camera; geolocation"
-        src="https://form.jotform.com/250527544444255"
-        frameBorder="0"
-        allowtransparency="true"
-        style={{
-            minWidth: '100%',
-            height: '1200px', // Adjust height as needed for the form
-            border: 'none'
-        }}
-        scrolling="no"
-    >
-    </iframe>
+<iframe
+id="JotFormIFrame-250527544444255"
+title="Jazz Submission Form"
+allowFullScreen={true}
+allow="microphone; camera; geolocation"
+src="https://form.jotform.com/250527544444255"
+frameBorder="0"
+allowTransparency={true}
+style={{
+minWidth: '100%',
+height: '1200px',
+border: 'none'
+}}
+scrolling="no"
+>
+</iframe>
 </div>
----
-Don't forget to save the playlist to your library!
-
-<MusicCTA 
-  albumUrl="YOUR_ACTUAL_SPOTIFY_PLAYLIST_URL" 
-  label="⭐ SAVE ON SPOTIFY"
-  baseColor="#1DB954" 
-  hoverColor="#1ed760" 
-/>

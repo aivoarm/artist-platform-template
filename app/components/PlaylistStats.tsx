@@ -31,7 +31,7 @@ export async function PlaylistStats({ id }: { id: string }) {
     <div className="my-10 p-6 rounded-2xl bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm">
       <div className="flex flex-col md:flex-row gap-6 items-center">
         
-        {/* Cover Image */}
+        {/* Cover Image 
         {playlist.images?.[0] && (
           <div className="relative w-40 h-40 flex-shrink-0 shadow-lg rounded-xl overflow-hidden">
              <Image 
@@ -42,7 +42,7 @@ export async function PlaylistStats({ id }: { id: string }) {
              />
           </div>
         )}
-
+*/}
         <div className="flex-1 text-center md:text-left w-full">
           <h3 className="text-2xl font-bold mb-2 text-neutral-900 dark:text-neutral-100">{playlist.name}</h3>
           
@@ -60,11 +60,12 @@ export async function PlaylistStats({ id }: { id: string }) {
               <div className="text-xs uppercase tracking-wider text-neutral-500">Tracks</div>
             </div>
 
-            {/* Metric: Discoverability / Vibe Score */}
+            {/* Metric: Discoverability / Vibe Score 
             <div className="p-3 bg-white dark:bg-black rounded-lg border border-neutral-200 dark:border-neutral-800">
               <div className="text-2xl font-bold text-purple-500">{avgPopularity}%</div>
               <div className="text-xs uppercase tracking-wider text-neutral-500">Trend Score</div>
             </div>
+            */}
           </div>
           
           <div className="mt-4 text-xs text-neutral-500">
