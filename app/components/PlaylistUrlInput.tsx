@@ -88,6 +88,47 @@ export default function PlaylistUrlInput() {
                       artists={data.artists} 
                    />
                 </div>
+                {data && (
+    <div className="mt-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="p-4 bg-neutral-50 dark:bg-neutral-900 rounded-t-2xl border-x border-t border-neutral-200 dark:border-neutral-800 flex justify-between items-center">
+        <div>
+            <span className="text-xs uppercase tracking-wider text-neutral-500 font-semibold">Analyzed Playlist</span>
+            <div className="font-bold text-lg text-neutral-900 dark:text-neutral-100">{data.name}</div>
+        </div>
+        <button 
+            onClick={() => setData(null)} 
+            className="text-xs text-neutral-400 hover:text-red-500"
+        >
+            Clear
+        </button>
+    </div>
+
+    {/* NEW: Vibe Stats Bar */}
+    <div className="grid grid-cols-3 divide-x divide-neutral-200 dark:divide-neutral-800 bg-white dark:bg-black border-x border-neutral-200 dark:border-neutral-800">
+        <div className="p-4 text-center">
+            <div className="text-xs text-neutral-500 uppercase tracking-wider font-semibold mb-1">Avg Tempo</div>
+            <div className="text-xl font-bold text-neutral-900 dark:text-neutral-100">{data.tempo} BPM</div>
+        </div>
+        <div className="p-4 text-center">
+            <div className="text-xs text-neutral-500 uppercase tracking-wider font-semibold mb-1">Mood</div>
+            <div className="text-xl font-bold text-neutral-900 dark:text-neutral-100 whitespace-nowrap">{data.mood}</div>
+        </div>
+        <div className="p-4 text-center">
+            <div className="text-xs text-neutral-500 uppercase tracking-wider font-semibold mb-1">Energy</div>
+            <div className="text-xl font-bold text-neutral-900 dark:text-neutral-100">{data.energy}%</div>
+        </div>
+    </div>
+    
+    {/* Embed the Existing Analyzer */}
+    <div className="bg-white dark:bg-black border border-neutral-200 dark:border-neutral-800 rounded-b-2xl p-6 shadow-sm">
+        <PlaylistDiscovery 
+            id={data.id} 
+            name={data.name} 
+            artists={data.artists} 
+        />
+    </div>
+    </div>
+)}
              </div>
           )}
       </div>
