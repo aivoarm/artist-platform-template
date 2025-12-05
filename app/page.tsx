@@ -7,8 +7,14 @@ import { NewReleasesSpotlight } from './components/new-releases-spotlight';
 import Image from 'next/image';
 const HERO_IMAGE_URL = 'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.50/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center:Your%20Funky%20Jazz,w_0.2,y_0.3/v1570237649/17160429878_68460aeb25_o-1_udg7bx.jpg'
 //const HERO_IMAGE_URL = 'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.30/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center:Jazz%20Now,w_0.2,y_0/v1570237614/img_2437-copy-copy_pzebz7.jpg'
-
-
+const videoEmbeds = [
+    {
+      title: "Arman Ayva – Video Library",
+      description: "Explore my discography, stay updated on releases, and find streaming or purchasing options.",
+      embedId: "videoseries?list=PLdh9NdS_IkkUwmhmrqNy0oQTtjxr683kC", 
+      isPlaylist: true,
+    }
+  ]
 export default function Page() {
   return (
     <section>
@@ -40,7 +46,30 @@ export default function Page() {
           an exploration of jazz, funk, and folk, with rich bass, lively drums, 
           and captivating beats.
         </p>
-        
+        <div className="grid grid-cols-1 md:grid-cols-1 gap-8">
+        {videoEmbeds.map((video) => (
+          <div key={video.embedId} className="space-y-3">
+            <h2 className="font-bold text-xl tracking-tight">
+              {video.title}
+            </h2>
+<div className="aspect-w-16 aspect-h-15 w-full max-w-2xl mx-auto rounded-xl overflow-hidden shadow-2xl">              {/* YouTube Embed Setup: using 16:9 aspect ratio */}
+              <iframe
+                className="w-full h-full"
+
+                src={`https://www.youtube.com/embed/${video.embedId}`}
+                title={`YouTube video player for ${video.title}`}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+            <p className="text-sm text-neutral-600 dark:text-neutral-400">
+              {video.description}
+            </p>
+          </div>
+        ))}
+      </div>
+            <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
         <p>
           My music is a fusion of diverse influences, inspired by luminaries like 
           **Marcus Miller, US3, and Dave Brubeck**. I craft compositions that are 
@@ -193,6 +222,8 @@ export default function Page() {
     </p>
 
       <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
+
+
 
     <h2>🎬 Instrumental Music Licensing for TV, Ads, and Film</h2>
     <p>
