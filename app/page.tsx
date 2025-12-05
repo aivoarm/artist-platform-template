@@ -5,6 +5,11 @@ import { SubscribeCTA } from './components/subscribe-cta';
 import { AlbumCTA } from './components/album-cta';
 import { NewReleasesSpotlight } from './components/new-releases-spotlight';
 import Image from 'next/image';
+
+import { PlaylistStats } from 'app/components/PlaylistStats'
+import PlaylistUrlInput from 'app/components/PlaylistUrlInput' 
+
+
 const HERO_IMAGE_URL = 'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.50/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center:Your%20Funky%20Jazz,w_0.2,y_0.3/v1570237649/17160429878_68460aeb25_o-1_udg7bx.jpg'
 //const HERO_IMAGE_URL = 'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.30/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center:Jazz%20Now,w_0.2,y_0/v1570237614/img_2437-copy-copy_pzebz7.jpg'
 const videoEmbeds = [
@@ -52,7 +57,7 @@ export default function Page() {
             <h2 className="font-bold text-xl tracking-tight">
               {video.title}
             </h2>
-<div className="aspect-w-16 aspect-h-15 w-full max-w-2xl mx-auto rounded-xl overflow-hidden shadow-2xl">              {/* YouTube Embed Setup: using 16:9 aspect ratio */}
+        <div className="aspect-w-16 aspect-h-15 w-full max-w-2xl mx-auto rounded-xl overflow-hidden shadow-2xl">              {/* YouTube Embed Setup: using 16:9 aspect ratio */}
               <iframe
                 className="w-full h-full"
 
@@ -114,7 +119,7 @@ export default function Page() {
           This is a high-energy, curated playlist featuring funky, fresh jazz vibes from ~130 tracks by over 100 artists. Curated by Arman Ayva, the selection includes upbeat grooves like Tukka Yoot’s Riddim and Herbie Hancock's Cantaloupe Island. It’s bass-heavy, instrumental, and mood-lifting, typically running at 122 BPM.
         It's the perfect backdrop for urban nights, workouts, chill café environments, or focused concentration at work.
 <br></br>
-
+</p>
       <Link 
         href="/blog/Funky-Jazz-Mood-Lifter" 
         className="text-sm font-semibold mt-6 inline-block text-neutral-400 dark:text-neutral-50 hover:text-blue-500 transition-colors "
@@ -122,7 +127,6 @@ export default function Page() {
         Funky-Jazz-Mood-Lifter →
       </Link>
         
-        </p>
         
         <div className="rounded-xl overflow-hidden shadow-2xl">
           <iframe 
@@ -138,6 +142,13 @@ export default function Page() {
         </div>
       </div>
 
+        <hr className="my-12 border-gray-200 dark:border-gray-800" />
+
+        <div className="mb-8">
+        <PlaylistStats id="0kQ3ZMgLoc9UoFtJz96qYa" />
+        <PlaylistUrlInput />
+        </div>
+               
       <hr className="my-16 border-neutral-200 dark:border-neutral-800" />
       
       {/* NEW RELEASES SECTION */}
