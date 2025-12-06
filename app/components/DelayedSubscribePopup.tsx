@@ -45,7 +45,7 @@ function SubscribeCTAContent() {
 // The main component that implements the delayed popup logic
 export function DelayedSubscribePopup() {
   const [isVisible, setIsVisible] = useState(false);
-  const DELAY_TIME_MS = 10000; // 10 seconds
+  const DELAY_TIME_MS = 30000; // 10 seconds
 
   useEffect(() => {
     // 1. Set a timer to show the popup
