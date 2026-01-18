@@ -35,9 +35,13 @@ html {
   min-width: 360px;
 }
 
+/* CUSTOM UTILITY: Higher contrast for secondary text (dates/summaries) */
+.text-secondary {
+  @apply text-neutral-600 dark:text-neutral-300;
+}
+
 .prose .anchor {
   @apply absolute invisible no-underline;
-
   margin-left: -1em;
   padding-right: 0.5em;
   width: 80%;
@@ -51,15 +55,12 @@ html {
 
 /* LINKS: Setting high-contrast link colors for both themes */
 .prose a {
-  /* Set base link color for light mode (darker neutral) */
   @apply underline transition-all text-neutral-800 decoration-neutral-400 underline-offset-2 decoration-[0.1em];
 }
 
 .dark .prose a {
-  /* Set link color to white/light neutral for dark mode */
   @apply text-neutral-50 decoration-neutral-600;
 }
-
 
 .prose .anchor:after {
   @apply text-neutral-300 dark:text-neutral-700;
@@ -89,52 +90,49 @@ html {
 }
 
 .prose img {
-  /* Don't apply styles to next/image */
   @apply m-0;
 }
 
-/* --- TEXT COLOR FIXES FOR DARK MODE START HERE --- */
+/* --- TEXT COLOR FIXES FOR DARK MODE --- */
 
-/* 1. Paragraphs (p) */
+/* 1. Paragraphs (p) - Using text-neutral-200 for better dark mode readability */
 .prose p {
-  @apply my-4 text-neutral-800; /* Dark text for light mode */
+  @apply my-4 text-neutral-800; 
 }
 .dark .prose p {
-  @apply text-neutral-50; /* White text for dark mode */
+  @apply text-neutral-200; 
 }
 
-/* 2. Headings (h1, h2, h3, h4) - Streamlined to remove redundancy */
+/* 2. Headings (h1, h2, h3, h4) */
 .prose h1,
 .prose h2,
 .prose h3,
 .prose h4 {
-  @apply text-lg font-medium tracking-tight mt-6 mb-2 text-neutral-900; /* Dark text for light mode */
+  @apply text-lg font-medium tracking-tight mt-6 mb-2 text-neutral-900;
 }
 .dark .prose h1,
 .dark .prose h2,
 .dark .prose h3,
 .dark .prose h4 {
-  @apply text-neutral-50; /* White Text for dark mode */
+  @apply text-neutral-50;
 }
-
 
 /* 3. Strong Text (Bolding) */
 .prose strong {
-  @apply font-medium text-neutral-900; /* Default Dark Text */
+  @apply font-medium text-neutral-900;
 }
 .dark .prose strong {
-  @apply text-neutral-50; /* White Text */
+  @apply text-neutral-50;
 }
 
-
-/* 4. Lists (ul, ol) - Applies to list content and bullets/numbers */
+/* 4. Lists (ul, ol) */
 .prose ul,
 .prose ol {
-  @apply pl-6 text-neutral-800; /* Default Dark Text */
+  @apply pl-6 text-neutral-800;
 }
 .dark .prose ul,
 .dark .prose ol {
-  @apply text-neutral-50; /* White Text */
+  @apply text-neutral-200;
 }
 
 .prose ul {
@@ -144,11 +142,10 @@ html {
 .prose ol {
   @apply list-decimal;
 }
-/* --- TEXT COLOR FIXES FOR DARK MODE END HERE --- */
 
+/* --- LAYOUT & SCROLLBARS --- */
 
 .prose > :first-child {
-  /* Override removing top margin, causing layout shift */
   margin-top: 1.25em !important;
   margin-bottom: 1.25em !important;
 }
@@ -158,8 +155,8 @@ pre::-webkit-scrollbar {
 }
 
 pre {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* Remove Safari input shadow on mobile */

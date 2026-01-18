@@ -27,7 +27,7 @@ export async function generateMetadata({
   let {
     title,
     publishedAt: publishedTime,
-    summary: description,
+    summary: description, // Dynamically uses the post's unique summary for SEO [cite: 957]
     image,
   } = post.metadata
   
@@ -68,7 +68,7 @@ export default async function Blog({ params }: { params: { slug: string } }) {
     notFound()
   }
 
-  const { title, publishedAt, headerImage } = post.metadata;
+  const { title, publishedAt, headerImage, summary } = post.metadata;
 
   return (
     <section>
@@ -82,46 +82,44 @@ export default async function Blog({ params }: { params: { slug: string } }) {
             headline: title,
             datePublished: publishedAt,
             dateModified: publishedAt,
-            description: post.metadata.summary,
+            description: summary,
             image: post.metadata.image
               ? `${baseUrl}${post.metadata.image}`
-              : `/og?title=${encodeURIComponent(title)}`,
+              : `${baseUrl}/og?title=${encodeURIComponent(title)}`,
             url: `${baseUrl}/blog/${post.slug}`,
             author: {
               '@type': 'Person',
-              name: 'My Portfolio',
+              name: 'Arman Ayva', // Updated to match your branding [cite: 414]
             },
           }),
         }}
       />
       
-      {/* ADDED mb-8 HERE FOR SPACING 👇 */}
       <h1 className="title font-semibold text-2xl tracking-tighter text-neutral-600 dark:text-neutral-50 mb-8">
         {title}
       </h1>        
 
       {/* 2. CONDITIONAL HEADER IMAGE RENDERING */}
       {headerImage && (
-        <div className="relative w-full overflow-hidden mb-8" style={{ height: '250px' }}>
+        <div className="relative w-full overflow-hidden mb-8 rounded-lg" style={{ height: '250px' }}>
           <Image
             src={headerImage}
             alt={title} 
             fill
             sizes="100vw"
-            className="object-cover rounded-lg" // Added rounded-lg for nicer corners
-            priority
+            className="object-cover" 
+            priority // Prioritizes loading for LCP improvement [cite: 1014]
           />
         </div>
       )}
       
       <div className="flex justify-between items-center mt-2 mb-8 text-sm">
-        {/* FIXED TYPO: removed '**' from end of class string */}
         <p className="text-sm text-neutral-600 dark:text-neutral-50">
           {formatDate(publishedAt)}
         </p>
       </div>
 
-      <article className="prose">
+      <article className="prose prose-neutral dark:prose-invert max-w-none">
         <CustomMDX source={post.content} />
       </article>
     </section>

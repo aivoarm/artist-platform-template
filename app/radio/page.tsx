@@ -70,32 +70,20 @@ export default function RadioPage() {
 
       {/* Tailwind CSS Grid Layout: 2 columns on small screens, 3 on large */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {embeds.map((embed) => (
-          <div 
-            key={embed.name} 
-            // The old 'circle-td' style is converted to Tailwind: 
-            // rounded-xl for rounded corners and overflow-hidden
-            className="rounded-xl overflow-hidden border border-neutral-200 dark:border-neutral-800 shadow-lg"
-            // Set min-height based on the content to prevent layout shifts
-            style={{ minHeight: `${parseInt(embed.height) + 10}px` }} 
-          >
-            {/* Embed Name/Title for context */}
-            <h3 className="font-semibold text-sm p-3 bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200">
-              {embed.name}
-            </h3>
-            <iframe 
-              // Standard iframe properties from your source
-              allow="autoplay" 
-              width="100%" 
-              height={embed.height} 
-              src={embed.src} 
-              frameBorder="0" 
-              // YouTube iframe also needs 'allowfullscreen'
-              allowFullScreen={embed.name.includes("YouTube") ? true : undefined}
-              title={embed.name}
-            />
-          </div>
-        ))}
+{embeds.map((embed) => (
+  <div key={embed.name} className="...">
+    <h3 className="...">{embed.name}</h3>
+    <iframe 
+      allow="autoplay" 
+      width="100%" 
+      height={embed.height} 
+      src={embed.src} 
+      frameBorder="0" 
+      title={`${embed.name} Radio Player`} // Added unique, descriptive title
+      allowFullScreen={embed.name.includes("YouTube") ? true : undefined}
+    />
+  </div>
+))}
       </div>
     </section>
   );

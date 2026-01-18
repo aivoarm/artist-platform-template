@@ -30,8 +30,8 @@ export function AlbumCTA() {
       </div>
       {/* Equivalent to p style="font-size:1.1rem; margin-bottom:30px; max-width:600px;" */}
       <p className="text-lg mb-8 max-w-2xl mx-auto text-neutral-300">
-        New music is out!<strong className="text-white">jazz, funk, and world fusion</strong> crafted by 
-        **Arman Ayva – Montreal Jazz Composer**. Ride over to Spotify — find “Cowboy.” <strong className="text-white">$9</strong>.
+        New music is out!<strong className="text-white"> Jazz, funk, and world fusion</strong> crafted by 
+        **Arman Ayva – Montreal Jazz Composer**. Ride over to Spotify — find “Cowboy.
       </p>
       
       {/* Button using Bandcamp's signature orange color (bg-orange-600 is a good match) */}

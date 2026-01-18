@@ -7,86 +7,100 @@ export default function AboutPage() {
   return (
     <section className="py-8">
 
-       <div className="hero-container">
-              <Image
-                src={HERO_IMAGE_URL}
-                // The image URL specifies a height of 250 and width of 970.
-                // These should be set here for the Next.js Image component to work correctly.
-                width={970} 
-                height={250} 
-                alt="Arman Ayva - Musical Journey "
-                // 'layout=fill' or styling can be used if you want the image to span the full width
-                className="w-full h-auto object-cover" 
-                priority // Load this image first as it's the hero element
-              />
-            </div>
+      <div className="hero-container mb-8">
+        <Image
+          src={HERO_IMAGE_URL}
+          width={970} 
+          height={250} 
+          alt="Arman Ayva - Musical Journey"
+          className="w-full h-auto object-cover rounded-lg shadow-lg" 
+          priority 
+        />
+      </div>
 
       <h1 className="font-bold text-4xl font-serif mb-6 tracking-tighter">
-        Arman Ayva – Montreal Indie Jazz Composer 🎷
+        Arman Ayva – Montreal Jazz Composer & Hobbyist 🎷
       </h1>
       
-      <div className="prose prose-neutral dark:prose-invert">
+      <div className="prose prose-neutral dark:prose-invert max-w-none">
         <p className="lead text-xl">
           Where modern jazz meets cinematic storytelling. Arman Ayva is a Montreal-based 
-          indie jazz composer whose sound merges the soul of classic jazz with the 
-          freedom of funk, cinematic energy, and the mysticism of world music. 
-          His work is an exploration of rhythm, culture, and emotional landscapes — 
-          a fusion that feels both timeless and contemporary.
+          composer whose sound merges the soul of classic jazz with the 
+          freedom of funk and the mysticism of world music. 
         </p>
 
-        <hr />
+        <hr className="my-8 border-neutral-200 dark:border-neutral-800" />
         
-        {/* A Modern Jazz Visionary */}
-        <h2>A Modern Jazz Visionary</h2>
+        {/* From Lens to Loops */}
+        <h2>From Lens to Loops: A Storyboard of Sound</h2>
         <p>
-          Unlike traditional jazz artists, Arman’s compositions often start as vivid images 
-          — a desert horizon, a city at dusk, or a dance in an old saloon. From there, he 
-          builds grooves and melodies that evoke movement and story. His sound blends 
-          **electric bass lines, analog synth textures, and global percussion**, creating 
-          music that speaks to both jazz purists and adventurous listeners alike.
+          Before I began composing jazz, my world was framed through a camera lens. As a 
+          <strong> photographer and amateur filmmaker</strong>, I spent years capturing visual 
+          stories. Today, I use those same visual instincts to storyboard with sound. I view 
+          my compositions as "invisible films," where every funky bass groove or mysterious 
+          piano line serves as a camera shot, and every melody develops a cinematic plot.
         </p>
 
-        {/* From Photographer to Jazz Composer */}
-        <h3>From Photographer to Jazz Composer</h3>
+        {/* The Montreal Fusion */}
+        <h2>The Montreal Fusion: Armenian Soul meets Jazz-Funk</h2>
         <p>
-          Before composing jazz, I was behind the lens — a **photographer and amateur filmmaker** crafting odd family videos. I dreamed of directing movies, but music became my medium. 
-          Now, I storyboard with sound. Two years into music production, I blend jazz fusion 
-          with storytelling, looping beats like camera shots, turning melodies into cinematic plots.
+          Based in the creative crossroads of Montreal, my music is a deeply personal exploration 
+          of heritage and rhythm. I bridge the warmth of <strong>Armenian folk motifs</strong> with 
+          the high-energy freedom of 1970s fusion and analog synth textures. Drawing inspiration 
+          from luminaries like <strong>Marcus Miller, US3, and Dave Brubeck</strong>, I craft 
+          compositions that feel both timeless and contemporary.
         </p>
 
-        {/* Montreal Roots, Global Spirit */}
-        <h2>Montreal Roots, Global Spirit</h2>
+        {/* A Studio-First Hobbyist */}
+        <h3>A Studio-First Philosophy</h3>
         <p>
-          Based in Montreal, Arman draws from the city’s creative energy — a crossroads of 
-          cultures and styles — while also channeling the warmth and rhythm of global traditions. 
-          Whether it’s a funky bass groove inspired by 1970s fusion, a mysterious modal piano 
-          line, or an **Armenian folk motif** reimagined through jazz harmony, his music bridges worlds.
+          I am not a performing artist; I am a studio-focused hobbyist dedicated to the 
+          architecture of sound. By focusing exclusively on production within 
+          <strong> Apple Logic Pro</strong>, I prioritize the intricate layering of live bass 
+          and global percussion. Whether it is the narrative-driven tracks of 
+          <em> Criminal Case N68</em> or the soulful improvisations of <em>Happy Bundle</em>, 
+          my music is an invitation to traverse new sound realms together.
         </p>
 
-        {/* The Story Behind the Sound */}
-        <h2>The Story Behind the Sound</h2>
+        {/* Tastemaker Section */}
+        <h2>Beyond Composing: Curating the Vibe</h2>
         <p>
-          Arman’s approach to music is deeply personal: 
-          *“Every melody begins as a conversation between emotion and imagination. I compose 
-          like I’m painting scenes from invisible films — each track has a story waiting to be heard.”*
+          Creation is only half the journey. As the curator of the 
+          <strong> "Funky Jazz Mood Lifter"</strong> playlist on Spotify, I connect with 
+          over hundreds of followers who share a passion for bass-heavy, mood-lifting instrumental 
+          grooves. It is a space where I celebrate the legends of the genre alongside 
+          the best new independent jazz-funk voices.
         </p>
-        <p>
-          His songs like *The Crusade*, *Vintage Electric*, and *Thirsty Arab (Tales of Scheherazade)* tell cinematic tales that flow through desert jazz, funk-rock, and soulful improvisation. 
-          Each piece stands alone but also fits into a larger musical universe — one defined by 
-          curiosity and rhythm.
-        </p>
+
+         Funky-Jazz-Mood-Lifter →
+
         
-        <hr />
+        
+        <div className="rounded-xl overflow-hidden shadow-2xl">
+          <iframe 
+              style={{ borderRadius: '12px' }} 
+              src="https://open.spotify.com/embed/playlist/0kQ3ZMgLoc9UoFtJz96qYa?utm_source=generator"
+              width="100%" 
+              height="352" 
+              frameBorder="0" 
+              allowFullScreen={true} 
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+              loading="lazy"
+            />
+        </div>
+        
+        <hr className="my-8 border-neutral-200 dark:border-neutral-800" />
         
         {/* Call to Action */}
-        <p className="text-center font-bold">
+        <div className="text-center py-4">
+          <p className="font-bold mb-4">Ready to dive into the music?</p>
           <Link 
             href="/blog"
-            className="text-lg text-blue-500 hover:text-blue-700 transition-colors"
+            className="text-lg text-blue-500 hover:text-blue-700 transition-colors font-semibold"
           >
             Explore the Music & Cinematic Stories →
           </Link>
-        </p>
+        </div>
       </div>
     </section>
   );

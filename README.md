@@ -1,3 +1,8 @@
+
+
+pnpm run build && git add . && git commit -m "Upgrade" && git push -u origin main    
+
+
 # Portfolio Blog Starter
 
 This is a porfolio site template complete with a blog. Includes:

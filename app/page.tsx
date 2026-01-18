@@ -166,10 +166,6 @@ export default function Page() {
       {/* SUBSCRIBE CTA COMPONENT */}
       <SubscribeCTA />
 
-      
-      
-      
-
       <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
       
       {/* ALL OTHER STORIES */}
@@ -178,86 +174,111 @@ export default function Page() {
       </h2>
       <BlogPosts />
       
-      <Link 
-        href="/blog" 
-        className="text-sm font-semibold mt-6 inline-block text-neutral-400 dark:text-neutral-50 hover:text-blue-500 transition-colors"
+          <Link 
+            href="/blog" 
+            className="text-sm font-semibold mt-6 inline-block text-neutral-400 dark:text-neutral-50 hover:text-blue-500 transition-colors"
+          >
+            View All Music & Stories →
+          </Link>
+
+
+<hr className="my-16 border-neutral-200 dark:border-neutral-800" />
+
+<section id="feedback" className="py-8">
+  <h2 className="font-bold text-3xl font-serif mb-8 tracking-tighter text-neutral-900 dark:text-neutral-50">
+    🎷 Industry Feedback & Reviews
+  </h2>
+
+  {/* FEATURED PRESS: Loneliness */}
+  <article className="mb-12 p-6 bg-blue-50 dark:bg-neutral-900 border-l-4 border-blue-500 rounded-r-xl shadow-sm">
+    <h3 className="text-2xl font-bold mb-4">
+      <a 
+        href="https://korliblog.com/loneliness-arman-ayva-turns-collective-struggle-into-sound/" 
+        target="_blank" 
+        className="hover:text-blue-600 transition-colors"
       >
-        View All Music & Stories →
-      </Link>
+        Loneliness – Arman Ayva Turns Collective Struggle Into Sound
+      </a>
+    </h3>
+    <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed">
+      Montreal-based jazz-fusion composer Arman Ayva translates history and resilience into sound. 
+      His single <strong>"Loneliness"</strong> reaches into the heart of Armenia’s early 1990s struggle—a time of bread lines and frozen nights. 
+      It captures a concept of loneliness that wasn't just personal, but collective.
+    </p>
+    <p className="mt-4 text-sm font-semibold text-blue-600 dark:text-blue-400">
+      — Released September 15, 2025
+    </p>
+  </article>
 
-
-      <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
-
-{/* 2. Secondary Heading for Releases */}
-<section id="releases"
-        className="text-sm font-semibold mt-6 inline-block text-neutral-400 dark:text-neutral-50 hover:text-neutral-600 transition-colors"
-
->
-    <h2>🎷 Latest Releases & New Music</h2>
+  {/* REVIEWS GRID */}
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
     
-    {/* Release: Criminal Case N68 - Clearer structure with bolded hook */}
-    <article>
-        <h3>**Criminal Case N68** | Cinematic Jazz Album (2023)</h3>
-        <p>
-            "Criminal Case N68” is a musical crime story, an album containing four tracks: Rolling Buzz... (Keep the original text here) ...afterfact investigation happens. 
-            <br />
-            **Hook:** Immerse yourself in the **best example of a modern, cinematic jazz album released in 2023.**
+    {/* Radio Derbi Web */}
+    <div className="p-5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-50 dark:bg-neutral-900/50">
+      <h4 className="font-bold text-lg mb-1">Radio Derbi Web</h4>
+      <cite className="text-xs text-neutral-500 block mb-3">Influencer Review via Groover</cite>
+      <p className="text-sm italic text-neutral-600 dark:text-neutral-400">
+        "A work that proves more complex than it might appear at first listen, and which, when listened to attentively, can be... therapeutic!"
+      </p>
+    </div>
+
+    {/* Rádio Armazém */}
+    <div className="p-5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-50 dark:bg-neutral-900/50">
+      <h4 className="font-bold text-lg mb-1">Rádio Armazém</h4>
+      <p className="text-sm italic text-neutral-600 dark:text-neutral-400">
+        "What I liked most is precisely this authenticity... the music sounds free, natural and without ready-made formulas."
+      </p>
+    </div>
+
+    {/* Jazz in Family */}
+    <div className="p-5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-50 dark:bg-neutral-900/50">
+      <h4 className="font-bold text-lg mb-1">Jazz in Family</h4>
+      <p className="text-sm italic text-neutral-600 dark:text-neutral-400">
+        "We find both tracks truly interesting and enjoyable. It’s clear that you have a substantial volume of musical productions, which is one of your strengths."
+      </p>
+    </div>
+
+    {/* Cabre Music */}
+    <div className="p-5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-50 dark:bg-neutral-900/50">
+      <h4 className="font-bold text-lg mb-1">Cabre Music</h4>
+      <p className="text-sm italic text-neutral-600 dark:text-neutral-400">
+        "Flows with an uplifting energy and a refreshing arrangement... The sound design is vibrant and dynamic."
+      </p>
+    </div>
+
+    {/* HailTunes */}
+    <div className="p-5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-50 dark:bg-neutral-900/50">
+      <h4 className="font-bold text-lg mb-1">HailTunes</h4>
+      <p className="text-sm italic text-neutral-600 dark:text-neutral-400">
+        "From start to finish, this is a journey. You’ve found your sound, and it works."
+      </p>
+    </div>
+
+    {/* Planet Network */}
+    <div className="p-5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-50 dark:bg-neutral-900/50 flex flex-col justify-between">
+      <div>
+        <h4 className="font-bold text-lg mb-1">Planet Network</h4>
+        <p className="text-sm italic text-neutral-600 dark:text-neutral-400">
+          "On aime beaucoup, pouvez-vous nous envoyer par mail le morceau en format mp3 pour le diffuser dans notre programmation?"
         </p>
-        <p>
-            **Listen Now:** <a href="https://ffm.to/criminal_case_68" target="_blank" rel="noopener noreferrer">Stream Criminal Case N68</a>
-        </p>
-    </article>
-      <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
+      </div>
+      <span className="text-[10px] mt-4 uppercase tracking-widest text-blue-500 font-bold">Radio Airplay</span>
+    </div>
 
-    {/* Release: Happy Bundle - Structured as a separate article */}
-    <article>
-        <h3>**Happy Bundle** Album | Soulful Jazz & Funk Fusion</h3>
-        <p>
-            Explore the soulful world of jazz with Arman Ayva’s latest musical masterpiece, ‘Happy Bundle.’... (Keep original text) ...leave you with a musical experience like no other.
-        </p>
-        <p>
-            {/* CTA for Happy Bundle */}
-            <a href="/happy-bundle-link" className="button">Hear 'Happy Bundle'</a>
-        </p>
-    </article>
-          <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
-    <article>
+  </div>
 
-    {/* ... continue with other individual track/release sections using <article> and <h3> ... */}
-
-    <h2>🎵 Biography: The Musical Odyssey of Arman Ayva</h2>
-    <p>
-        Arman Ayva is more than just a name in the world of music—he’s a **premier Montreal jazz artist** whose melodies weave a tapestry of tradition and innovation... (Integrate the full, keyword-rich biography text here.) 
-        <br/>
-        He is internationally recognized for **pioneering the Funk and Jazz Fusion genre**, creating soundscapes that are both sophisticated and deeply groovy.
-    </p>
-
-      <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
-
-
-
-    <h2>🎬 Instrumental Music Licensing for TV, Ads, and Film</h2>
-    <p>
-        Need the perfect soundtrack? Arman Ayva’s extensive catalog of instrumental music—spanning cinematic jazz, funk, fusion, and lo-fi—is ideal for scoring **TV shows, commercials, and independent films**. Our versatile tracks can capture any mood, target audience, or message you require... (Integrate the full licensing/sync text here.)
-    </p>
-        </article>
-
-
-    <article>
-    {/* HIGH-VALUE CALL TO ACTION (CTA) - Styled as a prominent <aside> box */}
-    <aside className="cta-licensing">
-        <h3>Fast-Track Synchronization Licensing</h3>
-        <p>
-            All tracks by Arman Ayva are pre-cleared and available for **synchronization licensing**. We guarantee a **fast, straightforward rights clearance** process for your next project.
-        </p>
-        <p>
-            **Start Licensing Today:** <a href="mailto:aayvazy@gmail.com">aayvazy@gmail.com</a>
-        </p>
-    </aside>
-        </article>
-
-      </section>
+  <div className="mt-12 text-center">
+    <Link 
+      href="/contact" 
+      className="text-sm font-semibold text-neutral-500 hover:text-blue-500 transition-colors"
+    >
+      For press inquiries or reviews, please get in touch →
+    </Link>
+  </div>
 </section>
+</section>
+
+
 
   
   )
