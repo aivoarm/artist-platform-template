@@ -51,6 +51,9 @@ export default function Page() {
           an exploration of jazz, funk, and folk, with rich bass, lively drums, 
           and captivating beats.
         </p>
+
+
+        
         <div className="grid grid-cols-1 md:grid-cols-1 gap-8">
         {videoEmbeds.map((video) => (
           <div key={video.embedId} className="space-y-3">
@@ -89,12 +92,27 @@ export default function Page() {
           melodic life.
         </p>
 
+
+
+        
         <h2 className="font-bold text-2xl font-serif mt-12 mb-6 tracking-tighter">
         Featured Album: My Funky Jazzification
         </h2>
     
-          <AlbumCTA /> 
-
+         
+<div className="flex flex-col items-center mb-10 text-neutral-400 dark:text-neutral-50">
+  <iframe 
+    style={{ border: 0, width: '350px', height: '442px' }} 
+    src="https://bandcamp.com/EmbeddedPlayer/track=2408269376/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/transparent=true/" 
+    seamless 
+    title="Girl From Italy by Arman Ayva"
+  />
+  <p className="text-xs mt-2 text-neutral-600 dark:text-neutral-400">
+    <a href="https://armanayva.bandcamp.com/track/girl-from-italy" target="_blank" rel="noopener noreferrer">
+      Girl From Italy by Arman Ayva
+    </a>
+  </p>
+</div>
       <div className="flex flex-col items-center mb-10 text-neutral-400 dark:text-neutral-50">
         {/* Bandcamp iFrame - Corrected self-closing tag */}
         <iframe 
