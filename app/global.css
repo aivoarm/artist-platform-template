@@ -172,8 +172,22 @@ table {
   max-width: fit-content;
   overflow-x: auto;
   white-space: nowrap;
-}
+} 
 
 .title {
   text-wrap: balance;
+}
+
+.prose p {
+  @apply my-6 text-neutral-800 dark:text-neutral-300 leading-7 text-lg;
+}
+
+/* Smooth scrolling for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Improve Card Hover effects to make the site feel "alive" */
+.review-card {
+  @apply transition-transform duration-300 hover:-translate-y-1;
 }

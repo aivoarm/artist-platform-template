@@ -23,26 +23,32 @@ const videoEmbeds = [
 export default function Page() {
   return (
     <section>
+  <div className="relative hero-container overflow-hidden rounded-2xl mb-8">
+    <Image 
+      src={HERO_IMAGE_URL} 
+      width={970} height={250} 
+      alt="Arman Ayva" 
+      className="w-full h-auto object-cover" 
+      priority 
+    />
+    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6">
+       <h1 className="text-white font-bold text-4xl font-serif tracking-tighter">Arman Ayva</h1>
+       <p className="text-white/80 max-w-xl">Innovative Jazz-Fusion from Montreal.</p>
+    </div>
+  </div>
 
-      <div className="hero-container">
-        <Image
-          src={HERO_IMAGE_URL}
-          // The image URL specifies a height of 250 and width of 970.
-          // These should be set here for the Next.js Image component to work correctly.
-          width={970} 
-          height={250} 
-          alt="Arman Ayva - Musical Journey "
-          // 'layout=fill' or styling can be used if you want the image to span the full width
-          className="w-full h-auto object-cover" 
-          priority // Load this image first as it's the hero element
-        />
-      </div>
-
-      {/* HERO SECTION: Main Introduction & Bio */}
-      <h1 className="font-bold text-4xl font-serif mb-6 tracking-tighter">
-        Arman Ayva
-      </h1>
-      
+  <div className="prose prose-neutral dark:prose-invert max-w-none">
+    {/* Quick-play track for immediate engagement */}
+    <div className="bg-neutral-100 dark:bg-neutral-900 p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 mb-8">
+      <p className="text-xs font-bold uppercase tracking-widest mb-2 text-blue-500">Latest Single</p>
+      <iframe 
+        style={{ border: 0, width: '100%', height: '120px' }} 
+        src="https://bandcamp.com/EmbeddedPlayer/track=2408269376/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" 
+        seamless 
+        title="Girl From Italy"
+      />
+    </div>
+       </div>
       <div className="prose prose-neutral dark:prose-invert">
         <p >
           Welcome to Arman's Musical Journey! I'm an innovative artist and composer 
@@ -100,19 +106,7 @@ export default function Page() {
         </h2>
     
          
-<div className="flex flex-col items-center mb-10 text-neutral-400 dark:text-neutral-50">
-  <iframe 
-    style={{ border: 0, width: '350px', height: '442px' }} 
-    src="https://bandcamp.com/EmbeddedPlayer/track=2408269376/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/transparent=true/" 
-    seamless 
-    title="Girl From Italy by Arman Ayva"
-  />
-  <p className="text-xs mt-2 text-neutral-600 dark:text-neutral-400">
-    <a href="https://armanayva.bandcamp.com/track/girl-from-italy" target="_blank" rel="noopener noreferrer">
-      Girl From Italy by Arman Ayva
-    </a>
-  </p>
-</div>
+
       <div className="flex flex-col items-center mb-10 text-neutral-400 dark:text-neutral-50">
         {/* Bandcamp iFrame - Corrected self-closing tag */}
         <iframe 
