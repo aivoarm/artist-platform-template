@@ -10,7 +10,7 @@ import { PlaylistStats } from 'app/components/PlaylistStats'
 import PlaylistUrlInput from 'app/components/PlaylistUrlInput' 
 
 
-const HERO_IMAGE_URL = 'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.50/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center:Your%20Funky%20Jazz,w_0.2,y_0.3/v1570237649/17160429878_68460aeb25_o-1_udg7bx.jpg'
+const HERO_IMAGE_URL = 'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.20/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center: ,w_0.2,y_0.3/v1570237649/17160429878_68460aeb25_o-1_udg7bx.jpg'
 //const HERO_IMAGE_URL = 'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.30/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center:Jazz%20Now,w_0.2,y_0/v1570237614/img_2437-copy-copy_pzebz7.jpg'
 const videoEmbeds = [
     {
@@ -38,6 +38,13 @@ export default function Page() {
   </div>
 
   <div className="prose prose-neutral dark:prose-invert max-w-none">
+    <p >
+          Welcome to Arman's Musical Journey! I'm an innovative artist and composer 
+          based in Montreal, breaking new ground in the realms of **jazz-folk, 
+          jazz-funk, ambient, electronic, and experimental genres**. My music is 
+          an exploration of jazz, funk, and folk, with rich bass, lively drums, 
+          and captivating beats.
+        </p>
     {/* Quick-play track for immediate engagement */}
     <div className="bg-neutral-100 dark:bg-neutral-900 p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 mb-8">
       <p className="text-xs font-bold uppercase tracking-widest mb-2 text-blue-500">Latest Single</p>
@@ -50,13 +57,7 @@ export default function Page() {
     </div>
        </div>
       <div className="prose prose-neutral dark:prose-invert">
-        <p >
-          Welcome to Arman's Musical Journey! I'm an innovative artist and composer 
-          based in Montreal, breaking new ground in the realms of **jazz-folk, 
-          jazz-funk, ambient, electronic, and experimental genres**. My music is 
-          an exploration of jazz, funk, and folk, with rich bass, lively drums, 
-          and captivating beats.
-        </p>
+        
 
 
         
