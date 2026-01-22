@@ -57,12 +57,13 @@ export default function PuzzlePage() {
       </div>
 
       <MusicPuzzle />
+        <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
 
   <div className="prose prose-neutral dark:prose-invert max-w-none mb-10">
        <h1 className="font-bold text-5xl md:text-7xl font-serif mb-6 tracking-tighter">
           Music Reversed Game 🧩</h1>
 <p className="text-lg text-neutral-600 dark:text-neutral-400">
-          Search for your favorite Artist and play revrese game
+          Search for your favorite Artist and play reverse game
         </p>
  </div>
        <ReverseGame />
