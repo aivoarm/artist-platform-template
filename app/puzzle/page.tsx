@@ -3,6 +3,8 @@
 
 export const dynamic = 'force-dynamic';
 import { MusicPuzzle } from 'app/components/MusicPuzzle';
+import { ReverseGame } from 'app/components/ReverseGame';
+
 import Link from 'next/link';
 
 export const metadata = {
@@ -45,9 +47,9 @@ export default function PuzzlePage() {
       </div>
       
       <div className="prose prose-neutral dark:prose-invert max-w-none mb-10">
-        <h1 className="font-bold text-4xl font-serif mb-4 tracking-tighter">
-          Music Puzzle Challenge 🧩
-        </h1>
+       <h1 className="font-bold text-5xl md:text-7xl font-serif mb-6 tracking-tighter">
+  Music Puzzle Challenge 🧩
+</h1>
         <p className="text-lg text-neutral-600 dark:text-neutral-400">
           Search for your favorite tracks from Youtube and test your ears. 
           Drag the segments to reconstruct the 30-second preview as fast as you can.
@@ -55,6 +57,15 @@ export default function PuzzlePage() {
       </div>
 
       <MusicPuzzle />
+
+  <div className="prose prose-neutral dark:prose-invert max-w-none mb-10">
+       <h1 className="font-bold text-5xl md:text-7xl font-serif mb-6 tracking-tighter">
+          Music Reversed Game 🧩</h1>
+<p className="text-lg text-neutral-600 dark:text-neutral-400">
+          Search for your favorite Artist and play revrese game
+        </p>
+ </div>
+       <ReverseGame />
     </section>
   );
 }

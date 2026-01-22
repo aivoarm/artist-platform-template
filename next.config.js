@@ -15,6 +15,11 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      // 👇 Add this block for Deezer Images
+      {
+        protocol: 'https',
+        hostname: 'cdn-images.dzcdn.net',
+      },
       {
         protocol: 'https',
         hostname: 'image-cdn-ak.spotifycdn.com',
