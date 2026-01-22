@@ -13,7 +13,7 @@ export const metadata = {
     siteName: 'Arman Ayva Music',
     images: [
       {
-        url: 'https://res.cloudinary.com/dpmkshcky/image/upload/v1763230260/Cowboy_a3mnzs.png', // Or your preferred unique game image
+        url: 'https://res.cloudinary.com/dpmkshcky/image/upload/v1769091826/musicpuzzle_byve3t.jpg', // Or your preferred unique game image
         width: 1200,
         height: 630,
         alt: 'Arman Ayva Music Puzzle Game',
@@ -26,7 +26,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'Music Puzzle Challenge 🧩',
     description: 'Assemble musical jigsaws from any YouTube video. Play the Rhythm Puzzle now!',
-    images: ['https://res.cloudinary.com/dpmkshcky/image/upload/v1763230260/Cowboy_a3mnzs.png'], // Ensure this is an absolute URL
+    images: ['https://res.cloudinary.com/dpmkshcky/image/upload/v1769091826/musicpuzzle_byve3t.jpg'], // Ensure this is an absolute URL
   },
 };
 
