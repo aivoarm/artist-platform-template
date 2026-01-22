@@ -1,5 +1,4 @@
 'use client';
-'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
 import { sendGTMEvent } from '@next/third-parties/google'; 
@@ -31,19 +30,21 @@ export function MusicPuzzle() {
   const [pieces, setPieces] = useState<PuzzlePiece[]>([]);
   const [isSolved, setIsSolved] = useState(false);
   const [playingId, setPlayingId] = useState<number | null>(null);
-  const [isBuffering, setIsBuffering] = useState(false); // Track buffering state
+  const [isBuffering, setIsBuffering] = useState(false); 
   const [seconds, setSeconds] = useState(0);
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
   const [isPlayerReady, setIsPlayerReady] = useState(false);
   const [bestTime, setBestTime] = useState<number | null>(null);
-  
   const [listenedPieces, setListenedPieces] = useState<Set<number>>(new Set());
   const [warning, setWarning] = useState<string | null>(null);
 
+  // REFS for Logic & Quota Protection
   const ytPlayerRef = useRef<any>(null);
   const localAudioRef = useRef<HTMLAudioElement | null>(null); 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const ytTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const searchCache = useRef<Record<string, any[]>>({}); // Quota Protection: Cache
+  const lastSearchTime = useRef<number>(0); // Quota Protection: Debounce
 
   useEffect(() => {
     const savedBest = localStorage.getItem('puzzle_best_time');
@@ -52,15 +53,10 @@ export function MusicPuzzle() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Initialize YouTube Player with State Change listener for Buffering
   useEffect(() => {
     const onPlayerStateChange = (event: any) => {
-      // YT.PlayerState.BUFFERING is 3
-      if (event.data === 3) {
-        setIsBuffering(true);
-      } else {
-        setIsBuffering(false);
-      }
+      if (event.data === 3) setIsBuffering(true);
+      else setIsBuffering(false);
     };
 
     const initYT = () => {
@@ -85,15 +81,35 @@ export function MusicPuzzle() {
     } else { initYT(); }
   }, []);
 
+  // Optimized Search with Quota Protection
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!searchQuery.trim()) return;
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return;
+
+    // 1. Debounce: Prevent multi-clicks within 1.5s
+    const now = Date.now();
+    if (now - lastSearchTime.current < 1500) return;
+    lastSearchTime.current = now;
+
+    // 2. Cache: Check if we searched this already
+    if (searchCache.current[query]) {
+      setSearchResults(searchCache.current[query]);
+      setHasSearched(true);
+      return;
+    }
+
     setIsSearching(true);
     setHasSearched(false);
     try {
-      const res = await fetch(`/api/youtube/search?q=${encodeURIComponent(searchQuery)}`);
+      const res = await fetch(`/api/youtube/search?q=${encodeURIComponent(query)}`);
       const data = await res.json();
-      setSearchResults(Array.isArray(data) ? data : []);
+      const results = Array.isArray(data) ? data : [];
+      
+      // Save to cache
+      searchCache.current[query] = results;
+      
+      setSearchResults(results);
       setHasSearched(true);
     } catch (err) {
       setSearchResults([]);
@@ -172,7 +188,6 @@ export function MusicPuzzle() {
       ytPlayerRef.current.playVideo();
       setPlayingId(piece.id);
       
-      // The buffering check happens via the useEffect onStateChange
       ytTimeoutRef.current = setTimeout(() => {
         if (ytPlayerRef.current && typeof ytPlayerRef.current.pauseVideo === 'function') {
           ytPlayerRef.current.pauseVideo();
@@ -191,6 +206,7 @@ export function MusicPuzzle() {
   const handlePieceClick = (index: number) => {
     if (isSolved) return;
     const pieceId = pieces[index].id;
+
     if (selectedIdx === null) {
       if (!listenedPieces.has(pieceId)) {
         setWarning("Dont cheat, play first! 🎷");
@@ -249,7 +265,7 @@ export function MusicPuzzle() {
               className="flex-1 px-4 py-2 text-sm rounded-xl bg-white dark:bg-black border border-neutral-200 dark:border-neutral-800 outline-none focus:ring-2 focus:ring-red-500"
             />
             <button type="submit" className="px-4 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-all shadow-md">
-              {isSearching ? '...' : <FaSearch />}
+              {isSearching ? <FaSpinner className="animate-spin" /> : <FaSearch />}
             </button>
           </div>
 
@@ -322,7 +338,6 @@ export function MusicPuzzle() {
                     'bg-white dark:bg-black border-dashed border-neutral-300 dark:border-neutral-700'
                   } ${!hasListened && !isSolved ? 'opacity-70 grayscale-[0.5]' : ''}`}
                 >
-                  {/* LOADING OVERLAY */}
                   {isCurrentlyBuffering && (
                     <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/60 dark:bg-black/60 rounded-xl">
                       <FaSpinner className="animate-spin text-blue-500" size={24} />
