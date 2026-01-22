@@ -6,7 +6,7 @@ from pathlib import Path
 
 # Directories to ignore during extraction (e.g., binaries, caches, dependencies)
 EXCLUDE_DIRS = {
-    'node_modules', '.next', '.git', 'public', 
+    'node_modules', '.next', '.git',  
     '__pycache__', '.pytest_cache', 'venv', 'dist', 'build', '.vscode', 
     '.idea', 'tmp', 'temp', 'logs'
 }

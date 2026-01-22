@@ -8,7 +8,7 @@ import Image from 'next/image';
 
 import { PlaylistStats } from 'app/components/PlaylistStats'
 import PlaylistUrlInput from 'app/components/PlaylistUrlInput' 
-
+import { MusicPuzzle } from 'app/components/MusicPuzzle'; // [cite: 473]
 
 const HERO_IMAGE_URL = 'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.20/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center: ,w_0.2,y_0.3/v1570237649/17160429878_68460aeb25_o-1_udg7bx.jpg'
 //const HERO_IMAGE_URL = 'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.30/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center:Jazz%20Now,w_0.2,y_0/v1570237614/img_2437-copy-copy_pzebz7.jpg'
@@ -56,6 +56,11 @@ export default function Page() {
       />
     </div>
        </div>
+
+       {/* 🧩 NEW: Music Puzzle Section */}
+      <MusicPuzzle />
+
+      
       <div className="prose prose-neutral dark:prose-invert">
         
 
