@@ -34,6 +34,10 @@ const navItems = {
     name: 'About',
     type: 'internal',
   },
+  '/puzzle': {
+    name: 'Music Puzzle',
+    type: 'internal',
+  },
   '/contact': {
     name: 'Contact',
     type: 'internal',
