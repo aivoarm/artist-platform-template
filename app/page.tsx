@@ -25,13 +25,13 @@ function PuzzleCTA() {
             </span>
             New Interactive Experience
           </div>
-          <h2 className="text-4xl font-serif font-bold tracking-tight">The YouTube Rhythm Puzzle</h2>
+          <h2 className="text-4xl font-serif font-bold tracking-tight">The Musical Puzzle</h2>
           <p className="text-neutral-600 dark:text-neutral-400 text-lg leading-relaxed">
             I built a custom tool that turns any YouTube video into a musical jigsaw. 
             Can you reassemble your favorite tracks by ear?
           </p>
           <Link 
-            href="#puzzle" 
+            href="/puzzle" 
             className="inline-flex items-center gap-3 px-8 py-4 bg-red-600 text-white rounded-xl font-bold hover:bg-red-700 transition-all shadow-xl active:translate-y-1"
           >
             <FaPlay size={14} /> Start Playing
@@ -130,9 +130,9 @@ export default function Page() {
         {/* INTERACTIVE PUZZLE SECTION */}
         <hr className="my-16 border-neutral-200 dark:border-neutral-800" />
         <PuzzleCTA />
-        <section id="puzzle">
+       {/*  <section id="puzzle">
           <MusicPuzzle />
-        </section>
+        </section> */}
 
         <h2 className="font-bold text-2xl font-serif mt-12 mb-6 tracking-tighter">
           Funky Jazz Mood Lifter Playlist
@@ -222,9 +222,7 @@ export default function Page() {
               "A work that proves more complex than it might appear at first listen..."
             </p>
           </div>
-        Here are the remaining review cards to fill back into your MusicPuzzle.tsx or page.tsx reviews grid. I’ve organized them so you can copy-paste the entire group directly.
 
-TypeScript
     {/* Rádio Armazém */}
     <div className="p-5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-50 dark:bg-neutral-900/50">
       <h4 className="font-bold text-lg mb-1">Rádio Armazém</h4>

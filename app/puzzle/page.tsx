@@ -24,7 +24,7 @@ export default function PuzzlePage() {
           Music Puzzle Challenge 🧩
         </h1>
         <p className="text-lg text-neutral-600 dark:text-neutral-400">
-          Search for your favorite tracks from Spotify and test your ears. 
+          Search for your favorite tracks from Youtube and test your ears. 
           Drag the segments to reconstruct the 30-second preview as fast as you can.
         </p>
       </div>

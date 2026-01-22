@@ -941,6 +941,7 @@ app/
 
 │   ├── page.tsx
 │   │   | --- FILE CONTENT START (page.tsx) ---
+│   │   | 
 │   │   | import Link from 'next/link';
 │   │   | // Assuming BlogPosts is located in app/components/
 │   │   | import { BlogPosts } from './components/posts'; 
@@ -951,10 +952,50 @@ app/
 │   │   | 
 │   │   | import { PlaylistStats } from 'app/components/PlaylistStats'
 │   │   | import PlaylistUrlInput from 'app/components/PlaylistUrlInput' 
-│   │   | import { MusicPuzzle } from 'app/components/MusicPuzzle'; // [cite: 473]
+│   │   | import { MusicPuzzle } from 'app/components/MusicPuzzle'; 
+│   │   | import { FaYoutube, FaPlay } from 'react-icons/fa'; // Added for the new CTA
+│   │   | 
+│   │   | // NEW COMPONENT: PuzzleCTA
+│   │   | function PuzzleCTA() {
+│   │   |   return (
+│   │   |     <div className="max-w-4xl mx-auto my-16 p-1 bg-gradient-to-r from-red-500 via-blue-500 to-purple-600 rounded-3xl shadow-2xl transition-transform hover:scale-[1.01]">
+│   │   |       <div className="bg-white dark:bg-neutral-900 rounded-[calc(1.5rem-1px)] p-8 sm:p-12 flex flex-col md:flex-row items-center gap-8">
+│   │   |         <div className="flex-1 space-y-4">
+│   │   |           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-xs font-bold uppercase tracking-widest">
+│   │   |             <span className="relative flex h-2 w-2">
+│   │   |               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+│   │   |               <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+│   │   |             </span>
+│   │   |             New Interactive Experience
+│   │   |           </div>
+│   │   |           <h2 className="text-4xl font-serif font-bold tracking-tight">The YouTube Rhythm Puzzle</h2>
+│   │   |           <p className="text-neutral-600 dark:text-neutral-400 text-lg leading-relaxed">
+│   │   |             I built a custom tool that turns any YouTube video into a musical jigsaw. 
+│   │   |             Can you reassemble your favorite tracks by ear?
+│   │   |           </p>
+│   │   |           <Link 
+│   │   |             href="#puzzle" 
+│   │   |             className="inline-flex items-center gap-3 px-8 py-4 bg-red-600 text-white rounded-xl font-bold hover:bg-red-700 transition-all shadow-xl active:translate-y-1"
+│   │   |           >
+│   │   |             <FaPlay size={14} /> Start Playing
+│   │   |           </Link>
+│   │   |         </div>
+│   │   | 
+│   │   |         <div className="w-full md:w-64 h-48 bg-neutral-100 dark:bg-neutral-800 rounded-2xl border-4 border-white dark:border-neutral-700 shadow-inner flex items-center justify-center relative overflow-hidden group">
+│   │   |            <div className="grid grid-cols-2 gap-2 p-4 w-full opacity-40 group-hover:opacity-100 transition-opacity">
+│   │   |               {[1,2,3,4].map(i => (
+│   │   |                 <div key={i} className="h-12 bg-white dark:bg-neutral-700 rounded-lg shadow-sm" />
+│   │   |               ))}
+│   │   |            </div>
+│   │   |            <FaYoutube className="absolute text-5xl text-red-600 drop-shadow-lg group-hover:scale-110 transition-transform" />
+│   │   |         </div>
+│   │   |       </div>
+│   │   |     </div>
+│   │   |   );
+│   │   | }
 │   │   | 
 │   │   | const HERO_IMAGE_URL = 'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.20/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center: ,w_0.2,y_0.3/v1570237649/17160429878_68460aeb25_o-1_udg7bx.jpg'
-│   │   | //const HERO_IMAGE_URL = 'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.30/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center:Jazz%20Now,w_0.2,y_0/v1570237614/img_2437-copy-copy_pzebz7.jpg'
+│   │   | 
 │   │   | const videoEmbeds = [
 │   │   |     {
 │   │   |       title: "Arman Ayva – Video Library",
@@ -962,135 +1003,95 @@ app/
 │   │   |       embedId: "videoseries?list=PLdh9NdS_IkkUwmhmrqNy0oQTtjxr683kC", 
 │   │   |       isPlaylist: true,
 │   │   |     }
-│   │   |   ]
+│   │   | ]
+│   │   | 
 │   │   | export default function Page() {
 │   │   |   return (
 │   │   |     <section>
-│   │   |   <div className="relative hero-container overflow-hidden rounded-2xl mb-8">
-│   │   |     <Image 
-│   │   |       src={HERO_IMAGE_URL} 
-│   │   |       width={970} height={250} 
-│   │   |       alt="Arman Ayva" 
-│   │   |       className="w-full h-auto object-cover" 
-│   │   |       priority 
-│   │   |     />
-│   │   |     <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6">
-│   │   |        <h1 className="text-white font-bold text-4xl font-serif tracking-tighter">Arman Ayva</h1>
-│   │   |        <p className="text-white/80 max-w-xl">Innovative Jazz-Fusion from Montreal.</p>
-│   │   |     </div>
-│   │   |   </div>
+│   │   |       <div className="relative hero-container overflow-hidden rounded-2xl mb-8">
+│   │   |         <Image 
+│   │   |           src={HERO_IMAGE_URL} 
+│   │   |           width={970} height={250} 
+│   │   |           alt="Arman Ayva" 
+│   │   |           className="w-full h-auto object-cover" 
+│   │   |           priority 
+│   │   |         />
+│   │   |         <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6">
+│   │   |            <h1 className="text-white font-bold text-4xl font-serif tracking-tighter">Arman Ayva</h1>
+│   │   |            <p className="text-white/80 max-w-xl">Innovative Jazz-Fusion from Montreal.</p>
+│   │   |         </div>
+│   │   |       </div>
 │   │   | 
-│   │   |   <div className="prose prose-neutral dark:prose-invert max-w-none">
-│   │   |     <p >
+│   │   |       <div className="prose prose-neutral dark:prose-invert max-w-none">
+│   │   |         <p>
 │   │   |           Welcome to Arman's Musical Journey! I'm an innovative artist and composer 
 │   │   |           based in Montreal, breaking new ground in the realms of **jazz-folk, 
 │   │   |           jazz-funk, ambient, electronic, and experimental genres**. My music is 
 │   │   |           an exploration of jazz, funk, and folk, with rich bass, lively drums, 
 │   │   |           and captivating beats.
 │   │   |         </p>
-│   │   |     {/* Quick-play track for immediate engagement */}
-│   │   |     <div className="bg-neutral-100 dark:bg-neutral-900 p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 mb-8">
-│   │   |       <p className="text-xs font-bold uppercase tracking-widest mb-2 text-blue-500">Latest Single</p>
-│   │   |       <iframe 
-│   │   |         style={{ border: 0, width: '100%', height: '120px' }} 
-│   │   |         src="https://bandcamp.com/EmbeddedPlayer/track=2408269376/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" 
-│   │   |         seamless 
-│   │   |         title="Girl From Italy"
-│   │   |       />
-│   │   |     </div>
-│   │   |        </div>
-│   │   | 
-│   │   |    
-│   │   |       
-│   │   |       <div className="prose prose-neutral dark:prose-invert">
-│   │   |         
-│   │   | 
-│   │   | 
-│   │   |         
-│   │   |         <div className="grid grid-cols-1 md:grid-cols-1 gap-8">
-│   │   |         {videoEmbeds.map((video) => (
-│   │   |           <div key={video.embedId} className="space-y-3">
-│   │   |             <h2 className="font-bold text-xl tracking-tight">
-│   │   |               {video.title}
-│   │   |             </h2>
-│   │   |         <div className="aspect-w-16 aspect-h-15 w-full max-w-2xl mx-auto rounded-xl overflow-hidden shadow-2xl">              {/* YouTube Embed Setup: using 16:9 aspect ratio */}
-│   │   |               <iframe
-│   │   |                 className="w-full h-full"
-│   │   | 
-│   │   |                 src={`https://www.youtube.com/embed/${video.embedId}`}
-│   │   |                 title={`YouTube video player for ${video.title}`}
-│   │   |                 frameBorder="0"
-│   │   |                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-│   │   |                 allowFullScreen
-│   │   |               />
-│   │   |             </div>
-│   │   |             <p className="text-sm text-neutral-600 dark:text-neutral-400">
-│   │   |               {video.description}
-│   │   |             </p>
-│   │   |           </div>
-│   │   |         ))}
+│   │   |         <div className="bg-neutral-100 dark:bg-neutral-900 p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 mb-8">
+│   │   |           <p className="text-xs font-bold uppercase tracking-widest mb-2 text-blue-500">Latest Single</p>
+│   │   |           <iframe 
+│   │   |             style={{ border: 0, width: '100%', height: '120px' }} 
+│   │   |             src="https://bandcamp.com/EmbeddedPlayer/track=2408269376/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" 
+│   │   |             seamless 
+│   │   |             title="Girl From Italy"
+│   │   |           />
+│   │   |         </div>
 │   │   |       </div>
-│   │   |             <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
+│   │   | 
+│   │   |       <div className="prose prose-neutral dark:prose-invert">
+│   │   |         <div className="grid grid-cols-1 md:grid-cols-1 gap-8">
+│   │   |           {videoEmbeds.map((video) => (
+│   │   |             <div key={video.embedId} className="space-y-3">
+│   │   |               <h2 className="font-bold text-xl tracking-tight">{video.title}</h2>
+│   │   |               <div className="aspect-w-16 aspect-h-15 w-full max-w-2xl mx-auto rounded-xl overflow-hidden shadow-2xl">
+│   │   |                 <iframe
+│   │   |                   className="w-full h-full"
+│   │   |                   src={`https://www.youtube.com/embed/${video.embedId}`}
+│   │   |                   title={`YouTube video player for ${video.title}`}
+│   │   |                   frameBorder="0"
+│   │   |                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+│   │   |                   allowFullScreen
+│   │   |                 />
+│   │   |               </div>
+│   │   |               <p className="text-sm text-neutral-600 dark:text-neutral-400">{video.description}</p>
+│   │   |             </div>
+│   │   |           ))}
+│   │   |         </div>
+│   │   |         
+│   │   |         <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
 │   │   |         <p>
 │   │   |           My music is a fusion of diverse influences, inspired by luminaries like 
 │   │   |           **Marcus Miller, US3, and Dave Brubeck**. I craft compositions that are 
-│   │   |           brimming with authenticity, telling stories and radiating positivity, 
-│   │   |           creating an immersive experience for listeners.
+│   │   |           brimming with authenticity, telling stories and radiating positivity.
 │   │   |         </p>
 │   │   | 
-│   │   |         <p>
-│   │   |           I'm not a performing artist, but my music is a testament to life's symphony—a journey 
-│   │   |           evolving. Join me in traversing sound realms, experimenting, creating, 
-│   │   |           and sharing harmonies that echo through the corridors of my unconventional, 
-│   │   |           melodic life.
-│   │   |         </p>
+│   │   |       
 │   │   | 
+│   │   |         {/* INTERACTIVE PUZZLE SECTION */}
+│   │   |         <hr className="my-16 border-neutral-200 dark:border-neutral-800" />
+│   │   |         <PuzzleCTA />
+│   │   |        {/*  <section id="puzzle">
+│   │   |           <MusicPuzzle />
+│   │   |         </section> */}
 │   │   | 
-│   │   | 
-│   │   |         
-│   │   |         <h2 className="font-bold text-2xl font-serif mt-12 mb-6 tracking-tighter">
-│   │   |         Featured Album: My Funky Jazzification
-│   │   |         </h2>
-│   │   |     
-│   │   |          
-│   │   | 
-│   │   |       <div className="flex flex-col items-center mb-10 text-neutral-400 dark:text-neutral-50">
-│   │   |         {/* Bandcamp iFrame - Corrected self-closing tag */}
-│   │   |         <iframe 
-│   │   |           style={{ border: 0, width: '350px', height: '470px' }} 
-│   │   |           src="https://bandcamp.com/EmbeddedPlayer/album=854312660/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/transparent=true/" 
-│   │   |           seamless
-│   │   |           title="My Funky Jazzification by Arman Ayva"
-│   │   |         /> 
-│   │   |         <p className="text-xs mt-2 text-neutral-600 dark:text-neutral-400">
-│   │   |           <a href="https://armanayva.bandcamp.com/album/my-funky-jazzification" target="_blank" rel="noopener noreferrer">
-│   │   |             My Funky Jazzification by Arman Ayva
-│   │   |           </a>
-│   │   |         </p>
-│   │   |       </div>
-│   │   | 
-│   │   |         {/* SPOTIFY EMBED */}
 │   │   |         <h2 className="font-bold text-2xl font-serif mt-12 mb-6 tracking-tighter">
 │   │   |           Funky Jazz Mood Lifter Playlist
 │   │   |         </h2>
-│   │   |         <p>
-│   │   |           Now you can submit your jazz composition to be added to the "Funky Jazz Mood Lifter" Playlist on Spotify!
-│   │   |           This is a high-energy, curated playlist featuring funky, fresh jazz vibes from ~130 tracks by over 100 artists. Curated by Arman Ayva, the selection includes upbeat grooves like Tukka Yoot’s Riddim and Herbie Hancock's Cantaloupe Island. It’s bass-heavy, instrumental, and mood-lifting, typically running at 122 BPM.
-│   │   |         It's the perfect backdrop for urban nights, workouts, chill café environments, or focused concentration at work.
-│   │   | <br></br>
-│   │   | </p>
-│   │   |       <Link 
-│   │   |         href="/blog/Funky-Jazz-Mood-Lifter" 
-│   │   |         className="text-sm font-semibold mt-6 inline-block text-neutral-400 dark:text-neutral-50 hover:text-blue-500 transition-colors "
-│   │   |       >
-│   │   |         Funky-Jazz-Mood-Lifter →
-│   │   |       </Link>
 │   │   |         
+│   │   |         <Link 
+│   │   |           href="/blog/Funky-Jazz-Mood-Lifter" 
+│   │   |           className="text-sm font-semibold mt-6 inline-block text-neutral-400 dark:text-neutral-50 hover:text-blue-500 transition-colors "
+│   │   |         >
+│   │   |           Funky-Jazz-Mood-Lifter →
+│   │   |         </Link>
 │   │   |         
-│   │   |         <div className="rounded-xl overflow-hidden shadow-2xl">
+│   │   |         <div className="rounded-xl overflow-hidden shadow-2xl mt-6">
 │   │   |           <iframe 
 │   │   |               style={{ borderRadius: '12px' }} 
-│   │   |               src="https://open.spotify.com/embed/playlist/0kQ3ZMgLoc9UoFtJz96qYa?utm_source=generator"
+│   │   |               src="https://open.spotify.com/embed/playlist/0kQ3ZMgLoc9UoFtJz96qYa"
 │   │   |               width="100%" 
 │   │   |               height="352" 
 │   │   |               frameBorder="0" 
@@ -1101,16 +1102,15 @@ app/
 │   │   |         </div>
 │   │   |       </div>
 │   │   | 
-│   │   |         <hr className="my-12 border-gray-200 dark:border-gray-800" />
+│   │   |       <hr className="my-12 border-gray-200 dark:border-gray-800" />
 │   │   | 
-│   │   |         <div className="mb-8">
+│   │   |       <div className="mb-8">
 │   │   |         <PlaylistStats id="0kQ3ZMgLoc9UoFtJz96qYa" />
 │   │   |         <PlaylistUrlInput />
-│   │   |         </div>
+│   │   |       </div>
 │   │   |                
 │   │   |       <hr className="my-16 border-neutral-200 dark:border-neutral-800" />
 │   │   |       
-│   │   |       {/* NEW RELEASES SECTION */}
 │   │   |       <NewReleasesSpotlight />
 │   │   |       
 │   │   |       <Link 
@@ -1122,64 +1122,49 @@ app/
 │   │   |       
 │   │   |       <hr className="my-16 border-neutral-200 dark:border-neutral-800" />
 │   │   |       
-│   │   |       {/* SUBSCRIBE CTA COMPONENT */}
 │   │   |       <SubscribeCTA />
 │   │   | 
 │   │   |       <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
 │   │   |       
-│   │   |       {/* ALL OTHER STORIES */}
 │   │   |       <h2 className="font-bold text-2xl font-serif mb-6 tracking-tighter text-neutral-400 ">
 │   │   |         All Other Stories
 │   │   |       </h2>
 │   │   |       <BlogPosts />
 │   │   |       
-│   │   |           <Link 
-│   │   |             href="/blog" 
-│   │   |             className="text-sm font-semibold mt-6 inline-block text-neutral-400 dark:text-neutral-50 hover:text-blue-500 transition-colors"
-│   │   |           >
-│   │   |             View All Music & Stories →
-│   │   |           </Link>
-│   │   | 
-│   │   | 
-│   │   | <hr className="my-16 border-neutral-200 dark:border-neutral-800" />
-│   │   | 
-│   │   | <section id="feedback" className="py-8">
-│   │   |   <h2 className="font-bold text-3xl font-serif mb-8 tracking-tighter text-neutral-900 dark:text-neutral-50">
-│   │   |     🎷 Industry Feedback & Reviews
-│   │   |   </h2>
-│   │   | 
-│   │   |   {/* FEATURED PRESS: Loneliness */}
-│   │   |   <article className="mb-12 p-6 bg-blue-50 dark:bg-neutral-900 border-l-4 border-blue-500 rounded-r-xl shadow-sm">
-│   │   |     <h3 className="text-2xl font-bold mb-4">
-│   │   |       <a 
-│   │   |         href="https://korliblog.com/loneliness-arman-ayva-turns-collective-struggle-into-sound/" 
-│   │   |         target="_blank" 
-│   │   |         className="hover:text-blue-600 transition-colors"
+│   │   |       <Link 
+│   │   |         href="/blog" 
+│   │   |         className="text-sm font-semibold mt-6 inline-block text-neutral-400 dark:text-neutral-50 hover:text-blue-500 transition-colors"
 │   │   |       >
-│   │   |         Loneliness – Arman Ayva Turns Collective Struggle Into Sound
-│   │   |       </a>
-│   │   |     </h3>
-│   │   |     <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed">
-│   │   |       Montreal-based jazz-fusion composer Arman Ayva translates history and resilience into sound. 
-│   │   |       His single <strong>"Loneliness"</strong> reaches into the heart of Armenia’s early 1990s struggle—a time of bread lines and frozen nights. 
-│   │   |       It captures a concept of loneliness that wasn't just personal, but collective.
-│   │   |     </p>
-│   │   |     <p className="mt-4 text-sm font-semibold text-blue-600 dark:text-blue-400">
-│   │   |       — Released September 15, 2025
-│   │   |     </p>
-│   │   |   </article>
+│   │   |         View All Music & Stories →
+│   │   |       </Link>
 │   │   | 
-│   │   |   {/* REVIEWS GRID */}
-│   │   |   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-│   │   |     
-│   │   |     {/* Radio Derbi Web */}
-│   │   |     <div className="p-5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-50 dark:bg-neutral-900/50">
-│   │   |       <h4 className="font-bold text-lg mb-1">Radio Derbi Web</h4>
-│   │   |       <cite className="text-xs text-neutral-500 block mb-3">Influencer Review via Groover</cite>
-│   │   |       <p className="text-sm italic text-neutral-600 dark:text-neutral-400">
-│   │   |         "A work that proves more complex than it might appear at first listen, and which, when listened to attentively, can be... therapeutic!"
-│   │   |       </p>
-│   │   |     </div>
+│   │   |       <hr className="my-16 border-neutral-200 dark:border-neutral-800" />
+│   │   | 
+│   │   |       {/* REVIEWS SECTION */}
+│   │   |       <section id="feedback" className="py-8">
+│   │   |         <h2 className="font-bold text-3xl font-serif mb-8 tracking-tighter text-neutral-900 dark:text-neutral-50">
+│   │   |           🎷 Industry Feedback & Reviews
+│   │   |         </h2>
+│   │   | 
+│   │   |         <article className="mb-12 p-6 bg-blue-50 dark:bg-neutral-900 border-l-4 border-blue-500 rounded-r-xl shadow-sm">
+│   │   |           <h3 className="text-2xl font-bold mb-4">
+│   │   |             <a href="https://korliblog.com/loneliness-arman-ayva-turns-collective-struggle-into-sound/" target="_blank" className="hover:text-blue-600 transition-colors">
+│   │   |               Loneliness – Arman Ayva Turns Collective Struggle Into Sound
+│   │   |             </a>
+│   │   |           </h3>
+│   │   |           <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed">
+│   │   |             Montreal-based jazz-fusion composer Arman Ayva translates history and resilience into sound...
+│   │   |           </p>
+│   │   |         </article>
+│   │   | 
+│   │   |         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+│   │   |           {/* Radio Derbi Web */}
+│   │   |           <div className="p-5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-50 dark:bg-neutral-900/50">
+│   │   |             <h4 className="font-bold text-lg mb-1">Radio Derbi Web</h4>
+│   │   |             <p className="text-sm italic text-neutral-600 dark:text-neutral-400">
+│   │   |               "A work that proves more complex than it might appear at first listen..."
+│   │   |             </p>
+│   │   |           </div>
 │   │   | 
 │   │   |     {/* Rádio Armazém */}
 │   │   |     <div className="p-5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-50 dark:bg-neutral-900/50">
@@ -1223,23 +1208,29 @@ app/
 │   │   |       </div>
 │   │   |       <span className="text-[10px] mt-4 uppercase tracking-widest text-blue-500 font-bold">Radio Airplay</span>
 │   │   |     </div>
-│   │   | 
-│   │   |   </div>
-│   │   | 
-│   │   |   <div className="mt-12 text-center">
-│   │   |     <Link 
-│   │   |       href="/contact" 
-│   │   |       className="text-sm font-semibold text-neutral-500 hover:text-blue-500 transition-colors"
-│   │   |     >
-│   │   |       For press inquiries or reviews, please get in touch →
-│   │   |     </Link>
-│   │   |   </div>
-│   │   | </section>
-│   │   | </section>
+│   │   |         </div>
 │   │   | 
 │   │   | 
+│   │   |   <h2 className="font-bold text-2xl font-serif mt-12 mb-6 tracking-tighter">
+│   │   |           Featured Album: My Funky Jazzification
+│   │   |         </h2>
+│   │   |     
+│   │   |         <div className="flex flex-col items-center mb-10 text-neutral-400 dark:text-neutral-50">
+│   │   |           <iframe 
+│   │   |             style={{ border: 0, width: '350px', height: '470px' }} 
+│   │   |             src="https://bandcamp.com/EmbeddedPlayer/album=854312660/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/transparent=true/" 
+│   │   |             seamless
+│   │   |             title="My Funky Jazzification by Arman Ayva"
+│   │   |           /> 
+│   │   |         </div>
 │   │   | 
-│   │   |   
+│   │   |         <div className="mt-12 text-center">
+│   │   |           <Link href="/contact" className="text-sm font-semibold text-neutral-500 hover:text-blue-500 transition-colors">
+│   │   |             For press inquiries or reviews, please get in touch →
+│   │   |           </Link>
+│   │   |         </div>
+│   │   |       </section>
+│   │   |     </section>
 │   │   |   )
 │   │   | }
 │   │   | --- FILE CONTENT END ---
@@ -3289,6 +3280,52 @@ app/
 │   │   │   | }
 │   │   │   | --- FILE CONTENT END ---
 
+│   │   ├── PuzzleCTA.tsx
+│   │   │   | --- FILE CONTENT START (PuzzleCTA.tsx) ---
+│   │   │   | import Link from 'next/link';
+│   │   │   | import { FaYoutube, FaPlay } from 'react-icons/fa';
+│   │   │   | 
+│   │   │   | export default function PuzzleCTA() {
+│   │   │   |   return (
+│   │   │   |     <div className="max-w-4xl mx-auto my-16 p-1 bg-gradient-to-r from-red-500 via-blue-500 to-purple-600 rounded-3xl shadow-2xl transition-transform hover:scale-[1.01]">
+│   │   │   |       <div className="bg-white dark:bg-neutral-900 rounded-[calc(1.5rem-1px)] p-8 sm:p-12 flex flex-col md:flex-row items-center gap-8">
+│   │   │   |         <div className="flex-1 space-y-4">
+│   │   │   |           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-xs font-bold uppercase tracking-widest">
+│   │   │   |             <span className="relative flex h-2 w-2">
+│   │   │   |               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+│   │   │   |               <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+│   │   │   |             </span>
+│   │   │   |             New Interactive Experience
+│   │   │   |           </div>
+│   │   │   |           <h2 className="text-4xl font-serif font-bold tracking-tight text-neutral-900 dark:text-neutral-50">
+│   │   │   |             The YouTube Rhythm Puzzle
+│   │   │   |           </h2>
+│   │   │   |           <p className="text-neutral-600 dark:text-neutral-400 text-lg leading-relaxed">
+│   │   │   |             I built a custom tool that turns any YouTube video into a musical jigsaw. 
+│   │   │   |             Can you reassemble your favorite tracks by ear?
+│   │   │   |           </p>
+│   │   │   |           <Link 
+│   │   │   |             href="/puzzle" 
+│   │   │   |             className="inline-flex items-center gap-3 px-8 py-4 bg-red-600 text-white rounded-xl font-bold hover:bg-red-700 transition-all shadow-xl active:translate-y-1"
+│   │   │   |           >
+│   │   │   |             <FaPlay size={14} /> Start Playing
+│   │   │   |           </Link>
+│   │   │   |         </div>
+│   │   │   | 
+│   │   │   |         <div className="w-full md:w-64 h-48 bg-neutral-100 dark:bg-neutral-800 rounded-2xl border-4 border-white dark:border-neutral-700 shadow-inner flex items-center justify-center relative overflow-hidden group">
+│   │   │   |            <div className="grid grid-cols-2 gap-2 p-4 w-full opacity-40 group-hover:opacity-100 transition-opacity">
+│   │   │   |               {[1,2,3,4].map(i => (
+│   │   │   |                 <div key={i} className="h-12 bg-white dark:bg-neutral-700 rounded-lg shadow-sm" />
+│   │   │   |               ))}
+│   │   │   |            </div>
+│   │   │   |            <FaYoutube className="absolute text-5xl text-red-600 drop-shadow-lg group-hover:scale-110 transition-transform" />
+│   │   │   |         </div>
+│   │   │   |       </div>
+│   │   │   |     </div>
+│   │   │   |   );
+│   │   │   | }
+│   │   │   | --- FILE CONTENT END ---
+
 │   │   ├── PlaylistDiscovery.tsx
 │   │   │   | --- FILE CONTENT START (PlaylistDiscovery.tsx) ---
 │   │   │   | 'use client'
@@ -3728,7 +3765,7 @@ app/
 │   │   │   | import React, { useState, useEffect, useRef } from 'react';
 │   │   │   | import { sendGTMEvent } from '@next/third-parties/google'; 
 │   │   │   | import MusicCTA from './MusicCTA'; 
-│   │   │   | import { FaPlay, FaPause, FaUndo, FaGripVertical, FaSearch, FaSpotify, FaMusic } from 'react-icons/fa'; 
+│   │   │   | import { FaPlay, FaPause, FaUndo, FaGripVertical, FaSearch, FaSpotify, FaMusic, FaYoutube } from 'react-icons/fa'; 
 │   │   │   | 
 │   │   │   | const CORRECT_ORDER = [0, 1, 2, 3, 4, 5]; 
 │   │   │   | const SEGMENT_DURATION = 5; 
@@ -3739,110 +3776,97 @@ app/
 │   │   │   | }
 │   │   │   | 
 │   │   │   | export function MusicPuzzle() {
-│   │   │   |   const [sourceMode, setSourceMode] = useState<'spotify' | 'offline' | null>(null);
+│   │   │   |   const [sourceMode, setSourceMode] = useState<'spotify' | 'offline' | 'youtube' | null>(null);
 │   │   │   |   const [searchQuery, setSearchQuery] = useState('');
 │   │   │   |   const [searchResults, setSearchResults] = useState([]);
 │   │   │   |   const [isSearching, setIsSearching] = useState(false);
-│   │   │   |   const [hasSearched, setHasSearched] = useState(false); 
-│   │   │   |   const [trackInfo, setTrackInfo] = useState({ name: '', artist: '', image: '', spotifyUrl: '' });
+│   │   │   |   const [hasSearched, setHasSearched] = useState(false);
+│   │   │   |   const [trackInfo, setTrackInfo] = useState({ name: '', artist: '', image: '', url: '' });
 │   │   │   |   
 │   │   │   |   const [pieces, setPieces] = useState<PuzzlePiece[]>([]);
 │   │   │   |   const [isSolved, setIsSolved] = useState(false);
 │   │   │   |   const [playingId, setPlayingId] = useState<number | null>(null);
 │   │   │   |   const [seconds, setSeconds] = useState(0);
 │   │   │   |   
+│   │   │   |   // Audio & Player Refs
 │   │   │   |   const audioCtx = useRef<AudioContext | null>(null);
 │   │   │   |   const audioBuffer = useRef<AudioBuffer | null>(null);
 │   │   │   |   const activeSource = useRef<AudioBufferSourceNode | null>(null);
 │   │   │   |   const localAudioRef = useRef<HTMLAudioElement | null>(null);
+│   │   │   |   const ytPlayerRef = useRef<any>(null);
 │   │   │   |   const timerRef = useRef<NodeJS.Timeout | null>(null);
+│   │   │   |   const ytTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 │   │   │   | 
-│   │   │   |   const triggerHaptic = (pattern: number | number[] = 50) => {
-│   │   │   |     if (typeof navigator !== 'undefined' && navigator.vibrate) {
-│   │   │   |       navigator.vibrate(pattern);
+│   │   │   |   // Initialize YouTube API
+│   │   │   |   useEffect(() => {
+│   │   │   |     if (!window.YT) {
+│   │   │   |       const tag = document.createElement('script');
+│   │   │   |       tag.src = "https://www.youtube.com/iframe_api";
+│   │   │   |       const firstScriptTag = document.getElementsByTagName('script')[0];
+│   │   │   |       firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
 │   │   │   |     }
-│   │   │   |   };
 │   │   │   | 
-│   │   │   |   const loadOfflinePuzzle = () => {
-│   │   │   |     setSourceMode('offline');
-│   │   │   |     setTrackInfo({
-│   │   │   |       name: "Girl from Italy (Preview)",
-│   │   │   |       artist: "Arman Ayva",
-│   │   │   |       image: "https://res.cloudinary.com/dpmkshcky/image/upload/v1763230260/Cowboy_a3mnzs.png",
-│   │   │   |       spotifyUrl: "https://armanayva.bandcamp.com/track/girl-from-italy"
-│   │   │   |     });
-│   │   │   |     
-│   │   │   |     const initial = CORRECT_ORDER.map(id => ({ 
-│   │   │   |       id, 
-│   │   │   |       localAudioUrl: `/audio/segment-${id + 1}.mp3` 
-│   │   │   |     }));
-│   │   │   |     setPieces([...initial].sort(() => Math.random() - 0.5));
-│   │   │   |     startNewGame();
-│   │   │   |   };
+│   │   │   |     window.onYouTubeIframeAPIReady = () => {
+│   │   │   |       ytPlayerRef.current = new window.YT.Player('yt-hidden-player', {
+│   │   │   |         height: '0',
+│   │   │   |         width: '0',
+│   │   │   |         videoId: '',
+│   │   │   |         playerVars: { 'controls': 0, 'disablekb': 1 },
+│   │   │   |       });
+│   │   │   |     };
+│   │   │   |   }, []);
 │   │   │   | 
 │   │   │   |   const handleSearch = async (e: React.FormEvent) => {
 │   │   │   |     e.preventDefault();
 │   │   │   |     if (!searchQuery.trim()) return;
-│   │   │   |     
 │   │   │   |     setIsSearching(true);
 │   │   │   |     setHasSearched(false);
-│   │   │   |     setSearchResults([]); // Reset results on new search
 │   │   │   |     
-│   │   │   |     // Check if user pasted a Spotify URL
-│   │   │   |     const trackIdMatch = searchQuery.match(/track\/([a-zA-Z0-9]+)/);
-│   │   │   |     const queryParam = trackIdMatch ? trackIdMatch[1] : encodeURIComponent(searchQuery);
-│   │   │   |     
-│   │   │   |     // Use the appropriate endpoint
-│   │   │   |     const endpoint = trackIdMatch 
-│   │   │   |       ? `/api/spotify/track?id=${queryParam}` 
-│   │   │   |       : `/api/spotify/search?q=${queryParam}`;
-│   │   │   | 
 │   │   │   |     try {
-│   │   │   |       const res = await fetch(endpoint);
+│   │   │   |       // We search YouTube primarily now as it's most reliable
+│   │   │   |       const res = await fetch(`/api/youtube/search?q=${encodeURIComponent(searchQuery)}`);
 │   │   │   |       const data = await res.json();
-│   │   │   |       
-│   │   │   |       // Standardize data: track endpoint returns object, search returns array
-│   │   │   |       const results = Array.isArray(data) ? data : (data.error ? [] : [data]);
-│   │   │   |       
-│   │   │   |       // Filter only tracks that actually have a preview URL
-│   │   │   |       const playableResults = results.filter((t: any) => t.preview_url);
-│   │   │   |       
-│   │   │   |       setSearchResults(playableResults.slice(0, 5));
+│   │   │   |       setSearchResults(data);
 │   │   │   |       setHasSearched(true);
 │   │   │   |     } catch (err) {
-│   │   │   |       console.error("Search failed", err);
 │   │   │   |       setHasSearched(true);
 │   │   │   |     } finally {
 │   │   │   |       setIsSearching(false);
 │   │   │   |     }
 │   │   │   |   };
 │   │   │   | 
-│   │   │   |   const selectSpotifyTrack = async (track: any) => {
-│   │   │   |     setSourceMode('spotify');
+│   │   │   |   const selectYouTubeTrack = (video: any) => {
+│   │   │   |     setSourceMode('youtube');
 │   │   │   |     setSearchResults([]);
 │   │   │   |     setSearchQuery('');
 │   │   │   |     setTrackInfo({ 
-│   │   │   |       name: track.name, 
-│   │   │   |       artist: track.artists[0].name, 
-│   │   │   |       image: track.album.images[0].url,
-│   │   │   |       spotifyUrl: track.external_urls.spotify
+│   │   │   |       name: video.name, 
+│   │   │   |       artist: video.artist, 
+│   │   │   |       image: video.image,
+│   │   │   |       url: `https://www.youtube.com/watch?v=${video.id}`
 │   │   │   |     });
 │   │   │   | 
-│   │   │   |     if (!audioCtx.current) {
-│   │   │   |       audioCtx.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+│   │   │   |     if (ytPlayerRef.current) {
+│   │   │   |       ytPlayerRef.current.loadVideoById(video.id);
+│   │   │   |       ytPlayerRef.current.pauseVideo();
 │   │   │   |     }
 │   │   │   | 
-│   │   │   |     try {
-│   │   │   |       const response = await fetch(track.preview_url);
-│   │   │   |       const arrayBuffer = await response.arrayBuffer();
-│   │   │   |       audioBuffer.current = await audioCtx.current.decodeAudioData(arrayBuffer);
+│   │   │   |     const initial = CORRECT_ORDER.map(id => ({ id }));
+│   │   │   |     setPieces([...initial].sort(() => Math.random() - 0.5));
+│   │   │   |     startNewGame();
+│   │   │   |   };
 │   │   │   | 
-│   │   │   |       const initial = CORRECT_ORDER.map(id => ({ id }));
-│   │   │   |       setPieces([...initial].sort(() => Math.random() - 0.5));
-│   │   │   |       startNewGame();
-│   │   │   |     } catch (error) {
-│   │   │   |       alert("Could not load audio preview for this track.");
-│   │   │   |     }
+│   │   │   |   const loadOfflinePuzzle = () => {
+│   │   │   |     setSourceMode('offline');
+│   │   │   |     setTrackInfo({
+│   │   │   |       name: "Girl from Italy",
+│   │   │   |       artist: "Arman Ayva",
+│   │   │   |       image: "https://res.cloudinary.com/dpmkshcky/image/upload/v1763230260/Cowboy_a3mnzs.png",
+│   │   │   |       url: "https://armanayva.bandcamp.com"
+│   │   │   |     });
+│   │   │   |     const initial = CORRECT_ORDER.map(id => ({ id, localAudioUrl: `/audio/segment-${id + 1}.mp3` }));
+│   │   │   |     setPieces([...initial].sort(() => Math.random() - 0.5));
+│   │   │   |     startNewGame();
 │   │   │   |   };
 │   │   │   | 
 │   │   │   |   const startNewGame = () => {
@@ -3854,32 +3878,28 @@ app/
 │   │   │   |   };
 │   │   │   | 
 │   │   │   |   const stopAudio = () => {
-│   │   │   |     if (activeSource.current) {
-│   │   │   |       activeSource.current.stop();
-│   │   │   |       activeSource.current = null;
-│   │   │   |     }
-│   │   │   |     if (localAudioRef.current) {
-│   │   │   |       localAudioRef.current.pause();
-│   │   │   |       localAudioRef.current.currentTime = 0;
-│   │   │   |     }
+│   │   │   |     if (activeSource.current) { activeSource.current.stop(); activeSource.current = null; }
+│   │   │   |     if (localAudioRef.current) { localAudioRef.current.pause(); localAudioRef.current.currentTime = 0; }
+│   │   │   |     if (ytPlayerRef.current) ytPlayerRef.current.pauseVideo();
+│   │   │   |     if (ytTimeoutRef.current) clearTimeout(ytTimeoutRef.current);
 │   │   │   |     setPlayingId(null);
 │   │   │   |   };
 │   │   │   | 
 │   │   │   |   const playSegment = (piece: PuzzlePiece) => {
-│   │   │   |     if (playingId === piece.id) {
-│   │   │   |       stopAudio();
-│   │   │   |       return;
-│   │   │   |     }
+│   │   │   |     if (playingId === piece.id) { stopAudio(); return; }
 │   │   │   |     stopAudio();
 │   │   │   | 
-│   │   │   |     if (sourceMode === 'spotify' && audioCtx.current && audioBuffer.current) {
-│   │   │   |       const source = audioCtx.current.createBufferSource();
-│   │   │   |       source.buffer = audioBuffer.current;
-│   │   │   |       source.connect(audioCtx.current.destination);
-│   │   │   |       source.start(0, piece.id * SEGMENT_DURATION, SEGMENT_DURATION);
-│   │   │   |       activeSource.current = source;
+│   │   │   |     if (sourceMode === 'youtube' && ytPlayerRef.current) {
+│   │   │   |       const startTime = piece.id * SEGMENT_DURATION;
+│   │   │   |       ytPlayerRef.current.seekTo(startTime, true);
+│   │   │   |       ytPlayerRef.current.playVideo();
 │   │   │   |       setPlayingId(piece.id);
-│   │   │   |       source.onended = () => setPlayingId(null);
+│   │   │   |       
+│   │   │   |       ytTimeoutRef.current = setTimeout(() => {
+│   │   │   |         ytPlayerRef.current.pauseVideo();
+│   │   │   |         setPlayingId(null);
+│   │   │   |       }, SEGMENT_DURATION * 1000);
+│   │   │   |       
 │   │   │   |     } else if (sourceMode === 'offline' && piece.localAudioUrl) {
 │   │   │   |       const audio = new Audio(piece.localAudioUrl);
 │   │   │   |       localAudioRef.current = audio;
@@ -3895,11 +3915,9 @@ app/
 │   │   │   |     const [movedItem] = updated.splice(fromIndex, 1);
 │   │   │   |     updated.splice(toIndex, 0, movedItem);
 │   │   │   |     setPieces(updated);
-│   │   │   |     triggerHaptic(40);
-│   │   │   | 
+│   │   │   |     
 │   │   │   |     if (JSON.stringify(updated.map(p => p.id)) === JSON.stringify(CORRECT_ORDER)) {
 │   │   │   |       setIsSolved(true);
-│   │   │   |       triggerHaptic([100, 50, 100]);
 │   │   │   |       if (timerRef.current) clearInterval(timerRef.current);
 │   │   │   |       sendGTMEvent({ event: 'puzzle_complete', action: 'music_puzzle_success', value: seconds });
 │   │   │   |     }
@@ -3907,15 +3925,15 @@ app/
 │   │   │   | 
 │   │   │   |   return (
 │   │   │   |     <section className="my-12 p-8 bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl shadow-xl relative">
+│   │   │   |       <div id="yt-hidden-player" className="hidden"></div>
+│   │   │   |       
 │   │   │   |       <div className="flex justify-between items-center mb-6">
 │   │   │   |         <h2 className="text-2xl font-serif font-bold tracking-tighter flex items-center gap-3">
-│   │   │   |           {sourceMode === 'spotify' ? <FaSpotify className="text-[#1DB954]" /> : <FaMusic className="text-blue-500" />}
+│   │   │   |           {sourceMode === 'youtube' ? <FaYoutube className="text-red-600" /> : <FaMusic className="text-blue-500" />}
 │   │   │   |           Music Puzzle
 │   │   │   |         </h2>
 │   │   │   |         {pieces.length > 0 && (
-│   │   │   |           <button onClick={() => { setPieces([]); setSourceMode(null); stopAudio(); }} className="text-xs font-bold uppercase text-neutral-400 hover:text-red-500 transition-colors">
-│   │   │   |             Exit Game
-│   │   │   |           </button>
+│   │   │   |           <button onClick={() => { setPieces([]); setSourceMode(null); stopAudio(); }} className="text-xs font-bold uppercase text-red-500 hover:underline">Exit Game</button>
 │   │   │   |         )}
 │   │   │   |       </div>
 │   │   │   | 
@@ -3924,58 +3942,35 @@ app/
 │   │   │   |           <form onSubmit={handleSearch} className="relative z-50">
 │   │   │   |             <div className="flex gap-2">
 │   │   │   |               <input 
-│   │   │   |                 type="text"
-│   │   │   |                 value={searchQuery}
-│   │   │   |                 onChange={(e) => setSearchQuery(e.target.value)}
-│   │   │   |                 placeholder="Paste Link or Search Song..."
-│   │   │   |                 className="flex-1 px-4 py-3 rounded-xl bg-white dark:bg-black border border-neutral-200 dark:border-neutral-800 outline-none focus:ring-2 focus:ring-green-500"
+│   │   │   |                 type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
+│   │   │   |                 placeholder="Search YouTube Song..."
+│   │   │   |                 className="flex-1 px-4 py-3 rounded-xl bg-white dark:bg-black border border-neutral-200 dark:border-neutral-800 outline-none focus:ring-2 focus:ring-red-500"
 │   │   │   |               />
-│   │   │   |               <button type="submit" className="px-6 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-colors">
+│   │   │   |               <button type="submit" className="px-6 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-all font-bold">
 │   │   │   |                 {isSearching ? '...' : <FaSearch />}
 │   │   │   |               </button>
 │   │   │   |             </div>
 │   │   │   | 
-│   │   │   |             {/* RESULTS DROPDOWN */}
-│   │   │   |             {(hasSearched || isSearching) && (
-│   │   │   |               <div className="absolute left-0 right-0 top-full mt-2 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-xl shadow-2xl overflow-hidden pointer-events-auto z-50">
-│   │   │   |                 {isSearching ? (
-│   │   │   |                   <div className="p-4 text-center text-sm text-neutral-500">Searching Spotify...</div>
-│   │   │   |                 ) : searchResults.length > 0 ? (
-│   │   │   |                   searchResults.map((track: any) => (
-│   │   │   |                     <button key={track.id} onClick={() => selectSpotifyTrack(track)} className="w-full flex items-center gap-3 p-3 hover:bg-neutral-100 dark:hover:bg-neutral-700 text-left border-b last:border-none dark:border-neutral-700 group">
-│   │   │   |                       <img src={track.album.images[2].url} className="w-10 h-10 rounded shadow-sm" alt="" />
+│   │   │   |             {hasSearched && (
+│   │   │   |               <div className="absolute left-0 right-0 top-full mt-2 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-xl shadow-2xl z-50 max-h-72 overflow-y-auto pointer-events-auto">
+│   │   │   |                 {searchResults.length > 0 ? (
+│   │   │   |                   searchResults.map((video: any) => (
+│   │   │   |                     <button key={video.id} onClick={() => selectYouTubeTrack(video)} className="w-full flex items-center gap-3 p-3 hover:bg-neutral-100 dark:hover:bg-neutral-700 text-left border-b last:border-none dark:border-neutral-700 group">
+│   │   │   |                       <img src={video.image} className="w-14 h-10 object-cover rounded shadow-sm" alt="" />
 │   │   │   |                       <div className="truncate">
-│   │   │   |                         <p className="font-bold text-sm truncate group-hover:text-green-500 transition-colors">{track.name}</p>
-│   │   │   |                         <p className="text-xs text-neutral-500">{track.artists[0].name}</p>
+│   │   │   |                         <p className="font-bold text-sm truncate group-hover:text-red-600 transition-colors">{video.name}</p>
+│   │   │   |                         <p className="text-xs text-neutral-500">{video.artist}</p>
 │   │   │   |                       </div>
 │   │   │   |                     </button>
 │   │   │   |                   ))
 │   │   │   |                 ) : (
-│   │   │   |                   <div className="p-4 text-center text-sm text-neutral-500">No tracks with previews found. Try another song.</div>
+│   │   │   |                   <div className="p-6 text-center text-sm text-neutral-500">No videos found.</div>
 │   │   │   |                 )}
 │   │   │   |               </div>
 │   │   │   |             )}
 │   │   │   |           </form>
 │   │   │   | 
-│   │   │   |           <div className="relative">
-│   │   │   |             <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-neutral-200 dark:border-neutral-800" /></div>
-│   │   │   |             <div className="relative flex justify-center text-xs uppercase"><span className="bg-neutral-50 dark:bg-neutral-900 px-2 text-neutral-400">or play offline</span></div>
-│   │   │   |           </div>
-│   │   │   | 
-│   │   │   |           <div className="bg-neutral-100 dark:bg-neutral-900 p-4 rounded-xl border border-neutral-200 dark:border-neutral-800">
-│   │   │   |             <p className="text-xs font-bold uppercase tracking-widest mb-2 text-blue-500">Featured Single</p>
-│   │   │   |             <iframe 
-│   │   │   |               style={{ border: 0, width: '100%', height: '120px' }} 
-│   │   │   |               src="https://bandcamp.com/EmbeddedPlayer/track=2408269376/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" 
-│   │   │   |               seamless 
-│   │   │   |               title="Girl From Italy"
-│   │   │   |             />
-│   │   │   |           </div>
-│   │   │   | 
-│   │   │   |           <button 
-│   │   │   |             onClick={loadOfflinePuzzle}
-│   │   │   |             className="w-full py-4 flex items-center justify-center gap-3 bg-white dark:bg-black border-2 border-dashed border-neutral-200 dark:border-neutral-800 rounded-xl hover:border-blue-500 transition-all group"
-│   │   │   |           >
+│   │   │   |           <button onClick={() => loadOfflinePuzzle()} className="w-full py-4 flex items-center justify-center gap-3 bg-white dark:bg-black border-2 border-dashed border-neutral-200 dark:border-neutral-800 rounded-xl hover:border-blue-500 transition-all group">
 │   │   │   |             <FaMusic className="text-neutral-400 group-hover:text-blue-500" />
 │   │   │   |             <span className="font-bold text-neutral-600 dark:text-neutral-300">Play "Girl From Italy" (Offline)</span>
 │   │   │   |           </button>
@@ -3985,16 +3980,18 @@ app/
 │   │   │   |       {pieces.length > 0 && (
 │   │   │   |         <div className="animate-in slide-in-from-bottom-4 duration-500">
 │   │   │   |           <div className="flex justify-between items-end mb-6">
-│   │   │   |             <div className="flex items-center gap-4">
-│   │   │   |               <img src={trackInfo.image} className="w-12 h-12 rounded-lg shadow-md" alt="" />
-│   │   │   |               <div>
-│   │   │   |                 <p className="text-[10px] font-bold text-green-500 uppercase tracking-widest leading-none mb-1">Now Playing</p>
-│   │   │   |                 <p className="font-serif text-lg font-bold truncate max-w-[150px] sm:max-w-none">{trackInfo.name}</p>
+│   │   │   |             <div className="flex items-center gap-4 truncate mr-4">
+│   │   │   |               <img src={trackInfo.image} className="w-12 h-12 rounded-lg shadow-md border border-neutral-200" alt="" />
+│   │   │   |               <div className="truncate">
+│   │   │   |                 <p className="text-[10px] font-bold text-red-600 uppercase tracking-widest leading-none mb-1">
+│   │   │   |                   {sourceMode === 'offline' ? 'Original Track' : 'YouTube Stream'}
+│   │   │   |                 </p>
+│   │   │   |                 <p className="font-serif text-lg font-bold truncate">{trackInfo.name}</p>
 │   │   │   |               </div>
 │   │   │   |             </div>
-│   │   │   |             <div className="flex items-center gap-4">
-│   │   │   |                <span className="font-mono text-sm text-neutral-500 font-bold">{seconds}s</span>
-│   │   │   |                <button onClick={startNewGame} className="p-3 text-neutral-400 hover:text-blue-500 transition-colors"><FaUndo /></button>
+│   │   │   |             <div className="flex items-center gap-3 shrink-0">
+│   │   │   |                <span className="font-mono text-sm text-blue-500 font-bold bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded">{seconds}s</span>
+│   │   │   |                <button onClick={startNewGame} className="p-2 text-neutral-400 hover:text-blue-500 transition-colors" title="Restart"><FaUndo /></button>
 │   │   │   |             </div>
 │   │   │   |           </div>
 │   │   │   | 
@@ -4014,10 +4011,10 @@ app/
 │   │   │   |                     className={`w-full flex flex-col items-center ${isSolved ? 'cursor-default' : 'cursor-grab active:cursor-grabbing'}`}
 │   │   │   |                   >
 │   │   │   |                     {!isSolved && <FaGripVertical className="opacity-20 mb-2" />}
-│   │   │   |                     <span className="text-3xl block mb-1">{isCorrect ? '✅' : '🎵'}</span>
+│   │   │   |                     <span className="text-3xl block mb-1">{isCorrect ? '✅' : '🧩'}</span>
 │   │   │   |                     <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-400">{isCorrect ? `Part ${piece.id + 1}` : `Piece ${index + 1}`}</span>
 │   │   │   |                   </div>
-│   │   │   |                   <button onClick={() => playSegment(piece)} className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors shadow-md active:scale-90 ${playingId === piece.id ? 'bg-blue-500 text-white animate-pulse' : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600'}`}>
+│   │   │   |                   <button onClick={() => playSegment(piece)} className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors shadow-md active:scale-90 ${playingId === piece.id ? 'bg-red-600 text-white animate-pulse' : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600'}`}>
 │   │   │   |                     {playingId === piece.id ? <FaPause size={16} /> : <FaPlay size={16} className="ml-1" />}
 │   │   │   |                   </button>
 │   │   │   |                 </div>
@@ -4028,11 +4025,9 @@ app/
 │   │   │   |       )}
 │   │   │   | 
 │   │   │   |       {isSolved && (
-│   │   │   |         <div className="text-center animate-in fade-in zoom-in duration-700">
-│   │   │   |           <div className="p-4 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-xl mb-6 font-bold">
-│   │   │   |             ✨ Perfect! Solved in {seconds} seconds.
-│   │   │   |           </div>
-│   │   │   |           <MusicCTA label={sourceMode === 'spotify' ? "Full Song on Spotify" : "Full Song on Bandcamp"} albumUrl={trackInfo.spotifyUrl} baseColor={sourceMode === 'spotify' ? "#1DB954" : "#00bfff"} hoverColor={sourceMode === 'spotify' ? "#1aa34a" : "#0080ff"} />
+│   │   │   |         <div className="text-center animate-in fade-in zoom-in duration-700 border-t border-neutral-100 dark:border-neutral-800 pt-8">
+│   │   │   |           <p className="p-4 text-green-700 dark:text-green-400 font-bold uppercase tracking-[0.2em] text-xs">✨ Solve Complete! ✨</p>
+│   │   │   |           <MusicCTA label={sourceMode === 'youtube' ? "Watch on YouTube" : "Listen on Bandcamp"} albumUrl={trackInfo.url} baseColor={sourceMode === 'youtube' ? "#FF0000" : "#00bfff"} hoverColor={sourceMode === 'youtube' ? "#CC0000" : "#0080ff"} />
 │   │   │   |         </div>
 │   │   │   |       )}
 │   │   │   |     </section>
@@ -4308,7 +4303,7 @@ app/
 │   │   │   │   | }
 │   │   │   │   | --- FILE CONTENT END ---
 
-│   │   ├── spotify/
+│   │   ├── youtube/
 │   │   │   ├── track/
 │   │   │   │   ├── route.ts
 │   │   │   │   │   | --- FILE CONTENT START (route.ts) ---
@@ -4359,55 +4354,58 @@ app/
 │   │   │   │   │   | export async function GET(request: Request) {
 │   │   │   │   │   |   const { searchParams } = new URL(request.url);
 │   │   │   │   │   |   const query = searchParams.get('q');
+│   │   │   │   │   |   const API_KEY = process.env.YOUTUBE_API_KEY;
 │   │   │   │   │   | 
-│   │   │   │   │   |   if (!query) return NextResponse.json([]);
-│   │   │   │   │   | 
-│   │   │   │   │   |   const client_id = process.env.SPOTIFY_CLIENT_ID;
-│   │   │   │   │   |   const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+│   │   │   │   │   |   if (!query) {
+│   │   │   │   │   |     return NextResponse.json([]);
+│   │   │   │   │   |   }
 │   │   │   │   │   | 
 │   │   │   │   │   |   try {
-│   │   │   │   │   |     // 1. Get Access Token
-│   │   │   │   │   |     const tokenRes = await fetch('https://accounts.spotify.com/api/token', {
-│   │   │   │   │   |       method: 'POST',
-│   │   │   │   │   |       headers: {
-│   │   │   │   │   |         'Content-Type': 'application/x-www-form-urlencoded',
-│   │   │   │   │   |         Authorization: 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64'),
-│   │   │   │   │   |       },
-│   │   │   │   │   |       body: 'grant_type=client_credentials',
-│   │   │   │   │   |     });
-│   │   │   │   │   |     const { access_token } = await tokenRes.json();
-│   │   │   │   │   | 
-│   │   │   │   │   |     // 2. Check if the query is a Spotify URL or a Search Term
-│   │   │   │   │   |     const trackIdMatch = query.match(/track\/([a-zA-Z0-9]+)/);
+│   │   │   │   │   |     // 1. Try to extract Video ID from URL (handles watch, shorts, youtu.be)
+│   │   │   │   │   |     const videoIdMatch = query.match(/(?:v=|shorts\/|youtu\.be\/|embed\/)([a-zA-Z0-9_-]{11})/);
 │   │   │   │   │   |     
-│   │   │   │   │   |     let tracks = [];
-│   │   │   │   │   | 
-│   │   │   │   │   |     if (trackIdMatch) {
-│   │   │   │   │   |       // CASE A: Direct Track ID from URL
-│   │   │   │   │   |       const trackId = trackIdMatch[1];
-│   │   │   │   │   |       const trackRes = await fetch(`https://api.spotify.com/v1/tracks/${trackId}`, {
-│   │   │   │   │   |         headers: { Authorization: `Bearer ${access_token}` },
-│   │   │   │   │   |       });
-│   │   │   │   │   |       const trackData = await trackRes.json();
-│   │   │   │   │   |       tracks = [trackData]; // Wrap in array to match search format
-│   │   │   │   │   |     } else {
-│   │   │   │   │   |       // CASE B: General Search
-│   │   │   │   │   |       const searchRes = await fetch(
-│   │   │   │   │   |         `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=track&limit=15`,
-│   │   │   │   │   |         { headers: { Authorization: `Bearer ${access_token}` } }
+│   │   │   │   │   |     if (videoIdMatch && videoIdMatch[1]) {
+│   │   │   │   │   |       const videoId = videoIdMatch[1];
+│   │   │   │   │   |       const res = await fetch(
+│   │   │   │   │   |         `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${API_KEY}`
 │   │   │   │   │   |       );
-│   │   │   │   │   |       const searchData = await searchRes.json();
-│   │   │   │   │   |       tracks = searchData.tracks.items;
+│   │   │   │   │   |       const data = await res.json();
+│   │   │   │   │   | 
+│   │   │   │   │   |       if (data.items && data.items.length > 0) {
+│   │   │   │   │   |         const item = data.items[0];
+│   │   │   │   │   |         return NextResponse.json([{
+│   │   │   │   │   |           id: item.id,
+│   │   │   │   │   |           name: item.snippet.title,
+│   │   │   │   │   |           artist: item.snippet.channelTitle,
+│   │   │   │   │   |           image: item.snippet.thumbnails.medium?.url || item.snippet.thumbnails.default?.url,
+│   │   │   │   │   |         }]);
+│   │   │   │   │   |       }
 │   │   │   │   │   |     }
 │   │   │   │   │   | 
-│   │   │   │   │   |     // 3. Filter for tracks that have preview_url
-│   │   │   │   │   |     // Note: If this list is empty, it means Spotify doesn't have a 30s clip for those specific songs.
-│   │   │   │   │   |     const tracksWithPreviews = tracks.filter((t: any) => t.preview_url !== null);
+│   │   │   │   │   |     // 2. If no URL match, perform a Broad Search
+│   │   │   │   │   |     const searchRes = await fetch(
+│   │   │   │   │   |       `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&type=video&maxResults=5&key=${API_KEY}`
+│   │   │   │   │   |     );
+│   │   │   │   │   |     const searchData = await searchRes.json();
 │   │   │   │   │   | 
-│   │   │   │   │   |     return NextResponse.json(tracksWithPreviews);
-│   │   │   │   │   |   } catch (err) {
-│   │   │   │   │   |     console.error("Spotify API Route Error:", err);
-│   │   │   │   │   |     return NextResponse.json({ error: 'Failed to fetch' }, { status: 500 });
+│   │   │   │   │   |     // Log for debugging if search returns nothing
+│   │   │   │   │   |     if (!searchData.items) {
+│   │   │   │   │   |       console.log("YouTube API returned no items:", searchData);
+│   │   │   │   │   |       return NextResponse.json([]);
+│   │   │   │   │   |     }
+│   │   │   │   │   | 
+│   │   │   │   │   |     const results = searchData.items.map((item: any) => ({
+│   │   │   │   │   |       id: item.id.videoId,
+│   │   │   │   │   |       name: item.snippet.title,
+│   │   │   │   │   |       artist: item.snippet.channelTitle,
+│   │   │   │   │   |       image: item.snippet.thumbnails.medium?.url,
+│   │   │   │   │   |     }));
+│   │   │   │   │   | 
+│   │   │   │   │   |     return NextResponse.json(results);
+│   │   │   │   │   | 
+│   │   │   │   │   |   } catch (error) {
+│   │   │   │   │   |     console.error("YT API Error:", error);
+│   │   │   │   │   |     return NextResponse.json({ error: 'YouTube search failed' }, { status: 500 });
 │   │   │   │   │   |   }
 │   │   │   │   │   | }
 │   │   │   │   │   | --- FILE CONTENT END ---

@@ -13,20 +13,21 @@ export default function PuzzleCTA() {
             </span>
             New Interactive Experience
           </div>
-          <h2 className="text-4xl font-serif font-bold tracking-tight">The YouTube Rhythm Puzzle</h2>
+          <h2 className="text-4xl font-serif font-bold tracking-tight text-neutral-900 dark:text-neutral-50">
+            The YouTube Rhythm Puzzle
+          </h2>
           <p className="text-neutral-600 dark:text-neutral-400 text-lg leading-relaxed">
             I built a custom tool that turns any YouTube video into a musical jigsaw. 
             Can you reassemble your favorite tracks by ear?
           </p>
           <Link 
-            href="#puzzle" 
-            className="inline-flex items-center gap-3 px-8 py-4 bg-red-600 text-white rounded-xl font-bold hover:bg-red-700 transition-all shadow-xl active:translate-y-1"
-          >
-            <FaPlay size={14} /> Start Playing
-          </Link>
+  href="/puzzle" // Remove the # here
+  className="inline-flex items-center gap-3 px-8 py-4 bg-red-600 text-white rounded-xl font-bold hover:bg-red-700 transition-all shadow-xl active:translate-y-1"
+>
+  <FaPlay size={14} /> Start Playing
+</Link>
         </div>
 
-        {/* Visual Mockup */}
         <div className="w-full md:w-64 h-48 bg-neutral-100 dark:bg-neutral-800 rounded-2xl border-4 border-white dark:border-neutral-700 shadow-inner flex items-center justify-center relative overflow-hidden group">
            <div className="grid grid-cols-2 gap-2 p-4 w-full opacity-40 group-hover:opacity-100 transition-opacity">
               {[1,2,3,4].map(i => (
