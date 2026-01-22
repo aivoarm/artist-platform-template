@@ -10,31 +10,27 @@ import { Footer } from './components/footer'
 import { baseUrl } from './sitemap'
 import { Providers } from './Providers'; 
 import { GoogleAnalytics } from '@next/third-parties/google'
-import Script from 'next/script'; // ⬅️ IMPORTED: For TikTok Pixel
-import { DelayedSubscribePopup } from './components/DelayedSubscribePopup'; // Adjust import path
-
+import Script from 'next/script'; 
+import { DelayedSubscribePopup } from './components/DelayedSubscribePopup'; 
 import { GoogleTagManager } from '@next/third-parties/google'
-
 
 // --- ENVIRONMENT VARIABLES / CONSTANTS ---
 const fullImageUrl = new URL('/og?title=Arman+Ayva+Music', baseUrl).toString();
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || ''
-const YOUR_APP_ID = process.env.YOUR_FACEBOOK_APP_ID; // ⬅️ ⭐️ CRITICAL: REPLACE THIS WITH YOUR REAL APP ID
-const TIKTOK_PIXEL_ID = process.env.NEXT_PUBLIC_TIKTOK_ID || 'YOUR_TIKTOK_PIXEL_ID'; // ⬅️ REPLACE WITH YOUR TIKTOK PIXEL ID
-
+const YOUR_APP_ID = process.env.YOUR_FACEBOOK_APP_ID; 
+const TIKTOK_PIXEL_ID = process.env.NEXT_PUBLIC_TIKTOK_ID || 'YOUR_TIKTOK_PIXEL_ID'; 
 
 // --- METADATA EXPORT ---
 export const metadata: Metadata = {
-
   metadataBase: new URL(baseUrl),
   title: {
     default: 'Arman Ayva Personal Website',
-    template: '%s | Arman Ayva', // Updated template for better branding
+    template: '%s | Arman Ayva', 
   },
   icons: {
-    icon: '/favicon.ico', // Must be in the app directory
-    shortcut: '/shortcut-icon.png', // Optional
-    apple: '/apple-icon.png', // For iOS Home Screen
+    icon: '/favicon.ico', 
+    shortcut: '/shortcut-icon.png', 
+    apple: '/apple-icon.png', 
   },
   description: 'Arman Ayva | Montreal Jazz Composer Blending Armenian Folk & Funk',
   keywords: [
@@ -58,7 +54,6 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        // Use the dynamic OG image route
         url: fullImageUrl,
         width: 1200, 
         height: 630, 
@@ -66,15 +61,13 @@ export const metadata: Metadata = {
       },
     ],
   },
-  // ⭐️ CRITICAL FIX: Explicitly set Twitter Card with Absolute URL ⭐️
   twitter: {
     card: 'summary_large_image', 
-    site: '@armanayva',   // ⬅️ REPLACE with your Twitter handle
-    creator: '@armanayva',// ⬅️ REPLACE with your Twitter handle
+    site: '@armanayva',   
+    creator: '@armanayva',
     title: 'Arman Ayva | Mood-lifter behind the music',
     description: 'Jazz, funk, folk fan. Composer, artist, and mood-lifter.',
     images: {
-        // FIX: Ensure the image URL is ABSOLUTE for X.com crawler
         url: fullImageUrl, 
         alt: 'Arman Ayva Music Portfolio',
     },
@@ -103,26 +96,20 @@ export default function RootLayout({
     <html
       lang="en"
       className={cx(
-        // 🔑 THE FIX: Added the 'dark' class here to make it the default theme
-        'dark text-black dark:bg-black dark:text-white', 
+        // 👇 CHANGED: Removed 'dark' from the start of this string
+        'text-black dark:bg-black dark:text-white', 
         GeistSans.variable,
         GeistMono.variable
       )}
       suppressHydrationWarning
     >
       <head>
-        {/* ⭐️ FIX: Add the Facebook App ID tag directly to the head */}
         <meta property="fb:app_id" content={YOUR_APP_ID} />
       </head>
-      {/* ADDED suppressHydrationWarning HERE:
-         This prevents errors when browser extensions (like Grammarly) 
-         inject extra attributes into the body tag.
-      */}
       <body 
         className="antialiased max-w-6xl mx-4 mt-8 lg:mx-auto dark:bg-black"
         suppressHydrationWarning
       >
-        
         <Providers> 
           <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
             <Navbar />
@@ -134,12 +121,11 @@ export default function RootLayout({
         </Providers>
         <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
 
-        {/* ⭐️ TIKTOK PIXEL IMPLEMENTATION ⭐️ */}
         {TIKTOK_PIXEL_ID && TIKTOK_PIXEL_ID !== 'YOUR_TIKTOK_PIXEL_ID' && (
           <>
             <Script
               id="tiktok-pixel-base"
-              strategy="afterInteractive" // Loads after the page is interactive
+              strategy="afterInteractive" 
               dangerouslySetInnerHTML={{
                 __html: `
                   !function (w, d, t) {
