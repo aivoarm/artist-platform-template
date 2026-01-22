@@ -1,9 +1,10 @@
 'use client';
+'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
 import { sendGTMEvent } from '@next/third-parties/google'; 
 import MusicCTA from './MusicCTA'; 
-import { FaPlay, FaPause, FaUndo, FaSearch, FaYoutube, FaMusic, FaExchangeAlt, FaTrophy, FaExclamationTriangle } from 'react-icons/fa'; 
+import { FaPlay, FaPause, FaUndo, FaSearch, FaYoutube, FaMusic, FaExchangeAlt, FaTrophy, FaExclamationTriangle, FaSpinner } from 'react-icons/fa'; 
 
 const CORRECT_ORDER = [0, 1, 2, 3, 4, 5]; 
 const SEGMENT_DURATION = 5; 
@@ -30,6 +31,7 @@ export function MusicPuzzle() {
   const [pieces, setPieces] = useState<PuzzlePiece[]>([]);
   const [isSolved, setIsSolved] = useState(false);
   const [playingId, setPlayingId] = useState<number | null>(null);
+  const [isBuffering, setIsBuffering] = useState(false); // Track buffering state
   const [seconds, setSeconds] = useState(0);
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
   const [isPlayerReady, setIsPlayerReady] = useState(false);
@@ -50,16 +52,30 @@ export function MusicPuzzle() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Initialize YouTube Player with State Change listener for Buffering
   useEffect(() => {
+    const onPlayerStateChange = (event: any) => {
+      // YT.PlayerState.BUFFERING is 3
+      if (event.data === 3) {
+        setIsBuffering(true);
+      } else {
+        setIsBuffering(false);
+      }
+    };
+
     const initYT = () => {
       if (window.YT && window.YT.Player) {
         ytPlayerRef.current = new window.YT.Player('yt-hidden-player', {
           height: '0', width: '0', videoId: '',
-          playerVars: { 'controls': 0, 'disablekb': 1 },
-          events: { 'onReady': () => setIsPlayerReady(true) }
+          playerVars: { 'controls': 0, 'disablekb': 1, 'enablejsapi': 1 },
+          events: { 
+            'onReady': () => setIsPlayerReady(true),
+            'onStateChange': onPlayerStateChange 
+          }
         });
       }
     };
+
     if (!window.YT) {
       const tag = document.createElement('script');
       tag.src = "https://www.youtube.com/iframe_api";
@@ -98,7 +114,6 @@ export function MusicPuzzle() {
       ytPlayerRef.current.pauseVideo();
     }
 
-    // Initialize pieces for YouTube
     const initial = CORRECT_ORDER.map(id => ({ id }));
     shuffleAndStart(initial);
   };
@@ -114,7 +129,6 @@ export function MusicPuzzle() {
     shuffleAndStart(initial);
   };
 
-  // Logic to handle both initial load and manual reshuffle
   const shuffleAndStart = (basePieces: PuzzlePiece[]) => {
     stopAudio();
     setIsSolved(false);
@@ -122,11 +136,8 @@ export function MusicPuzzle() {
     setSelectedIdx(null);
     setListenedPieces(new Set()); 
     setWarning(null);
-
-    // Shuffle logic
     const shuffled = [...basePieces].sort(() => Math.random() - 0.5);
     setPieces(shuffled);
-
     if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = setInterval(() => setSeconds(s => s + 1), 1000);
   };
@@ -145,6 +156,7 @@ export function MusicPuzzle() {
       ytTimeoutRef.current = null;
     }
     setPlayingId(null);
+    setIsBuffering(false);
   };
 
   const playSegment = (piece: PuzzlePiece) => {
@@ -159,6 +171,8 @@ export function MusicPuzzle() {
       ytPlayerRef.current.seekTo(startTime, true);
       ytPlayerRef.current.playVideo();
       setPlayingId(piece.id);
+      
+      // The buffering check happens via the useEffect onStateChange
       ytTimeoutRef.current = setTimeout(() => {
         if (ytPlayerRef.current && typeof ytPlayerRef.current.pauseVideo === 'function') {
           ytPlayerRef.current.pauseVideo();
@@ -177,7 +191,6 @@ export function MusicPuzzle() {
   const handlePieceClick = (index: number) => {
     if (isSolved) return;
     const pieceId = pieces[index].id;
-
     if (selectedIdx === null) {
       if (!listenedPieces.has(pieceId)) {
         setWarning("Dont cheat, play first! 🎷");
@@ -194,7 +207,6 @@ export function MusicPuzzle() {
       updated[index] = temp;
       setPieces(updated);
       setSelectedIdx(null);
-
       if (JSON.stringify(updated.map(p => p.id)) === JSON.stringify(CORRECT_ORDER)) {
         setIsSolved(true);
         if (timerRef.current) clearInterval(timerRef.current);
@@ -223,11 +235,7 @@ export function MusicPuzzle() {
           {sourceMode === 'youtube' ? <FaYoutube className="text-red-600" /> : <FaMusic className="text-blue-500" />}
           Music Puzzle
         </h2>
-        {/* UPDATED: Reset now reshuffles the current song instead of exiting */}
-        <button 
-          onClick={() => shuffleAndStart(pieces)} 
-          className="text-[10px] font-bold uppercase text-neutral-500 bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded hover:text-blue-500 transition-colors"
-        >
+        <button onClick={() => shuffleAndStart(pieces)} className="text-[10px] font-bold uppercase text-neutral-500 bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded hover:text-blue-500 transition-colors">
           Reshuffle Game
         </button>
       </div>
@@ -293,13 +301,8 @@ export function MusicPuzzle() {
                     <span className="font-mono text-xs text-green-500 font-bold">{bestTime}s</span>
                  </div>
                )}
-               {/* Reshuffle Icon button */}
-               <button onClick={() => shuffleAndStart(pieces)} className="p-2 text-neutral-400 hover:text-blue-500" title="Reshuffle current song"><FaUndo size={14} /></button>
+               <button onClick={() => shuffleAndStart(pieces)} className="p-2 text-neutral-400 hover:text-blue-500"><FaUndo size={14} /></button>
             </div>
-          </div>
-
-          <div className="mb-4 text-center text-[10px] text-neutral-400 uppercase font-bold tracking-widest">
-            {isSolved ? "✨ Well Done!" : "Tap pieces to listen, then swap"}
           </div>
 
           <div className="grid grid-cols-2 gap-3 sm:gap-4">
@@ -307,6 +310,7 @@ export function MusicPuzzle() {
               const isCorrect = piece.id === index;
               const isSelected = selectedIdx === index;
               const hasListened = listenedPieces.has(piece.id);
+              const isCurrentlyBuffering = playingId === piece.id && isBuffering;
 
               return (
                 <div 
@@ -318,6 +322,13 @@ export function MusicPuzzle() {
                     'bg-white dark:bg-black border-dashed border-neutral-300 dark:border-neutral-700'
                   } ${!hasListened && !isSolved ? 'opacity-70 grayscale-[0.5]' : ''}`}
                 >
+                  {/* LOADING OVERLAY */}
+                  {isCurrentlyBuffering && (
+                    <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/60 dark:bg-black/60 rounded-xl">
+                      <FaSpinner className="animate-spin text-blue-500" size={24} />
+                    </div>
+                  )}
+
                   <div className="w-full flex flex-col items-center">
                     {isSelected ? <FaExchangeAlt className="text-blue-500 mb-2 animate-pulse" /> : 
                      <span className="text-2xl mb-1">{isCorrect ? '✅' : hasListened ? '🧩' : '❓'}</span>}
@@ -343,7 +354,7 @@ export function MusicPuzzle() {
 
       {isSolved && (
         <div className="text-center mt-8 animate-in fade-in zoom-in duration-700 pt-6 border-t border-neutral-100 dark:border-neutral-800">
-          <p className="p-3 text-green-700 dark:text-green-400 font-bold text-sm mb-4 tracking-wide uppercase tracking-tighter font-serif">✨ Solved in {seconds}s! ✨</p>
+          <p className="p-3 text-green-700 dark:text-green-400 font-bold text-sm mb-4 uppercase tracking-tighter font-serif">✨ Solved in {seconds}s! ✨</p>
           <MusicCTA label={sourceMode === 'youtube' ? "Watch Full on YouTube" : "Listen on Bandcamp"} albumUrl={trackInfo.url} baseColor={sourceMode === 'youtube' ? "#FF0000" : "#00bfff"} hoverColor={sourceMode === 'youtube' ? "#CC0000" : "#0080ff"} />
         </div>
       )}
