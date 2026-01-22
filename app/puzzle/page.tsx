@@ -1,4 +1,5 @@
 // app/puzzle/page.tsx
+export const dynamic = 'force-dynamic';
 import { MusicPuzzle } from 'app/components/MusicPuzzle';
 import Link from 'next/link';
 
