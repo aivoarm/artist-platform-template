@@ -9,10 +9,10 @@ const CORRECT_ORDER = [0, 1, 2, 3, 4, 5];
 const SEGMENT_DURATION = 5; 
 
 const DEMO_VIDEO = {
-  id: 'PTK5anghOF0',
+  id: '-DHuW1h1wHw',
   name: 'Dave Brubeck - Take Five',
   artist: 'The Dave Brubeck Quartet',
-  image: 'https://i.ytimg.com/vi/PTK5anghOF0/mqdefault.jpg'
+  image: 'https://i.ytimg.com/vi/-DHuW1h1wHw/mqdefault.jpg'
 };
 
 interface PuzzlePiece {
@@ -32,9 +32,10 @@ export function MusicPuzzle() {
   const [playingId, setPlayingId] = useState<number | null>(null);
   const [seconds, setSeconds] = useState(0);
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
-  const [isPlayerReady, setIsPlayerReady] = useState(false); // NEW: Track ready state
+  const [isPlayerReady, setIsPlayerReady] = useState(false);
   
   const ytPlayerRef = useRef<any>(null);
+  const localAudioRef = useRef<HTMLAudioElement | null>(null); // Ref for local audio control
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const ytTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -56,7 +57,7 @@ export function MusicPuzzle() {
           videoId: '',
           playerVars: { 'controls': 0, 'disablekb': 1 },
           events: {
-            'onReady': () => setIsPlayerReady(true) // Set ready when API is actually loaded
+            'onReady': () => setIsPlayerReady(true)
           }
         });
       }
@@ -92,9 +93,8 @@ export function MusicPuzzle() {
   };
 
   const selectYouTubeTrack = (video: any) => {
-    // Prevent selection if player isn't initialized yet
     if (!isPlayerReady && sourceMode !== 'offline') {
-      alert("YouTube player is still loading. Please try again in a second.");
+      alert("YouTube player is still loading...");
       return;
     }
 
@@ -140,18 +140,32 @@ export function MusicPuzzle() {
     timerRef.current = setInterval(() => setSeconds(s => s + 1), 1000);
   };
 
-  // FIX: Added safe check for pauseVideo function
   const stopAudio = () => {
+    // Stop YouTube
     if (ytPlayerRef.current && typeof ytPlayerRef.current.pauseVideo === 'function') {
       ytPlayerRef.current.pauseVideo();
     }
-    if (ytTimeoutRef.current) clearTimeout(ytTimeoutRef.current);
+    // Stop Local Audio
+    if (localAudioRef.current) {
+      localAudioRef.current.pause();
+      localAudioRef.current.currentTime = 0;
+      localAudioRef.current = null;
+    }
+    // Clear Timers
+    if (ytTimeoutRef.current) {
+      clearTimeout(ytTimeoutRef.current);
+      ytTimeoutRef.current = null;
+    }
     setPlayingId(null);
   };
 
   const playSegment = (piece: PuzzlePiece) => {
-    if (playingId === piece.id) { stopAudio(); return; }
-    stopAudio();
+    if (playingId === piece.id) { 
+      stopAudio(); 
+      return; 
+    }
+
+    stopAudio(); // Ensures only one audio plays at a time
 
     if (sourceMode === 'youtube' && ytPlayerRef.current && typeof ytPlayerRef.current.seekTo === 'function') {
       const startTime = piece.id * SEGMENT_DURATION;
@@ -166,9 +180,13 @@ export function MusicPuzzle() {
       }, SEGMENT_DURATION * 1000);
     } else if (sourceMode === 'offline' && piece.localAudioUrl) {
       const audio = new Audio(piece.localAudioUrl);
+      localAudioRef.current = audio;
       setPlayingId(piece.id);
       audio.play();
-      audio.onended = () => setPlayingId(null);
+      audio.onended = () => {
+        setPlayingId(null);
+        localAudioRef.current = null;
+      };
     }
   };
 
@@ -249,7 +267,7 @@ export function MusicPuzzle() {
                 disabled={!isPlayerReady}
                 className={`py-3 px-4 flex items-center justify-center gap-3 bg-white dark:bg-black border border-neutral-200 dark:border-neutral-800 rounded-xl transition-all text-sm font-bold text-neutral-700 dark:text-neutral-300 ${!isPlayerReady ? 'opacity-50 cursor-wait' : 'hover:border-red-500'}`}
             >
-                <FaYoutube className="text-red-500" /> {isPlayerReady ? 'Play "Take Five"' : 'Loading YT Player...'}
+                <FaYoutube className="text-red-500" /> {isPlayerReady ? 'Play "Take Five"' : 'Loading YT...'}
             </button>
           </div>
         )}
