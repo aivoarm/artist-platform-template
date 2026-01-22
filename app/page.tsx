@@ -125,18 +125,7 @@ export default function Page() {
           brimming with authenticity, telling stories and radiating positivity.
         </p>
 
-        <h2 className="font-bold text-2xl font-serif mt-12 mb-6 tracking-tighter">
-          Featured Album: My Funky Jazzification
-        </h2>
-    
-        <div className="flex flex-col items-center mb-10 text-neutral-400 dark:text-neutral-50">
-          <iframe 
-            style={{ border: 0, width: '350px', height: '470px' }} 
-            src="https://bandcamp.com/EmbeddedPlayer/album=854312660/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/transparent=true/" 
-            seamless
-            title="My Funky Jazzification by Arman Ayva"
-          /> 
-        </div>
+      
 
         {/* INTERACTIVE PUZZLE SECTION */}
         <hr className="my-16 border-neutral-200 dark:border-neutral-800" />
@@ -233,7 +222,65 @@ export default function Page() {
               "A work that proves more complex than it might appear at first listen..."
             </p>
           </div>
-          {/* ... Add other review cards here ... */}
+        Here are the remaining review cards to fill back into your MusicPuzzle.tsx or page.tsx reviews grid. I’ve organized them so you can copy-paste the entire group directly.
+
+TypeScript
+    {/* Rádio Armazém */}
+    <div className="p-5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-50 dark:bg-neutral-900/50">
+      <h4 className="font-bold text-lg mb-1">Rádio Armazém</h4>
+      <p className="text-sm italic text-neutral-600 dark:text-neutral-400">
+        "What I liked most is precisely this authenticity... the music sounds free, natural and without ready-made formulas."
+      </p>
+    </div>
+
+    {/* Jazz in Family */}
+    <div className="p-5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-50 dark:bg-neutral-900/50">
+      <h4 className="font-bold text-lg mb-1">Jazz in Family</h4>
+      <p className="text-sm italic text-neutral-600 dark:text-neutral-400">
+        "We find both tracks truly interesting and enjoyable. It’s clear that you have a substantial volume of musical productions, which is one of your strengths."
+      </p>
+    </div>
+
+    {/* Cabre Music */}
+    <div className="p-5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-50 dark:bg-neutral-900/50">
+      <h4 className="font-bold text-lg mb-1">Cabre Music</h4>
+      <p className="text-sm italic text-neutral-600 dark:text-neutral-400">
+        "Flows with an uplifting energy and a refreshing arrangement... The sound design is vibrant and dynamic."
+      </p>
+    </div>
+
+    {/* HailTunes */}
+    <div className="p-5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-50 dark:bg-neutral-900/50">
+      <h4 className="font-bold text-lg mb-1">HailTunes</h4>
+      <p className="text-sm italic text-neutral-600 dark:text-neutral-400">
+        "From start to finish, this is a journey. You’ve found your sound, and it works."
+      </p>
+    </div>
+
+    {/* Planet Network */}
+    <div className="p-5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-50 dark:bg-neutral-900/50 flex flex-col justify-between">
+      <div>
+        <h4 className="font-bold text-lg mb-1">Planet Network</h4>
+        <p className="text-sm italic text-neutral-600 dark:text-neutral-400">
+          "On aime beaucoup, pouvez-vous nous envoyer par mail le morceau en format mp3 pour le diffuser dans notre programmation?"
+        </p>
+      </div>
+      <span className="text-[10px] mt-4 uppercase tracking-widest text-blue-500 font-bold">Radio Airplay</span>
+    </div>
+        </div>
+
+
+  <h2 className="font-bold text-2xl font-serif mt-12 mb-6 tracking-tighter">
+          Featured Album: My Funky Jazzification
+        </h2>
+    
+        <div className="flex flex-col items-center mb-10 text-neutral-400 dark:text-neutral-50">
+          <iframe 
+            style={{ border: 0, width: '350px', height: '470px' }} 
+            src="https://bandcamp.com/EmbeddedPlayer/album=854312660/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/transparent=true/" 
+            seamless
+            title="My Funky Jazzification by Arman Ayva"
+          /> 
         </div>
 
         <div className="mt-12 text-center">
