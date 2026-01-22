@@ -4,7 +4,29 @@ import Link from 'next/link';
 
 export const metadata = {
   title: 'Music Puzzle Challenge | Arman Ayva',
-  description: 'Search for any song and solve the rhythm puzzle.',
+  description: 'Search for any song and solve the rhythm puzzle. Can you reassemble the track by ear?',
+  openGraph: {
+    title: 'Music Puzzle Challenge 🧩',
+    description: 'Search for your favorite tracks and test your ears with this interactive rhythm puzzle.',
+    url: 'https://www.armanayva.com/puzzle',
+    siteName: 'Arman Ayva Music',
+    images: [
+      {
+        url: 'https://res.cloudinary.com/dpmkshcky/image/upload/v1763230260/Cowboy_a3mnzs.png', // Or your preferred unique game image
+        width: 1200,
+        height: 630,
+        alt: 'Arman Ayva Music Puzzle Game',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Music Puzzle Challenge 🧩',
+    description: 'Assemble musical jigsaws from any YouTube video. Play the Rhythm Puzzle now!',
+    images: ['https://res.cloudinary.com/dpmkshcky/image/upload/v1763230260/Cowboy_a3mnzs.png'], // Ensure this is an absolute URL
+  },
 };
 
 export default function PuzzlePage() {
