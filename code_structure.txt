@@ -36,6 +36,11 @@ blog/
 │   │   |         port: '',
 │   │   |         pathname: '/**',
 │   │   |       },
+│   │   |       // 👇 Add this block for Deezer Images
+│   │   |       {
+│   │   |         protocol: 'https',
+│   │   |         hostname: 'cdn-images.dzcdn.net',
+│   │   |       },
 │   │   |       {
 │   │   |         protocol: 'https',
 │   │   |         hostname: 'image-cdn-ak.spotifycdn.com',
@@ -89,9 +94,10 @@ blog/
 │   │   | --- FILE CONTENT START (next-env.d.ts) ---
 │   │   | /// <reference types="next" />
 │   │   | /// <reference types="next/image-types/global" />
+│   │   | import "./.next/types/routes.d.ts";
 │   │   | 
 │   │   | // NOTE: This file should not be edited
-│   │   | // see https://nextjs.org/docs/basic-features/typescript for more information.
+│   │   | // see https://nextjs.org/docs/app/api-reference/config/typescript for more information.
 │   │   | 
 │   │   | --- FILE CONTENT END ---
 
@@ -175,20 +181,19 @@ blog/
 │   │   |     "@vercel/analytics": "^1.1.3",
 │   │   |     "@vercel/speed-insights": "^1.0.9",
 │   │   |     "geist": "1.2.2",
-│   │   |     "next": "14.2.5",
+│   │   |     "next": "16.1.4",
 │   │   |     "next-mdx-remote": "^4.4.1",
 │   │   |     "next-themes": "^0.4.6",
-│   │   |     "react": "18.2.0",
-│   │   |     "react-dom": "18.2.0",
+│   │   |     "react": "19.2.3",
+│   │   |     "react-dom": "19.2.3",
 │   │   |     "react-icons": "^5.5.0",
 │   │   |     "sugar-high": "^0.6.0",
-│   │   |     "typescript": "5.3.3"
+│   │   |     "typescript": "5.9.3"
 │   │   |   },
 │   │   |   "devDependencies": {
-│   │   |     "@tailwindcss/postcss": "4.0.0-alpha.13",
-│   │   |     "autoprefixer": "^10.4.21",
+│   │   |     "@tailwindcss/postcss": "4.1.18",
 │   │   |     "postcss": "^8.5.6",
-│   │   |     "tailwindcss": "3.4.18"
+│   │   |     "tailwindcss": "4.1.18"
 │   │   |   }
 │   │   | }
 │   │   | 
@@ -198,6 +203,7 @@ blog/
 │   │   | --- FILE CONTENT START (tsconfig.json) ---
 │   │   | {
 │   │   |   "compilerOptions": {
+│   │   |     "downlevelIteration": true,
 │   │   |     "target": "es5",
 │   │   |     "lib": [
 │   │   |       "dom",
@@ -214,7 +220,7 @@ blog/
 │   │   |     "moduleResolution": "node",
 │   │   |     "resolveJsonModule": true,
 │   │   |     "isolatedModules": true,
-│   │   |     "jsx": "preserve",
+│   │   |     "jsx": "react-jsx",
 │   │   |     "baseUrl": ".",
 │   │   |     "incremental": true,
 │   │   |     "plugins": [
@@ -242,8 +248,7 @@ blog/
 │   │   | --- FILE CONTENT START (postcss.config.js) ---
 │   │   | module.exports = {
 │   │   |   plugins: {
-│   │   |     'tailwindcss': {},
-│   │   |     'autoprefixer': {},
+│   │   |     '@tailwindcss/postcss': {},
 │   │   |   },
 │   │   | }
 │   │   | --- FILE CONTENT END ---
@@ -441,9 +446,9 @@ app/
 │   ├── apple-icon.png
 │   ├── global.css
 │   │   | --- FILE CONTENT START (global.css) ---
-│   │   | @tailwind base;
-│   │   | @tailwind components;
-│   │   | @tailwind utilities;
+│   │   | 
+│   │   | 
+│   │   | @import "tailwindcss";
 │   │   | 
 │   │   | ::selection {
 │   │   |   background-color: #47a3f3;
@@ -638,34 +643,128 @@ app/
 
 │   ├── actions.ts
 │   │   | --- FILE CONTENT START (actions.ts) ---
-│   │   | 'use server'
+│   │   | // app/actions.ts
+│   │   | 'use server';
 │   │   | 
-│   │   | import { getAccessToken } from './lib/spotify';
+│   │   | // --- 1. Internal Helper: Get Spotify Token ---
+│   │   | export async function getAccessToken() {
+│   │   |   const refresh_token = process.env.SPOTIFY_REFRESH_TOKEN;
+│   │   |   const client_id = process.env.SPOTIFY_CLIENT_ID;
+│   │   |   const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 │   │   | 
+│   │   |   if (!refresh_token || !client_id || !client_secret) {
+│   │   |     return { error: "Missing Spotify environment variables" };
+│   │   |   }
+│   │   | 
+│   │   |   const basic = Buffer.from(`${client_id}:${client_secret}`).toString('base64');
+│   │   |   const response = await fetch('https://accounts.spotify.com/api/token', {
+│   │   |     method: 'POST',
+│   │   |     headers: {
+│   │   |       Authorization: `Basic ${basic}`,
+│   │   |       'Content-Type': 'application/x-www-form-urlencoded',
+│   │   |     },
+│   │   |     body: new URLSearchParams({
+│   │   |       grant_type: 'refresh_token',
+│   │   |       refresh_token,
+│   │   |     }),
+│   │   |   });
+│   │   | 
+│   │   |   return response.json();
+│   │   | }
+│   │   | 
+│   │   | // --- 2. Playlist Feature: Fetch Metadata & Vibe Stats ---
+│   │   | export async function fetchPlaylistMetadata(url: string) {
+│   │   |   const { access_token } = await getAccessToken();
+│   │   |   if (!access_token) return { error: "No access token" };
+│   │   | 
+│   │   |   try {
+│   │   |     // Parse Playlist ID from URL
+│   │   |     const match = url.match(/playlist\/([a-zA-Z0-9]+)/);
+│   │   |     if (!match) return { error: "Invalid Spotify URL" };
+│   │   |     const playlistId = match[1];
+│   │   | 
+│   │   |     // Fetch Playlist Details
+│   │   |     const res = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}`, {
+│   │   |       headers: { Authorization: `Bearer ${access_token}` },
+│   │   |     });
+│   │   |     
+│   │   |     if (!res.ok) return { error: "Failed to fetch playlist" };
+│   │   |     const data = await res.json();
+│   │   | 
+│   │   |     // Extract Artists
+│   │   |     const artists = data.tracks.items
+│   │   |       .map((item: any) => item.track?.artists[0]?.name)
+│   │   |       .filter(Boolean);
+│   │   | 
+│   │   |     // Fetch Audio Features for "Vibe Stats" (Limit 20)
+│   │   |     const trackIds = data.tracks.items
+│   │   |        .slice(0, 20)
+│   │   |        .map((t: any) => t.track?.id)
+│   │   |        .filter(Boolean)
+│   │   |        .join(',');
+│   │   |     
+│   │   |     let tempo = 0, energy = 0, mood = "Neutral";
+│   │   |     
+│   │   |     if (trackIds) {
+│   │   |       const featuresRes = await fetch(`https://api.spotify.com/v1/audio-features?ids=${trackIds}`, {
+│   │   |          headers: { Authorization: `Bearer ${access_token}` },
+│   │   |       });
+│   │   |       const featuresData = await featuresRes.json();
+│   │   |       
+│   │   |       if (featuresData.audio_features) {
+│   │   |          const validFeatures = featuresData.audio_features.filter((f: any) => f);
+│   │   |          if (validFeatures.length > 0) {
+│   │   |             const totalTempo = validFeatures.reduce((acc: number, curr: any) => acc + curr.tempo, 0);
+│   │   |             const totalEnergy = validFeatures.reduce((acc: number, curr: any) => acc + curr.energy, 0);
+│   │   |             const totalValence = validFeatures.reduce((acc: number, curr: any) => acc + curr.valence, 0);
+│   │   | 
+│   │   |             tempo = Math.round(totalTempo / validFeatures.length);
+│   │   |             energy = Math.round((totalEnergy / validFeatures.length) * 100);
+│   │   |             const avgValence = totalValence / validFeatures.length;
+│   │   | 
+│   │   |             if (avgValence > 0.6 && energy > 70) mood = "Party 🎉";
+│   │   |             else if (avgValence > 0.6) mood = "Happy ☀️";
+│   │   |             else if (avgValence < 0.4 && energy < 40) mood = "Melancholy 🌧️";
+│   │   |             else if (energy > 80) mood = "High Voltage ⚡";
+│   │   |             else mood = "Chill ☕";
+│   │   |          }
+│   │   |       }
+│   │   |     }
+│   │   | 
+│   │   |     return {
+│   │   |       id: data.id,
+│   │   |       name: data.name,
+│   │   | artists: Array.from(new Set(artists)),
+│   │   |       tempo,
+│   │   |       energy,
+│   │   |       mood
+│   │   |     };
+│   │   | 
+│   │   |   } catch (e) {
+│   │   |     console.error(e);
+│   │   |     return { error: "Failed to load playlist" };
+│   │   |   }
+│   │   | }
+│   │   | 
+│   │   | // --- 3. Playlist Feature: Analyze Discovery Score ---
 │   │   | export async function analyzePlaylistDiscovery(playlistId: string, playlistName: string, artists: string[]) {
 │   │   |   const { access_token } = await getAccessToken();
-│   │   |   
 │   │   |   if (!access_token) return { error: "No access token" };
 │   │   | 
 │   │   |   const sampleArtists = artists.slice(0, 10);
 │   │   |   let discoveryCount = 0;
 │   │   | 
-│   │   |   // Search Context: "Artist Name + Playlist Name"
 │   │   |   const checks = await Promise.all(
 │   │   |     sampleArtists.map(async (artist) => {
 │   │   |       try {
 │   │   |         const query = `${artist} ${playlistName}`;
-│   │   |         
-│   │   |         // Updated limit to 50 (MAX) to catch all possible results
 │   │   |         const res = await fetch(
 │   │   |           `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=playlist&limit=50`,
 │   │   |           { headers: { Authorization: `Bearer ${access_token}` } }
 │   │   |         );
-│   │   |         
 │   │   |         const data = await res.json();
 │   │   |         return data.playlists?.items || [];
 │   │   |       } catch (e) {
-│   │   |         console.error(e);
 │   │   |         return [];
 │   │   |       }
 │   │   |     })
@@ -673,32 +772,16 @@ app/
 │   │   | 
 │   │   |   checks.forEach((searchResults) => {
 │   │   |     if (!Array.isArray(searchResults)) return;
-│   │   |     
-│   │   |     // Filter out nulls
 │   │   |     const validResults = searchResults.filter(item => item !== null);
-│   │   | 
-│   │   |     // Check if OUR playlist appears in the results
 │   │   |     const isFound = validResults.some((pl: any) => 
 │   │   |         pl.id === playlistId || 
 │   │   |         (pl.name && pl.name.toLowerCase() === playlistName.toLowerCase())
 │   │   |     );
-│   │   | 
 │   │   |     if (isFound) discoveryCount++;
 │   │   |   });
 │   │   | 
-│   │   |   // --- SCORING LOGIC ---
-│   │   |   
-│   │   |   // 1. Calculate Percentage
 │   │   |   const percentage = Math.round((discoveryCount / sampleArtists.length) * 100);
-│   │   |   
-│   │   |   // 2. Discovery Score Logic
-│   │   |   // Rule: If percentage is > 70, Score = 100. Otherwise, Score = Percentage.
-│   │   |   let score = percentage;
-│   │   |   if (percentage > 70) {
-│   │   |     score = 100;
-│   │   |   }
-│   │   | 
-│   │   |   // 3. Determine Rating Badge
+│   │   |   let score = percentage > 70 ? 100 : percentage;
 │   │   |   let rating = "Bad 🔻";
 │   │   |   if (score >= 70) rating = "Amazing 🚀";
 │   │   |   else if (score >= 40) rating = "Good 🌟";
@@ -712,44 +795,68 @@ app/
 │   │   |   };
 │   │   | }
 │   │   | 
-│   │   | export async function fetchPlaylistMetadata(url: string) {
-│   │   |   const { access_token } = await getAccessToken();
-│   │   |   if (!access_token) return { error: "Server Error: No Access Token" };
-│   │   | 
-│   │   |   // 1. Extract Playlist ID using Regex
-│   │   |   const match = url.match(/playlist\/([a-zA-Z0-9]+)/);
-│   │   |   if (!match) return { error: "Invalid Spotify Playlist URL. Please copy the link from the 'Share' menu." };
-│   │   |   const id = match[1];
-│   │   | 
+│   │   | // --- 4. Reverse Game Feature: Get Mystery Track (Deezer) ---
+│   │   | export async function getMysteryTrack(artistName: string) {
 │   │   |   try {
-│   │   |     // 2. Fetch Playlist Details (Name + Tracks)
-│   │   |     // We request specific fields to keep the payload light
-│   │   |     const res = await fetch(`https://api.spotify.com/v1/playlists/${id}?fields=name,id,tracks.items(track(artists(name)))`, {
-│   │   |       headers: { Authorization: `Bearer ${access_token}` },
-│   │   |       next: { revalidate: 0 } // Always fetch fresh data for user inputs
-│   │   |     });
+│   │   |     const searchRes = await fetch(
+│   │   |       `https://api.deezer.com/search/artist?q=${encodeURIComponent(artistName)}`
+│   │   |     );
+│   │   |     const searchData = await searchRes.json();
 │   │   |     
-│   │   |     if (!res.ok) return { error: "Playlist not found. Is it private?" };
+│   │   |     if (!searchData.data || searchData.data.length === 0) {
+│   │   |       return { error: "Artist not found" };
+│   │   |     }
+│   │   | 
+│   │   |     const normalize = (str: string) => str.toLowerCase().trim();
+│   │   |     const targetName = normalize(artistName);
+│   │   | 
+│   │   |     let artist = searchData.data.find((a: any) => normalize(a.name) === targetName);
+│   │   |     if (!artist) artist = searchData.data.find((a: any) => normalize(a.name).includes(targetName));
+│   │   |     if (!artist) artist = searchData.data[0];
+│   │   | 
+│   │   |     const tracksRes = await fetch(artist.tracklist + '&limit=50');
+│   │   |     const tracksData = await tracksRes.json();
 │   │   |     
-│   │   |     const data = await res.json();
+│   │   |     const validTracks = tracksData.data.filter((t: any) => t.preview);
 │   │   | 
-│   │   |     // 3. Extract unique artist names
-│   │   |     const artists = data.tracks.items
-│   │   |       .map((item: any) => item.track?.artists[0]?.name)
-│   │   |       .filter(Boolean);
-│   │   |       
-│   │   |     const uniqueArtists = Array.from(new Set(artists)) as string[];
+│   │   |     if (!validTracks || validTracks.length < 3) {
+│   │   |         return { error: "Not enough songs found for this artist." };
+│   │   |     }
 │   │   | 
-│   │   |     if (uniqueArtists.length === 0) return { error: "This playlist seems empty." };
+│   │   |     const correctIndex = Math.floor(Math.random() * validTracks.length);
+│   │   |     const correctTrack = validTracks[correctIndex];
+│   │   | 
+│   │   |     const distractors: any[] = [];
+│   │   |     const usedIndices = new Set([correctIndex]);
+│   │   | 
+│   │   |     while (distractors.length < 2) {
+│   │   |       const idx = Math.floor(Math.random() * validTracks.length);
+│   │   |       if (!usedIndices.has(idx)) {
+│   │   |         distractors.push(validTracks[idx]);
+│   │   |         usedIndices.add(idx);
+│   │   |       }
+│   │   |     }
+│   │   | 
+│   │   |     const options = [correctTrack, ...distractors].map(t => ({
+│   │   |       id: t.id,
+│   │   |       title: t.title,
+│   │   |       isCorrect: t.id === correctTrack.id
+│   │   |     }));
+│   │   | 
+│   │   |     options.sort(() => Math.random() - 0.5);
 │   │   | 
 │   │   |     return {
-│   │   |         id: data.id,
-│   │   |         name: data.name,
-│   │   |         artists: uniqueArtists
+│   │   |       artistName: artist.name,
+│   │   |       trackName: correctTrack.title,
+│   │   |       albumArt: correctTrack.album.cover_xl,
+│   │   |       previewUrl: correctTrack.preview,
+│   │   |       deezerUrl: correctTrack.link,
+│   │   |       options: options
 │   │   |     };
+│   │   | 
 │   │   |   } catch (e) {
 │   │   |     console.error(e);
-│   │   |     return { error: "Failed to connect to Spotify." };
+│   │   |     return { error: "Failed to fetch data" };
 │   │   |   }
 │   │   | }
 │   │   | --- FILE CONTENT END ---
@@ -790,31 +897,27 @@ app/
 │   │   | import { baseUrl } from './sitemap'
 │   │   | import { Providers } from './Providers'; 
 │   │   | import { GoogleAnalytics } from '@next/third-parties/google'
-│   │   | import Script from 'next/script'; // ⬅️ IMPORTED: For TikTok Pixel
-│   │   | import { DelayedSubscribePopup } from './components/DelayedSubscribePopup'; // Adjust import path
-│   │   | 
+│   │   | import Script from 'next/script'; 
+│   │   | import { DelayedSubscribePopup } from './components/DelayedSubscribePopup'; 
 │   │   | import { GoogleTagManager } from '@next/third-parties/google'
-│   │   | 
 │   │   | 
 │   │   | // --- ENVIRONMENT VARIABLES / CONSTANTS ---
 │   │   | const fullImageUrl = new URL('/og?title=Arman+Ayva+Music', baseUrl).toString();
 │   │   | const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || ''
-│   │   | const YOUR_APP_ID = process.env.YOUR_FACEBOOK_APP_ID; // ⬅️ ⭐️ CRITICAL: REPLACE THIS WITH YOUR REAL APP ID
-│   │   | const TIKTOK_PIXEL_ID = process.env.NEXT_PUBLIC_TIKTOK_ID || 'YOUR_TIKTOK_PIXEL_ID'; // ⬅️ REPLACE WITH YOUR TIKTOK PIXEL ID
-│   │   | 
+│   │   | const YOUR_APP_ID = process.env.YOUR_FACEBOOK_APP_ID; 
+│   │   | const TIKTOK_PIXEL_ID = process.env.NEXT_PUBLIC_TIKTOK_ID || 'YOUR_TIKTOK_PIXEL_ID'; 
 │   │   | 
 │   │   | // --- METADATA EXPORT ---
 │   │   | export const metadata: Metadata = {
-│   │   | 
 │   │   |   metadataBase: new URL(baseUrl),
 │   │   |   title: {
 │   │   |     default: 'Arman Ayva Personal Website',
-│   │   |     template: '%s | Arman Ayva', // Updated template for better branding
+│   │   |     template: '%s | Arman Ayva', 
 │   │   |   },
 │   │   |   icons: {
-│   │   |     icon: '/favicon.ico', // Must be in the app directory
-│   │   |     shortcut: '/shortcut-icon.png', // Optional
-│   │   |     apple: '/apple-icon.png', // For iOS Home Screen
+│   │   |     icon: '/favicon.ico', 
+│   │   |     shortcut: '/shortcut-icon.png', 
+│   │   |     apple: '/apple-icon.png', 
 │   │   |   },
 │   │   |   description: 'Arman Ayva | Montreal Jazz Composer Blending Armenian Folk & Funk',
 │   │   |   keywords: [
@@ -838,7 +941,6 @@ app/
 │   │   |     type: 'website',
 │   │   |     images: [
 │   │   |       {
-│   │   |         // Use the dynamic OG image route
 │   │   |         url: fullImageUrl,
 │   │   |         width: 1200, 
 │   │   |         height: 630, 
@@ -846,15 +948,13 @@ app/
 │   │   |       },
 │   │   |     ],
 │   │   |   },
-│   │   |   // ⭐️ CRITICAL FIX: Explicitly set Twitter Card with Absolute URL ⭐️
 │   │   |   twitter: {
 │   │   |     card: 'summary_large_image', 
-│   │   |     site: '@armanayva',   // ⬅️ REPLACE with your Twitter handle
-│   │   |     creator: '@armanayva',// ⬅️ REPLACE with your Twitter handle
+│   │   |     site: '@armanayva',   
+│   │   |     creator: '@armanayva',
 │   │   |     title: 'Arman Ayva | Mood-lifter behind the music',
 │   │   |     description: 'Jazz, funk, folk fan. Composer, artist, and mood-lifter.',
 │   │   |     images: {
-│   │   |         // FIX: Ensure the image URL is ABSOLUTE for X.com crawler
 │   │   |         url: fullImageUrl, 
 │   │   |         alt: 'Arman Ayva Music Portfolio',
 │   │   |     },
@@ -872,7 +972,7 @@ app/
 │   │   |   },
 │   │   | }
 │   │   | 
-│   │   | const cx = (...classes) => classes.filter(Boolean).join(' ')
+│   │   | const cx = (...classes: any[]) => classes.filter(Boolean).join(' ')
 │   │   | 
 │   │   | export default function RootLayout({
 │   │   |   children,
@@ -883,19 +983,20 @@ app/
 │   │   |     <html
 │   │   |       lang="en"
 │   │   |       className={cx(
-│   │   |         // 🔑 THE FIX: Added the 'dark' class here to make it the default theme
-│   │   |         'dark text-black dark:bg-black dark:text-white', 
+│   │   |         // 👇 CHANGED: Removed 'dark' from the start of this string
+│   │   |         'text-black dark:bg-black dark:text-white', 
 │   │   |         GeistSans.variable,
 │   │   |         GeistMono.variable
 │   │   |       )}
 │   │   |       suppressHydrationWarning
 │   │   |     >
 │   │   |       <head>
-│   │   |         {/* ⭐️ FIX: Add the Facebook App ID tag directly to the head */}
 │   │   |         <meta property="fb:app_id" content={YOUR_APP_ID} />
 │   │   |       </head>
-│   │   |       <body className="antialiased max-w-6xl mx-4 mt-8 lg:mx-auto dark:bg-black">
-│   │   |         
+│   │   |       <body 
+│   │   |         className="antialiased max-w-6xl mx-4 mt-8 lg:mx-auto dark:bg-black"
+│   │   |         suppressHydrationWarning
+│   │   |       >
 │   │   |         <Providers> 
 │   │   |           <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
 │   │   |             <Navbar />
@@ -907,12 +1008,11 @@ app/
 │   │   |         </Providers>
 │   │   |         <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
 │   │   | 
-│   │   |         {/* ⭐️ TIKTOK PIXEL IMPLEMENTATION ⭐️ */}
 │   │   |         {TIKTOK_PIXEL_ID && TIKTOK_PIXEL_ID !== 'YOUR_TIKTOK_PIXEL_ID' && (
 │   │   |           <>
 │   │   |             <Script
 │   │   |               id="tiktok-pixel-base"
-│   │   |               strategy="afterInteractive" // Loads after the page is interactive
+│   │   |               strategy="afterInteractive" 
 │   │   |               dangerouslySetInnerHTML={{
 │   │   |                 __html: `
 │   │   |                   !function (w, d, t) {
@@ -1253,9 +1353,7 @@ app/
 │   ├── Providers.tsx
 │   │   | --- FILE CONTENT START (Providers.tsx) ---
 │   │   | // app/Providers.tsx
-│   │   | // app/Providers.tsx
-│   │   | 
-│   │   | 'use client'; // ⬅️ MUST BE THE VERY FIRST LINE
+│   │   | 'use client';
 │   │   | 
 │   │   | import * as React from 'react';
 │   │   | import { ThemeProvider } from 'next-themes';
@@ -1263,9 +1361,9 @@ app/
 │   │   | export function Providers({ children }: { children: React.ReactNode }) {
 │   │   |   return (
 │   │   |     <ThemeProvider 
-│   │   |       attribute="class" // ⬅️ MUST BE 'class'
-│   │   |       defaultTheme="system" 
-│   │   |       enableSystem
+│   │   |       attribute="class" 
+│   │   |       defaultTheme="light"   // ⬅️ Changed from 'system' to 'light'
+│   │   |       enableSystem={false}   // ⬅️ Disabled system preference to force light mode
 │   │   |     >
 │   │   |       {children}
 │   │   |     </ThemeProvider>
@@ -1459,6 +1557,8 @@ app/
 │   │   │   | 
 │   │   │   | export const dynamic = 'force-dynamic';
 │   │   │   | import { MusicPuzzle } from 'app/components/MusicPuzzle';
+│   │   │   | import { ReverseGame } from 'app/components/ReverseGame';
+│   │   │   | 
 │   │   │   | import Link from 'next/link';
 │   │   │   | 
 │   │   │   | export const metadata = {
@@ -1501,16 +1601,54 @@ app/
 │   │   │   |       </div>
 │   │   │   |       
 │   │   │   |       <div className="prose prose-neutral dark:prose-invert max-w-none mb-10">
-│   │   │   |         <h1 className="font-bold text-4xl font-serif mb-4 tracking-tighter">
+│   │   │   |         <h1 className="font-bold text-5xl md:text-7xl font-serif mb-4 tracking-tighter">
 │   │   │   |           Music Puzzle Challenge 🧩
 │   │   │   |         </h1>
-│   │   │   |         <p className="text-lg text-neutral-600 dark:text-neutral-400">
-│   │   │   |           Search for your favorite tracks from Youtube and test your ears. 
-│   │   │   |           Drag the segments to reconstruct the 30-second preview as fast as you can.
-│   │   │   |         </p>
+│   │   │   |         
+│   │   │   |         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+│   │   │   |           {/* Left Column: Text description */}
+│   │   │   |           <div>
+│   │   │   |             <p className="text-xl text-neutral-600 dark:text-neutral-400 leading-relaxed">
+│   │   │   |               Search for your favorite tracks from YouTube and test your ears. 
+│   │   │   |               Drag the segments to reconstruct the 30-second preview as fast as you can.
+│   │   │   |             </p>
+│   │   │   |             <div className="mt-4 flex items-center space-x-2 text-blue-500 font-medium">
+│   │   │   |               <span>👇</span>
+│   │   │   |               <span>Watch the quick guide to master the game</span>
+│   │   │   |             </div>
+│   │   │   |           </div>
+│   │   │   | 
+│   │   │   |           {/* Right Column: YouTube Short Embed */}
+│   │   │   |           <div className="relative w-full max-w-[315px] mx-auto lg:mx-0 aspect-[9/16] rounded-2xl overflow-hidden shadow-2xl border-4 border-neutral-100 dark:border-neutral-800">
+│   │   │   |             <iframe
+│   │   │   |               width="100%"
+│   │   │   |               height="100%"
+│   │   │   |               src="https://www.youtube.com/embed/LemCmwSZS-I?autoplay=0&rel=0"
+│   │   │   |               title="How to play Music Puzzle"
+│   │   │   |               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+│   │   │   |               allowFullScreen
+│   │   │   |               className="absolute inset-0"
+│   │   │   |             ></iframe>
+│   │   │   |           </div>
+│   │   │   |         </div>
 │   │   │   |       </div>
 │   │   │   | 
-│   │   │   |       <MusicPuzzle />
+│   │   │   |       <div className="my-12">
+│   │   │   |         <MusicPuzzle />
+│   │   │   |       </div>
+│   │   │   | 
+│   │   │   |       <hr className="my-16 border-neutral-200 dark:border-neutral-800" />
+│   │   │   | 
+│   │   │   |       <div className="prose prose-neutral dark:prose-invert max-w-none mb-10">
+│   │   │   |         <h2 className="font-bold text-5xl md:text-7xl font-serif mb-6 tracking-tighter">
+│   │   │   |           Music Reversed Game 🧩
+│   │   │   |         </h2>
+│   │   │   |         <p className="text-lg text-neutral-600 dark:text-neutral-400">
+│   │   │   |           Search for your favorite Artist and try to guess the song while it plays in reverse!
+│   │   │   |         </p>
+│   │   │   |       </div>
+│   │   │   |       
+│   │   │   |       <ReverseGame />
 │   │   │   |     </section>
 │   │   │   |   );
 │   │   │   | }
@@ -1592,7 +1730,6 @@ app/
 │   │   │   │   |         <p className="text-xl text-gray-600 mb-8">
 │   │   │   │   |           You're all set. Check your inbox shortly for a confirmation email and the latest updates from Arman Ayva.
 │   │   │   │   |         </p>
-│   │   │   │   |         gtag('config', 'AW-11429089260');
 │   │   │   │   |         
 │   │   │   │   |         <Link href="/" className="inline-block bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors duration-300 shadow-lg">
 │   │   │   │   |           Return to Homepage
@@ -3148,6 +3285,260 @@ app/
 │   │   │   | 
 │   │   │   | --- FILE CONTENT END ---
 
+│   │   ├── ReverseGame.tsx
+│   │   │   | --- FILE CONTENT START (ReverseGame.tsx) ---
+│   │   │   | 'use client';
+│   │   │   | 
+│   │   │   | import { useState, useRef, useEffect } from 'react';
+│   │   │   | import Image from 'next/image';
+│   │   │   | import { getMysteryTrack } from '../actions';
+│   │   │   | 
+│   │   │   | export function ReverseGame() {
+│   │   │   |   const [artistInput, setArtistInput] = useState('');
+│   │   │   |   const [trackData, setTrackData] = useState<any>(null);
+│   │   │   |   const [gameState, setGameState] = useState<'idle' | 'loading' | 'playing' | 'won' | 'lost' | 'timeout'>('idle');
+│   │   │   |   const [selectedOptionId, setSelectedOptionId] = useState<number | null>(null);
+│   │   │   |   const [error, setError] = useState('');
+│   │   │   |   
+│   │   │   |   // ⏱️ NEW: Timer State
+│   │   │   |   const [timeLeft, setTimeLeft] = useState(30);
+│   │   │   | 
+│   │   │   |   // Audio Refs
+│   │   │   |   const audioContextRef = useRef<AudioContext | null>(null);
+│   │   │   |   const sourceNodeRef = useRef<AudioBufferSourceNode | null>(null);
+│   │   │   |   const originalBufferRef = useRef<AudioBuffer | null>(null);
+│   │   │   |   const reversedBufferRef = useRef<AudioBuffer | null>(null);
+│   │   │   | 
+│   │   │   |   useEffect(() => {
+│   │   │   |     // @ts-ignore
+│   │   │   |     const AudioCtx = window.AudioContext || window.webkitAudioContext;
+│   │   │   |     audioContextRef.current = new AudioCtx();
+│   │   │   |     return () => { audioContextRef.current?.close(); };
+│   │   │   |   }, []);
+│   │   │   | 
+│   │   │   |   // ⏱️ NEW: Countdown Logic
+│   │   │   |   useEffect(() => {
+│   │   │   |     let timer: NodeJS.Timeout;
+│   │   │   |     
+│   │   │   |     if (gameState === 'playing' && timeLeft > 0) {
+│   │   │   |       timer = setInterval(() => {
+│   │   │   |         setTimeLeft((prev) => prev - 1);
+│   │   │   |       }, 1000);
+│   │   │   |     } else if (timeLeft === 0 && gameState === 'playing') {
+│   │   │   |       setGameState('timeout');
+│   │   │   |       playAudio('normal'); // Reveal song when time is up
+│   │   │   |     }
+│   │   │   | 
+│   │   │   |     return () => clearInterval(timer);
+│   │   │   |   }, [gameState, timeLeft]);
+│   │   │   | 
+│   │   │   |   const handleSearch = async () => {
+│   │   │   |     setGameState('loading');
+│   │   │   |     setError('');
+│   │   │   |     setTrackData(null);
+│   │   │   |     setSelectedOptionId(null);
+│   │   │   |     stopAudio();
+│   │   │   | 
+│   │   │   |     const data = await getMysteryTrack(artistInput);
+│   │   │   | 
+│   │   │   |     if (data.error) {
+│   │   │   |       setError(data.error);
+│   │   │   |       setGameState('idle');
+│   │   │   |       return;
+│   │   │   |     }
+│   │   │   | 
+│   │   │   |     setTrackData(data);
+│   │   │   |     await loadAndReverseAudio(data.previewUrl);
+│   │   │   |     
+│   │   │   |     // Start Game & Reset Timer
+│   │   │   |     setTimeLeft(15); 
+│   │   │   |     setGameState('playing');
+│   │   │   |     playAudio('reversed'); 
+│   │   │   |   };
+│   │   │   | 
+│   │   │   |   const handleGuess = (option: any) => {
+│   │   │   |     if (gameState !== 'playing') return;
+│   │   │   | 
+│   │   │   |     setSelectedOptionId(option.id);
+│   │   │   |     
+│   │   │   |     if (option.isCorrect) {
+│   │   │   |       setGameState('won');
+│   │   │   |       playAudio('normal'); 
+│   │   │   |     } else {
+│   │   │   |       setGameState('lost');
+│   │   │   |     }
+│   │   │   |   };
+│   │   │   | 
+│   │   │   |   const loadAndReverseAudio = async (url: string) => {
+│   │   │   |     try {
+│   │   │   |       const response = await fetch(url);
+│   │   │   |       const arrayBuffer = await response.arrayBuffer();
+│   │   │   |       if (!audioContextRef.current) return;
+│   │   │   |       
+│   │   │   |       const audioBuffer = await audioContextRef.current.decodeAudioData(arrayBuffer);
+│   │   │   |       originalBufferRef.current = audioBuffer;
+│   │   │   | 
+│   │   │   |       const reversedBuffer = audioContextRef.current.createBuffer(
+│   │   │   |         audioBuffer.numberOfChannels, audioBuffer.length, audioBuffer.sampleRate
+│   │   │   |       );
+│   │   │   | 
+│   │   │   |       for (let i = 0; i < audioBuffer.numberOfChannels; i++) {
+│   │   │   |         const channelData = audioBuffer.getChannelData(i);
+│   │   │   |         const reversedData = reversedBuffer.getChannelData(i);
+│   │   │   |         for (let j = 0; j < channelData.length; j++) {
+│   │   │   |           reversedData[j] = channelData[channelData.length - 1 - j];
+│   │   │   |         }
+│   │   │   |       }
+│   │   │   |       reversedBufferRef.current = reversedBuffer;
+│   │   │   |     } catch (err) {
+│   │   │   |       console.error(err);
+│   │   │   |       setError("Could not process audio.");
+│   │   │   |     }
+│   │   │   |   };
+│   │   │   | 
+│   │   │   |   const playAudio = (type: 'reversed' | 'normal') => {
+│   │   │   |     stopAudio();
+│   │   │   |     if (!audioContextRef.current) return;
+│   │   │   |     const source = audioContextRef.current.createBufferSource();
+│   │   │   |     source.buffer = type === 'reversed' ? reversedBufferRef.current : originalBufferRef.current;
+│   │   │   |     source.connect(audioContextRef.current.destination);
+│   │   │   |     source.start();
+│   │   │   |     sourceNodeRef.current = source;
+│   │   │   |   };
+│   │   │   | 
+│   │   │   |   const stopAudio = () => {
+│   │   │   |     if (sourceNodeRef.current) {
+│   │   │   |       try { sourceNodeRef.current.stop(); } catch (e) {}
+│   │   │   |     }
+│   │   │   |   };
+│   │   │   | 
+│   │   │   |   return (
+│   │   │   |     <div className="max-w-xl mx-auto p-6 bg-neutral-900 text-white rounded-2xl shadow-2xl border border-neutral-800">
+│   │   │   |       <div className="text-center mb-8">
+│   │   │   |         <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
+│   │   │   |           ⏪ Reverse Audio Challenge
+│   │   │   |         </h2>
+│   │   │   |       </div>
+│   │   │   | 
+│   │   │   |       <div className="flex gap-2 mb-8">
+│   │   │   |         <input 
+│   │   │   |           type="text"
+│   │   │   |           value={artistInput}
+│   │   │   |           onChange={(e) => setArtistInput(e.target.value)}
+│   │   │   |           onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+│   │   │   |           placeholder="e.g. Nirvana..."
+│   │   │   |           className="flex-1 bg-black/50 border border-neutral-700 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500"
+│   │   │   |         />
+│   │   │   |         <button 
+│   │   │   |           onClick={handleSearch}
+│   │   │   |           disabled={gameState === 'loading'}
+│   │   │   |           className="bg-purple-600 hover:bg-purple-700 font-bold px-6 py-2 rounded-lg"
+│   │   │   |         >
+│   │   │   |           {gameState === 'loading' ? '...' : 'Start'}
+│   │   │   |         </button>
+│   │   │   |       </div>
+│   │   │   | 
+│   │   │   |       {error && <div className="text-red-400 text-center mb-4">{error}</div>}
+│   │   │   | 
+│   │   │   |       {trackData && (
+│   │   │   |         <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+│   │   │   |           
+│   │   │   |           {/* ⏱️ Timer UI */}
+│   │   │   |           {gameState === 'playing' && (
+│   │   │   |             <div className="mb-6">
+│   │   │   |               <div className="flex justify-between text-xs font-bold uppercase tracking-widest text-neutral-400 mb-2">
+│   │   │   |                  <span>Time Remaining</span>
+│   │   │   |                  <span className={timeLeft < 10 ? "text-red-500" : "text-white"}>{timeLeft}s</span>
+│   │   │   |               </div>
+│   │   │   |               <div className="w-full h-2 bg-neutral-800 rounded-full overflow-hidden">
+│   │   │   |                 <div 
+│   │   │   |                   className={`h-full transition-all duration-1000 ease-linear ${timeLeft < 10 ? 'bg-red-500' : 'bg-green-500'}`}
+│   │   │   |                   style={{ width: `${(timeLeft / 30) * 100}%` }}
+│   │   │   |                 />
+│   │   │   |               </div>
+│   │   │   |             </div>
+│   │   │   |           )}
+│   │   │   | 
+│   │   │   |           <div className="flex justify-center mb-6">
+│   │   │   |             <div 
+│   │   │   |               className="relative w-40 h-40 bg-black rounded-xl border border-neutral-700 overflow-hidden cursor-pointer hover:border-purple-500 transition-colors"
+│   │   │   |               onClick={() => playAudio('reversed')}
+│   │   │   |             >
+│   │   │   |               {['won', 'lost', 'timeout'].includes(gameState) ? (
+│   │   │   |                 <Image src={trackData.albumArt} alt="Album" fill className="object-cover" />
+│   │   │   |               ) : (
+│   │   │   |                  <div className="flex items-center justify-center h-full text-4xl">❓</div>
+│   │   │   |               )}
+│   │   │   |                {/* Play Overlay */}
+│   │   │   |                {!['won', 'lost', 'timeout'].includes(gameState) && (
+│   │   │   |                  <div className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-transparent transition-colors">
+│   │   │   |                    <span className="text-2xl drop-shadow-md">🔊</span>
+│   │   │   |                  </div>
+│   │   │   |                )}
+│   │   │   |             </div>
+│   │   │   |           </div>
+│   │   │   | 
+│   │   │   |           <div className="text-center mb-6">
+│   │   │   |              <button onClick={() => playAudio('reversed')} className="text-sm text-neutral-400 hover:text-white underline">
+│   │   │   |                Replay Reversed Audio
+│   │   │   |              </button>
+│   │   │   |           </div>
+│   │   │   | 
+│   │   │   |           <div className="grid grid-cols-1 gap-3">
+│   │   │   |             {trackData.options.map((option: any) => {
+│   │   │   |               let btnClass = "p-4 rounded-xl font-semibold transition-all border border-neutral-700 bg-neutral-800 hover:bg-neutral-700";
+│   │   │   |               
+│   │   │   |               if (['won', 'lost', 'timeout'].includes(gameState)) {
+│   │   │   |                 if (option.isCorrect) {
+│   │   │   |                   btnClass = "p-4 rounded-xl font-bold bg-green-600 border-green-500 text-white shadow-[0_0_15px_rgba(34,197,94,0.5)]";
+│   │   │   |                 } else if (selectedOptionId === option.id) {
+│   │   │   |                   btnClass = "p-4 rounded-xl bg-red-900/50 border-red-800 text-red-200 opacity-50";
+│   │   │   |                 } else {
+│   │   │   |                   btnClass = "p-4 rounded-xl bg-neutral-900 border-neutral-800 text-neutral-600 opacity-50";
+│   │   │   |                 }
+│   │   │   |               }
+│   │   │   | 
+│   │   │   |               return (
+│   │   │   |                 <button
+│   │   │   |                   key={option.id}
+│   │   │   |                   onClick={() => handleGuess(option)}
+│   │   │   |                   disabled={['won', 'lost', 'timeout'].includes(gameState)}
+│   │   │   |                   className={btnClass}
+│   │   │   |                 >
+│   │   │   |                   {option.title}
+│   │   │   |                 </button>
+│   │   │   |               );
+│   │   │   |             })}
+│   │   │   |           </div>
+│   │   │   | 
+│   │   │   |           {gameState === 'won' && (
+│   │   │   |             <div className="mt-6 text-center animate-in zoom-in">
+│   │   │   |               <h3 className="text-2xl font-bold text-green-400 mb-2">🎉 Correct!</h3>
+│   │   │   |               <p className="text-neutral-400 text-sm">Now playing original track...</p>
+│   │   │   |             </div>
+│   │   │   |           )}
+│   │   │   |           
+│   │   │   |           {(gameState === 'lost' || gameState === 'timeout') && (
+│   │   │   |              <div className="mt-6 text-center">
+│   │   │   |                <h3 className="text-xl font-bold text-red-400 mb-2">
+│   │   │   |                  {gameState === 'timeout' ? "⏰ Time's Up!" : "❌ Wrong!"}
+│   │   │   |                </h3>
+│   │   │   |                <p className="text-neutral-400 text-sm mb-4">It was <strong>{trackData.trackName}</strong></p>
+│   │   │   |                <button 
+│   │   │   |                  onClick={handleSearch} 
+│   │   │   |                  className="text-sm bg-neutral-800 px-4 py-2 rounded-full hover:bg-neutral-700 border border-neutral-700"
+│   │   │   |                >
+│   │   │   |                  Try Another Song
+│   │   │   |                </button>
+│   │   │   |              </div>
+│   │   │   |           )}
+│   │   │   |         </div>
+│   │   │   |       )}
+│   │   │   |     </div>
+│   │   │   |   );
+│   │   │   | }
+│   │   │   | --- FILE CONTENT END ---
+
 │   │   ├── Logo.tsx
 │   │   │   | --- FILE CONTENT START (Logo.tsx) ---
 │   │   │   | // components/Logo.tsx
@@ -3492,6 +3883,7 @@ app/
 │   │   │   | 'use client'
 │   │   │   | 
 │   │   │   | import { useState } from 'react'
+│   │   │   | // This import will now work because we added the function above
 │   │   │   | import { fetchPlaylistMetadata } from '../actions'
 │   │   │   | import { PlaylistDiscovery } from './PlaylistDiscovery'
 │   │   │   | 
@@ -3570,6 +3962,22 @@ app/
 │   │   │   |                       Clear
 │   │   │   |                    </button>
 │   │   │   |                 </div>
+│   │   │   | 
+│   │   │   |                 {/* Vibe Stats Bar */}
+│   │   │   |                 <div className="grid grid-cols-3 divide-x divide-neutral-200 dark:divide-neutral-800 bg-white dark:bg-black border-x border-neutral-200 dark:border-neutral-800">
+│   │   │   |                     <div className="p-4 text-center">
+│   │   │   |                         <div className="text-xs text-neutral-500 uppercase tracking-wider font-semibold mb-1">Avg Tempo</div>
+│   │   │   |                         <div className="text-xl font-bold text-neutral-900 dark:text-neutral-100">{data.tempo} BPM</div>
+│   │   │   |                     </div>
+│   │   │   |                     <div className="p-4 text-center">
+│   │   │   |                         <div className="text-xs text-neutral-500 uppercase tracking-wider font-semibold mb-1">Mood</div>
+│   │   │   |                         <div className="text-xl font-bold text-neutral-900 dark:text-neutral-100 whitespace-nowrap">{data.mood}</div>
+│   │   │   |                     </div>
+│   │   │   |                     <div className="p-4 text-center">
+│   │   │   |                         <div className="text-xs text-neutral-500 uppercase tracking-wider font-semibold mb-1">Energy</div>
+│   │   │   |                         <div className="text-xl font-bold text-neutral-900 dark:text-neutral-100">{data.energy}%</div>
+│   │   │   |                     </div>
+│   │   │   |                 </div>
 │   │   │   |                 
 │   │   │   |                 {/* Embed the Existing Analyzer */}
 │   │   │   |                 <div className="bg-white dark:bg-black border border-neutral-200 dark:border-neutral-800 rounded-b-2xl p-6 shadow-sm">
@@ -3579,47 +3987,6 @@ app/
 │   │   │   |                       artists={data.artists} 
 │   │   │   |                    />
 │   │   │   |                 </div>
-│   │   │   |                 {data && (
-│   │   │   |     <div className="mt-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-│   │   │   |     <div className="p-4 bg-neutral-50 dark:bg-neutral-900 rounded-t-2xl border-x border-t border-neutral-200 dark:border-neutral-800 flex justify-between items-center">
-│   │   │   |         <div>
-│   │   │   |             <span className="text-xs uppercase tracking-wider text-neutral-500 font-semibold">Analyzed Playlist</span>
-│   │   │   |             <div className="font-bold text-lg text-neutral-900 dark:text-neutral-100">{data.name}</div>
-│   │   │   |         </div>
-│   │   │   |         <button 
-│   │   │   |             onClick={() => setData(null)} 
-│   │   │   |             className="text-xs text-neutral-400 hover:text-red-500"
-│   │   │   |         >
-│   │   │   |             Clear
-│   │   │   |         </button>
-│   │   │   |     </div>
-│   │   │   | 
-│   │   │   |     {/* NEW: Vibe Stats Bar */}
-│   │   │   |     <div className="grid grid-cols-3 divide-x divide-neutral-200 dark:divide-neutral-800 bg-white dark:bg-black border-x border-neutral-200 dark:border-neutral-800">
-│   │   │   |         <div className="p-4 text-center">
-│   │   │   |             <div className="text-xs text-neutral-500 uppercase tracking-wider font-semibold mb-1">Avg Tempo</div>
-│   │   │   |             <div className="text-xl font-bold text-neutral-900 dark:text-neutral-100">{data.tempo} BPM</div>
-│   │   │   |         </div>
-│   │   │   |         <div className="p-4 text-center">
-│   │   │   |             <div className="text-xs text-neutral-500 uppercase tracking-wider font-semibold mb-1">Mood</div>
-│   │   │   |             <div className="text-xl font-bold text-neutral-900 dark:text-neutral-100 whitespace-nowrap">{data.mood}</div>
-│   │   │   |         </div>
-│   │   │   |         <div className="p-4 text-center">
-│   │   │   |             <div className="text-xs text-neutral-500 uppercase tracking-wider font-semibold mb-1">Energy</div>
-│   │   │   |             <div className="text-xl font-bold text-neutral-900 dark:text-neutral-100">{data.energy}%</div>
-│   │   │   |         </div>
-│   │   │   |     </div>
-│   │   │   |     
-│   │   │   |     {/* Embed the Existing Analyzer */}
-│   │   │   |     <div className="bg-white dark:bg-black border border-neutral-200 dark:border-neutral-800 rounded-b-2xl p-6 shadow-sm">
-│   │   │   |         <PlaylistDiscovery 
-│   │   │   |             id={data.id} 
-│   │   │   |             name={data.name} 
-│   │   │   |             artists={data.artists} 
-│   │   │   |         />
-│   │   │   |     </div>
-│   │   │   |     </div>
-│   │   │   | )}
 │   │   │   |              </div>
 │   │   │   |           )}
 │   │   │   |       </div>

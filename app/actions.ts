@@ -214,3 +214,78 @@ export async function getMysteryTrack(artistName: string) {
     return { error: "Failed to fetch data" };
   }
 }
+
+
+// getBpmGameTrack
+// app/actions.ts
+
+export async function getBpmGameTrack() {
+  // 1. Call the helper and extract the actual token string
+  const tokenData = await getAccessToken();
+  const access_token = tokenData.access_token;
+
+  // 2. Check if the token exists before proceeding
+  if (!access_token) {
+    console.error("Token Response Error:", tokenData); 
+    return { error: "Failed to authenticate with Spotify. Check your Env Vars." };
+  }
+
+  try {
+    const playlistId = "0kQ3ZMgLoc9UoFtJz96qYa"; 
+    
+    // 3. Use backticks (`) for template literals to inject variables correctly
+    const res = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}`, {
+      headers: { Authorization: `Bearer ${access_token}` },
+      cache: 'no-store'
+    });
+    
+    const data = await res.json();
+    
+    // Filter for tracks that have a 30-second preview URL
+    const validTracks = data.tracks.items.filter((item: any) => item.track?.preview_url);
+    if (validTracks.length === 0) return { error: "No playable tracks found in this playlist." };
+
+    const selected = validTracks[Math.floor(Math.random() * validTracks.length)].track;
+
+    // 4. Fetch the specific Audio Features (Tempo/BPM) for the chosen track
+    const featuresRes = await fetch(`https://api.spotify.com/v1/audio-features/${selected.id}`, {
+      headers: { Authorization: `Bearer ${access_token}` },
+    });
+    const featuresData = await featuresRes.json();
+
+    return {
+      name: selected.name,
+      artist: selected.artists[0].name,
+      previewUrl: selected.preview_url,
+      albumArt: selected.album.images[0].url,
+      bpm: Math.round(featuresData.tempo),
+    };
+  } catch (e) {
+    console.error("BPM Game Fetch Error:", e);
+    return { error: "Failed to connect to Spotify Arcade" };
+  }
+}
+
+export async function getYoutubeGameTrack() {
+  const API_KEY = process.env.YOUTUBE_API_KEY;
+  // Example: A popular music video playlist ID
+  const playlistId = 'PLFgquLnL59alCl_2TQvOiD5Vgm1hCaGSI'; 
+
+  try {
+    const res = await fetch(
+      `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${playlistId}&key=${API_KEY}`
+    );
+    const data = await res.json();
+    
+    const randomVideo = data.items[Math.floor(Math.random() * data.items.length)];
+    const videoId = randomVideo.snippet.resourceId.videoId;
+
+    return {
+      title: randomVideo.snippet.title,
+      videoId: videoId,
+      thumbnail: randomVideo.snippet.thumbnails.high.url,
+    };
+  } catch (e) {
+    return { error: "Failed to fetch YouTube track" };
+  }
+}
