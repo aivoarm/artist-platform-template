@@ -36,12 +36,21 @@ function readMDXFile(filePath: string) { // Added type annotation
   return parseFrontmatter(rawContent)
 }
 
-function getMDXData(dir: string) { // Added type annotation
+function getMDXData(dir: string) {
   let mdxFiles = getMDXFiles(dir)
   return mdxFiles.map((file) => {
     let { metadata, content } = readMDXFile(path.join(dir, file))
-    let slug = path.basename(file, path.extname(file))
-
+    
+    // Extract the filename without extension
+    const fileName = path.basename(file, path.extname(file))
+    
+    // FIX: Standardize the slug to be lowercase and hyphenated
+    const slug = fileName
+      .toLowerCase()
+      .replace(/\s+/g, '-')      // Replace spaces with -
+      .replace(/_/g, '-')        // Replace underscores with -
+      .replace(/[^\w\-]+/g, '')  // Remove non-word characters
+    
     return {
       metadata,
       slug,

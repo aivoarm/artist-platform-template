@@ -94,7 +94,7 @@ blog/
 │   │   | --- FILE CONTENT START (next-env.d.ts) ---
 │   │   | /// <reference types="next" />
 │   │   | /// <reference types="next/image-types/global" />
-│   │   | import "./.next/types/routes.d.ts";
+│   │   | import "./.next/dev/types/routes.d.ts";
 │   │   | 
 │   │   | // NOTE: This file should not be edited
 │   │   | // see https://nextjs.org/docs/app/api-reference/config/typescript for more information.
@@ -859,6 +859,81 @@ app/
 │   │   |     return { error: "Failed to fetch data" };
 │   │   |   }
 │   │   | }
+│   │   | 
+│   │   | 
+│   │   | // getBpmGameTrack
+│   │   | // app/actions.ts
+│   │   | 
+│   │   | export async function getBpmGameTrack() {
+│   │   |   // 1. Call the helper and extract the actual token string
+│   │   |   const tokenData = await getAccessToken();
+│   │   |   const access_token = tokenData.access_token;
+│   │   | 
+│   │   |   // 2. Check if the token exists before proceeding
+│   │   |   if (!access_token) {
+│   │   |     console.error("Token Response Error:", tokenData); 
+│   │   |     return { error: "Failed to authenticate with Spotify. Check your Env Vars." };
+│   │   |   }
+│   │   | 
+│   │   |   try {
+│   │   |     const playlistId = "0kQ3ZMgLoc9UoFtJz96qYa"; 
+│   │   |     
+│   │   |     // 3. Use backticks (`) for template literals to inject variables correctly
+│   │   |     const res = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}`, {
+│   │   |       headers: { Authorization: `Bearer ${access_token}` },
+│   │   |       cache: 'no-store'
+│   │   |     });
+│   │   |     
+│   │   |     const data = await res.json();
+│   │   |     
+│   │   |     // Filter for tracks that have a 30-second preview URL
+│   │   |     const validTracks = data.tracks.items.filter((item: any) => item.track?.preview_url);
+│   │   |     if (validTracks.length === 0) return { error: "No playable tracks found in this playlist." };
+│   │   | 
+│   │   |     const selected = validTracks[Math.floor(Math.random() * validTracks.length)].track;
+│   │   | 
+│   │   |     // 4. Fetch the specific Audio Features (Tempo/BPM) for the chosen track
+│   │   |     const featuresRes = await fetch(`https://api.spotify.com/v1/audio-features/${selected.id}`, {
+│   │   |       headers: { Authorization: `Bearer ${access_token}` },
+│   │   |     });
+│   │   |     const featuresData = await featuresRes.json();
+│   │   | 
+│   │   |     return {
+│   │   |       name: selected.name,
+│   │   |       artist: selected.artists[0].name,
+│   │   |       previewUrl: selected.preview_url,
+│   │   |       albumArt: selected.album.images[0].url,
+│   │   |       bpm: Math.round(featuresData.tempo),
+│   │   |     };
+│   │   |   } catch (e) {
+│   │   |     console.error("BPM Game Fetch Error:", e);
+│   │   |     return { error: "Failed to connect to Spotify Arcade" };
+│   │   |   }
+│   │   | }
+│   │   | 
+│   │   | export async function getYoutubeGameTrack() {
+│   │   |   const API_KEY = process.env.YOUTUBE_API_KEY;
+│   │   |   // Example: A popular music video playlist ID
+│   │   |   const playlistId = 'PLFgquLnL59alCl_2TQvOiD5Vgm1hCaGSI'; 
+│   │   | 
+│   │   |   try {
+│   │   |     const res = await fetch(
+│   │   |       `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${playlistId}&key=${API_KEY}`
+│   │   |     );
+│   │   |     const data = await res.json();
+│   │   |     
+│   │   |     const randomVideo = data.items[Math.floor(Math.random() * data.items.length)];
+│   │   |     const videoId = randomVideo.snippet.resourceId.videoId;
+│   │   | 
+│   │   |     return {
+│   │   |       title: randomVideo.snippet.title,
+│   │   |       videoId: videoId,
+│   │   |       thumbnail: randomVideo.snippet.thumbnails.high.url,
+│   │   |     };
+│   │   |   } catch (e) {
+│   │   |     return { error: "Failed to fetch YouTube track" };
+│   │   |   }
+│   │   | }
 │   │   | --- FILE CONTENT END ---
 
 │   ├── sitemap.ts
@@ -1206,7 +1281,7 @@ app/
 │   │   | 
 │   │   |       <div className="mb-8">
 │   │   |         <PlaylistStats id="0kQ3ZMgLoc9UoFtJz96qYa" />
-│   │   |         <PlaylistUrlInput />
+│   │   |        
 │   │   |       </div>
 │   │   |                
 │   │   |       <hr className="my-16 border-neutral-200 dark:border-neutral-800" />
@@ -1552,45 +1627,30 @@ app/
 │   ├── puzzle/
 │   │   ├── page.tsx
 │   │   │   | --- FILE CONTENT START (page.tsx) ---
-│   │   │   | // app/puzzle/page.tsx
-│   │   │   | 
-│   │   │   | 
-│   │   │   | export const dynamic = 'force-dynamic';
-│   │   │   | import { MusicPuzzle } from 'app/components/MusicPuzzle';
-│   │   │   | import { ReverseGame } from 'app/components/ReverseGame';
-│   │   │   | 
-│   │   │   | import Link from 'next/link';
+│   │   │   | export const dynamic = 'force-dynamic'; // [cite: 829]
+│   │   │   | import { MusicPuzzle } from 'app/components/MusicPuzzle'; // [cite: 830]
+│   │   │   | import { ReverseGame } from 'app/components/ReverseGame'; // [cite: 831]
+│   │   │   | import Link from 'next/link'; // [cite: 832]
+│   │   │   | import { YoutubeBpmGame } from 'app/components/YoutubeBpmGame';
 │   │   │   | 
 │   │   │   | export const metadata = {
-│   │   │   |   title: 'Music Puzzle Challenge | Arman Ayva',
-│   │   │   |   description: 'Search for any song and solve the rhythm puzzle. Can you reassemble the track by ear?',
+│   │   │   |   title: 'Music Arcade | Arman Ayva', // [cite: 834]
+│   │   │   |   description: 'Interactive rhythm puzzles and reverse audio challenges. Test your musical ears.', // [cite: 836, 837]
 │   │   │   |   openGraph: {
-│   │   │   |     title: 'Music Puzzle Challenge 🧩',
-│   │   │   |     description: 'Search for your favorite tracks and test your ears with this interactive rhythm puzzle.',
-│   │   │   |     url: 'https://www.armanayva.com/puzzle',
-│   │   │   |     siteName: 'Arman Ayva Music',
-│   │   │   |     images: [
-│   │   │   |       {
-│   │   │   |         url: 'https://res.cloudinary.com/dpmkshcky/image/upload/v1769091826/musicpuzzle_byve3t.jpg', // Or your preferred unique game image
-│   │   │   |         width: 1200,
-│   │   │   |         height: 630,
-│   │   │   |         alt: 'Arman Ayva Music Puzzle Game',
-│   │   │   |       },
-│   │   │   |     ],
-│   │   │   |     locale: 'en_US',
-│   │   │   |     type: 'website',
-│   │   │   |   },
-│   │   │   |   twitter: {
-│   │   │   |     card: 'summary_large_image',
-│   │   │   |     title: 'Music Puzzle Challenge 🧩',
-│   │   │   |     description: 'Assemble musical jigsaws from any YouTube video. Play the Rhythm Puzzle now!',
-│   │   │   |     images: ['https://res.cloudinary.com/dpmkshcky/image/upload/v1769091826/musicpuzzle_byve3t.jpg'], // Ensure this is an absolute URL
+│   │   │   |     title: 'Music Puzzle Challenge 🧩', // [cite: 839]
+│   │   │   |     description: 'Search for your favorite tracks and test your ears with interactive musical games.', // [cite: 840]
+│   │   │   |     url: 'https://www.armanayva.com/puzzle', // [cite: 841]
+│   │   │   |     siteName: 'Arman Ayva Music', // [cite: 842]
+│   │   │   |     images: [{ url: 'https://res.cloudinary.com/dpmkshcky/image/upload/v1769091826/musicpuzzle_byve3t.jpg', width: 1200, height: 630, alt: 'Arman Ayva Music Puzzle Game' }], // [cite: 845, 848]
+│   │   │   |     locale: 'en_US', // [cite: 850]
+│   │   │   |     type: 'website', // [cite: 851]
 │   │   │   |   },
 │   │   │   | };
 │   │   │   | 
 │   │   │   | export default function PuzzlePage() {
 │   │   │   |   return (
-│   │   │   |     <section className="py-8">
+│   │   │   |     <section className="py-8 space-y-24">
+│   │   │   |       {/* Navigation */}
 │   │   │   |       <div className="mb-8">
 │   │   │   |         <Link 
 │   │   │   |           href="/" 
@@ -1599,56 +1659,95 @@ app/
 │   │   │   |           ← Back to Home
 │   │   │   |         </Link>
 │   │   │   |       </div>
-│   │   │   |       
-│   │   │   |       <div className="prose prose-neutral dark:prose-invert max-w-none mb-10">
-│   │   │   |         <h1 className="font-bold text-5xl md:text-7xl font-serif mb-4 tracking-tighter">
-│   │   │   |           Music Puzzle Challenge 🧩
-│   │   │   |         </h1>
-│   │   │   |         
-│   │   │   |         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-│   │   │   |           {/* Left Column: Text description */}
-│   │   │   |           <div>
-│   │   │   |             <p className="text-xl text-neutral-600 dark:text-neutral-400 leading-relaxed">
-│   │   │   |               Search for your favorite tracks from YouTube and test your ears. 
-│   │   │   |               Drag the segments to reconstruct the 30-second preview as fast as you can.
-│   │   │   |             </p>
-│   │   │   |             <div className="mt-4 flex items-center space-x-2 text-blue-500 font-medium">
-│   │   │   |               <span>👇</span>
-│   │   │   |               <span>Watch the quick guide to master the game</span>
+│   │   │   | 
+│   │   │   |       {/* PHASE 1: RHYTHM PUZZLE */}
+│   │   │   |       <div className="rounded-3xl p-6 md:p-10 bg-neutral-50 dark:bg-neutral-900/50 border border-neutral-200 dark:border-neutral-800 shadow-sm">
+│   │   │   |         <header className="prose prose-neutral dark:prose-invert max-w-none mb-12 text-center md:text-left">
+│   │   │   |           <span className="inline-block px-3 py-1 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-xs font-bold uppercase tracking-widest mb-4">
+│   │   │   |             Phase 01
+│   │   │   |           </span>
+│   │   │   |           <h1 className="font-bold text-5xl md:text-7xl font-serif mb-6 tracking-tighter">
+│   │   │   |             The Rhythm Jigsaw 🧩
+│   │   │   |           </h1>
+│   │   │   |           
+│   │   │   |           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+│   │   │   |             <div className="space-y-6">
+│   │   │   |               <p className="text-xl text-neutral-600 dark:text-neutral-400 leading-relaxed">
+│   │   │   |                 Search for any YouTube track and we'll chop it into pieces. 
+│   │   │   |                 Drag the segments to reconstruct the 30-second groove by ear.
+│   │   │   |               </p>
+│   │   │   |               <div className="flex items-center space-x-2 text-blue-500 font-medium">
+│   │   │   |                 <span className="animate-bounce">👇</span>
+│   │   │   |                 <span>Watch the masterclass guide</span>
+│   │   │   |               </div>
+│   │   │   |             </div>
+│   │   │   | 
+│   │   │   |             <div className="relative w-full max-w-[280px] mx-auto lg:mx-0 aspect-[9/16] rounded-2xl overflow-hidden shadow-2xl border-4 border-white dark:border-neutral-800 bg-black">
+│   │   │   |               <iframe
+│   │   │   |                 width="100%"
+│   │   │   |                 height="100%"
+│   │   │   |                 src="https://www.youtube.com/embed/LemCmwSZS-I?autoplay=0&rel=0"
+│   │   │   |                 title="How to play Music Puzzle"
+│   │   │   |                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+│   │   │   |                 allowFullScreen
+│   │   │   |                 className="absolute inset-0"
+│   │   │   |               />
 │   │   │   |             </div>
 │   │   │   |           </div>
+│   │   │   |         </header>
 │   │   │   | 
-│   │   │   |           {/* Right Column: YouTube Short Embed */}
-│   │   │   |           <div className="relative w-full max-w-[315px] mx-auto lg:mx-0 aspect-[9/16] rounded-2xl overflow-hidden shadow-2xl border-4 border-neutral-100 dark:border-neutral-800">
-│   │   │   |             <iframe
-│   │   │   |               width="100%"
-│   │   │   |               height="100%"
-│   │   │   |               src="https://www.youtube.com/embed/LemCmwSZS-I?autoplay=0&rel=0"
-│   │   │   |               title="How to play Music Puzzle"
-│   │   │   |               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-│   │   │   |               allowFullScreen
-│   │   │   |               className="absolute inset-0"
-│   │   │   |             ></iframe>
-│   │   │   |           </div>
+│   │   │   |         <div className="mt-12">
+│   │   │   |           <MusicPuzzle />
 │   │   │   |         </div>
 │   │   │   |       </div>
 │   │   │   | 
-│   │   │   |       <div className="my-12">
-│   │   │   |         <MusicPuzzle />
+│   │   │   |       {/* PHASE 2: REVERSED GAME */}
+│   │   │   |       <div className="rounded-3xl p-6 md:p-10 bg-neutral-50 dark:bg-neutral-900/50 border border-neutral-200 dark:border-neutral-800 shadow-sm">
+│   │   │   |         <header className="prose prose-neutral dark:prose-invert max-w-none mb-12 text-center md:text-left">
+│   │   │   |           <span className="inline-block px-3 py-1 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 text-xs font-bold uppercase tracking-widest mb-4">
+│   │   │   |             Phase 02
+│   │   │   |           </span>
+│   │   │   |           <h2 className="font-bold text-5xl md:text-7xl font-serif mb-6 tracking-tighter">
+│   │   │   |             Sonic Mirror ⏪
+│   │   │   |           </h2>
+│   │   │   |           <p className="text-xl text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl">
+│   │   │   |             Choose an artist and try to identify their most famous melodies while they play in complete reverse. 
+│   │   │   |             It's harder than it sounds.
+│   │   │   |           </p>
+│   │   │   |         </header>
+│   │   │   |         
+│   │   │   |         <div className="mt-8">
+│   │   │   |           <ReverseGame />
+│   │   │   |         </div>
 │   │   │   |       </div>
 │   │   │   | 
-│   │   │   |       <hr className="my-16 border-neutral-200 dark:border-neutral-800" />
+│   │   │   |  
 │   │   │   | 
-│   │   │   |       <div className="prose prose-neutral dark:prose-invert max-w-none mb-10">
-│   │   │   |         <h2 className="font-bold text-5xl md:text-7xl font-serif mb-6 tracking-tighter">
-│   │   │   |           Music Reversed Game 🧩
-│   │   │   |         </h2>
-│   │   │   |         <p className="text-lg text-neutral-600 dark:text-neutral-400">
-│   │   │   |           Search for your favorite Artist and try to guess the song while it plays in reverse!
+│   │   │   | 
+│   │   │   |       {/* PHASE 03: BPM DETECTIVE */}
+│   │   │   |       <div className="rounded-3xl p-6 md:p-10 bg-neutral-50 dark:bg-neutral-900/50 border border-neutral-200 dark:border-neutral-800 shadow-sm">
+│   │   │   |         <header className="prose prose-neutral dark:prose-invert max-w-none mb-12 text-center md:text-left">
+│   │   │   |           <span className="inline-block px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-widest mb-4">
+│   │   │   |             Phase 03
+│   │   │   |           </span>
+│   │   │   |           <h2 className="font-bold text-5xl md:text-7xl font-serif mb-6 tracking-tighter">
+│   │   │   |             BPM Detective 🕵️‍♂️
+│   │   │   |           </h2>
+│   │   │   |           <p className="text-xl text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl">
+│   │   │   |             Test your internal metronome. Listen to a 30-second groove and try to identify the exact BPM.
+│   │   │   |           </p>
+│   │   │   |         </header>
+│   │   │   |         
+│   │   │   |         <YoutubeBpmGame />
+│   │   │   |       </div>
+│   │   │   | 
+│   │   │   |            {/* Footer CTA */}
+│   │   │   |       <div className="text-center py-10">
+│   │   │   |         <p className="text-neutral-500 text-sm">
+│   │   │   |           More interactive experiences coming soon.
 │   │   │   |         </p>
 │   │   │   |       </div>
-│   │   │   |       
-│   │   │   |       <ReverseGame />
+│   │   │   |  
 │   │   │   |     </section>
 │   │   │   |   );
 │   │   │   | }
@@ -2074,12 +2173,21 @@ app/
 │   │   │   |   return parseFrontmatter(rawContent)
 │   │   │   | }
 │   │   │   | 
-│   │   │   | function getMDXData(dir: string) { // Added type annotation
+│   │   │   | function getMDXData(dir: string) {
 │   │   │   |   let mdxFiles = getMDXFiles(dir)
 │   │   │   |   return mdxFiles.map((file) => {
 │   │   │   |     let { metadata, content } = readMDXFile(path.join(dir, file))
-│   │   │   |     let slug = path.basename(file, path.extname(file))
-│   │   │   | 
+│   │   │   |     
+│   │   │   |     // Extract the filename without extension
+│   │   │   |     const fileName = path.basename(file, path.extname(file))
+│   │   │   |     
+│   │   │   |     // FIX: Standardize the slug to be lowercase and hyphenated
+│   │   │   |     const slug = fileName
+│   │   │   |       .toLowerCase()
+│   │   │   |       .replace(/\s+/g, '-')      // Replace spaces with -
+│   │   │   |       .replace(/_/g, '-')        // Replace underscores with -
+│   │   │   |       .replace(/[^\w\-]+/g, '')  // Remove non-word characters
+│   │   │   |     
 │   │   │   |     return {
 │   │   │   |       metadata,
 │   │   │   |       slug,
@@ -2159,15 +2267,15 @@ app/
 
 │   │   ├── posts/
 │   │   │   ├── architecture-zero-cost.mdx
+│   │   │   ├── zero-dollar-website-for-artist.mdx
 │   │   │   ├── take-five-get-one.mdx
-│   │   │   ├── Zero-Dollar_Website_For_Artist.mdx
-│   │   │   ├── Arabic_Night.mdx
-│   │   │   ├── The_Indie_Blueprint.mdx
-│   │   │   ├── Egyptian_Dancers.mdx
+│   │   │   ├── egyptian-dancers.mdx
+│   │   │   ├── the-indie-blueprint.mdx
+│   │   │   ├── arabic-night.mdx
 │   │   │   ├── juanito-moving-to-us.mdx
-│   │   │   ├── Easy_Fellow.mdx
-│   │   │   ├── My-Funky-Jazzification.mdx
-│   │   │   ├── Funky-Jazz-Mood-Lifter.mdx
+│   │   │   ├── easy-fellow.mdx
+│   │   │   ├── my-funky-jazzification.mdx
+│   │   │   ├── funky-jazz-mood-lifter.mdx
 │   │   │   ├── pizzicata-blues.mdx
 │   │   ├── [slug]/
 │   │   │   ├── page.tsx
@@ -2684,11 +2792,7 @@ app/
 │   │   │   |       </div>
 │   │   │   | 
 │   │   │   |       {/* Add this at the bottom */}
-│   │   │   |      <PlaylistDiscovery 
-│   │   │   |        id={id} 
-│   │   │   |        name={playlist.name} 
-│   │   │   |        artists={artistNames} 
-│   │   │   |      />
+│   │   │   |     
 │   │   │   |     </div>
 │   │   │   |   );
 │   │   │   | }
@@ -3116,6 +3220,101 @@ app/
 │   │   │   | }
 │   │   │   | --- FILE CONTENT END ---
 
+│   │   ├── BpmDetective.tsx
+│   │   │   | --- FILE CONTENT START (BpmDetective.tsx) ---
+│   │   │   | // app/components/BpmDetective.tsx
+│   │   │   | 'use client'; // [cite: 214]
+│   │   │   | import { useState, useEffect, useRef } from 'react';
+│   │   │   | import { getBpmGameTrack } from '../actions';
+│   │   │   | import { FaPlay, FaSearch, FaTrophy } from 'react-icons/fa';
+│   │   │   | 
+│   │   │   | export function BpmDetective() {
+│   │   │   |   const [mounted, setMounted] = useState(false);
+│   │   │   |   const [track, setTrack] = useState<any>(null);
+│   │   │   |   const [guess, setGuess] = useState(120);
+│   │   │   |   const [gameState, setGameState] = useState<'idle' | 'playing' | 'result'>('idle');
+│   │   │   |   const [loading, setLoading] = useState(false);
+│   │   │   |   const audioRef = useRef<HTMLAudioElement | null>(null);
+│   │   │   | 
+│   │   │   |   useEffect(() => { setMounted(true); }, []); // [cite: 1957]
+│   │   │   | 
+│   │   │   |   if (!mounted) return null;
+│   │   │   | 
+│   │   │   |   const startNewGame = async () => {
+│   │   │   |     setLoading(true);
+│   │   │   |     setGameState('idle');
+│   │   │   |     const data = await getBpmGameTrack();
+│   │   │   |     if (data.error) {
+│   │   │   |       alert(data.error);
+│   │   │   |     } else {
+│   │   │   |       setTrack(data);
+│   │   │   |       setGameState('playing');
+│   │   │   |     }
+│   │   │   |     setLoading(false);
+│   │   │   |   };
+│   │   │   | 
+│   │   │   |   const checkGuess = () => {
+│   │   │   |     setGameState('result');
+│   │   │   |     if (audioRef.current) audioRef.current.pause();
+│   │   │   |   };
+│   │   │   | 
+│   │   │   |   const diff = track ? Math.abs(guess - track.bpm) : 0;
+│   │   │   |   const isCorrect = diff <= 5;
+│   │   │   | 
+│   │   │   |   return (
+│   │   │   |     <div className="p-8 bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-3xl shadow-lg">
+│   │   │   |       {gameState === 'idle' && (
+│   │   │   |         <div className="text-center py-10">
+│   │   │   |           <button 
+│   │   │   |             onClick={startNewGame}
+│   │   │   |             disabled={loading}
+│   │   │   |             className="px-10 py-4 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-700 transition-all active:scale-95 disabled:opacity-50"
+│   │   │   |           >
+│   │   │   |             {loading ? 'Analyzing Vibe...' : 'Start BPM Challenge'}
+│   │   │   |           </button>
+│   │   │   |         </div>
+│   │   │   |       )}
+│   │   │   | 
+│   │   │   |       {track && gameState !== 'idle' && (
+│   │   │   |         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+│   │   │   |           <div className="flex flex-col items-center">
+│   │   │   |             <img src={track.albumArt} alt="Album" className="w-48 h-48 rounded-xl shadow-2xl mb-4 object-cover" />
+│   │   │   |             <p className="font-bold text-lg">{track.name}</p>
+│   │   │   |             <p className="text-neutral-500 text-sm">{track.artist}</p>
+│   │   │   |           </div>
+│   │   │   | 
+│   │   │   |           <audio ref={audioRef} src={track.previewUrl} autoPlay loop />
+│   │   │   | 
+│   │   │   |           {gameState === 'playing' ? (
+│   │   │   |             <div className="space-y-6">
+│   │   │   |               <input 
+│   │   │   |                 type="range" min="60" max="180" value={guess} 
+│   │   │   |                 onChange={(e) => setGuess(parseInt(e.target.value))}
+│   │   │   |                 className="w-full h-3 bg-neutral-200 dark:bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-blue-600"
+│   │   │   |               />
+│   │   │   |               <div className="text-5xl font-mono font-bold text-center">{guess} <span className="text-sm">BPM</span></div>
+│   │   │   |               <button onClick={checkGuess} className="w-full py-4 bg-neutral-900 dark:bg-white text-white dark:text-black rounded-xl font-bold uppercase tracking-widest text-sm">
+│   │   │   |                 Submit Guess
+│   │   │   |               </button>
+│   │   │   |             </div>
+│   │   │   |           ) : (
+│   │   │   |             <div className="text-center space-y-4 pt-4 border-t border-neutral-200 dark:border-neutral-800">
+│   │   │   |               <div className={`text-4xl font-bold ${isCorrect ? 'text-green-500' : 'text-red-500'}`}>
+│   │   │   |                 {isCorrect ? '🎯 Bullseye!' : '📉 Off Beat'}
+│   │   │   |               </div>
+│   │   │   |               <p className="text-xl">Actual: <span className="font-mono font-bold">{track.bpm} BPM</span></p>
+│   │   │   |               <button onClick={startNewGame} className="mt-4 text-blue-500 font-bold hover:underline flex items-center gap-2 mx-auto">
+│   │   │   |                 <FaSearch /> Play Next Track
+│   │   │   |               </button>
+│   │   │   |             </div>
+│   │   │   |           )}
+│   │   │   |         </div>
+│   │   │   |       )}
+│   │   │   |     </div>
+│   │   │   |   );
+│   │   │   | }
+│   │   │   | --- FILE CONTENT END ---
+
 │   │   ├── album-cta.tsx
 │   │   │   | --- FILE CONTENT START (album-cta.tsx) ---
 │   │   │   | import Link from 'next/link';
@@ -3292,6 +3491,7 @@ app/
 │   │   │   | import { useState, useRef, useEffect } from 'react';
 │   │   │   | import Image from 'next/image';
 │   │   │   | import { getMysteryTrack } from '../actions';
+│   │   │   | import { FaXmark } from 'react-icons/fa6'; // Import the cancel icon
 │   │   │   | 
 │   │   │   | export function ReverseGame() {
 │   │   │   |   const [artistInput, setArtistInput] = useState('');
@@ -3299,38 +3499,39 @@ app/
 │   │   │   |   const [gameState, setGameState] = useState<'idle' | 'loading' | 'playing' | 'won' | 'lost' | 'timeout'>('idle');
 │   │   │   |   const [selectedOptionId, setSelectedOptionId] = useState<number | null>(null);
 │   │   │   |   const [error, setError] = useState('');
-│   │   │   |   
-│   │   │   |   // ⏱️ NEW: Timer State
-│   │   │   |   const [timeLeft, setTimeLeft] = useState(30);
+│   │   │   |   const [timeLeft, setTimeLeft] = useState(15);
 │   │   │   | 
-│   │   │   |   // Audio Refs
 │   │   │   |   const audioContextRef = useRef<AudioContext | null>(null);
 │   │   │   |   const sourceNodeRef = useRef<AudioBufferSourceNode | null>(null);
 │   │   │   |   const originalBufferRef = useRef<AudioBuffer | null>(null);
 │   │   │   |   const reversedBufferRef = useRef<AudioBuffer | null>(null);
 │   │   │   | 
 │   │   │   |   useEffect(() => {
-│   │   │   |     // @ts-ignore
-│   │   │   |     const AudioCtx = window.AudioContext || window.webkitAudioContext;
+│   │   │   |     const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
 │   │   │   |     audioContextRef.current = new AudioCtx();
 │   │   │   |     return () => { audioContextRef.current?.close(); };
 │   │   │   |   }, []);
 │   │   │   | 
-│   │   │   |   // ⏱️ NEW: Countdown Logic
 │   │   │   |   useEffect(() => {
 │   │   │   |     let timer: NodeJS.Timeout;
-│   │   │   |     
 │   │   │   |     if (gameState === 'playing' && timeLeft > 0) {
-│   │   │   |       timer = setInterval(() => {
-│   │   │   |         setTimeLeft((prev) => prev - 1);
-│   │   │   |       }, 1000);
+│   │   │   |       timer = setInterval(() => setTimeLeft((prev) => prev - 1), 1000);
 │   │   │   |     } else if (timeLeft === 0 && gameState === 'playing') {
 │   │   │   |       setGameState('timeout');
-│   │   │   |       playAudio('normal'); // Reveal song when time is up
+│   │   │   |       playAudio('normal');
 │   │   │   |     }
-│   │   │   | 
 │   │   │   |     return () => clearInterval(timer);
 │   │   │   |   }, [gameState, timeLeft]);
+│   │   │   | 
+│   │   │   |   // --- NEW: Reset/Cancel Function ---
+│   │   │   |   const resetGame = () => {
+│   │   │   |     stopAudio();
+│   │   │   |     setTrackData(null);
+│   │   │   |     setGameState('idle');
+│   │   │   |     setSelectedOptionId(null);
+│   │   │   |     setError('');
+│   │   │   |     setTimeLeft(15);
+│   │   │   |   };
 │   │   │   | 
 │   │   │   |   const handleSearch = async () => {
 │   │   │   |     setGameState('loading');
@@ -3340,7 +3541,6 @@ app/
 │   │   │   |     stopAudio();
 │   │   │   | 
 │   │   │   |     const data = await getMysteryTrack(artistInput);
-│   │   │   | 
 │   │   │   |     if (data.error) {
 │   │   │   |       setError(data.error);
 │   │   │   |       setGameState('idle');
@@ -3349,24 +3549,9 @@ app/
 │   │   │   | 
 │   │   │   |     setTrackData(data);
 │   │   │   |     await loadAndReverseAudio(data.previewUrl);
-│   │   │   |     
-│   │   │   |     // Start Game & Reset Timer
 │   │   │   |     setTimeLeft(15); 
 │   │   │   |     setGameState('playing');
 │   │   │   |     playAudio('reversed'); 
-│   │   │   |   };
-│   │   │   | 
-│   │   │   |   const handleGuess = (option: any) => {
-│   │   │   |     if (gameState !== 'playing') return;
-│   │   │   | 
-│   │   │   |     setSelectedOptionId(option.id);
-│   │   │   |     
-│   │   │   |     if (option.isCorrect) {
-│   │   │   |       setGameState('won');
-│   │   │   |       playAudio('normal'); 
-│   │   │   |     } else {
-│   │   │   |       setGameState('lost');
-│   │   │   |     }
 │   │   │   |   };
 │   │   │   | 
 │   │   │   |   const loadAndReverseAudio = async (url: string) => {
@@ -3374,14 +3559,12 @@ app/
 │   │   │   |       const response = await fetch(url);
 │   │   │   |       const arrayBuffer = await response.arrayBuffer();
 │   │   │   |       if (!audioContextRef.current) return;
-│   │   │   |       
 │   │   │   |       const audioBuffer = await audioContextRef.current.decodeAudioData(arrayBuffer);
 │   │   │   |       originalBufferRef.current = audioBuffer;
 │   │   │   | 
 │   │   │   |       const reversedBuffer = audioContextRef.current.createBuffer(
 │   │   │   |         audioBuffer.numberOfChannels, audioBuffer.length, audioBuffer.sampleRate
 │   │   │   |       );
-│   │   │   | 
 │   │   │   |       for (let i = 0; i < audioBuffer.numberOfChannels; i++) {
 │   │   │   |         const channelData = audioBuffer.getChannelData(i);
 │   │   │   |         const reversedData = reversedBuffer.getChannelData(i);
@@ -3391,14 +3574,13 @@ app/
 │   │   │   |       }
 │   │   │   |       reversedBufferRef.current = reversedBuffer;
 │   │   │   |     } catch (err) {
-│   │   │   |       console.error(err);
 │   │   │   |       setError("Could not process audio.");
 │   │   │   |     }
 │   │   │   |   };
 │   │   │   | 
 │   │   │   |   const playAudio = (type: 'reversed' | 'normal') => {
 │   │   │   |     stopAudio();
-│   │   │   |     if (!audioContextRef.current) return;
+│   │   │   |     if (!audioContextRef.current || !reversedBufferRef.current || !originalBufferRef.current) return;
 │   │   │   |     const source = audioContextRef.current.createBufferSource();
 │   │   │   |     source.buffer = type === 'reversed' ? reversedBufferRef.current : originalBufferRef.current;
 │   │   │   |     source.connect(audioContextRef.current.destination);
@@ -3408,12 +3590,39 @@ app/
 │   │   │   | 
 │   │   │   |   const stopAudio = () => {
 │   │   │   |     if (sourceNodeRef.current) {
-│   │   │   |       try { sourceNodeRef.current.stop(); } catch (e) {}
+│   │   │   |       try {
+│   │   │   |         sourceNodeRef.current.stop();
+│   │   │   |         sourceNodeRef.current.disconnect();
+│   │   │   |       } catch (e) {}
+│   │   │   |       sourceNodeRef.current = null;
+│   │   │   |     }
+│   │   │   |   };
+│   │   │   | 
+│   │   │   |   const handleGuess = (option: any) => {
+│   │   │   |     if (gameState !== 'playing') return;
+│   │   │   |     setSelectedOptionId(option.id);
+│   │   │   |     if (option.isCorrect) {
+│   │   │   |       setGameState('won');
+│   │   │   |       playAudio('normal'); 
+│   │   │   |     } else {
+│   │   │   |       setGameState('lost');
 │   │   │   |     }
 │   │   │   |   };
 │   │   │   | 
 │   │   │   |   return (
-│   │   │   |     <div className="max-w-xl mx-auto p-6 bg-neutral-900 text-white rounded-2xl shadow-2xl border border-neutral-800">
+│   │   │   |     <div className="relative max-w-xl mx-auto p-6 bg-neutral-900 text-white rounded-2xl shadow-2xl border border-neutral-800 overflow-hidden">
+│   │   │   |       
+│   │   │   |       {/* --- CANCEL BUTTON (UI) --- */}
+│   │   │   |       {gameState !== 'idle' && gameState !== 'loading' && (
+│   │   │   |         <button 
+│   │   │   |           onClick={resetGame}
+│   │   │   |           className="absolute top-4 right-4 p-2 rounded-full bg-neutral-800 hover:bg-red-900/40 text-neutral-400 hover:text-red-500 transition-all z-20"
+│   │   │   |           title="Cancel Game"
+│   │   │   |         >
+│   │   │   |           <FaXmark size={18} />
+│   │   │   |         </button>
+│   │   │   |       )}
+│   │   │   | 
 │   │   │   |       <div className="text-center mb-8">
 │   │   │   |         <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
 │   │   │   |           ⏪ Reverse Audio Challenge
@@ -3432,7 +3641,7 @@ app/
 │   │   │   |         <button 
 │   │   │   |           onClick={handleSearch}
 │   │   │   |           disabled={gameState === 'loading'}
-│   │   │   |           className="bg-purple-600 hover:bg-purple-700 font-bold px-6 py-2 rounded-lg"
+│   │   │   |           className="bg-purple-600 hover:bg-purple-700 font-bold px-6 py-2 rounded-lg transition-all active:scale-95 disabled:opacity-50"
 │   │   │   |         >
 │   │   │   |           {gameState === 'loading' ? '...' : 'Start'}
 │   │   │   |         </button>
@@ -3443,17 +3652,16 @@ app/
 │   │   │   |       {trackData && (
 │   │   │   |         <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
 │   │   │   |           
-│   │   │   |           {/* ⏱️ Timer UI */}
 │   │   │   |           {gameState === 'playing' && (
 │   │   │   |             <div className="mb-6">
 │   │   │   |               <div className="flex justify-between text-xs font-bold uppercase tracking-widest text-neutral-400 mb-2">
 │   │   │   |                  <span>Time Remaining</span>
-│   │   │   |                  <span className={timeLeft < 10 ? "text-red-500" : "text-white"}>{timeLeft}s</span>
+│   │   │   |                  <span className={timeLeft < 5 ? "text-red-500 animate-pulse" : "text-white"}>{timeLeft}s</span>
 │   │   │   |               </div>
 │   │   │   |               <div className="w-full h-2 bg-neutral-800 rounded-full overflow-hidden">
 │   │   │   |                 <div 
-│   │   │   |                   className={`h-full transition-all duration-1000 ease-linear ${timeLeft < 10 ? 'bg-red-500' : 'bg-green-500'}`}
-│   │   │   |                   style={{ width: `${(timeLeft / 30) * 100}%` }}
+│   │   │   |                   className={`h-full transition-all duration-1000 ease-linear ${timeLeft < 5 ? 'bg-red-500' : 'bg-purple-500'}`}
+│   │   │   |                   style={{ width: `${(timeLeft / 15) * 100}%` }}
 │   │   │   |                 />
 │   │   │   |               </div>
 │   │   │   |             </div>
@@ -3461,7 +3669,7 @@ app/
 │   │   │   | 
 │   │   │   |           <div className="flex justify-center mb-6">
 │   │   │   |             <div 
-│   │   │   |               className="relative w-40 h-40 bg-black rounded-xl border border-neutral-700 overflow-hidden cursor-pointer hover:border-purple-500 transition-colors"
+│   │   │   |               className="relative w-40 h-40 bg-black rounded-xl border border-neutral-700 overflow-hidden cursor-pointer hover:border-purple-500 transition-colors group"
 │   │   │   |               onClick={() => playAudio('reversed')}
 │   │   │   |             >
 │   │   │   |               {['won', 'lost', 'timeout'].includes(gameState) ? (
@@ -3469,32 +3677,25 @@ app/
 │   │   │   |               ) : (
 │   │   │   |                  <div className="flex items-center justify-center h-full text-4xl">❓</div>
 │   │   │   |               )}
-│   │   │   |                {/* Play Overlay */}
 │   │   │   |                {!['won', 'lost', 'timeout'].includes(gameState) && (
-│   │   │   |                  <div className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-transparent transition-colors">
-│   │   │   |                    <span className="text-2xl drop-shadow-md">🔊</span>
+│   │   │   |                  <div className="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/10 transition-colors">
+│   │   │   |                    <span className="text-2xl">🔊</span>
 │   │   │   |                  </div>
 │   │   │   |                )}
 │   │   │   |             </div>
 │   │   │   |           </div>
 │   │   │   | 
-│   │   │   |           <div className="text-center mb-6">
-│   │   │   |              <button onClick={() => playAudio('reversed')} className="text-sm text-neutral-400 hover:text-white underline">
-│   │   │   |                Replay Reversed Audio
-│   │   │   |              </button>
-│   │   │   |           </div>
-│   │   │   | 
 │   │   │   |           <div className="grid grid-cols-1 gap-3">
 │   │   │   |             {trackData.options.map((option: any) => {
-│   │   │   |               let btnClass = "p-4 rounded-xl font-semibold transition-all border border-neutral-700 bg-neutral-800 hover:bg-neutral-700";
+│   │   │   |               let btnClass = "p-4 rounded-xl font-semibold transition-all border border-neutral-700 bg-neutral-800 hover:bg-neutral-700 text-left px-6";
 │   │   │   |               
 │   │   │   |               if (['won', 'lost', 'timeout'].includes(gameState)) {
 │   │   │   |                 if (option.isCorrect) {
-│   │   │   |                   btnClass = "p-4 rounded-xl font-bold bg-green-600 border-green-500 text-white shadow-[0_0_15px_rgba(34,197,94,0.5)]";
+│   │   │   |                   btnClass = "p-4 rounded-xl font-bold bg-green-600/20 border-green-500 text-green-400 px-6";
 │   │   │   |                 } else if (selectedOptionId === option.id) {
-│   │   │   |                   btnClass = "p-4 rounded-xl bg-red-900/50 border-red-800 text-red-200 opacity-50";
+│   │   │   |                   btnClass = "p-4 rounded-xl bg-red-900/20 border-red-800 text-red-400 opacity-50 px-6";
 │   │   │   |                 } else {
-│   │   │   |                   btnClass = "p-4 rounded-xl bg-neutral-900 border-neutral-800 text-neutral-600 opacity-50";
+│   │   │   |                   btnClass = "p-4 rounded-xl bg-neutral-900 border-neutral-800 text-neutral-600 opacity-30 px-6";
 │   │   │   |                 }
 │   │   │   |               }
 │   │   │   | 
@@ -3511,26 +3712,15 @@ app/
 │   │   │   |             })}
 │   │   │   |           </div>
 │   │   │   | 
-│   │   │   |           {gameState === 'won' && (
-│   │   │   |             <div className="mt-6 text-center animate-in zoom-in">
-│   │   │   |               <h3 className="text-2xl font-bold text-green-400 mb-2">🎉 Correct!</h3>
-│   │   │   |               <p className="text-neutral-400 text-sm">Now playing original track...</p>
-│   │   │   |             </div>
-│   │   │   |           )}
-│   │   │   |           
-│   │   │   |           {(gameState === 'lost' || gameState === 'timeout') && (
-│   │   │   |              <div className="mt-6 text-center">
-│   │   │   |                <h3 className="text-xl font-bold text-red-400 mb-2">
-│   │   │   |                  {gameState === 'timeout' ? "⏰ Time's Up!" : "❌ Wrong!"}
-│   │   │   |                </h3>
-│   │   │   |                <p className="text-neutral-400 text-sm mb-4">It was <strong>{trackData.trackName}</strong></p>
+│   │   │   |           {(gameState === 'won' || gameState === 'lost' || gameState === 'timeout') && (
+│   │   │   |             <div className="mt-8 pt-6 border-t border-neutral-800 text-center animate-in slide-in-from-top-2">
 │   │   │   |                <button 
 │   │   │   |                  onClick={handleSearch} 
-│   │   │   |                  className="text-sm bg-neutral-800 px-4 py-2 rounded-full hover:bg-neutral-700 border border-neutral-700"
+│   │   │   |                  className="bg-white text-black font-bold px-8 py-3 rounded-full hover:bg-neutral-200 transition-colors"
 │   │   │   |                >
-│   │   │   |                  Try Another Song
+│   │   │   |                  Play Next Round
 │   │   │   |                </button>
-│   │   │   |              </div>
+│   │   │   |             </div>
 │   │   │   |           )}
 │   │   │   |         </div>
 │   │   │   |       )}
@@ -3991,6 +4181,131 @@ app/
 │   │   │   |           )}
 │   │   │   |       </div>
 │   │   │   |    )
+│   │   │   | }
+│   │   │   | --- FILE CONTENT END ---
+
+│   │   ├── YoutubeBpmGame.tsx
+│   │   │   | --- FILE CONTENT START (YoutubeBpmGame.tsx) ---
+│   │   │   | 'use client';
+│   │   │   | import { useState } from 'react';
+│   │   │   | import { getYoutubeGameTrack } from '../actions';
+│   │   │   | import { FaCheck, FaRotateRight, FaXmark } from 'react-icons/fa6'; // Using FaXmark for the cancel icon
+│   │   │   | 
+│   │   │   | export function YoutubeBpmGame() {
+│   │   │   |   const [video, setVideo] = useState<any>(null);
+│   │   │   |   const [loading, setLoading] = useState(false);
+│   │   │   |   const [guess, setGuess] = useState(120);
+│   │   │   |   const [gameState, setGameState] = useState<'idle' | 'playing' | 'result'>('idle');
+│   │   │   |   const [targetBpm, setTargetBpm] = useState(0);
+│   │   │   | 
+│   │   │   |   const startNext = async () => {
+│   │   │   |     setLoading(true);
+│   │   │   |     setGameState('idle');
+│   │   │   |     const data = await getYoutubeGameTrack();
+│   │   │   |     if (data) {
+│   │   │   |       setVideo(data);
+│   │   │   |       // Pseudo-random BPM for demo; in production, this should come from your database
+│   │   │   |       setTargetBpm(Math.floor(Math.random() * (160 - 70 + 1)) + 70); 
+│   │   │   |       setGameState('playing');
+│   │   │   |     }
+│   │   │   |     setLoading(false);
+│   │   │   |   };
+│   │   │   | 
+│   │   │   |   // --- NEW: Stop Music / Cancel Function ---
+│   │   │   |   const stopGame = () => {
+│   │   │   |     setVideo(null);
+│   │   │   |     setGameState('idle');
+│   │   │   |     setGuess(120);
+│   │   │   |   };
+│   │   │   | 
+│   │   │   |   const handleSubmit = () => {
+│   │   │   |     setGameState('result');
+│   │   │   |   };
+│   │   │   | 
+│   │   │   |   const diff = Math.abs(guess - targetBpm);
+│   │   │   |   const isClose = diff <= 5;
+│   │   │   | 
+│   │   │   |   return (
+│   │   │   |     <div className="relative p-8 border border-neutral-200 dark:border-neutral-800 rounded-3xl bg-white dark:bg-black text-black dark:text-white text-center shadow-xl overflow-hidden">
+│   │   │   |       
+│   │   │   |       {/* --- CANCEL ICON (Only shows when music/video is active) --- */}
+│   │   │   |       {video && (
+│   │   │   |         <button 
+│   │   │   |           onClick={stopGame}
+│   │   │   |           className="absolute top-4 right-4 p-2 rounded-full bg-neutral-100 dark:bg-neutral-900 hover:bg-red-100 dark:hover:bg-red-900/30 text-neutral-500 hover:text-red-600 transition-colors z-10"
+│   │   │   |           title="Stop Music"
+│   │   │   |         >
+│   │   │   |           <FaXmark size={20} />
+│   │   │   |         </button>
+│   │   │   |       )}
+│   │   │   | 
+│   │   │   |       {gameState === 'idle' && (
+│   │   │   |         <div className="py-10">
+│   │   │   |           <button 
+│   │   │   |             onClick={startNext} 
+│   │   │   |             disabled={loading}
+│   │   │   |             className="bg-red-600 hover:bg-red-700 text-white px-10 py-4 rounded-2xl font-bold transition-all active:scale-95 disabled:opacity-50"
+│   │   │   |           >
+│   │   │   |             {loading ? "Initializing..." : "Start YouTube BPM Challenge 📺"}
+│   │   │   |           </button>
+│   │   │   |         </div>
+│   │   │   |       )}
+│   │   │   | 
+│   │   │   |       {video && gameState !== 'idle' && (
+│   │   │   |         <div className="space-y-6 animate-in fade-in zoom-in duration-300">
+│   │   │   |           <div className="aspect-video w-full rounded-2xl overflow-hidden shadow-2xl border border-neutral-800 bg-neutral-900">
+│   │   │   |             {/* The iframe automatically stops when the "video" state is set to null */}
+│   │   │   |             <iframe
+│   │   │   |               width="100%"
+│   │   │   |               height="100%"
+│   │   │   |               src={`https://www.youtube.com/embed/${video.videoId}?autoplay=1&controls=0&modestbranding=1`}
+│   │   │   |               allow="autoplay"
+│   │   │   |               className="pointer-events-none"
+│   │   │   |             />
+│   │   │   |           </div>
+│   │   │   |           
+│   │   │   |           <h3 className="text-lg font-medium text-neutral-500 pr-8">{video.title}</h3>
+│   │   │   |           
+│   │   │   |           {gameState === 'playing' ? (
+│   │   │   |             <div className="bg-neutral-50 dark:bg-neutral-900 p-6 rounded-2xl border border-neutral-100 dark:border-neutral-800">
+│   │   │   |               <div className="flex justify-between text-xs font-bold text-neutral-400 mb-2">
+│   │   │   |                 <span>60 BPM</span>
+│   │   │   |                 <span>180 BPM</span>
+│   │   │   |               </div>
+│   │   │   |               <input 
+│   │   │   |                 type="range" min="60" max="180" value={guess} 
+│   │   │   |                 onChange={(e) => setGuess(parseInt(e.target.value))}
+│   │   │   |                 className="w-full h-3 bg-neutral-200 dark:bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-red-600 mb-4" 
+│   │   │   |               />
+│   │   │   |               <p className="text-6xl font-black font-mono text-red-600 mb-6">{guess}</p>
+│   │   │   | 
+│   │   │   |               <button 
+│   │   │   |                 onClick={handleSubmit}
+│   │   │   |                 className="w-full bg-black dark:bg-white text-white dark:text-black py-4 rounded-xl font-bold flex items-center justify-center gap-2"
+│   │   │   |               >
+│   │   │   |                 <FaCheck /> Submit Guess
+│   │   │   |               </button>
+│   │   │   |             </div>
+│   │   │   |           ) : (
+│   │   │   |             <div className="py-6 space-y-4">
+│   │   │   |               <div className={`text-5xl font-black ${isClose ? 'text-green-500' : 'text-red-500'}`}>
+│   │   │   |                 {isClose ? 'PERFECT!' : 'NOT QUITE'}
+│   │   │   |               </div>
+│   │   │   |               <p className="text-xl">
+│   │   │   |                 Actual: <span className="font-bold">{targetBpm} BPM</span>
+│   │   │   |               </p>
+│   │   │   |               <button 
+│   │   │   |                 onClick={startNext} 
+│   │   │   |                 className="flex items-center gap-2 mx-auto text-blue-500 font-bold hover:underline pt-4"
+│   │   │   |               >
+│   │   │   |                 <FaRotateRight /> Play Another Track
+│   │   │   |               </button>
+│   │   │   |             </div>
+│   │   │   |           )}
+│   │   │   |         </div>
+│   │   │   |       )}
+│   │   │   |     </div>
+│   │   │   |   );
 │   │   │   | }
 │   │   │   | --- FILE CONTENT END ---
 

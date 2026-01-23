@@ -79,11 +79,7 @@ export async function PlaylistStats({ id }: { id: string }) {
       </div>
 
       {/* Add this at the bottom */}
-     <PlaylistDiscovery 
-       id={id} 
-       name={playlist.name} 
-       artists={artistNames} 
-     />
+    
     </div>
   );
 }

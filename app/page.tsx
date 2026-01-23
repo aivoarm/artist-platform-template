@@ -163,7 +163,7 @@ export default function Page() {
 
       <div className="mb-8">
         <PlaylistStats id="0kQ3ZMgLoc9UoFtJz96qYa" />
-        <PlaylistUrlInput />
+       
       </div>
                
       <hr className="my-16 border-neutral-200 dark:border-neutral-800" />

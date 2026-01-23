@@ -61,11 +61,12 @@ export async function generateMetadata({
   }
 }
 
-export default async function Blog({ params }: { params: { slug: string } }) {
-  const post = getBlogPosts().find((post) => post.slug === params.slug)
+export default async function Blog(props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params; // ⬅️ Await the promise here
+  const post = getBlogPosts().find((post) => post.slug === params.slug);
 
   if (!post) {
-    notFound()
+    notFound();
   }
 
   const { title, publishedAt, headerImage, summary } = post.metadata;
