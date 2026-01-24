@@ -19,9 +19,7 @@ export function ClientContentWrapper({
   <Providers> 
       <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
         {/* 3. Passed the lang prop to Navbar and Footer */}
-        <Navbar lang={lang} />
         {children}
-        <Footer lang={lang} />
         <Analytics />
         <SpeedInsights />
       </main>
