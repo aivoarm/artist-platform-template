@@ -289,3 +289,34 @@ export async function getYoutubeGameTrack() {
     return { error: "Failed to fetch YouTube track" };
   }
 }
+
+///Harmony game 
+
+// app/actions.ts
+export async function getMusicalJazzTrack() {
+  const API_KEY = process.env.YOUTUBE_API_KEY;
+  // Refined query for purely musical content
+  const query = "Classic Jazz Standard Instrumental Official Audio";
+
+  try {
+    const res = await fetch(
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&type=video&videoEmbeddable=true&maxResults=15&key=${API_KEY}`
+    );
+    const data = await res.json();
+    
+    // Filter out titles that might contain "tutorial" or "lesson"
+    const musicVideos = data.items.filter((v: any) => 
+      !v.snippet.title.toLowerCase().includes('lesson') && 
+      !v.snippet.title.toLowerCase().includes('tutorial')
+    );
+
+    const randomVideo = musicVideos[Math.floor(Math.random() * musicVideos.length)];
+    
+    return {
+      title: randomVideo.snippet.title,
+      videoId: randomVideo.id.videoId,
+    };
+  } catch (e) {
+    return { error: "Failed to fetch music" };
+  }
+}

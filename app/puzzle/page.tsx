@@ -3,6 +3,7 @@ import { MusicPuzzle } from 'app/components/MusicPuzzle'; // [cite: 830]
 import { ReverseGame } from 'app/components/ReverseGame'; // [cite: 831]
 import Link from 'next/link'; // [cite: 832]
 import { YoutubeBpmGame } from 'app/components/YoutubeBpmGame';
+import { KeyGame } from 'app/components/KeyGame.tsx';
 
 export const metadata = {
   title: 'Music Arcade | Arman Ayva', // [cite: 834]
@@ -110,6 +111,24 @@ export default function PuzzlePage() {
         </header>
         
         <YoutubeBpmGame />
+      
+      </div>
+
+{/* PHASE 04: KEY DETECTIVE */}
+      <div className="rounded-3xl p-6 md:p-10 bg-neutral-50 dark:bg-neutral-900/50 border border-neutral-200 dark:border-neutral-800 shadow-sm">
+        <header className="prose prose-neutral dark:prose-invert max-w-none mb-12 text-center md:text-left">
+          <span className="inline-block px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-widest mb-4">
+            Phase 04
+          </span>
+          <h2 className="font-bold text-5xl md:text-7xl font-serif mb-6 tracking-tighter text-neutral-900 dark:text-neutral-50">
+            Harmonic Balance 🎼
+          </h2>
+          <p className="text-xl text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl">
+            Test your pitch perfect ears. Can you determine the key of the song just by listening to the melody?
+          </p>
+        </header>
+        
+        <KeyGame />
       </div>
 
            {/* Footer CTA */}
