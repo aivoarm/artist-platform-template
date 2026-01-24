@@ -1,0 +1,30 @@
+{
+  "hero": {
+    "name": "Arman Ayva",
+    "subtitle": "Innovative Jazz-Fusion from Montreal."
+  },
+  "intro": {
+    "text": "Welcome to Arman's Musical Journey! I'm an innovative artist and composer based in Montreal...",
+    "influences": "My music is a fusion of diverse influences, inspired by luminaries like Marcus Miller..."
+  },
+  "puzzle": {
+    "badge": "New Interactive Experience",
+    "title": "The Musical Puzzle",
+    "description": "I built a custom tool that turns any YouTube video into a musical jigsaw. Can you reassemble your favorite tracks by ear?",
+    "button": "Start Playing"
+  },
+  "latest_single": { "label": "Latest Single" },
+  "videos": { "title": "Arman Ayva – Video Library", "description": "Explore my discography..." },
+  "playlist": { "title": "Funky Jazz Mood Lifter Playlist", "link_text": "Funky-Jazz-Mood-Lifter" },
+  "reviews": { "title": "🎷 Industry Feedback & Reviews" },
+  "general": { "view_all": "View All Music & Stories", "other_stories": "All Other Stories" },
+  "nav": {
+    "home": "Home",
+    "blog": "Music & Blog",
+    "radio": "Radio",
+    "videos": "Videos",
+    "about": "About",
+    "puzzle": "Music Puzzle",
+    "contact": "Contact"
+  }
+}

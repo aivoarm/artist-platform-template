@@ -3,7 +3,7 @@ import { MusicPuzzle } from 'app/components/MusicPuzzle'; // [cite: 830]
 import { ReverseGame } from 'app/components/ReverseGame'; // [cite: 831]
 import Link from 'next/link'; // [cite: 832]
 import { YoutubeBpmGame } from 'app/components/YoutubeBpmGame';
-import { KeyGame } from 'app/components/KeyGame.tsx';
+import { KeyGame } from 'app/components/KeyGame';
 
 export const metadata = {
   title: 'Music Arcade | Arman Ayva', // [cite: 834]
@@ -69,7 +69,7 @@ export default function PuzzlePage() {
         </header>
 
         <div className="mt-12">
-          <MusicPuzzle />
+          <MusicPuzzle lang='en'/>
         </div>
       </div>
 
@@ -89,7 +89,7 @@ export default function PuzzlePage() {
         </header>
         
         <div className="mt-8">
-          <ReverseGame />
+          <ReverseGame lang='en'/>
         </div>
       </div>
 
@@ -110,7 +110,7 @@ export default function PuzzlePage() {
           </p>
         </header>
         
-        <YoutubeBpmGame />
+        <YoutubeBpmGame lang='en'/>
       
       </div>
 
@@ -128,7 +128,7 @@ export default function PuzzlePage() {
           </p>
         </header>
         
-        <KeyGame />
+        <KeyGame lang='en'/>
       </div>
 
            {/* Footer CTA */}

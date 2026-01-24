@@ -1,19 +1,16 @@
+//'use client';
 
+import React from 'react';
 import Link from 'next/link';
-// Assuming BlogPosts is located in app/components/
-import { BlogPosts } from './components/posts'; 
-import { SubscribeCTA } from './components/subscribe-cta';
-import { AlbumCTA } from './components/album-cta';
-import { NewReleasesSpotlight } from './components/new-releases-spotlight';
 import Image from 'next/image';
+import { BlogPosts } from 'app/components/posts'; 
+import { SubscribeCTA } from 'app/components/subscribe-cta';
+import { NewReleasesSpotlight } from 'app/components/new-releases-spotlight';
+import { PlaylistStats } from 'app/components/PlaylistStats';
+import { FaYoutube, FaPlay } from 'react-icons/fa';
 
-import { PlaylistStats } from 'app/components/PlaylistStats'
-import PlaylistUrlInput from 'app/components/PlaylistUrlInput' 
-import { MusicPuzzle } from 'app/components/MusicPuzzle'; 
-import { FaYoutube, FaPlay } from 'react-icons/fa'; // Added for the new CTA
-
-// NEW COMPONENT: PuzzleCTA
-function PuzzleCTA() {
+// UPDATED: PuzzleCTA now accepts lang to maintain localization
+function PuzzleCTA({ lang }: { lang: string }) {
   return (
     <div className="max-w-4xl mx-auto my-16 p-1 bg-gradient-to-r from-red-500 via-blue-500 to-purple-600 rounded-3xl shadow-2xl transition-transform hover:scale-[1.01]">
       <div className="bg-white dark:bg-neutral-900 rounded-[calc(1.5rem-1px)] p-8 sm:p-12 flex flex-col md:flex-row items-center gap-8">
@@ -31,7 +28,7 @@ function PuzzleCTA() {
             Can you reassemble your favorite tracks by ear?
           </p>
           <Link 
-            href="/puzzle" 
+            href={`/${lang}/puzzle`} 
             className="inline-flex items-center gap-3 px-8 py-4 bg-red-600 text-white rounded-xl font-bold hover:bg-red-700 transition-all shadow-xl active:translate-y-1"
           >
             <FaPlay size={14} /> Start Playing
@@ -51,18 +48,20 @@ function PuzzleCTA() {
   );
 }
 
-const HERO_IMAGE_URL = 'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.20/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center: ,w_0.2,y_0.3/v1570237649/17160429878_68460aeb25_o-1_udg7bx.jpg'
+const HERO_IMAGE_URL = 'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/v1570237649/17160429878_68460aeb25_o-1_udg7bx.jpg'
 
 const videoEmbeds = [
     {
       title: "Arman Ayva – Video Library",
       description: "Explore my discography, stay updated on releases, and find streaming or purchasing options.",
       embedId: "videoseries?list=PLdh9NdS_IkkUwmhmrqNy0oQTtjxr683kC", 
-      isPlaylist: true,
     }
 ]
 
-export default function Page() {
+// FIX: Added params as a Promise for Next.js 15 compatibility
+export default async function Page({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
+
   return (
     <section>
       <div className="relative hero-container overflow-hidden rounded-2xl mb-8">
@@ -99,13 +98,13 @@ export default function Page() {
       </div>
 
       <div className="prose prose-neutral dark:prose-invert">
-        <div className="grid grid-cols-1 md:grid-cols-1 gap-8">
+        <div className="grid grid-cols-1 gap-8">
           {videoEmbeds.map((video) => (
             <div key={video.embedId} className="space-y-3">
               <h2 className="font-bold text-xl tracking-tight">{video.title}</h2>
-              <div className="aspect-w-16 aspect-h-15 w-full max-w-2xl mx-auto rounded-xl overflow-hidden shadow-2xl">
+              <div className="aspect-w-16 aspect-h-9 w-full max-w-2xl mx-auto rounded-xl overflow-hidden shadow-2xl">
                 <iframe
-                  className="w-full h-full"
+                  className="w-full h-full min-h-[350px]"
                   src={`https://www.youtube.com/embed/${video.embedId}`}
                   title={`YouTube video player for ${video.title}`}
                   frameBorder="0"
@@ -125,21 +124,15 @@ export default function Page() {
           brimming with authenticity, telling stories and radiating positivity.
         </p>
 
-      
-
-        {/* INTERACTIVE PUZZLE SECTION */}
         <hr className="my-16 border-neutral-200 dark:border-neutral-800" />
-        <PuzzleCTA />
-       {/*  <section id="puzzle">
-          <MusicPuzzle />
-        </section> */}
+        <PuzzleCTA lang={lang} />
 
         <h2 className="font-bold text-2xl font-serif mt-12 mb-6 tracking-tighter">
           Funky Jazz Mood Lifter Playlist
         </h2>
         
         <Link 
-          href="/blog/Funky-Jazz-Mood-Lifter" 
+          href={`/${lang}/blog/Funky-Jazz-Mood-Lifter`} 
           className="text-sm font-semibold mt-6 inline-block text-neutral-400 dark:text-neutral-50 hover:text-blue-500 transition-colors "
         >
           Funky-Jazz-Mood-Lifter →
@@ -163,19 +156,11 @@ export default function Page() {
 
       <div className="mb-8">
         <PlaylistStats id="0kQ3ZMgLoc9UoFtJz96qYa" />
-       
       </div>
                
       <hr className="my-16 border-neutral-200 dark:border-neutral-800" />
       
       <NewReleasesSpotlight />
-      
-      <Link 
-        href="/blog" 
-        className="text-sm font-semibold mt-6 inline-block text-neutral-900 dark:text-neutral-100 hover:text-blue-500 transition-colors "
-      >
-        View All Music & Stories →
-      </Link>
       
       <hr className="my-16 border-neutral-200 dark:border-neutral-800" />
       
@@ -186,10 +171,11 @@ export default function Page() {
       <h2 className="font-bold text-2xl font-serif mb-6 tracking-tighter text-neutral-400 ">
         All Other Stories
       </h2>
-      <BlogPosts lang='en' />
+      {/* FIX: Passed lang to BlogPosts */}
+      <BlogPosts lang={lang} />
       
       <Link 
-        href="/blog" 
+        href={`/${lang}/blog`} 
         className="text-sm font-semibold mt-6 inline-block text-neutral-400 dark:text-neutral-50 hover:text-blue-500 transition-colors"
       >
         View All Music & Stories →
@@ -215,60 +201,48 @@ export default function Page() {
         </article>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Radio Derbi Web */}
           <div className="p-5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-50 dark:bg-neutral-900/50">
             <h4 className="font-bold text-lg mb-1">Radio Derbi Web</h4>
             <p className="text-sm italic text-neutral-600 dark:text-neutral-400">
               "A work that proves more complex than it might appear at first listen..."
             </p>
           </div>
-
-    {/* Rádio Armazém */}
-    <div className="p-5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-50 dark:bg-neutral-900/50">
-      <h4 className="font-bold text-lg mb-1">Rádio Armazém</h4>
-      <p className="text-sm italic text-neutral-600 dark:text-neutral-400">
-        "What I liked most is precisely this authenticity... the music sounds free, natural and without ready-made formulas."
-      </p>
-    </div>
-
-    {/* Jazz in Family */}
-    <div className="p-5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-50 dark:bg-neutral-900/50">
-      <h4 className="font-bold text-lg mb-1">Jazz in Family</h4>
-      <p className="text-sm italic text-neutral-600 dark:text-neutral-400">
-        "We find both tracks truly interesting and enjoyable. It’s clear that you have a substantial volume of musical productions, which is one of your strengths."
-      </p>
-    </div>
-
-    {/* Cabre Music */}
-    <div className="p-5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-50 dark:bg-neutral-900/50">
-      <h4 className="font-bold text-lg mb-1">Cabre Music</h4>
-      <p className="text-sm italic text-neutral-600 dark:text-neutral-400">
-        "Flows with an uplifting energy and a refreshing arrangement... The sound design is vibrant and dynamic."
-      </p>
-    </div>
-
-    {/* HailTunes */}
-    <div className="p-5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-50 dark:bg-neutral-900/50">
-      <h4 className="font-bold text-lg mb-1">HailTunes</h4>
-      <p className="text-sm italic text-neutral-600 dark:text-neutral-400">
-        "From start to finish, this is a journey. You’ve found your sound, and it works."
-      </p>
-    </div>
-
-    {/* Planet Network */}
-    <div className="p-5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-50 dark:bg-neutral-900/50 flex flex-col justify-between">
-      <div>
-        <h4 className="font-bold text-lg mb-1">Planet Network</h4>
-        <p className="text-sm italic text-neutral-600 dark:text-neutral-400">
-          "On aime beaucoup, pouvez-vous nous envoyer par mail le morceau en format mp3 pour le diffuser dans notre programmation?"
-        </p>
-      </div>
-      <span className="text-[10px] mt-4 uppercase tracking-widest text-blue-500 font-bold">Radio Airplay</span>
-    </div>
+          <div className="p-5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-50 dark:bg-neutral-900/50">
+            <h4 className="font-bold text-lg mb-1">Rádio Armazém</h4>
+            <p className="text-sm italic text-neutral-600 dark:text-neutral-400">
+              "What I liked most is precisely this authenticity... the music sounds free, natural and without ready-made formulas."
+            </p>
+          </div>
+          <div className="p-5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-50 dark:bg-neutral-900/50">
+            <h4 className="font-bold text-lg mb-1">Jazz in Family</h4>
+            <p className="text-sm italic text-neutral-600 dark:text-neutral-400">
+              "We find both tracks truly interesting and enjoyable. It’s clear that you have a substantial volume of musical productions."
+            </p>
+          </div>
+          <div className="p-5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-50 dark:bg-neutral-900/50">
+            <h4 className="font-bold text-lg mb-1">Cabre Music</h4>
+            <p className="text-sm italic text-neutral-600 dark:text-neutral-400">
+              "Flows with an uplifting energy and a refreshing arrangement... The sound design is vibrant and dynamic."
+            </p>
+          </div>
+          <div className="p-5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-50 dark:bg-neutral-900/50">
+            <h4 className="font-bold text-lg mb-1">HailTunes</h4>
+            <p className="text-sm italic text-neutral-600 dark:text-neutral-400">
+              "From start to finish, this is a journey. You’ve found your sound, and it works."
+            </p>
+          </div>
+          <div className="p-5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-50 dark:bg-neutral-900/50 flex flex-col justify-between">
+            <div>
+              <h4 className="font-bold text-lg mb-1">Planet Network</h4>
+              <p className="text-sm italic text-neutral-600 dark:text-neutral-400">
+                "On aime beaucoup, pouvez-vous nous envoyer par mail le morceau en format mp3?"
+              </p>
+            </div>
+            <span className="text-[10px] mt-4 uppercase tracking-widest text-blue-500 font-bold">Radio Airplay</span>
+          </div>
         </div>
 
-
-  <h2 className="font-bold text-2xl font-serif mt-12 mb-6 tracking-tighter">
+        <h2 className="font-bold text-2xl font-serif mt-12 mb-6 tracking-tighter">
           Featured Album: My Funky Jazzification
         </h2>
     
@@ -282,7 +256,7 @@ export default function Page() {
         </div>
 
         <div className="mt-12 text-center">
-          <Link href="/contact" className="text-sm font-semibold text-neutral-500 hover:text-blue-500 transition-colors">
+          <Link href={`/${lang}/contact`} className="text-sm font-semibold text-neutral-500 hover:text-blue-500 transition-colors">
             For press inquiries or reviews, please get in touch →
           </Link>
         </div>

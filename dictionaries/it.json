@@ -1,0 +1,33 @@
+{
+  "nav": {
+    "home": "Home",
+    "blog": "Musica & Blog",
+    "radio": "Radio",
+    "videos": "Video",
+    "about": "Chi Sono",
+    "puzzle": "Puzzle Musicale",
+    "contact": "Contatti"
+  },
+  "hero": {
+    "name": "Arman Ayva",
+    "subtitle": "Jazz-Fusion innovativo da Montreal."
+  },
+  "intro": {
+    "text": "Benvenuti nel viaggio musicale di Arman! Sono un artista e compositore innovativo con base a Montreal, alla ricerca di nuove frontiere nei generi jazz-folk, jazz-funk, ambient, elettronico e sperimentale.",
+    "influences": "La mia musica è una fusione di diverse influenze, ispirata da luminari come Marcus Miller, US3 e Dave Brubeck."
+  },
+  "puzzle": {
+    "badge": "Nuova Esperienza Interattiva",
+    "title": "Il Puzzle Musicale",
+    "description": "Ho creato uno strumento personalizzato che trasforma ogni video di YouTube in un puzzle musicale. Riuscirai a riassemblare i tuoi brani preferiti a orecchio?",
+    "button": "Inizia a Giocare"
+  },
+  "latest_single": { "label": "Ultimo Singolo" },
+  "videos": { 
+    "title": "Arman Ayva – Videoteca", 
+    "description": "Esplora la mia discografia, rimani aggiornato sulle uscite e scopri le opzioni di streaming." 
+  },
+  "playlist": { "title": "Playlist Funky Jazz per il buonumore", "link_text": "Visualizza Playlist" },
+  "reviews": { "title": "🎷 Feedback e recensioni del settore" },
+  "general": { "view_all": "Vedi tutta la musica e le storie", "other_stories": "Altre storie" }
+}

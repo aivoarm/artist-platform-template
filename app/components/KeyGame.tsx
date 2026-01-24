@@ -12,7 +12,13 @@ const KEY_MAP: Record<string, string> = {
   '8S5S5A7K_y8': 'G Major',
 };
 
-export function KeyGame() {
+// 1. Define the interface for the component props
+interface KeyGameProps {
+  lang: string;
+}
+
+// 2. Update the function signature to accept { lang }
+export function KeyGame({ lang }: KeyGameProps) {
   const [video, setVideo] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -23,31 +29,27 @@ export function KeyGame() {
   const [score, setScore] = useState(0);
   const [streak, setStreak] = useState(0);
 
-  // Core function to load and start music
   const fetchAndPlay = async () => {
     setLoading(true);
     setGuess(null);
     setIsCorrect(null);
     
-    // 1. Reset playing state to force a fresh iframe load
     setIsPlaying(false); 
     
+    // You can optionally pass 'lang' to getMusicalJazzTrack if needed for localized results
     const data = await getMusicalJazzTrack();
     if (data && !data.error) {
       setVideo(data);
       const key = KEY_MAP[data.videoId] || KEYS[Math.floor(Math.random() * KEYS.length)];
       setActualKey(key);
       
-      // 2. Automatically start playback
       setIsPlaying(true); 
     }
     setLoading(false);
   };
 
-  // Optional: Load first track on component mount
   useEffect(() => {
-    // Note: Most browsers require one initial click on the page 
-    // before autoplay works, so the very first load might need a "Start" click.
+    // Note: Autoplay often requires a user gesture first.
   }, []);
 
   const handleGuess = (selectedKey: string) => {
@@ -118,7 +120,6 @@ export function KeyGame() {
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {/* ... Key buttons remain the same ... */}
             {KEYS.map((key) => {
               const isUserChoice = guess === key;
               const isTheCorrectAnswer = actualKey === key && guess !== null;

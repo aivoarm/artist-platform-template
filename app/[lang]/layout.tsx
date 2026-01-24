@@ -1,99 +1,49 @@
-import './global.css'
+import '../global.css'
 import type { Metadata } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
-import { Navbar } from './components/nav'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
-import { Footer } from './components/footer'
-import { baseUrl } from './sitemap'
-import { Providers } from './Providers'; 
+import { Footer } from '../components/footer' 
+import { baseUrl } from '../sitemap' 
+import { Providers } from '../Providers'; 
 import { GoogleAnalytics } from '@next/third-parties/google'
 import Script from 'next/script'; 
-import { DelayedSubscribePopup } from './components/DelayedSubscribePopup'; 
+import { DelayedSubscribePopup } from '../components/DelayedSubscribePopup'; 
 import { GoogleTagManager } from '@next/third-parties/google'
 
-// --- ENVIRONMENT VARIABLES / CONSTANTS ---
-const fullImageUrl = new URL('/og?title=Arman+Ayva+Music', baseUrl).toString();
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || ''
 const YOUR_APP_ID = process.env.YOUR_FACEBOOK_APP_ID; 
 const TIKTOK_PIXEL_ID = process.env.NEXT_PUBLIC_TIKTOK_ID || 'YOUR_TIKTOK_PIXEL_ID'; 
 
-// --- METADATA EXPORT ---
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
     default: 'Arman Ayva Personal Website',
     template: '%s | Arman Ayva', 
   },
-  icons: {
-    icon: '/favicon.ico', 
-    shortcut: '/shortcut-icon.png', 
-    apple: '/apple-icon.png', 
-  },
   description: 'Arman Ayva | Montreal Jazz Composer Blending Armenian Folk & Funk',
-  keywords: [
-    'Arman Ayva',
-    'Montreal Jazz Composer',
-    'Jazz Funk Pioneer',
-    'Armenian Jazz Innovator',
-    'Fusion Artist',
-    'Progressive Jazz',
-    'Instrumental Music for TV',
-    'Criminal Case N68',
-    'Happy Bundle',
-    'Jazz Music Sync Licensing',
-  ],
-  openGraph: {
-    title: 'My Musical Journey, Jazz is everywhere | Arman Ayva',
-    description: 'Explore the music of Arman Ayva, a Montreal-based composer blending Armenian folk, progressive jazz, and funky beats. New releases include Criminal Case N68 and Happy Bundle. Available for sync licensing.',
-    url: baseUrl,
-    siteName: 'Arman Ayva Personal Website',
-    locale: 'en_US',
-    type: 'website',
-    images: [
-      {
-        url: fullImageUrl,
-        width: 1200, 
-        height: 630, 
-        alt: 'Arman Ayva Jazz Portfolio',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image', 
-    site: '@armanayva',   
-    creator: '@armanayva',
-    title: 'Arman Ayva | Mood-lifter behind the music',
-    description: 'Jazz, funk, folk fan. Composer, artist, and mood-lifter.',
-    images: {
-        url: fullImageUrl, 
-        alt: 'Arman Ayva Music Portfolio',
-    },
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
 }
 
 const cx = (...classes: any[]) => classes.filter(Boolean).join(' ')
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
+  params,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
+  params: Promise<{ lang: string }>; // Correct for Next.js 15
 }) {
+  // Await params to get the language string
+  const { lang } = await params;
+
+  // Determine text direction
+  const isRTL = lang === 'ar';
+
   return (
     <html
-      lang="en"
+      lang={lang}
+      dir={isRTL ? 'rtl' : 'ltr'}
       className={cx(
         'text-black dark:bg-black dark:text-white', 
         GeistSans.variable,
@@ -110,20 +60,16 @@ export default function RootLayout({
       >
         <Providers> 
           <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
-            {/* FIX: Added lang prop to satisfy TypeScript requirement */}
-            <Navbar lang="en" />
-            
             {children}
-            
-            {/* FIX: Added lang prop to satisfy TypeScript requirement */}
-            <Footer lang="en" />
-            
+            {/* This will now pass the build because the Footer is typed */}
+            <Footer lang={lang} />
             <Analytics />
-            <SpeedInsights />
+            <SpeedInsights /> 
           </main>
         </Providers>
 
         <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
+        <GoogleTagManager gtmId='GTM-TKFS52TF' />
 
         {TIKTOK_PIXEL_ID && TIKTOK_PIXEL_ID !== 'YOUR_TIKTOK_PIXEL_ID' && (
           <>
@@ -146,11 +92,7 @@ export default function RootLayout({
             />
           </>
         )}
-        
-        {/* FIX: Added lang prop here too, as it likely needs it for the popup text */}
-        <DelayedSubscribePopup lang="en" />
-
-        <GoogleTagManager gtmId='GTM-TKFS52TF' />
+        <DelayedSubscribePopup lang='en' />
       </body>
     </html>
   );

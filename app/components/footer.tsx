@@ -1,8 +1,14 @@
 import Link from 'next/link';
-import { FaSpotify, FaInstagram, FaFacebook, FaYoutube, FaTiktok } from 'react-icons/fa';
+import { FaSpotify, FaInstagram, FaYoutube, FaTiktok } from 'react-icons/fa';
 import { SiLinktree, SiX } from 'react-icons/si';
 
-export function Footer() {
+// 1. Define the TypeScript interface for props
+interface FooterProps {
+  lang: string;
+}
+
+// 2. Accept the lang prop in the component
+export function Footer({ lang }: FooterProps) {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -14,9 +20,10 @@ export function Footer() {
           <div>
             <h3 className="text-md font-bold mb-3 tracking-tight text-neutral-700 dark:text-neutral-100">Music</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/blog" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">All Releases</Link></li>
-              <li><Link href="/videos" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">Videos (YouTube)</Link></li>
-              <li><Link href="/radio" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">Detached Radio</Link></li>
+              {/* Updated internal links to include /{lang} */}
+              <li><Link href={`/${lang}/blog`} className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">All Releases</Link></li>
+              <li><Link href={`/${lang}/videos`} className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">Videos (YouTube)</Link></li>
+              <li><Link href={`/${lang}/radio`} className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">Detached Radio</Link></li>
               <li><Link href="https://armanayva.bandcamp.com/" target="_blank" rel="noopener noreferrer" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">Bandcamp</Link></li>
             </ul>
           </div>
@@ -25,10 +32,10 @@ export function Footer() {
           <div>
             <h3 className="text-md font-bold mb-3 tracking-tight text-neutral-700 dark:text-neutral-100">Info</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/about" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">About Arman</Link></li>
-              <li><Link href="/contact" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">Contact</Link></li>
-              <li><Link href="/other/subscribe" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">Subscribe</Link></li>
-              <li><Link href="/music-production-disclaimer" className="text-neutral-600 dark:text-neutral-400 hover:text-red-500 transition-colors">Production Disclaimer</Link></li> 
+              <li><Link href={`/${lang}/about`} className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">About Arman</Link></li>
+              <li><Link href={`/${lang}/contact`} className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">Contact</Link></li>
+              <li><Link href={`/${lang}/other/subscribe`} className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">Subscribe</Link></li>
+              <li><Link href={`/${lang}/music-production-disclaimer`} className="text-neutral-600 dark:text-neutral-400 hover:text-red-500 transition-colors">Production Disclaimer</Link></li> 
             </ul>
           </div>
           
@@ -38,89 +45,82 @@ export function Footer() {
              <p className="text-sm text-neutral-600 dark:text-neutral-400">
                 Follow Arman Ayva for the latest news on jazz-funk releases, collaborations, and cinematic soundscapes.
              </p>
-             <div className="mt-4 space-x-4 text-neutral-600 dark:text-neutral-400">
-                {/* Placeholder for actual social media icons */}
-              {/* Replace the static <span> tags with this code block */}
-                  <div className="flex space-x-4"> {/* Assuming this is the surrounding div from your footer */}
-    
-    {/* Spotify */}
-    <a 
-        href="https://open.spotify.com/artist/1DukxxMpzFcNZx5iIJiSK4" 
-        target="_blank" 
-        rel="noopener noreferrer" 
-        className="text-2xl text-neutral-600 hover:text-blue-500 dark:text-neutral-400 dark:hover:text-blue-500 transition-colors"
-        aria-label="Spotify"
-    >
-        <FaSpotify />
-    </a>
-    
-    {/* YouTube */}
-    <a 
-        href="https://www.youtube.com/@armanayva" 
-        target="_blank" 
-        rel="noopener noreferrer" 
-        className="text-2xl text-neutral-600 hover:text-red-600 dark:text-neutral-400 dark:hover:text-red-600 transition-colors"
-        aria-label="YouTube"
-    >
-        <FaYoutube />
-    </a>
-    
-    {/* Instagram */}
-    <a 
-        href="https://www.instagram.com/armanayva/" 
-        target="_blank" 
-        rel="noopener noreferrer" 
-        className="text-2xl text-neutral-600 hover:text-pink-600 dark:text-neutral-400 dark:hover:text-pink-600 transition-colors"
-        aria-label="Instagram"
-    >
-        <FaInstagram />
-    </a>
-    
-    {/* TikTok */}
-    {/* Note: Corrected the malformed URL based on the TikTok handle you provided */}
-    <a 
-        href="https://www.tiktok.com/@armanayva" 
-        target="_blank" 
-        rel="noopener noreferrer" 
-        className="text-2xl text-neutral-600 hover:text-black dark:text-neutral-400 dark:hover:text-white transition-colors"
-        aria-label="TikTok"
-    >
-        <FaTiktok />
-    </a>
+             <div className="mt-4 flex flex-wrap gap-4 items-center">
+                {/* Spotify */}
+                <a 
+                    href="https://open.spotify.com/artist/1DukxxMpzFcNZx5iIJiSK4" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-2xl text-neutral-600 hover:text-blue-500 dark:text-neutral-400 dark:hover:text-blue-500 transition-colors"
+                    aria-label="Spotify"
+                >
+                    <FaSpotify />
+                </a>
+                
+                {/* YouTube */}
+                <a 
+                    href="https://www.youtube.com/@armanayva" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-2xl text-neutral-600 hover:text-red-600 dark:text-neutral-400 dark:hover:text-red-600 transition-colors"
+                    aria-label="YouTube"
+                >
+                    <FaYoutube />
+                </a>
+                
+                {/* Instagram */}
+                <a 
+                    href="https://www.instagram.com/armanayva/" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-2xl text-neutral-600 hover:text-pink-600 dark:text-neutral-400 dark:hover:text-pink-600 transition-colors"
+                    aria-label="Instagram"
+                >
+                    <FaInstagram />
+                </a>
+                
+                {/* TikTok */}
+                <a 
+                    href="https://www.tiktok.com/@armanayva" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-2xl text-neutral-600 hover:text-black dark:text-neutral-400 dark:hover:text-white transition-colors"
+                    aria-label="TikTok"
+                >
+                    <FaTiktok />
+                </a>
 
-    {/* X (formerly Twitter) */}
-    <a 
-        href="https://x.com/ArmanAyva" 
-        target="_blank" 
-        rel="noopener noreferrer" 
-        className="text-2xl text-neutral-600 hover:text-black dark:text-neutral-400 dark:hover:text-white transition-colors"
-        aria-label="X (Twitter)"
-    >
-        <SiX />
-    </a>
-    
-    {/* Linktree */}
-    <a 
-        href="https://linktr.ee/armanayva" 
-        target="_blank" 
-        rel="noopener noreferrer" 
-        className="text-2xl text-neutral-600 hover:text-green-500 dark:text-neutral-400 dark:hover:text-green-500 transition-colors"
-        aria-label="Linktree"
-    >
-        <SiLinktree />
-    </a>
+                {/* X (formerly Twitter) */}
+                <a 
+                    href="https://x.com/ArmanAyva" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-2xl text-neutral-600 hover:text-black dark:text-neutral-400 dark:hover:text-white transition-colors"
+                    aria-label="X (Twitter)"
+                >
+                    <SiX />
+                </a>
+                
+                {/* Linktree */}
+                <a 
+                    href="https://linktr.ee/armanayva" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-2xl text-neutral-600 hover:text-green-500 dark:text-neutral-400 dark:hover:text-green-500 transition-colors"
+                    aria-label="Linktree"
+                >
+                    <SiLinktree />
+                </a>
 
-    {/* ⬅️ NEW OLD SITE LINK ⬅️ */}
-    <a 
-        href="https://sites.google.com/view/armanayva/home" 
-        target="_blank" 
-        rel="noopener noreferrer" 
-        className="text-sm font-bold ml-4 py-1 px-2 border border-neutral-600 rounded hover:bg-neutral-100 dark:border-neutral-400 dark:hover:bg-neutral-800 transition-colors"
-    >
-        Old Site
-    </a>
-
-</div>
+                {/* Old Site Link */}
+                <a 
+                    href="https://sites.google.com/view/armanayva/home" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-xs font-bold py-1 px-2 border border-neutral-600 rounded hover:bg-neutral-100 dark:border-neutral-400 dark:hover:bg-neutral-800 transition-colors"
+                >
+                    Old Site
+                </a>
              </div>
           </div>
         </div>
