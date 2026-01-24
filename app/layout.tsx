@@ -116,7 +116,6 @@ export default function RootLayout({
             {children}
             
             {/* FIX: Added lang prop to satisfy TypeScript requirement */}
-            <Footer lang="en" />
             
             <Analytics />
             <SpeedInsights />
