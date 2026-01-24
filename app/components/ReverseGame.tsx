@@ -5,7 +5,13 @@ import Image from 'next/image';
 import { getMysteryTrack } from '../actions';
 import { FaXmark } from 'react-icons/fa6'; // Import the cancel icon
 
-export function ReverseGame() {
+// 1. Define the interface for the component props
+interface ReverseGameProps {
+  lang: string;
+}
+
+// 2. Update the function signature to accept { lang }
+export function ReverseGame({ lang }: ReverseGameProps) {
   const [artistInput, setArtistInput] = useState('');
   const [trackData, setTrackData] = useState<any>(null);
   const [gameState, setGameState] = useState<'idle' | 'loading' | 'playing' | 'won' | 'lost' | 'timeout'>('idle');
@@ -35,7 +41,6 @@ export function ReverseGame() {
     return () => clearInterval(timer);
   }, [gameState, timeLeft]);
 
-  // --- NEW: Reset/Cancel Function ---
   const resetGame = () => {
     stopAudio();
     setTrackData(null);
@@ -52,6 +57,7 @@ export function ReverseGame() {
     setSelectedOptionId(null);
     stopAudio();
 
+    // 3. Passing the artist input to the mystery track action
     const data = await getMysteryTrack(artistInput);
     if (data.error) {
       setError(data.error);
@@ -124,7 +130,6 @@ export function ReverseGame() {
   return (
     <div className="relative max-w-xl mx-auto p-6 bg-neutral-900 text-white rounded-2xl shadow-2xl border border-neutral-800 overflow-hidden">
       
-      {/* --- CANCEL BUTTON (UI) --- */}
       {gameState !== 'idle' && gameState !== 'loading' && (
         <button 
           onClick={resetGame}
@@ -141,21 +146,21 @@ export function ReverseGame() {
         </h2>
       </div>
 
-      <div className="flex gap-2 mb-8">
+      <div className="flex flex-col gap-4 mb-8">
         <input 
           type="text"
           value={artistInput}
           onChange={(e) => setArtistInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
           placeholder="e.g. Nirvana..."
-          className="flex-1 bg-black/50 border border-neutral-700 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500"
+          className="w-full bg-black/50 border border-neutral-700 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500"
         />
         <button 
           onClick={handleSearch}
           disabled={gameState === 'loading'}
-          className="bg-purple-600 hover:bg-purple-700 font-bold px-6 py-2 rounded-lg transition-all active:scale-95 disabled:opacity-50"
+          className="w-full bg-purple-600 hover:bg-purple-700 font-bold px-6 py-3 rounded-lg transition-all active:scale-95 disabled:opacity-50"
         >
-          {gameState === 'loading' ? '...' : 'Start'}
+          {gameState === 'loading' ? 'Searching...' : 'Start Challenge'}
         </button>
       </div>
 

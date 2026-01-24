@@ -1,9 +1,16 @@
 'use client';
+
 import { useState } from 'react';
 import { getYoutubeGameTrack } from '../actions';
 import { FaCheck, FaRotateRight, FaXmark } from 'react-icons/fa6'; // Using FaXmark for the cancel icon
 
-export function YoutubeBpmGame() {
+// 1. Define the interface for the component props
+interface YoutubeBpmGameProps {
+  lang: string;
+}
+
+// 2. Update the function signature to accept { lang }
+export function YoutubeBpmGame({ lang }: YoutubeBpmGameProps) {
   const [video, setVideo] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [guess, setGuess] = useState(120);
@@ -13,6 +20,7 @@ export function YoutubeBpmGame() {
   const startNext = async () => {
     setLoading(true);
     setGameState('idle');
+    // You can optionally pass 'lang' to your action if you want localized tracks
     const data = await getYoutubeGameTrack();
     if (data) {
       setVideo(data);
@@ -23,7 +31,7 @@ export function YoutubeBpmGame() {
     setLoading(false);
   };
 
-  // --- NEW: Stop Music / Cancel Function ---
+  // --- Reset/Cancel Function ---
   const stopGame = () => {
     setVideo(null);
     setGameState('idle');
@@ -66,7 +74,6 @@ export function YoutubeBpmGame() {
       {video && gameState !== 'idle' && (
         <div className="space-y-6 animate-in fade-in zoom-in duration-300">
           <div className="aspect-video w-full rounded-2xl overflow-hidden shadow-2xl border border-neutral-800 bg-neutral-900">
-            {/* The iframe automatically stops when the "video" state is set to null */}
             <iframe
               width="100%"
               height="100%"

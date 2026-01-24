@@ -20,7 +20,13 @@ interface PuzzlePiece {
   localAudioUrl?: string;
 }
 
-export function MusicPuzzle() {
+// 1. Define the interface for the component props
+interface MusicPuzzleProps {
+  lang: string;
+}
+
+// 2. Update the function signature to accept { lang }
+export function MusicPuzzle({ lang }: MusicPuzzleProps) {
   const [sourceMode, setSourceMode] = useState<'offline' | 'youtube' | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -33,18 +39,20 @@ export function MusicPuzzle() {
   const [isBuffering, setIsBuffering] = useState(false); 
   const [seconds, setSeconds] = useState(0);
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
+  
+  const [highlightedIdx, setHighlightedIdx] = useState<number | null>(null); 
+  
   const [isPlayerReady, setIsPlayerReady] = useState(false);
   const [bestTime, setBestTime] = useState<number | null>(null);
   const [listenedPieces, setListenedPieces] = useState<Set<number>>(new Set());
   const [warning, setWarning] = useState<string | null>(null);
 
-  // REFS for Logic & Quota Protection
   const ytPlayerRef = useRef<any>(null);
   const localAudioRef = useRef<HTMLAudioElement | null>(null); 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const ytTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const searchCache = useRef<Record<string, any[]>>({}); // Quota Protection: Cache
-  const lastSearchTime = useRef<number>(0); // Quota Protection: Debounce
+  const searchCache = useRef<Record<string, any[]>>({});
+  const lastSearchTime = useRef<number>(0);
 
   useEffect(() => {
     const savedBest = localStorage.getItem('puzzle_best_time');
@@ -81,34 +89,26 @@ export function MusicPuzzle() {
     } else { initYT(); }
   }, []);
 
-  // Optimized Search with Quota Protection
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     const query = searchQuery.trim().toLowerCase();
     if (!query) return;
-
-    // 1. Debounce: Prevent multi-clicks within 1.5s
     const now = Date.now();
     if (now - lastSearchTime.current < 1500) return;
     lastSearchTime.current = now;
-
-    // 2. Cache: Check if we searched this already
     if (searchCache.current[query]) {
       setSearchResults(searchCache.current[query]);
       setHasSearched(true);
       return;
     }
-
     setIsSearching(true);
     setHasSearched(false);
     try {
-      const res = await fetch(`/api/youtube/search?q=${encodeURIComponent(query)}`);
+      // 3. Optional: Pass lang to the API if your backend supports localized search
+      const res = await fetch(`/api/youtube/search?q=${encodeURIComponent(query)}&lang=${lang}`);
       const data = await res.json();
       const results = Array.isArray(data) ? data : [];
-      
-      // Save to cache
       searchCache.current[query] = results;
-      
       setSearchResults(results);
       setHasSearched(true);
     } catch (err) {
@@ -124,12 +124,10 @@ export function MusicPuzzle() {
     setSearchQuery('');
     setSourceMode('youtube');
     setTrackInfo({ name: video.name, artist: video.artist, image: video.image, url: `https://www.youtube.com/watch?v=${video.id}` });
-    
     if (ytPlayerRef.current && typeof ytPlayerRef.current.loadVideoById === 'function') {
       ytPlayerRef.current.loadVideoById(video.id);
       ytPlayerRef.current.pauseVideo();
     }
-
     const initial = CORRECT_ORDER.map(id => ({ id }));
     shuffleAndStart(initial);
   };
@@ -150,6 +148,7 @@ export function MusicPuzzle() {
     setIsSolved(false);
     setSeconds(0);
     setSelectedIdx(null);
+    setHighlightedIdx(null); 
     setListenedPieces(new Set()); 
     setWarning(null);
     const shuffled = [...basePieces].sort(() => Math.random() - 0.5);
@@ -178,16 +177,13 @@ export function MusicPuzzle() {
   const playSegment = (piece: PuzzlePiece) => {
     setListenedPieces(prev => new Set(prev).add(piece.id));
     setWarning(null); 
-
     if (playingId === piece.id) { stopAudio(); return; }
     stopAudio();
-
     if (sourceMode === 'youtube' && ytPlayerRef.current && typeof ytPlayerRef.current.seekTo === 'function') {
       const startTime = piece.id * SEGMENT_DURATION;
       ytPlayerRef.current.seekTo(startTime, true);
       ytPlayerRef.current.playVideo();
       setPlayingId(piece.id);
-      
       ytTimeoutRef.current = setTimeout(() => {
         if (ytPlayerRef.current && typeof ytPlayerRef.current.pauseVideo === 'function') {
           ytPlayerRef.current.pauseVideo();
@@ -209,7 +205,7 @@ export function MusicPuzzle() {
 
     if (selectedIdx === null) {
       if (!listenedPieces.has(pieceId)) {
-        setWarning("Dont cheat, play first! 🎷");
+        setWarning("Don't cheat, play first! 🎷");
         setTimeout(() => setWarning(null), 2000);
         return;
       }
@@ -223,6 +219,10 @@ export function MusicPuzzle() {
       updated[index] = temp;
       setPieces(updated);
       setSelectedIdx(null);
+      
+      setHighlightedIdx(index); 
+      setTimeout(() => setHighlightedIdx(null), 800); 
+
       if (JSON.stringify(updated.map(p => p.id)) === JSON.stringify(CORRECT_ORDER)) {
         setIsSolved(true);
         if (timerRef.current) clearInterval(timerRef.current);
@@ -325,6 +325,7 @@ export function MusicPuzzle() {
             {pieces.map((piece, index) => {
               const isCorrect = piece.id === index;
               const isSelected = selectedIdx === index;
+              const isHighlighted = highlightedIdx === index; 
               const hasListened = listenedPieces.has(piece.id);
               const isCurrentlyBuffering = playingId === piece.id && isBuffering;
 
@@ -334,6 +335,7 @@ export function MusicPuzzle() {
                   onClick={() => handlePieceClick(index)} 
                   className={`relative p-3 sm:p-5 border-2 rounded-xl transition-all duration-300 flex flex-col items-center gap-3 cursor-pointer ${
                     isSelected ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 scale-95 shadow-inner' : 
+                    isHighlighted ? 'border-yellow-400 bg-yellow-50 dark:bg-yellow-900/40 scale-105 z-20 ring-4 ring-yellow-400/20' : 
                     isCorrect ? 'border-green-500 bg-green-50/50 dark:bg-green-900/20' : 
                     'bg-white dark:bg-black border-dashed border-neutral-300 dark:border-neutral-700'
                   } ${!hasListened && !isSolved ? 'opacity-70 grayscale-[0.5]' : ''}`}
@@ -346,9 +348,10 @@ export function MusicPuzzle() {
 
                   <div className="w-full flex flex-col items-center">
                     {isSelected ? <FaExchangeAlt className="text-blue-500 mb-2 animate-pulse" /> : 
+                     isHighlighted ? <span className="text-2xl mb-1 animate-bounce">🎯</span> : 
                      <span className="text-2xl mb-1">{isCorrect ? '✅' : hasListened ? '🧩' : '❓'}</span>}
                     <span className="text-[9px] font-bold uppercase tracking-widest text-neutral-400">
-                      {isCorrect ? `Part ${piece.id + 1}` : hasListened ? `Piece ${index + 1}` : 'Play to Unlock'}
+                      {isHighlighted ? 'Landed!' : isCorrect ? `Part ${piece.id + 1}` : hasListened ? `Piece ${index + 1}` : 'Play to Unlock'}
                     </span>
                   </div>
                   <button 

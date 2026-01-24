@@ -11,7 +11,8 @@ export default function Page() {
       <h1 className="font-semibold text-2xl mb-8 tracking-tighter text-neutral-400 dark:text-neutral-50">
         My Blog
       </h1>
-      <BlogPosts />
+      {/* Passing "en" satisfies the TypeScript requirement and fetches English posts */}
+      <BlogPosts lang="en" />
     </section>
   )
 }
