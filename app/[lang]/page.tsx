@@ -58,7 +58,15 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
         <p>{dict.intro.text}</p>
         <div className="bg-neutral-100 dark:bg-neutral-900 p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 mb-8">
           <p className="text-xs font-bold uppercase tracking-widest mb-2 text-blue-500">{dict.latest_single.label}</p>
+
+          <iframe style={{ border: 0, width: '100%', height: '120px' }} src="https://bandcamp.com/EmbeddedPlayer/track=941990581/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless title="Silk Road by Arman Ayva" />
+        
+        </div>
+
+        <div className="bg-neutral-100 dark:bg-neutral-900 p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 mb-8">
           <iframe style={{ border: 0, width: '100%', height: '120px' }} src="https://bandcamp.com/EmbeddedPlayer/track=2408269376/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless title="Girl From Italy" />
+
+        
         </div>
       </div>
 
