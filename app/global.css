@@ -191,3 +191,15 @@ html {
 .review-card {
   @apply transition-transform duration-300 hover:-translate-y-1;
 }
+
+/* Specifically targets the puzzle container */
+.puzzle-grid-container {
+  overflow: hidden;
+  max-width: 100vw;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Stops the iPhone from "wiggling" when tapping fast */
+* {
+  -webkit-tap-highlight-color: transparent;
+}

@@ -12,7 +12,6 @@ export const dynamic = 'force-dynamic';
 
 /**
  * Game Demo Tracks 
- * Moved to the Page level to centralize content management
  */
 const DEMO_VIDEO = {
   id: '-DHuW1h1wHw',
@@ -100,66 +99,68 @@ export default async function PuzzlePage({ params }: { params: Promise<{ lang: s
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 pb-20">
+    <div className="max-w-7xl mx-auto px-4 pb-20 overflow-x-hidden">
       {/* NAVIGATION BACK */}
-      <div className="py-8">
+      <div className="py-6 sm:py-8">
         <Link 
           href={`/${lang}`} 
-          className="text-sm font-bold uppercase tracking-widest text-neutral-500 hover:text-blue-500 transition-colors"
+          className="text-xs sm:text-sm font-bold uppercase tracking-widest text-neutral-500 hover:text-blue-500 transition-colors"
         >
           ← {dict.common?.backToHome || 'Back to Home'}
         </Link>
       </div>
 
       {/* ARCADE HEADER & MANUAL */}
-      <header className="mb-24 text-center">
-        <h1 className="text-6xl md:text-8xl font-serif font-bold tracking-tighter mb-6 bg-clip-text text-transparent bg-gradient-to-b from-neutral-900 to-neutral-500 dark:from-neutral-50 dark:to-neutral-500">
+      <header className="mb-16 sm:mb-24 text-center">
+        <h1 className="text-5xl md:text-8xl font-serif font-bold tracking-tighter mb-4 sm:mb-6 bg-clip-text text-transparent bg-gradient-to-b from-neutral-900 to-neutral-500 dark:from-neutral-50 dark:to-neutral-500">
           {dict.puzzle.title}
         </h1>
-        <p className="text-xl text-neutral-500 max-w-2xl mx-auto mb-12">
+        <p className="text-lg sm:text-xl text-neutral-500 max-w-2xl mx-auto mb-10 sm:mb-16 px-2">
           {dict.puzzle.description}
         </p>
 
-        {/* MAIN HOW-TO VIDEO HERO */}
-        <div className="max-w-4xl mx-auto mb-20 rounded-[40px] overflow-hidden shadow-2xl border-8 border-white dark:border-neutral-800 bg-black aspect-video relative">
-          <iframe
-            width="100%"
-            height="100%"
-            src="https://www.youtube.com/embed/LemCmwSZS-I?rel=0&modestbranding=1"
-            title="Musical Puzzle Tutorial"
-            allowFullScreen
-            className="absolute inset-0"
-          />
+        {/* MAIN HOW-TO VIDEO HERO - Optimized for Mobile Viewports */}
+        <div className="w-full max-w-4xl mx-auto mb-12 sm:mb-20 px-1">
+          <div className="relative aspect-video rounded-2xl sm:rounded-[40px] overflow-hidden shadow-2xl border-2 sm:border-8 border-white dark:border-neutral-800 bg-black">
+            <iframe
+              width="100%"
+              height="100%"
+              src="https://www.youtube.com/embed/LemCmwSZS-I?rel=0&modestbranding=1"
+              title="Musical Puzzle Tutorial"
+              allowFullScreen
+              className="absolute inset-0 w-full h-full"
+            />
+          </div>
         </div>
 
-        {/* HOW TO PLAY CARDS */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          <div className="p-8 bg-white dark:bg-neutral-900 rounded-[32px] border border-neutral-200 dark:border-neutral-800 shadow-sm">
-            <div className="w-14 h-14 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-inner">
-              <FaPlay />
+        {/* HOW TO PLAY CARDS - Responsive Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
+          <div className="p-6 sm:p-8 bg-white dark:bg-neutral-900 rounded-2xl sm:rounded-[32px] border border-neutral-200 dark:border-neutral-800 shadow-sm">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-inner">
+              <FaPlay size={16} className="sm:size-auto" />
             </div>
-            <h3 className="font-bold text-lg mb-2">{dict.puzzle.step1Title || "1. Pick & Listen"}</h3>
-            <p className="text-sm text-neutral-500 leading-relaxed">
+            <h3 className="font-bold text-base sm:text-lg mb-2">{dict.puzzle.step1Title || "1. Pick & Listen"}</h3>
+            <p className="text-xs sm:text-sm text-neutral-500 leading-relaxed">
               Choose a demo track or search any YouTube video. Listen to the segments to identify the rhythm.
             </p>
           </div>
 
-          <div className="p-8 bg-white dark:bg-neutral-900 rounded-[32px] border border-neutral-200 dark:border-neutral-800 shadow-sm">
-            <div className="w-14 h-14 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-inner">
-              <FaLayerGroup />
+          <div className="p-6 sm:p-8 bg-white dark:bg-neutral-900 rounded-2xl sm:rounded-[32px] border border-neutral-200 dark:border-neutral-800 shadow-sm">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-inner">
+              <FaLayerGroup size={16} className="sm:size-auto" />
             </div>
-            <h3 className="font-bold text-lg mb-2">{dict.puzzle.step2Title || "2. Reassemble"}</h3>
-            <p className="text-sm text-neutral-500 leading-relaxed">
+            <h3 className="font-bold text-base sm:text-lg mb-2">{dict.puzzle.step2Title || "2. Reassemble"}</h3>
+            <p className="text-xs sm:text-sm text-neutral-500 leading-relaxed">
               Drag and drop (or click to swap) the scrambled pieces. Match the original sequence by ear.
             </p>
           </div>
 
-          <div className="p-8 bg-white dark:bg-neutral-900 rounded-[32px] border border-neutral-200 dark:border-neutral-800 shadow-sm">
-            <div className="w-14 h-14 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-inner">
-              <FaUnlockAlt />
+          <div className="p-6 sm:p-8 bg-white dark:bg-neutral-900 rounded-2xl sm:rounded-[32px] border border-neutral-200 dark:border-neutral-800 shadow-sm">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-inner">
+              <FaUnlockAlt size={16} className="sm:size-auto" />
             </div>
-            <h3 className="font-bold text-lg mb-2">{dict.puzzle.step3Title || "3. Level Up"}</h3>
-            <p className="text-sm text-neutral-500 leading-relaxed">
+            <h3 className="font-bold text-base sm:text-lg mb-2">{dict.puzzle.step3Title || "3. Level Up"}</h3>
+            <p className="text-xs sm:text-sm text-neutral-500 leading-relaxed">
               Solve the current puzzle to unlock the next level in the Arcade and earn your spot on the leaderboard.
             </p>
           </div>
