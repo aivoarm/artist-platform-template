@@ -3,13 +3,10 @@ import Link from 'next/link';
 // Assuming BlogPosts is located in app/components/
 import { BlogPosts } from './components/posts'; 
 import { SubscribeCTA } from './components/subscribe-cta';
-import { AlbumCTA } from './components/album-cta';
 import { NewReleasesSpotlight } from './components/new-releases-spotlight';
 import Image from 'next/image';
 
 import { PlaylistStats } from 'app/components/PlaylistStats'
-import PlaylistUrlInput from 'app/components/PlaylistUrlInput' 
-import { MusicPuzzle } from 'app/components/MusicPuzzle'; 
 import { FaYoutube, FaPlay } from 'react-icons/fa'; // Added for the new CTA
 
 // NEW COMPONENT: PuzzleCTA

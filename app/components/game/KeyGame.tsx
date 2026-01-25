@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getMusicalJazzTrack } from '../actions';
+import { getMusicalJazzTrack } from '../../actions';
 import { FaRotateRight, FaPlay, FaStop, FaYoutube, FaMusic, FaTrophy, FaFire, FaCircleInfo } from 'react-icons/fa6';
 
 const KEYS = ['C Major', 'G Major', 'F Major', 'D Minor', 'A Minor', 'Bb Major'];

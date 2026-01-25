@@ -1,8 +1,8 @@
-import { MusicPuzzle } from 'app/components/MusicPuzzle';
-import { ReverseGame } from 'app/components/ReverseGame';
+import { MusicPuzzle } from 'app/components/game/MusicPuzzle';
+import { ReverseGame } from 'app/components/game/ReverseGame';
 import Link from 'next/link';
-import { YoutubeBpmGame } from 'app/components/YoutubeBpmGame';
-import { KeyGame } from 'app/components/KeyGame'; 
+import { YoutubeBpmGame } from 'app/components/game/YoutubeBpmGame';
+import { KeyGame } from 'app/components/game/KeyGame'; 
 import { getDictionary } from '../dictionaries';
 
 export const dynamic = 'force-dynamic'; // [cite: 1]

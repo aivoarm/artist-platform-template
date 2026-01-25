@@ -1,8 +1,8 @@
 // app/puzzle/game-registry.ts
-import { MusicPuzzle } from 'app/components/MusicPuzzle';
-import { ReverseGame } from 'app/components/ReverseGame';
-import { YoutubeBpmGame } from 'app/components/YoutubeBpmGame';
-import { KeyGame } from 'app/components/KeyGame';
+import { MusicPuzzle } from 'app/components/game/MusicPuzzle';
+import { ReverseGame } from 'app/components/game/ReverseGame';
+import { YoutubeBpmGame } from 'app/components/game/YoutubeBpmGame';
+import { KeyGame } from 'app/components/game/KeyGame';
 
 export const GAME_PHASES = [
   {

@@ -1,7 +1,7 @@
 // app/components/BpmDetective.tsx
 'use client'; // [cite: 214]
 import { useState, useEffect, useRef } from 'react';
-import { getBpmGameTrack } from '../actions';
+import { getBpmGameTrack } from '../../actions';
 import { FaPlay, FaSearch, FaTrophy } from 'react-icons/fa';
 
 export function BpmDetective() {

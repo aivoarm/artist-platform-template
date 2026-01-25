@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import { getMysteryTrack } from '../actions';
+import { getMysteryTrack } from '../../actions';
 import { FaXmark } from 'react-icons/fa6'; // Import the cancel icon
 
 // 1. Define the interface for the component props

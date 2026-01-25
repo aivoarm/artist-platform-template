@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { getYoutubeGameTrack } from '../actions';
+import { getYoutubeGameTrack } from '../../actions';
 import { FaCheck, FaRotateRight, FaXmark } from 'react-icons/fa6'; // Using FaXmark for the cancel icon
 
 // 1. Define the interface for the component props

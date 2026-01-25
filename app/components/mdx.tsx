@@ -6,7 +6,7 @@ import React from 'react'
 
 // Custom Components
 import BandcampCTA from 'app/components/BandcampCTA'
-import MusicCTA from 'app/components/MusicCTA'
+import MusicCTA from 'app/components/game/MusicCTA'
 import { PlaylistStats } from 'app/components/PlaylistStats'
 import PlaylistUrlInput from 'app/components/PlaylistUrlInput' 
 // --- HELPER FUNCTIONS (Must be defined before usage) ---
