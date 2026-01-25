@@ -240,7 +240,7 @@ export function MusicPuzzle({ lang, onComplete, forcedTrack }: MusicPuzzleProps)
   };
 
   return (
-    <section className="my-4 sm:my-8 p-3 sm:p-8 bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl sm:rounded-3xl shadow-xl relative w-full max-w-full overflow-x-hidden touch-pan-y">
+    <section className="my-4 sm:my-8 p-3 sm:p-8 bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl sm:rounded-3xl shadow-xl relative w-full max-w-full overflow-x-hidden touch-pan-y transition-all duration-500">
       <div id="yt-hidden-player" className="hidden"></div>
       
       {warning && (
@@ -249,52 +249,55 @@ export function MusicPuzzle({ lang, onComplete, forcedTrack }: MusicPuzzleProps)
         </div>
       )}
 
-      {/* SEARCH INTERFACE */}
+      {/* SEARCH INTERFACE - DYNAMIC HEIGHT */}
       {!isSolved && (
-        <div className="mb-6 sm:mb-10 max-w-2xl mx-auto space-y-3">
+        <div className={`mb-6 sm:mb-10 max-w-2xl mx-auto space-y-4 transition-all duration-500 ${hasSearched ? 'min-h-[300px] sm:min-h-[450px]' : 'min-h-0'}`}>
             <h2 className="text-center text-[10px] sm:text-xs font-bold uppercase tracking-widest text-neutral-400">Search any track to start</h2>
             <form onSubmit={handleSearch} className="relative z-50">
-            <div className="flex gap-2">
-                <input 
-                type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Song or artist..."
-                className="flex-1 px-4 py-2.5 sm:py-3 text-sm rounded-xl bg-white dark:bg-black border border-neutral-200 dark:border-neutral-800 outline-none focus:ring-2 focus:ring-red-500"
-                />
-                <button type="submit" className="px-4 sm:px-6 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-all shadow-md">
-                {isSearching ? <FaSpinner className="animate-spin" /> : <FaSearch />}
-                </button>
-            </div>
-
-            {hasSearched && searchQuery !== '' && (
-              <div className="absolute left-0 right-0 top-full mt-2 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-xl shadow-2xl z-50 max-h-60 overflow-y-auto">
-                {searchResults.length > 0 ? searchResults.map((video: any) => {
-                  const uniqueKey = video.id || `search-res-${Math.random()}`;
-                  return (
-                    <button 
-                      key={uniqueKey} 
-                      onClick={() => selectYouTubeTrack(video)} 
-                      className="w-full flex items-center gap-3 p-3 hover:bg-neutral-100 dark:hover:bg-neutral-700 text-left border-b last:border-none dark:border-neutral-700"
-                    >
-                      <img src={video.image} className="w-12 h-8 object-cover rounded shadow-sm" alt="" />
-                      <div className="truncate text-neutral-900 dark:text-neutral-100">
-                        <p className="font-bold text-xs truncate">{video.name}</p>
-                        <p className="text-[10px] text-neutral-500">{video.artist}</p>
-                      </div>
+                <div className="flex gap-2">
+                    <input 
+                    type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Song or artist..."
+                    className="flex-1 px-4 py-2.5 sm:py-3 text-sm rounded-xl bg-white dark:bg-black border border-neutral-200 dark:border-neutral-800 outline-none focus:ring-2 focus:ring-red-500"
+                    />
+                    <button type="submit" className="px-4 sm:px-6 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-all shadow-md">
+                    {isSearching ? <FaSpinner className="animate-spin" /> : <FaSearch />}
                     </button>
-                  );
-                }) : (
-                  <div key="no-results" className="p-4 text-center text-xs text-neutral-500">
-                    No videos found.
-                  </div>
+                </div>
+
+                {/* Flow-based Search Results for Big Height */}
+                {hasSearched && searchQuery !== '' && (
+                <div className="mt-4 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-xl shadow-inner overflow-hidden animate-in fade-in slide-in-from-top-2 duration-300">
+                    <div className="max-h-[400px] overflow-y-auto divide-y divide-neutral-100 dark:divide-neutral-700">
+                        {searchResults.length > 0 ? searchResults.map((video: any) => {
+                        const uniqueKey = video.id || `search-res-${Math.random()}`;
+                        return (
+                            <button 
+                            key={uniqueKey} 
+                            onClick={() => selectYouTubeTrack(video)} 
+                            className="w-full flex items-center gap-4 p-4 hover:bg-neutral-50 dark:hover:bg-neutral-700/50 text-left transition-colors"
+                            >
+                            <img src={video.image} className="w-16 h-10 object-cover rounded-lg shadow-sm" alt="" />
+                            <div className="truncate text-neutral-900 dark:text-neutral-100">
+                                <p className="font-bold text-sm truncate">{video.name}</p>
+                                <p className="text-xs text-neutral-500">{video.artist}</p>
+                            </div>
+                            </button>
+                        );
+                        }) : (
+                        <div key="no-results" className="p-8 text-center text-sm text-neutral-500">
+                            No videos found. Try another search!
+                        </div>
+                        )}
+                    </div>
+                </div>
                 )}
-              </div>
-            )}
             </form>
         </div>
       )}
 
       {/* PUZZLE ENGINE */}
-      {pieces.length > 0 && (
+      {pieces.length > 0 && !hasSearched && (
         <div className="animate-in slide-in-from-bottom-4 duration-500 w-full">
           <div className="flex justify-between items-center mb-6 sm:mb-8 bg-white dark:bg-black p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-neutral-100 dark:border-neutral-800">
             <div className="flex items-center gap-2 sm:gap-4 truncate">
