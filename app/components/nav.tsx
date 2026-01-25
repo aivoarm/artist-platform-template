@@ -16,13 +16,14 @@ interface NavbarProps {
 const navItems = {
   '/': { name: 'Home', type: 'internal' },
   '/blog': { name: 'Music & Blog', type: 'internal' },
+    '/puzzle': { name: 'Music Puzzle', type: 'internal' },
+
   '/radio': { name: 'Radio', type: 'internal' },
   '/videos': { name: 'Videos', type: 'internal' },
-  'https://medium.com/@arman_ayva': { name: 'Medium', type: 'external' },
   '/about': { name: 'About', type: 'internal' },
-  '/puzzle': { name: 'Music Puzzle', type: 'internal' },
   '/contact': { name: 'Contact', type: 'internal' },
-  '/music-production-disclaimer': { name: 'Disclaimer', type: 'internal' },
+    'https://medium.com/@arman_ayva': { name: 'Medium', type: 'external' },
+
 };
 
 const CLOUDINARY_LOGO_URL = "https://res.cloudinary.com/dpmkshcky/image/upload/v1763746293/logo_dxzmtf.gif";
