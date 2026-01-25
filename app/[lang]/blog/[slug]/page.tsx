@@ -5,31 +5,30 @@ import { baseUrl } from 'app/sitemap'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 
-// 1. FIX: generateStaticParams must now handle the language and slug
+// 1. FORCE STATIC: This helps Next.js understand this is a pre-rendered route
+export const dynamic = 'force-static';
+export const revalidate = 3600; // Revalidate every hour instead of 0
+
 export async function generateStaticParams() {
   const locales = ['en', 'fr', 'es', 'it', 'de', 'hy', 'ru', 'ar'];
-  
-  // We need to return an array of { lang, slug } for every combination
-  // to ensure all pages are pre-rendered correctly.
   const params: { lang: string; slug: string }[] = [];
 
-  locales.forEach((lang) => {
+  for (const lang of locales) {
     const posts = getBlogPosts(lang);
     posts.forEach((post) => {
       params.push({ lang, slug: post.slug });
     });
-  });
+  }
 
   return params;
 }
 
-// 2. FIX: generateMetadata needs to await params
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string; lang: string }>
 }): Promise<Metadata | undefined> {
-  const { slug, lang } = await params; // ⬅️ Await the promise
+  const { slug, lang } = await params; 
   const post = getBlogPosts(lang).find((post) => post.slug === slug)
   
   if (!post) return;
@@ -57,15 +56,13 @@ export async function generateMetadata({
   }
 }
 
-// 3. FIX: Main Blog Page component
 export default async function Blog({ 
   params: paramsPromise 
 }: { 
   params: Promise<{ slug: string; lang: string }> 
 }) {
-  const { slug, lang } = await paramsPromise; // ⬅️ Await the promise
+  const { slug, lang } = await paramsPromise; 
   
-  // Pass 'lang' to getBlogPosts to fetch from the correct folder
   const post = getBlogPosts(lang).find((post) => post.slug === slug);
 
   if (!post) {
