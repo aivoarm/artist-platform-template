@@ -1,0 +1,88 @@
+---
+title: '"🛠️ La pila de costo cero: Next.js, Vercel y GitHub"'
+publishedAt: '2025-11-10'
+summary: '"Una guía paso a paso para crear e implementar un portafolio o sitio web profesional y ultrarrápido utilizando la potente pila gratuita de Next.js para el código, Vercel para el alojamiento y GitHub para el control de versiones".'
+image: "/images/zero-cost-stack-card.jpg"
+headerImage: "https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/v1549165042/IMG_5318a_onbcyj.jpg"
+---
+
+
+## 🛠️ La pila de costo cero: Next.js, Vercel y GitHub
+
+Esta trifecta es una combinación poderosa para crear e implementar una presencia web profesional por un costo mínimo o nulo. Aprovecha tecnología de clase mundial para garantizar que su sitio sea rápido, seguro y fácil de mantener.
+
+| Componente | Rol | Costo | Por qué es la mejor opción |
+| :--- | :--- | :--- | :--- |
+| **Siguiente.js** | El Marco (El código) | **Gratis** (Código abierto) | Alto rendimiento, excelente SEO y sencilla optimización de imágenes. Mantenido por Vercel. |
+| **Vercel** | El Anfitrión (El servidor) | **Gratis** (Plan Hobby) | Implementación sin configuración para Next.js, CDN global para mayor velocidad y SSL automático. |
+| **GitHub** | La Fuente (El almacenamiento) | **Gratis** (Repos públicos/privados) | Almacena de forma segura su código y activa automáticamente implementaciones en Vercel con cada cambio. |
+
+---
+
+## 🚀 Paso 1: configura tu proyecto en GitHub (gratis)
+
+El código de tu sitio web necesita un hogar, y ese es GitHub. Esta plataforma almacena de forma segura su código y administra el historial de versiones de su proyecto.
+
+* **Crea una cuenta de GitHub:** Si no tienes una, regístrate.
+* **Comienza tu proyecto:** Tienes dos opciones principales:
+    * **Opción A (recomendada para artistas): usar una plantilla.** Busque "Plantilla de portafolio Next.js en GitHub" (o "Plantilla de Vercel"). Muchos desarrolladores talentosos ofrecen hermosas bases de código gratuitas. Simplemente "**Fork**" o "**Use esta plantilla**" para crear una copia en su propio repositorio. Esto le ahorra semanas de codificación.
+    * **Opción B (para desarrolladores): comenzar desde cero.** Ejecute `npx create-next-app@latest` localmente y siga las instrucciones. Luego, envíe su código local a un repositorio de GitHub nuevo y vacío.
+* **Clonar localmente:** Utilice su método preferido (VS Code, Git CLI) para descargar el repositorio en su computadora.
+
+> **Siguiente paso:** Su código ahora está almacenado de forma segura y tiene control de versión.
+
+---
+
+## 💻 Paso 2: cree y personalice con Next.js (gratis)
+
+Aquí es donde le das vida a tu cartera. Next.js es un marco de React que simplifica la creación de sitios web rápidos y modernos.
+
+### Personaliza el contenido:
+
+Abra el proyecto en su editor de código. Principalmente editará archivos para:
+* Agregue su propio texto en la página Acerca de (`/pages/about.js` o `/app/about/page.js`).
+* Reemplace las imágenes de marcador de posición con su obra de arte (a menudo en la carpeta `/public`).
+* Ajustar los enlaces de navegación.
+
+### Añade tu obra de arte (la clave):
+
+1. Organiza tus mejores piezas en carpetas.
+2. Utilice el componente Next.js `<Imagen>`. ¡Esto es **crucial**! Optimiza automáticamente sus archivos de arte de gran tamaño, les cambia el tamaño y los entrega en formatos modernos (como WebP) para que su sitio se cargue a la velocidad del rayo en cualquier dispositivo.
+
+### Control de versiones:
+
+* **Confirme sus cambios:** Una vez que haya realizado sus personalizaciones, confirme los cambios con un mensaje significativo (por ejemplo, `git commit -m "Agregué mis primeras cinco obras de arte"`).
+* **Push to GitHub:** Sube tus cambios nuevamente a tu repositorio de GitHub (`git push origin main`).
+
+> **Siguiente paso:** Su código final está listo para su implementación.
+
+---
+
+## ☁️ Paso 3: Implementar con Vercel (Hosting gratuito)
+
+Vercel es el creador de Next.js, por lo que su hosting está perfectamente optimizado. Su **Plan Hobby** es gratuito para siempre e incluye todo lo que necesita un portafolio.
+
+1. **Regístrese en Vercel:** Vaya a [Vercel](https://vercel.com) y regístrese usando su **cuenta de GitHub**. Ésta es la clave para una conexión gratuita y automatizada.
+2. **Importa tu proyecto:**
+    * En el panel de Vercel, haga clic en "**Agregar nuevo**" > "**Proyecto**".
+    * Seleccione su repositorio de GitHub de la lista.
+    * Vercel detectará automáticamente que es un proyecto Next.js. Por lo general, puedes hacer clic en "**Implementar**".
+3. **¡Tu URL gratuita está activa!** Vercel implementa instantáneamente tu sitio en una URL gratuita (por ejemplo, `mi-sitio-artista.vercel.app`).
+4. **Actualizaciones automáticas:** De ahora en adelante, cada vez que envíes un código nuevo a tu rama principal en GitHub, Vercel reconstruirá e implementará automáticamente tu sitio en minutos. Ésta es la magia de la implementación continua (CI/CD).
+
+> **Siguiente paso:** Su cartera ahora está disponible en Internet, 100% gratis.
+
+---## 🌐 Paso 4: Compra y conecta tu dominio personalizado (el único costo)
+
+El último paso es conectar su nombre de dominio profesional, como `https://www.yourname.com`. Esta es la única parte que cuesta dinero (normalmente entre 10 y 20 dólares al año).
+
+1. **Compre su dominio:** Compre su nombre de dominio de cualquier registrador (Namecheap, GoDaddy, Google Domains o incluso directamente a través de Vercel).
+2. **Conectar en Vercel:**
+    * En la configuración de su proyecto Vercel, navegue hasta "**Dominios**".
+    * Ingrese el nombre de su dominio comprado.
+    * Vercel le dará un conjunto simple de instrucciones (generalmente un registro A o un registro CNAME) para agregar a la configuración DNS de su registrador de dominio.
+3. **Espere y confirme:** Después de actualizar su configuración de DNS, Vercel verificará la conexión del dominio, a menudo en menos de una hora.
+
+## 🎉 ¡Felicidades!
+
+Su cartera de artistas profesionales ahora está disponible en su dominio personalizado, ejecutándose en una infraestructura de clase mundial por un costo mínimo. Tienes control total sobre el código, actualizaciones automáticas y un sitio ultrarrápido para mostrar tu trabajo, todo por sólo el precio de tu dominio.

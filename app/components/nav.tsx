@@ -29,7 +29,7 @@ function LanguageSwitcher({ currentLang }: { currentLang: string }) {
 
   const locales = [
     { code: 'en', label: 'EN' }, { code: 'fr', label: 'FR' },
-    { code: 'es', label: 'ES' }, { code: 'it', label: 'IT' },
+    { code: 'es', label: 'ES' }, { code: 'pt', label: 'PT' }, { code: 'it', label: 'IT' },
     { code: 'de', label: 'DE' }, { code: 'hy', label: 'ՀԱՅ' },
     { code: 'ru', label: 'РУ' }, { code: 'ar', label: 'عرب' },
   ];

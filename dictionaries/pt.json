@@ -1,0 +1,102 @@
+{
+  "hero": {
+    "name": "Arman Ayva",
+    "subtitle": "Jazz-Fusion Inovador de Montreal."
+  },
+  "intro": {
+    "text": "Bem-vindo à intersecção entre o groove e a melodia. Sou Arman Ayva, um artista baseado em Montreal criando uma nova linguagem no Jazz-Fusion. Minha música vive no espaço entre a instrumentação ao vivo e a exploração eletrônica — onde linhas de baixo profundas encontram arranjos complexos e repletos de alma.",
+    "influences": "Meu som é alimentado pelo legado de lendas como Marcus Miller, US3 e Dave Brubeck. Ao misturar Jazz-Funk com elementos Ambientais e Experimentais, busco criar música que seja intelectualmente estimulante e inegavelmente funky."
+  },
+  "puzzle": {
+    "badge": "Nova Experiência Interativa",
+    "title": "O Quebra-Cabeça Musical",
+    "description": "Desenvolvi uma ferramenta personalizada que transforma qualquer vídeo do YouTube em um quebra-cabeça musical. Consegue remontar suas faixas favoritas de ouvido?",
+    "button": "Começar a Jogar"
+  },
+  "latest_single": { "label": "Último Single" },
+  "videos": { "title": "Arman Ayva – Videoteca", "description": "Explore minha discografia..." },
+  "playlist": { "title": "Playlist Funky Jazz Mood Lifter", "link_text": "Funky-Jazz-Mood-Lifter" },
+  "general": { "view_all": "Ver Todas as Músicas e Histórias", "other_stories": "Outras Histórias" },
+  "nav": {
+    "home": "Início",
+    "blog": "Música e Blog",
+    "radio": "Rádio",
+    "videos": "Vídeos",
+    "about": "Sobre",
+    "puzzle": "Puzzle Musical",
+    "contact": "Contato"
+  },
+  "reviews": {
+    "title": "🎷 Críticas e Feedback do Setor",
+    "featured": {
+      "title": "Loneliness – Arman Ayva transforma a luta coletiva em som",
+      "link": "https://korliblog.com/loneliness-arman-ayva-turns-collective-struggle-into-sound/",
+      "text": "O compositor de jazz-fusion baseado em Montreal, Arman Ayva, traduz história e resiliência em som..."
+    },
+    "grid": [
+      {
+        "name": "Radio Derbi Web",
+        "quote": "Uma obra que se revela mais complexa do que pode parecer à primeira audição..."
+      },
+      {
+        "name": "Planet Network",
+        "quote": "Gostamos muito, você poderia nos enviar a faixa em formato mp3 por e-mail?"
+      },
+      {
+        "name": "Jazz in Family",
+        "quote": "Achamos ambas as faixas verdadeiramente interessantes e agradáveis. É claro que você possui um volume substancial de produções musicais."
+      },
+      {
+        "name": "Cabre Music",
+        "quote": "Flui com uma energia revigorante e um arranjo refrescante... O design de som é vibrante e dinâmico."
+      },
+      {
+        "name": "HailTunes",
+        "quote": "Do início ao fim, esta é uma jornada. Você encontrou seu som, e ele funciona."
+      }
+    ],
+    "contact_cta": "Para consultas de imprensa ou críticas, entre em contato →"
+  },
+  "new_releases": {
+    "title": "Novos Lançamentos e Destaques",
+    "single_title": "Novo Single: Take Five, Get One",
+    "single_desc": "Nesta faixa, Arman Ayva funde **texturas eletrônicas, acordes de piano elétrico e grooves de baixo ao vivo** em uma rica história instrumental. É um groove moderno que soa ao mesmo tempo calmo e vivo, misturando os gêneros **Jazz Fusion, Eletrônico e Ambient**.",
+    "single_meta": "Tom: Fá menor • BPM: 120 • Clima: Feliz / Relaxante / Sensual",
+    "explore_details": "Explorar Detalhes da Faixa",
+    "pizzicata_title": "The Pizzicata Blues (6 Faixas)",
+    "pizzicata_desc": "Um álbum conversacional que reflete sobre a vida de um artista independente, passando pelo funk lúdico (Pour In) e pelo jazz melancólico e expressivo (Je m'appelle Blues).",
+    "pizzicata_link": "Ver História Completa da Faixa",
+    "heist_title": "Montreal Heist: Criminal Case #68",
+    "heist_desc": "Uma história de crime musical em quatro canções: Rolling Buzz, Underground, Morning e Criminal Case 68. Uma experiência instrumental narrativa.",
+    "listen_platforms": "Ouvir em Todas as Plataformas"
+  },
+  "subscribe": {
+    "title": "Fique Atualizado sobre os Projetos de Arman Ayva",
+    "description": "Assine para receber as últimas notícias, lançamentos e oportunidades de colaboração de Arman Ayva – Compositor de Jazz de Montreal. Descubra novas faixas, playlists e projetos futuros em primeira mão!",
+    "button": "Assinar Agora",
+    "disclaimer": "Seu e-mail será usado apenas para atualizações do projeto Arman Ayva."
+  },
+  "about": {
+    "title": "Arman Ayva – Compositor de Jazz e Hobbyist de Montreal 🎷",
+    "lead": "Onde o jazz moderno encontra a narrativa cinematográfica. Arman Ayva é um compositor baseado em Montreal cujo som funde a alma do jazz clássico com a liberdade do funk e o misticismo da world music.",
+    "section1_title": "Das Lentes aos Loops: Um Storyboard de Som",
+    "section1_text": "Antes de começar a compor jazz, meu mundo era emoldurado pelas lentes de uma câmera. Como fotógrafo e cineasta amador, passei anos capturando histórias visuais. Hoje, uso esses mesmos instintos visuais para criar storyboards com som.",
+    "section2_title": "A Fusão de Montreal: Alma Armênia encontra o Jazz-Funk",
+    "section2_text": "Baseado na encruzilhada criativa de Montreal, minha música é uma exploração profundamente pessoal de herança e ritmo. Faço a ponte entre o calor dos motivos folclóricos armênios e a liberdade de alta energia da fusão dos anos 70 e texturas de sintetizadores analógicos.",
+    "section3_title": "Uma Filosofia Focada no Estúdio",
+    "section3_text": "Não sou um artista de performance; sou um entusiasta focado em estúdio, dedicado à arquitetura do som. Ao focar exclusivamente na produção dentro do Apple Logic Pro, priorizo a sobreposição intrincada de baixo ao vivo e percussão global.",
+    "section4_title": "Além da Composição: Curando a Atmosfera",
+    "section4_text": "A criação é apenas metade da jornada. Como curador da playlist 'Funky Jazz Mood Lifter' no Spotify, conecto-me com centenas de seguidores que compartilham a paixão por grooves instrumentais focados no baixo.",
+    "cta_ready": "Pronto para mergulhar na música?",
+    "cta_button": "Explorar Músicas e Histórias Cinematográficas",
+    "disclaimer_title": "Aviso Legal de Produção Musical e Licenciamento",
+    "disclaimer_lead": "Todas as composições musicais apresentadas neste site são obras originais produzidas por Arman Ayva. Aderimos aos mais altos padrões de integridade artística e legal.",
+    "disclaimer_tech_title": "Detalhes Técnicos de Produção",
+    "disclaimer_tech_text": "Estas obras são criadas principalmente usando Apple Logic Pro e ferramentas de áudio digital profissionais. Algumas composições podem incluir sons ou amostras da biblioteca do Logic Pro.",
+    "disclaimer_royalty_title": "Uso Livre de Royalties (Apple Logic Pro)",
+    "disclaimer_royalty_text": "De acordo com o Contrato de Licença de Software Logic Pro da Apple Inc., todos os loops e amostras fornecidos pela Apple são livres de royalties para uso em composições originais e podem ser distribuídos e monetizados.",
+    "disclaimer_integrity_title": "Garantia de Integridade Artística",
+    "disclaimer_integrity_text": "Nenhum loop individual da Apple é vendido isoladamente. Cada faixa representa uma composição artística original que foi significativamente transformada.",
+    "disclaimer_contact": "Para consultas de licenciamento sobre uso comercial, visite a"
+  }
+}

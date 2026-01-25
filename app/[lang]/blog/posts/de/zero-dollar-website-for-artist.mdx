@@ -1,0 +1,88 @@
+---
+title: '„🛠️ Der Zero-Cost-Stack: Next.js, Vercel und GitHub“'
+publishedAt: '2025-11-10'
+summary: '„Eine Schritt-für-Schritt-Anleitung zum Erstellen und Bereitstellen eines professionellen, blitzschnellen Portfolios oder einer Website mit dem leistungsstarken, kostenlosen Stack von Next.js für den Code, Vercel für das Hosting und GitHub für die Versionskontrolle.“'
+image: "/images/zero-cost-stack-card.jpg"
+headerImage: "https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/v1549165042/IMG_5318a_onbcyj.jpg"
+---
+
+
+## 🛠️ Der Zero-Cost-Stack: Next.js, Vercel und GitHub
+
+Dieses Trifecta ist eine leistungsstarke Kombination für den Aufbau und die Bereitstellung einer professionellen Webpräsenz zu minimalen bis gar keinen Kosten. Es nutzt erstklassige Technologie, um sicherzustellen, dass Ihre Website schnell, sicher und einfach zu warten ist.
+
+| Komponente | Rolle | Kosten | Warum es die beste Wahl ist |
+| :--- | :--- | :--- | :--- |
+| **Next.js** | Das Framework (Der Code) | **Kostenlos** (Open Source) | Hohe Leistung, hervorragende SEO und einfache Bildoptimierung. Verwaltet von Vercel. |
+| **Vercel** | Der Host (Der Server) | **Kostenlos** (Hobbyplan) | Zero-Config-Bereitstellung für Next.js, globales CDN für Geschwindigkeit und automatisches SSL. |
+| **GitHub** | Die Quelle (Der Speicher) | **Kostenlos** (Öffentliche/private Repos) | Speichert Ihren Code sicher und löst bei jeder Änderung automatisch Bereitstellungen in Vercel aus. |
+
+---
+
+## 🚀 Schritt 1: Richten Sie Ihr Projekt auf GitHub ein (kostenlos)
+
+Ihr Website-Code braucht ein Zuhause, und das ist GitHub. Diese Plattform speichert Ihren Code sicher und verwaltet den Versionsverlauf Ihres Projekts.
+
+* **Erstellen Sie ein GitHub-Konto:** Wenn Sie noch keins haben, melden Sie sich an.
+* **Starten Sie Ihr Projekt:** Sie haben zwei Hauptoptionen:
+    * **Option A (für Künstler empfohlen): Verwenden Sie eine Vorlage.** Suchen Sie nach „Next.js Portfolio-Vorlage GitHub“ (oder „Vercel-Vorlage“). Viele talentierte Entwickler bieten schöne, kostenlose Codebasen an. Klicken Sie einfach auf „**Fork**“ oder „**Diese Vorlage verwenden**“, um eine Kopie in Ihrem eigenen Repository zu erstellen. Das erspart Ihnen wochenlanges Codieren.
+    * **Option B (für Entwickler): Beginnen Sie bei Null.** Führen Sie „npx create-next-app@latest“ lokal aus und befolgen Sie die Anweisungen. Anschließend übertragen Sie Ihren lokalen Code in ein neues, leeres GitHub-Repository.
+* **Lokal klonen:** Verwenden Sie Ihre bevorzugte Methode (VS-Code, Git-CLI), um das Repository auf Ihren Computer herunterzuladen.
+
+> **Nächster Schritt:** Ihr Code ist jetzt sicher gespeichert und versioniert.
+
+---
+
+## 💻 Schritt 2: Erstellen und Personalisieren mit Next.js (kostenlos)
+
+Hier erwecken Sie Ihr Portfolio zum Leben. Next.js ist ein React-Framework, das die Erstellung schneller, moderner Websites unkompliziert macht.
+
+### Passen Sie den Inhalt an:
+
+Öffnen Sie das Projekt in Ihrem Code-Editor. Sie werden Dateien hauptsächlich bearbeiten, um:
+* Fügen Sie Ihren eigenen Text auf der About-Seite hinzu („/pages/about.js“ oder „/app/about/page.js“).
+* Ersetzen Sie Platzhalterbilder durch Ihre Grafik (häufig im Ordner „/public“).
+* Passen Sie die Navigationslinks an.
+
+### Fügen Sie Ihr Kunstwerk hinzu (Der Schlüssel):
+
+1. Organisieren Sie Ihre besten Stücke in Ordnern.
+2. Verwenden Sie die Next.js-Komponente `<Image>`. Das ist **entscheidend**! Es optimiert automatisch Ihre großen Kunstdateien, ändert deren Größe und stellt sie in modernen Formaten (wie WebP) bereit, sodass Ihre Website blitzschnell auf jedem Gerät geladen wird.
+
+### Versionskontrolle:
+
+* **Übernehmen Sie Ihre Änderungen:** Sobald Sie Ihre Anpassungen vorgenommen haben, übernehmen Sie die Änderungen mit einer aussagekräftigen Nachricht (z. B. „git commit -m „Meine ersten fünf Kunstwerke hinzugefügt““).
+* **Push to GitHub:** Laden Sie Ihre Änderungen zurück in Ihr GitHub-Repository („git push origin main“).
+
+> **Nächster Schritt:** Ihr endgültiger Code ist zur Bereitstellung bereit.
+
+---
+
+## ☁️ Schritt 3: Bereitstellung mit Vercel (kostenloses Hosting)
+
+Vercel ist der Schöpfer von Next.js, daher ist ihr Hosting perfekt optimiert. Ihr **Hobbyplan** ist für immer kostenlos und beinhaltet alles, was ein Portfolio braucht.
+
+1. **Melden Sie sich bei Vercel an:** Gehen Sie zu [Vercel](https://vercel.com) und melden Sie sich mit Ihrem **GitHub-Konto** an. Dies ist der Schlüssel zur kostenlosen, automatisierten Verbindung.
+2. **Importieren Sie Ihr Projekt:**
+    * Klicken Sie im Vercel-Dashboard auf „**Neu hinzufügen**“ > „**Projekt**“.
+    * Wählen Sie Ihr GitHub-Repository aus der Liste aus.
+    * Vercel erkennt automatisch, dass es sich um ein Next.js-Projekt handelt. Normalerweise können Sie einfach auf „**Bereitstellen**“ klicken.
+3. **Ihre kostenlose URL ist live!** Vercel stellt Ihre Website sofort unter einer kostenlosen URL bereit (z. B. „meine-künstler-site.vercel.app“).
+4. **Automagic-Updates:** Von nun an wird Vercel Ihre Site jedes Mal, wenn Sie neuen Code in Ihren Hauptzweig auf GitHub übertragen, innerhalb von Minuten automatisch neu erstellen und bereitstellen. Das ist die Magie des Continuous Deployment (CI/CD).
+
+> **Nächster Schritt:** Ihr Portfolio ist jetzt online verfügbar, 100 % kostenlos.
+
+---## 🌐 Schritt 4: Kaufen und verbinden Sie Ihre benutzerdefinierte Domain (die einzigen Kosten)
+
+Der letzte Schritt besteht darin, Ihren professionellen Domainnamen zu verbinden, z. B. „https://www.IhrName.com“. Dies ist der einzige Teil, der Geld kostet (normalerweise 10–20 US-Dollar pro Jahr).
+
+1. **Kaufen Sie Ihre Domain:** Kaufen Sie Ihren Domainnamen bei einem beliebigen Registrar (Namecheap, GoDaddy, Google Domains oder sogar direkt über Vercel).
+2. **In Vercel verbinden:**
+    * Navigieren Sie in Ihren Vercel-Projekteinstellungen zu „**Domänen**“.
+    * Geben Sie Ihren gekauften Domainnamen ein.
+    * Vercel stellt Ihnen einfache Anweisungen (normalerweise einen A-Eintrag oder CNAME-Eintrag) zur Verfügung, die Sie zu den DNS-Einstellungen Ihres Domain-Registrars hinzufügen können.
+3. **Warten und bestätigen:** Nach der Aktualisierung Ihrer DNS-Einstellungen überprüft Vercel die Domänenverbindung, oft in weniger als einer Stunde.
+
+## 🎉 Herzlichen Glückwunsch!
+
+Ihr professionelles Künstlerportfolio ist jetzt auf Ihrer benutzerdefinierten Domain verfügbar und läuft zu minimalen Kosten auf einer erstklassigen Infrastruktur. Sie haben die volle Kontrolle über den Code, automatische Updates und eine blitzschnelle Website, auf der Sie Ihre Arbeit präsentieren können – und das alles nur zum Preis Ihrer Domain.
