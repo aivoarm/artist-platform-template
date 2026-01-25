@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation'; // Added to detect current page
+import { usePathname } from 'next/navigation';
 import { sendGTMEvent } from '@next/third-parties/google';
 
 interface DelayedSubscribePopupProps {
@@ -10,6 +10,19 @@ interface DelayedSubscribePopupProps {
 }
 
 function SubscribeCTAContent() {
+  // Google Ads Conversion Trigger
+  const handleConversionClick = () => {
+    // 1. Generic GTM Event
+    sendGTMEvent({ event: 'conversion_click', action: 'subscribe_popup' });
+
+    // 2. Specific Google Ads Conversion (Lead)
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'conversion', {
+        'send_to': 'AW-11429089260/KXrCCJe6h5kZEOyf6Mkq',
+      });
+    }
+  };
+
   return (
     <section className="bg-neutral-900 text-white text-center py-12 px-4 rounded-lg shadow-2xl relative">
       <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight">
@@ -18,7 +31,7 @@ function SubscribeCTAContent() {
       
       <p className="text-lg mb-6 max-w-lg mx-auto text-neutral-300">
         Subscribe to receive the latest news, releases, and collaboration opportunities from 
-        <strong className="text-white"> Arman Ayva – Montreal Jazz Composer</strong>. Discover new tracks and upcoming projects first!
+        <strong className="text-white"> Arman Ayva</strong>.
       </p>
       
       <Link
@@ -26,15 +39,13 @@ function SubscribeCTAContent() {
         target="_blank"
         rel="noopener noreferrer"
         className="inline-block bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors duration-300 shadow-xl"
-        onClick={() => {
-          sendGTMEvent({ event: 'conversion_click', action: 'subscribe_cta' })
-        }}
+        onClick={handleConversionClick}
       >
         Subscribe Now
       </Link>
       
       <p className="text-sm mt-3 text-neutral-400">
-        Your email will only be used for Arman Ayva project updates.
+        Your email will only be used for project updates.
       </p>
     </section>
   );
@@ -42,44 +53,44 @@ function SubscribeCTAContent() {
 
 export function DelayedSubscribePopup({ lang }: DelayedSubscribePopupProps) {
   const [isVisible, setIsVisible] = useState(false);
-  const pathname = usePathname(); // Get the current URL path
+  const pathname = usePathname();
   const DELAY_TIME_MS = 30000; // 30 seconds
 
   useEffect(() => {
-    // 1. Check if the current page is the 'about' page
-    // This matches /en/about, /fr/about, /hy/about, etc.
-    const isAboutPage = pathname?.endsWith('/about');
+    // Check if the user has already dismissed this in the current session
+    const hasDismissed = localStorage.getItem('subscribe_popup_dismissed');
+    
+    // Check if we are already on the subscribe page (don't show popup there)
+    const isSubscribePage = pathname?.includes('/subscribe');
 
-    if (!isAboutPage) return;
+    if (hasDismissed === 'true' || isSubscribePage) return;
 
-    // 2. Only start the timer if we are on the about page
     const timer = setTimeout(() => {
       setIsVisible(true);
     }, DELAY_TIME_MS);
 
     return () => clearTimeout(timer);
-  }, [pathname]); // Re-run if the user navigates to a different page
+  }, [pathname]); 
 
   const closePopup = () => {
     setIsVisible(false);
+    // Remember dismissal so it doesn't show again on the next page
+    localStorage.setItem('subscribe_popup_dismissed', 'true');
   };
 
-  // If not visible (either timer not finished or wrong page), return null
-  if (!isVisible) {
-    return null;
-  }
+  if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-75 p-4" onClick={closePopup}>
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-80 p-4 backdrop-blur-sm" onClick={closePopup}>
       <div 
-        className="relative max-w-xl w-full transform transition-all duration-300 scale-100 opacity-100" 
+        className="relative max-w-xl w-full animate-in zoom-in duration-300" 
         onClick={(e) => e.stopPropagation()}
       >
         <SubscribeCTAContent />
         <button
           onClick={closePopup}
-          className="absolute top-2 right-2 text-white hover:text-gray-300 text-2xl font-bold p-1 leading-none transition-colors"
-          aria-label="Close subscription popup"
+          className="absolute top-4 right-4 text-white/50 hover:text-white text-2xl font-bold p-1 leading-none transition-colors"
+          aria-label="Close"
         >
           &times;
         </button>
