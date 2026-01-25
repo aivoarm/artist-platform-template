@@ -1,91 +1,195 @@
-// app/components/BpmDetective.tsx
-'use client'; // [cite: 214]
-import { useState, useEffect, useRef } from 'react';
-import { getBpmGameTrack } from '../../actions';
-import { FaPlay, FaSearch, FaTrophy } from 'react-icons/fa';
+'use client';
 
-export function BpmDetective() {
-  const [mounted, setMounted] = useState(false);
+import { useState, useEffect } from 'react';
+import { FaRotateRight, FaArrowRight, FaYoutube, FaSpinner, FaForward, FaSquare } from 'react-icons/fa6';
+
+interface BpmDetectiveProps {
+  initialTracks: any[];
+  onComplete?: () => void;
+}
+
+export function BpmDetective({ initialTracks, onComplete }: BpmDetectiveProps) {
   const [track, setTrack] = useState<any>(null);
-  const [guess, setGuess] = useState(120);
+  const [guess, setGuess] = useState(110);
   const [gameState, setGameState] = useState<'idle' | 'playing' | 'result'>('idle');
   const [loading, setLoading] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [iframeLoaded, setIframeLoaded] = useState(false);
 
-  useEffect(() => { setMounted(true); }, []); // [cite: 1957]
-
-  if (!mounted) return null;
-
-  const startNewGame = async () => {
+  const startNewGame = () => {
+    if (!initialTracks || initialTracks.length === 0) return;
     setLoading(true);
-    setGameState('idle');
-    const data = await getBpmGameTrack();
-    if (data.error) {
-      alert(data.error);
-    } else {
-      setTrack(data);
-      setGameState('playing');
+    setIframeLoaded(false);
+    
+    let randomTrack = initialTracks[Math.floor(Math.random() * initialTracks.length)];
+    if (initialTracks.length > 1 && track && randomTrack.videoId === track.videoId) {
+        randomTrack = initialTracks.find(t => t.videoId !== track.videoId);
     }
-    setLoading(false);
+    
+    setTrack(randomTrack);
+    setGuess(110);
+    setGameState('playing');
+    setTimeout(() => setLoading(false), 50);
+  };
+
+  const stopGame = () => {
+    setGameState('idle');
+    setTrack(null);
+    setIframeLoaded(false);
   };
 
   const checkGuess = () => {
+    // Setting state to result will unmount the iframe in the render logic below
     setGameState('result');
-    if (audioRef.current) audioRef.current.pause();
+    const targetBpm = track?.bpm || 110;
+    if (Math.abs(guess - targetBpm) <= 5 && onComplete) {
+      onComplete();
+    }
   };
 
-  const diff = track ? Math.abs(guess - track.bpm) : 0;
-  const isCorrect = diff <= 5;
+  const isCorrect = track ? Math.abs(guess - track.bpm) <= 5 : false;
 
   return (
-    <div className="p-8 bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-3xl shadow-lg">
-      {gameState === 'idle' && (
-        <div className="text-center py-10">
-          <button 
-            onClick={startNewGame}
-            disabled={loading}
-            className="px-10 py-4 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-700 transition-all active:scale-95 disabled:opacity-50"
-          >
-            {loading ? 'Analyzing Vibe...' : 'Start BPM Challenge'}
-          </button>
-        </div>
-      )}
-
-      {track && gameState !== 'idle' && (
-        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <div className="flex flex-col items-center">
-            <img src={track.albumArt} alt="Album" className="w-48 h-48 rounded-xl shadow-2xl mb-4 object-cover" />
-            <p className="font-bold text-lg">{track.name}</p>
-            <p className="text-neutral-500 text-sm">{track.artist}</p>
+    <div className="w-full max-w-full overflow-hidden p-4 sm:p-8 bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-[2rem] shadow-xl box-border touch-pan-y">
+      <div className="min-h-[460px] flex flex-col justify-center w-full max-w-md mx-auto">
+        
+        {gameState === 'idle' && (
+          <div className="text-center py-12 animate-in fade-in">
+             <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 text-red-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <FaYoutube size={24} />
+            </div>
+            <button 
+              onClick={startNewGame}
+              disabled={loading}
+              className="px-8 py-4 bg-red-600 text-white rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-lg shadow-red-500/20 active:scale-95 transition-all"
+            >
+              {loading ? <FaSpinner className="animate-spin" /> : 'Start BPM Challenge'}
+            </button>
           </div>
+        )}
 
-          <audio ref={audioRef} src={track.previewUrl} autoPlay loop />
+        {track && gameState !== 'idle' && (
+          <div className="space-y-6 animate-in fade-in duration-300 transform-gpu">
+            
+            <div className="flex justify-center w-full relative">
+              <div className="relative w-[calc(100vw-100px)] max-w-[220px] aspect-video rounded-xl overflow-hidden bg-black shadow-lg border-2 border-neutral-200 dark:border-neutral-800 flex-shrink-0">
+                
+                {(!iframeLoaded || loading) && (
+                  <div className="absolute inset-0 bg-neutral-200 dark:bg-neutral-800 animate-pulse flex items-center justify-center z-10">
+                    <FaYoutube className="text-neutral-400" size={20} />
+                  </div>
+                )}
 
-          {gameState === 'playing' ? (
-            <div className="space-y-6">
-              <input 
-                type="range" min="60" max="180" value={guess} 
-                onChange={(e) => setGuess(parseInt(e.target.value))}
-                className="w-full h-3 bg-neutral-200 dark:bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-blue-600"
-              />
-              <div className="text-5xl font-mono font-bold text-center">{guess} <span className="text-sm">BPM</span></div>
-              <button onClick={checkGuess} className="w-full py-4 bg-neutral-900 dark:bg-white text-white dark:text-black rounded-xl font-bold uppercase tracking-widest text-sm">
-                Submit Guess
-              </button>
-            </div>
-          ) : (
-            <div className="text-center space-y-4 pt-4 border-t border-neutral-200 dark:border-neutral-800">
-              <div className={`text-4xl font-bold ${isCorrect ? 'text-green-500' : 'text-red-500'}`}>
-                {isCorrect ? '🎯 Bullseye!' : '📉 Off Beat'}
+                {/* STOP LOGIC: Only render iframe when gameState is 'playing' */}
+                {gameState === 'playing' ? (
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    src={`https://www.youtube.com/embed/${track.videoId}?autoplay=1&controls=0&modestbranding=1&disablekb=1&enablejsapi=1&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`}
+                    title="BPM Source"
+                    onLoad={() => setIframeLoaded(true)}
+                    allow="autoplay; encrypted-media" 
+                    className={`absolute inset-0 w-full h-full border-0 pointer-events-none transition-opacity duration-500 ${iframeLoaded ? 'opacity-100' : 'opacity-0'}`}
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center bg-neutral-900">
+                     <FaYoutube className="text-white/20" size={40} />
+                  </div>
+                )}
               </div>
-              <p className="text-xl">Actual: <span className="font-mono font-bold">{track.bpm} BPM</span></p>
-              <button onClick={startNewGame} className="mt-4 text-blue-500 font-bold hover:underline flex items-center gap-2 mx-auto">
-                <FaSearch /> Play Next Track
-              </button>
+
+              {/* ACTION BUTTONS (TOP RIGHT) */}
+              <div className="absolute -right-2 top-1/2 -translate-y-1/2 flex flex-col gap-2 z-20">
+                {gameState === 'playing' && (
+                  <>
+                    <button 
+                        onClick={startNewGame}
+                        className="w-10 h-10 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-full flex items-center justify-center shadow-lg hover:text-red-600 transition-colors active:scale-90"
+                    >
+                        <FaForward size={14} />
+                    </button>
+                    <button 
+                        onClick={stopGame}
+                        className="w-10 h-10 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-full flex items-center justify-center shadow-lg hover:text-neutral-500 transition-colors active:scale-90"
+                    >
+                        <FaSquare size={12} />
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
-          )}
-        </div>
-      )}
+
+            <div className="text-center px-4">
+              <p className="font-black text-[8px] uppercase tracking-widest text-neutral-400 mb-1">Playlist Source</p>
+              <p className="font-bold text-sm text-neutral-900 dark:text-white truncate overflow-hidden">{track.name}</p>
+            </div>
+
+            {gameState === 'playing' ? (
+              <div className="space-y-8 bg-white dark:bg-black/20 p-6 rounded-[2rem] border border-neutral-100 dark:border-neutral-800 shadow-inner w-full box-border">
+                <div className="space-y-4">
+                  <div className="flex justify-between text-[10px] font-black uppercase text-neutral-400">
+                    <span>60 BPM</span>
+                    <span className="text-red-600">Match the Beat</span>
+                    <span>180 BPM</span>
+                  </div>
+                  <input 
+                    type="range" min="60" max="180" value={guess} 
+                    onChange={(e) => setGuess(parseInt(e.target.value))}
+                    className="w-full h-2 bg-neutral-200 dark:bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-red-600"
+                  />
+                </div>
+
+                <div className="text-6xl font-black font-mono text-center tracking-tighter text-red-600 tabular-nums">
+                  {guess}
+                </div>
+
+                <button 
+                  onClick={checkGuess} 
+                  className="w-full py-4 bg-neutral-900 dark:bg-white text-white dark:text-black rounded-2xl font-black uppercase tracking-widest text-[10px] active:scale-95 transition-all"
+                >
+                  Submit Guess
+                </button>
+              </div>
+            ) : (
+              <div className="text-center space-y-6 pt-2 animate-in zoom-in duration-300 w-full box-border">
+                <div className={`text-5xl font-black tracking-tighter ${isCorrect ? 'text-emerald-500' : 'text-red-500'}`}>
+                  {isCorrect ? '🎯 PERFECT' : '📉 OFF-BEAT'}
+                </div>
+                
+                <div className="flex justify-center items-center gap-6">
+                  <div className="text-center">
+                    <p className="text-[10px] font-black text-neutral-400 uppercase mb-1">Target</p>
+                    <p className="text-xl font-mono font-bold">{track.bpm}</p>
+                  </div>
+                  <div className="w-px h-8 bg-neutral-200 dark:border-neutral-800" />
+                  <div className="text-center">
+                    <p className="text-[10px] font-black text-neutral-400 uppercase mb-1">Your Guess</p>
+                    <p className="text-xl font-mono font-bold text-red-600">{guess}</p>
+                  </div>
+                </div>
+
+                {isCorrect ? (
+                  <div className="bg-emerald-500/10 border border-emerald-500/20 p-5 rounded-3xl">
+                     <button 
+                      onClick={() => window.scrollTo({ top: window.scrollY + 700, behavior: 'smooth' })}
+                      className="w-full py-4 bg-emerald-600 text-white rounded-xl font-black uppercase text-[10px] tracking-widest flex items-center justify-center gap-2"
+                     >
+                      Next Level <FaArrowRight />
+                     </button>
+                  </div>
+                ) : (
+                  <button 
+                    onClick={startNewGame} 
+                    disabled={loading}
+                    className="w-full py-4 border-2 border-neutral-200 dark:border-neutral-800 rounded-xl font-black uppercase text-[10px] tracking-widest flex items-center justify-center gap-2 active:scale-95 transition-all"
+                  >
+                    <FaRotateRight className={loading ? 'animate-spin' : ''} /> {loading ? 'Loading...' : 'Try Another'}
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

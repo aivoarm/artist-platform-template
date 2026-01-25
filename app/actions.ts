@@ -219,52 +219,52 @@ export async function getMysteryTrack(artistName: string) {
 // getBpmGameTrack
 // app/actions.ts
 
-export async function getBpmGameTrack() {
-  // 1. Call the helper and extract the actual token string
-  const tokenData = await getAccessToken();
-  const access_token = tokenData.access_token;
+/**
+ * HELPER: Extracts "BPM: 120" from a YouTube video description.
+ * If not found, it defaults to 110.
+ */
+function extractBpmFromDescription(description: string): number {
+  const match = description?.match(/BPM:\s*(\d+)/i);
+  return match ? parseInt(match[1]) : 110; 
+}
 
-  // 2. Check if the token exists before proceeding
-  if (!access_token) {
-    console.error("Token Response Error:", tokenData); 
-    return { error: "Failed to authenticate with Spotify. Check your Env Vars." };
-  }
-
+/**
+ * NEW DYNAMIC ACTION: 
+ * Fetches your specific playlist and returns clean data for the Arcade.
+ */
+export async function getArcadePlaylist(playlistId: string = 'PLdh9NdS_IkkXFKrfNfjpczpvC6_XE74Vl') {
+  const API_KEY = process.env.YOUTUBE_API_KEY;
+  
   try {
-    const playlistId = "0kQ3ZMgLoc9UoFtJz96qYa"; 
-    
-    // 3. Use backticks (`) for template literals to inject variables correctly
-    const res = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}`, {
-      headers: { Authorization: `Bearer ${access_token}` },
-      cache: 'no-store'
-    });
-    
+    const res = await fetch(
+      `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,status,contentDetails&maxResults=50&playlistId=${playlistId}&key=${API_KEY}`,
+      { next: { revalidate: 3600 } } // Cache for 1 hour
+    );
     const data = await res.json();
-    
-    // Filter for tracks that have a 30-second preview URL
-    const validTracks = data.tracks.items.filter((item: any) => item.track?.preview_url);
-    if (validTracks.length === 0) return { error: "No playable tracks found in this playlist." };
 
-    const selected = validTracks[Math.floor(Math.random() * validTracks.length)].track;
+    if (!data.items) return [];
 
-    // 4. Fetch the specific Audio Features (Tempo/BPM) for the chosen track
-    const featuresRes = await fetch(`https://api.spotify.com/v1/audio-features/${selected.id}`, {
-      headers: { Authorization: `Bearer ${access_token}` },
-    });
-    const featuresData = await featuresRes.json();
-
-    return {
-      name: selected.name,
-      artist: selected.artists[0].name,
-      previewUrl: selected.preview_url,
-      albumArt: selected.album.images[0].url,
-      bpm: Math.round(featuresData.tempo),
-    };
+    // Filter for public, playable videos only
+    return data.items
+      .filter((item: any) => 
+        item.status.privacyStatus === 'public' && 
+        item.snippet.title !== 'Deleted video' && 
+        item.snippet.title !== 'Private video'
+      )
+      .map((item: any) => ({
+        videoId: item.contentDetails.videoId,
+        name: item.snippet.title,
+        artist: item.snippet.videoOwnerChannelTitle || "Arman Ayva Selection",
+        // Extract BPM from text or default
+        bpm: extractBpmFromDescription(item.snippet.description)
+      }));
   } catch (e) {
-    console.error("BPM Game Fetch Error:", e);
-    return { error: "Failed to connect to Spotify Arcade" };
+    console.error("YouTube Playlist Action Error:", e);
+    return [];
   }
 }
+
+// Keep your getYoutubeGameTrack but consider pointing it to the same logic above
 
 export async function getYoutubeGameTrack() {
   const API_KEY = process.env.YOUTUBE_API_KEY;

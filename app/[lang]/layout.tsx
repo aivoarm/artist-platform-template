@@ -33,12 +33,9 @@ export default async function RootLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ lang: string }>; // Correct for Next.js 15
+  params: Promise<{ lang: string }>; 
 }) {
-  // Await params to get the language string
   const { lang } = await params;
-
-  // Determine text direction
   const isRTL = lang === 'ar';
 
   return (
@@ -46,7 +43,7 @@ export default async function RootLayout({
       lang={lang}
       dir={isRTL ? 'rtl' : 'ltr'}
       className={cx(
-        'text-black dark:bg-black dark:text-white', 
+        'text-black dark:bg-black dark:text-white overflow-x-hidden', 
         GeistSans.variable,
         GeistMono.variable
       )}
@@ -54,17 +51,24 @@ export default async function RootLayout({
     >
       <head>
         <meta property="fb:app_id" content={YOUR_APP_ID} />
+        {/* Prevents iOS auto-zoom on inputs, which stops the horizontal wiggle */}
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
       </head>
       <body 
-        className="antialiased max-w-6xl mx-4 mt-8 lg:mx-auto dark:bg-black"
+        className="antialiased min-h-screen overflow-x-hidden dark:bg-black font-sans"
         suppressHydrationWarning
       >
         <Providers> 
-          <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
+          {/* By keeping the main wrapper here, we allow the body to handle the 100vw lock 
+            while the content stays centered and restricted.
+          */}
+          <main className="flex-auto min-w-0 flex flex-col px-4 md:px-0 max-w-6xl mx-auto mt-8">
               <Navbar lang={lang} />
 
-            {children}
-            {/* This will now pass the build because the Footer is typed */}
+            <div className="flex-grow mt-6">
+              {children}
+            </div>
+
             <Footer lang={lang} />
             <Analytics />
             <SpeedInsights /> 
@@ -95,7 +99,7 @@ export default async function RootLayout({
             />
           </>
         )}
-        <DelayedSubscribePopup lang='en' />
+        <DelayedSubscribePopup lang={lang} />
       </body>
     </html>
   );
