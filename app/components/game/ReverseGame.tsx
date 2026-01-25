@@ -3,15 +3,15 @@
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { getMysteryTrack } from '../../actions';
-import { FaXmark } from 'react-icons/fa6'; // Import the cancel icon
+import { FaXmark } from 'react-icons/fa6';
+import { FaArrowRight, FaCheckCircle, FaTrophy } from 'react-icons/fa';
 
-// 1. Define the interface for the component props
 interface ReverseGameProps {
   lang: string;
+  onComplete?: () => void; // Added for Arcade integration
 }
 
-// 2. Update the function signature to accept { lang }
-export function ReverseGame({ lang }: ReverseGameProps) {
+export function ReverseGame({ lang, onComplete }: ReverseGameProps) {
   const [artistInput, setArtistInput] = useState('');
   const [trackData, setTrackData] = useState<any>(null);
   const [gameState, setGameState] = useState<'idle' | 'loading' | 'playing' | 'won' | 'lost' | 'timeout'>('idle');
@@ -57,7 +57,6 @@ export function ReverseGame({ lang }: ReverseGameProps) {
     setSelectedOptionId(null);
     stopAudio();
 
-    // 3. Passing the artist input to the mystery track action
     const data = await getMysteryTrack(artistInput);
     if (data.error) {
       setError(data.error);
@@ -122,18 +121,20 @@ export function ReverseGame({ lang }: ReverseGameProps) {
     if (option.isCorrect) {
       setGameState('won');
       playAudio('normal'); 
+      // Trigger Arcade Level Unlock
+      if (onComplete) onComplete();
     } else {
       setGameState('lost');
     }
   };
 
   return (
-    <div className="relative max-w-xl mx-auto p-6 bg-neutral-900 text-white rounded-2xl shadow-2xl border border-neutral-800 overflow-hidden">
+    <div className="relative max-w-xl mx-auto p-6 bg-neutral-900 text-white rounded-[2rem] shadow-2xl border border-neutral-800 overflow-hidden">
       
       {gameState !== 'idle' && gameState !== 'loading' && (
         <button 
           onClick={resetGame}
-          className="absolute top-4 right-4 p-2 rounded-full bg-neutral-800 hover:bg-red-900/40 text-neutral-400 hover:text-red-500 transition-all z-20"
+          className="absolute top-6 right-6 p-2 rounded-full bg-neutral-800 hover:bg-red-900/40 text-neutral-400 hover:text-red-500 transition-all z-20"
           title="Cancel Game"
         >
           <FaXmark size={18} />
@@ -142,8 +143,9 @@ export function ReverseGame({ lang }: ReverseGameProps) {
 
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
-          ⏪ Reverse Audio Challenge
+          ⏪ Sonic Mirror
         </h2>
+        <p className="text-xs text-neutral-500 mt-2 uppercase tracking-widest font-bold">Reverse Audio Challenge</p>
       </div>
 
       <div className="flex flex-col gap-4 mb-8">
@@ -152,30 +154,30 @@ export function ReverseGame({ lang }: ReverseGameProps) {
           value={artistInput}
           onChange={(e) => setArtistInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-          placeholder="e.g. Nirvana..."
-          className="w-full bg-black/50 border border-neutral-700 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500"
+          placeholder="Enter an Artist (e.g. Nirvana, Queen)..."
+          className="w-full bg-black/50 border border-neutral-700 rounded-xl px-4 py-4 focus:outline-none focus:border-purple-500 transition-all"
         />
         <button 
           onClick={handleSearch}
           disabled={gameState === 'loading'}
-          className="w-full bg-purple-600 hover:bg-purple-700 font-bold px-6 py-3 rounded-lg transition-all active:scale-95 disabled:opacity-50"
+          className="w-full bg-purple-600 hover:bg-purple-700 font-bold px-6 py-4 rounded-xl transition-all active:scale-95 disabled:opacity-50 shadow-lg shadow-purple-900/20"
         >
-          {gameState === 'loading' ? 'Searching...' : 'Start Challenge'}
+          {gameState === 'loading' ? 'Analyzing Audio...' : 'Generate Challenge'}
         </button>
       </div>
 
-      {error && <div className="text-red-400 text-center mb-4">{error}</div>}
+      {error && <div className="text-red-400 text-center mb-4 text-sm font-bold bg-red-900/20 p-3 rounded-lg border border-red-900/50">{error}</div>}
 
       {trackData && (
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
           
           {gameState === 'playing' && (
             <div className="mb-6">
-              <div className="flex justify-between text-xs font-bold uppercase tracking-widest text-neutral-400 mb-2">
-                 <span>Time Remaining</span>
+              <div className="flex justify-between text-[10px] font-black uppercase tracking-[0.2em] text-neutral-500 mb-2">
+                 <span>Syncing Reality</span>
                  <span className={timeLeft < 5 ? "text-red-500 animate-pulse" : "text-white"}>{timeLeft}s</span>
               </div>
-              <div className="w-full h-2 bg-neutral-800 rounded-full overflow-hidden">
+              <div className="w-full h-1.5 bg-neutral-800 rounded-full overflow-hidden">
                 <div 
                   className={`h-full transition-all duration-1000 ease-linear ${timeLeft < 5 ? 'bg-red-500' : 'bg-purple-500'}`}
                   style={{ width: `${(timeLeft / 15) * 100}%` }}
@@ -184,19 +186,19 @@ export function ReverseGame({ lang }: ReverseGameProps) {
             </div>
           )}
 
-          <div className="flex justify-center mb-6">
+          <div className="flex justify-center mb-10">
             <div 
-              className="relative w-40 h-40 bg-black rounded-xl border border-neutral-700 overflow-hidden cursor-pointer hover:border-purple-500 transition-colors group"
+              className={`relative w-44 h-44 bg-black rounded-3xl border-2 overflow-hidden cursor-pointer transition-all duration-500 group shadow-2xl ${['won', 'lost', 'timeout'].includes(gameState) ? 'border-purple-500 scale-105' : 'border-neutral-700 hover:border-purple-500'}`}
               onClick={() => playAudio('reversed')}
             >
               {['won', 'lost', 'timeout'].includes(gameState) ? (
                 <Image src={trackData.albumArt} alt="Album" fill className="object-cover" />
               ) : (
-                 <div className="flex items-center justify-center h-full text-4xl">❓</div>
+                 <div className="flex items-center justify-center h-full text-5xl">🎧</div>
               )}
                {!['won', 'lost', 'timeout'].includes(gameState) && (
                  <div className="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/10 transition-colors">
-                   <span className="text-2xl">🔊</span>
+                   <span className="text-3xl animate-pulse">🔊</span>
                  </div>
                )}
             </div>
@@ -204,15 +206,15 @@ export function ReverseGame({ lang }: ReverseGameProps) {
 
           <div className="grid grid-cols-1 gap-3">
             {trackData.options.map((option: any) => {
-              let btnClass = "p-4 rounded-xl font-semibold transition-all border border-neutral-700 bg-neutral-800 hover:bg-neutral-700 text-left px-6";
+              let btnClass = "p-5 rounded-2xl font-bold transition-all border border-neutral-700 bg-neutral-800 hover:bg-neutral-700 text-left px-8 text-sm";
               
               if (['won', 'lost', 'timeout'].includes(gameState)) {
                 if (option.isCorrect) {
-                  btnClass = "p-4 rounded-xl font-bold bg-green-600/20 border-green-500 text-green-400 px-6";
+                  btnClass = "p-5 rounded-2xl font-black bg-green-500 border-green-400 text-black px-8 text-sm shadow-[0_0_20px_rgba(34,197,94,0.3)]";
                 } else if (selectedOptionId === option.id) {
-                  btnClass = "p-4 rounded-xl bg-red-900/20 border-red-800 text-red-400 opacity-50 px-6";
+                  btnClass = "p-5 rounded-2xl bg-red-900/40 border-red-800 text-red-400 opacity-60 px-8 text-sm";
                 } else {
-                  btnClass = "p-4 rounded-xl bg-neutral-900 border-neutral-800 text-neutral-600 opacity-30 px-6";
+                  btnClass = "p-5 rounded-2xl bg-neutral-900 border-neutral-800 text-neutral-600 opacity-30 px-8 text-sm";
                 }
               }
 
@@ -229,13 +231,28 @@ export function ReverseGame({ lang }: ReverseGameProps) {
             })}
           </div>
 
-          {(gameState === 'won' || gameState === 'lost' || gameState === 'timeout') && (
+          {gameState === 'won' && (
+            <div className="mt-10 p-6 bg-emerald-500/10 border border-emerald-500/30 rounded-3xl text-center animate-in zoom-in duration-500">
+               <div className="flex items-center justify-center gap-2 text-emerald-500 font-bold mb-2">
+                 <FaTrophy /> <span>Level Cleared!</span>
+               </div>
+               <p className="text-sm text-neutral-400 mb-6">Your ears are perfectly synced. Next stage unlocked.</p>
+               <button 
+                 onClick={() => window.scrollTo({ top: window.scrollY + 600, behavior: 'smooth' })} 
+                 className="w-full bg-white text-black font-black py-4 rounded-xl hover:bg-neutral-200 transition-all flex items-center justify-center gap-2"
+               >
+                 Next Arcade Level <FaArrowRight />
+               </button>
+            </div>
+          )}
+
+          {(gameState === 'lost' || gameState === 'timeout') && (
             <div className="mt-8 pt-6 border-t border-neutral-800 text-center animate-in slide-in-from-top-2">
                <button 
                  onClick={handleSearch} 
-                 className="bg-white text-black font-bold px-8 py-3 rounded-full hover:bg-neutral-200 transition-colors"
+                 className="bg-neutral-800 text-white font-bold px-8 py-4 rounded-xl hover:bg-neutral-700 transition-colors w-full border border-neutral-700"
                >
-                 Play Next Round
+                 Retry Challenge
                </button>
             </div>
           )}

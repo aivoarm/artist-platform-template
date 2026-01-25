@@ -3,30 +3,23 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { sendGTMEvent } from '@next/third-parties/google'; 
 import MusicCTA from './MusicCTA'; 
-import { FaPlay, FaPause, FaUndo, FaSearch, FaYoutube, FaMusic, FaExchangeAlt, FaTrophy, FaExclamationTriangle, FaSpinner } from 'react-icons/fa'; 
+import { FaPlay, FaPause, FaUndo, FaSearch, FaYoutube, FaMusic, FaExchangeAlt, FaTrophy, FaExclamationTriangle, FaSpinner, FaArrowRight } from 'react-icons/fa'; 
 
 const CORRECT_ORDER = [0, 1, 2, 3, 4, 5]; 
 const SEGMENT_DURATION = 5; 
-
-const DEMO_VIDEO = {
-  id: '-DHuW1h1wHw',
-  name: 'Dave Brubeck - Take Five',
-  artist: 'The Dave Brubeck Quartet',
-  image: 'https://i.ytimg.com/vi/-DHuW1h1wHw/mqdefault.jpg'
-};
 
 interface PuzzlePiece {
   id: number;
   localAudioUrl?: string;
 }
 
-// 1. Define the interface for the component props
 interface MusicPuzzleProps {
   lang: string;
+  onComplete?: () => void;
+  forcedTrack?: any; // Receives track data from the Arcade Manager
 }
 
-// 2. Update the function signature to accept { lang }
-export function MusicPuzzle({ lang }: MusicPuzzleProps) {
+export function MusicPuzzle({ lang, onComplete, forcedTrack }: MusicPuzzleProps) {
   const [sourceMode, setSourceMode] = useState<'offline' | 'youtube' | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -39,9 +32,7 @@ export function MusicPuzzle({ lang }: MusicPuzzleProps) {
   const [isBuffering, setIsBuffering] = useState(false); 
   const [seconds, setSeconds] = useState(0);
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
-  
   const [highlightedIdx, setHighlightedIdx] = useState<number | null>(null); 
-  
   const [isPlayerReady, setIsPlayerReady] = useState(false);
   const [bestTime, setBestTime] = useState<number | null>(null);
   const [listenedPieces, setListenedPieces] = useState<Set<number>>(new Set());
@@ -54,13 +45,22 @@ export function MusicPuzzle({ lang }: MusicPuzzleProps) {
   const searchCache = useRef<Record<string, any[]>>({});
   const lastSearchTime = useRef<number>(0);
 
+  // Load best time on mount
   useEffect(() => {
     const savedBest = localStorage.getItem('puzzle_best_time');
     if (savedBest) setBestTime(parseInt(savedBest));
-    const timer = setTimeout(() => { loadOfflinePuzzle(); }, 300);
-    return () => clearTimeout(timer);
   }, []);
 
+  // Sync with Arcade Manager selection
+  useEffect(() => {
+    if (forcedTrack === 'offline') {
+      loadOfflinePuzzle();
+    } else if (forcedTrack && forcedTrack.id) {
+      selectYouTubeTrack(forcedTrack);
+    }
+  }, [forcedTrack]);
+
+  // YouTube API Setup
   useEffect(() => {
     const onPlayerStateChange = (event: any) => {
       if (event.data === 3) setIsBuffering(true);
@@ -104,7 +104,6 @@ export function MusicPuzzle({ lang }: MusicPuzzleProps) {
     setIsSearching(true);
     setHasSearched(false);
     try {
-      // 3. Optional: Pass lang to the API if your backend supports localized search
       const res = await fetch(`/api/youtube/search?q=${encodeURIComponent(query)}&lang=${lang}`);
       const data = await res.json();
       const results = Array.isArray(data) ? data : [];
@@ -118,7 +117,7 @@ export function MusicPuzzle({ lang }: MusicPuzzleProps) {
   };
 
   const selectYouTubeTrack = (video: any) => {
-    if (!isPlayerReady && sourceMode !== 'offline') return;
+    if (!isPlayerReady) return;
     setHasSearched(false);
     setSearchResults([]);
     setSearchQuery('');
@@ -224,20 +223,27 @@ export function MusicPuzzle({ lang }: MusicPuzzleProps) {
       setTimeout(() => setHighlightedIdx(null), 800); 
 
       if (JSON.stringify(updated.map(p => p.id)) === JSON.stringify(CORRECT_ORDER)) {
-        setIsSolved(true);
-        if (timerRef.current) clearInterval(timerRef.current);
-        const savedBest = localStorage.getItem('puzzle_best_time');
-        if (!savedBest || seconds < parseInt(savedBest)) {
-          localStorage.setItem('puzzle_best_time', seconds.toString());
-          setBestTime(seconds);
-        }
-        sendGTMEvent({ event: 'puzzle_complete', action: 'music_puzzle_success', value: seconds });
+        handleWin();
       }
     }
   };
 
+  const handleWin = () => {
+    setIsSolved(true);
+    if (timerRef.current) clearInterval(timerRef.current);
+    
+    const savedBest = localStorage.getItem('puzzle_best_time');
+    if (!savedBest || seconds < parseInt(savedBest)) {
+      localStorage.setItem('puzzle_best_time', seconds.toString());
+      setBestTime(seconds);
+    }
+
+    sendGTMEvent({ event: 'puzzle_complete', action: 'music_puzzle_success', value: seconds });
+    if (onComplete) onComplete();
+  };
+
   return (
-    <section className="my-8 p-4 sm:p-8 bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl shadow-xl relative">
+    <section className="my-8 p-4 sm:p-8 bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-3xl shadow-xl relative">
       <div id="yt-hidden-player" className="hidden"></div>
       
       {warning && (
@@ -246,82 +252,78 @@ export function MusicPuzzle({ lang }: MusicPuzzleProps) {
         </div>
       )}
 
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl sm:text-2xl font-serif font-bold flex items-center gap-3 text-neutral-900 dark:text-neutral-50">
-          {sourceMode === 'youtube' ? <FaYoutube className="text-red-600" /> : <FaMusic className="text-blue-500" />}
-          Music Puzzle
-        </h2>
-        <button onClick={() => shuffleAndStart(pieces)} className="text-[10px] font-bold uppercase text-neutral-500 bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded hover:text-blue-500 transition-colors">
-          Reshuffle Game
-        </button>
-      </div>
-
-      <div className="mb-8 space-y-4">
-        <form onSubmit={handleSearch} className="relative z-50">
-          <div className="flex gap-2">
-            <input 
-              type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search YouTube Song..."
-              className="flex-1 px-4 py-2 text-sm rounded-xl bg-white dark:bg-black border border-neutral-200 dark:border-neutral-800 outline-none focus:ring-2 focus:ring-red-500"
-            />
-            <button type="submit" className="px-4 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-all shadow-md">
-              {isSearching ? <FaSpinner className="animate-spin" /> : <FaSearch />}
-            </button>
-          </div>
-
-          {hasSearched && searchQuery !== '' && (
-            <div className="absolute left-0 right-0 top-full mt-2 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-xl shadow-2xl z-50 max-h-60 overflow-y-auto">
-              {searchResults.length > 0 ? searchResults.map((video: any) => (
-                <button key={video.id} onClick={() => selectYouTubeTrack(video)} className="w-full flex items-center gap-3 p-3 hover:bg-neutral-100 dark:hover:bg-neutral-700 text-left border-b last:border-none dark:border-neutral-700">
-                  <img src={video.image} className="w-12 h-8 object-cover rounded shadow-sm" alt="" />
-                  <div className="truncate text-neutral-900 dark:text-neutral-100">
-                    <p className="font-bold text-xs truncate">{video.name}</p>
-                    <p className="text-[10px] text-neutral-500">{video.artist}</p>
-                  </div>
+      {/* SEARCH INTERFACE */}
+      {!isSolved && (
+        <div className="mb-10 max-w-2xl mx-auto space-y-4">
+            <h2 className="text-center text-xs font-bold uppercase tracking-widest text-neutral-400">Search any track to start</h2>
+            <form onSubmit={handleSearch} className="relative z-50">
+            <div className="flex gap-2">
+                <input 
+                type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Type a song or artist..."
+                className="flex-1 px-4 py-3 rounded-xl bg-white dark:bg-black border border-neutral-200 dark:border-neutral-800 outline-none focus:ring-2 focus:ring-red-500"
+                />
+                <button type="submit" className="px-6 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-all shadow-md">
+                {isSearching ? <FaSpinner className="animate-spin" /> : <FaSearch />}
                 </button>
-              )) : <div className="p-4 text-center text-xs text-neutral-500">No videos found.</div>}
             </div>
-          )}
-        </form>
 
-        {!isSolved && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <button onClick={loadOfflinePuzzle} className="py-3 px-4 flex items-center justify-center gap-3 bg-white dark:bg-black border border-neutral-200 dark:border-neutral-800 rounded-xl hover:border-blue-500 transition-all text-sm font-bold text-neutral-700 dark:text-neutral-300">
-                <FaMusic className="text-blue-500" /> Play Offline Demo
-            </button>
-            <button onClick={() => selectYouTubeTrack(DEMO_VIDEO)} disabled={!isPlayerReady} className={`py-3 px-4 flex items-center justify-center gap-3 bg-white dark:bg-black border border-neutral-200 dark:border-neutral-800 rounded-xl transition-all text-sm font-bold text-neutral-700 dark:text-neutral-300 ${!isPlayerReady ? 'opacity-50 cursor-wait' : 'hover:border-red-500'}`}>
-                <FaYoutube className="text-red-500" /> {isPlayerReady ? 'Play "Take Five"' : 'Loading YT...'}
-            </button>
+            {hasSearched && searchQuery !== '' && (
+  <div className="absolute left-0 right-0 top-full mt-2 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-xl shadow-2xl z-50 max-h-60 overflow-y-auto">
+    {searchResults.length > 0 ? searchResults.map((video: any) => {
+      // Ensure we have a valid ID for the key
+      const uniqueKey = video.id || `search-res-${Math.random()}`;
+      return (
+        <button 
+          key={uniqueKey} 
+          onClick={() => selectYouTubeTrack(video)} 
+          className="w-full flex items-center gap-3 p-3 hover:bg-neutral-100 dark:hover:bg-neutral-700 text-left border-b last:border-none dark:border-neutral-700"
+        >
+          <img src={video.image} className="w-12 h-8 object-cover rounded shadow-sm" alt="" />
+          <div className="truncate text-neutral-900 dark:text-neutral-100">
+            <p className="font-bold text-xs truncate">{video.name}</p>
+            <p className="text-[10px] text-neutral-500">{video.artist}</p>
           </div>
-        )}
+        </button>
+      );
+    }) : (
+      <div key="no-results" className="p-4 text-center text-xs text-neutral-500">
+        No videos found.
       </div>
+    )}
+  </div>
+)}
+            </form>
+        </div>
+      )}
 
+      {/* PUZZLE ENGINE */}
       {pieces.length > 0 && (
         <div className="animate-in slide-in-from-bottom-4 duration-500">
-          <div className="flex justify-between items-center mb-6 bg-white dark:bg-black p-3 rounded-xl border border-neutral-100 dark:border-neutral-800">
-            <div className="flex items-center gap-3 truncate">
-              <img src={trackInfo.image} className="w-10 h-10 rounded-lg object-cover" alt="" />
+          <div className="flex justify-between items-center mb-8 bg-white dark:bg-black p-4 rounded-2xl border border-neutral-100 dark:border-neutral-800">
+            <div className="flex items-center gap-4 truncate">
+              <img src={trackInfo.image} className="w-12 h-12 rounded-xl object-cover shadow-md" alt="" />
               <div className="truncate">
-                <p className="text-[9px] font-bold text-red-600 uppercase tracking-widest leading-none mb-1">Now Playing</p>
-                <p className="text-sm font-bold truncate max-w-[120px] sm:max-w-none text-neutral-900 dark:text-neutral-50">{trackInfo.name}</p>
+                <p className="text-[9px] font-black text-red-600 uppercase tracking-widest leading-none mb-1">Now Playing</p>
+                <p className="text-sm font-bold truncate text-neutral-900 dark:text-neutral-50">{trackInfo.name}</p>
               </div>
             </div>
-            <div className="flex items-center gap-3 shrink-0">
+            <div className="flex items-center gap-4 shrink-0">
                <div className="text-right">
-                  <p className="text-[8px] uppercase font-black text-neutral-400 leading-none mb-1">Time</p>
-                  <span className="font-mono text-xs text-blue-500 font-bold">{seconds}s</span>
+                  <p className="text-[8px] uppercase font-black text-neutral-400 leading-none mb-1">Timer</p>
+                  <span className="font-mono text-sm text-blue-500 font-bold">{seconds}s</span>
                </div>
                {bestTime && (
-                 <div className="text-right border-l pl-3 border-neutral-200 dark:border-neutral-800">
+                 <div className="text-right border-l pl-4 border-neutral-200 dark:border-neutral-800">
                     <p className="text-[8px] uppercase font-black text-green-500 flex items-center gap-1 justify-end leading-none mb-1">Best <FaTrophy size={8}/></p>
-                    <span className="font-mono text-xs text-green-500 font-bold">{bestTime}s</span>
+                    <span className="font-mono text-sm text-green-500 font-bold">{bestTime}s</span>
                  </div>
                )}
-               <button onClick={() => shuffleAndStart(pieces)} className="p-2 text-neutral-400 hover:text-blue-500"><FaUndo size={14} /></button>
+               <button onClick={() => shuffleAndStart(pieces)} className="p-2 text-neutral-400 hover:text-blue-500 transition-colors"><FaUndo size={14} /></button>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 sm:gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {pieces.map((piece, index) => {
               const isCorrect = piece.id === index;
               const isSelected = selectedIdx === index;
@@ -333,15 +335,15 @@ export function MusicPuzzle({ lang }: MusicPuzzleProps) {
                 <div 
                   key={piece.id} 
                   onClick={() => handlePieceClick(index)} 
-                  className={`relative p-3 sm:p-5 border-2 rounded-xl transition-all duration-300 flex flex-col items-center gap-3 cursor-pointer ${
+                  className={`relative p-4 sm:p-6 border-2 rounded-2xl transition-all duration-300 flex flex-col items-center gap-4 cursor-pointer ${
                     isSelected ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 scale-95 shadow-inner' : 
                     isHighlighted ? 'border-yellow-400 bg-yellow-50 dark:bg-yellow-900/40 scale-105 z-20 ring-4 ring-yellow-400/20' : 
                     isCorrect ? 'border-green-500 bg-green-50/50 dark:bg-green-900/20' : 
-                    'bg-white dark:bg-black border-dashed border-neutral-300 dark:border-neutral-700'
+                    'bg-white dark:bg-black border-dashed border-neutral-300 dark:border-neutral-700 hover:border-neutral-400'
                   } ${!hasListened && !isSolved ? 'opacity-70 grayscale-[0.5]' : ''}`}
                 >
                   {isCurrentlyBuffering && (
-                    <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/60 dark:bg-black/60 rounded-xl">
+                    <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/60 dark:bg-black/60 rounded-2xl">
                       <FaSpinner className="animate-spin text-blue-500" size={24} />
                     </div>
                   )}
@@ -349,19 +351,19 @@ export function MusicPuzzle({ lang }: MusicPuzzleProps) {
                   <div className="w-full flex flex-col items-center">
                     {isSelected ? <FaExchangeAlt className="text-blue-500 mb-2 animate-pulse" /> : 
                      isHighlighted ? <span className="text-2xl mb-1 animate-bounce">🎯</span> : 
-                     <span className="text-2xl mb-1">{isCorrect ? '✅' : hasListened ? '🧩' : '❓'}</span>}
-                    <span className="text-[9px] font-bold uppercase tracking-widest text-neutral-400">
-                      {isHighlighted ? 'Landed!' : isCorrect ? `Part ${piece.id + 1}` : hasListened ? `Piece ${index + 1}` : 'Play to Unlock'}
+                     <span className="text-3xl mb-1">{isCorrect ? '✅' : hasListened ? '🧩' : '❓'}</span>}
+                    <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400">
+                      {isCorrect ? `Perfect` : hasListened ? `Segment ${index + 1}` : 'Play to Unlock'}
                     </span>
                   </div>
                   <button 
                     onClick={(e) => { e.stopPropagation(); playSegment(piece); }} 
-                    className={`w-10 h-10 rounded-full flex items-center justify-center shadow-md transition-all ${
+                    className={`w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all hover:scale-110 active:scale-95 ${
                       playingId === piece.id ? 'bg-red-600 text-white animate-pulse' : 
-                      hasListened ? 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600' : 'bg-neutral-800 text-white'
+                      hasListened ? 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600' : 'bg-neutral-900 text-white'
                     }`}
                   >
-                    {playingId === piece.id ? <FaPause size={14} /> : <FaPlay size={14} className="ml-0.5" />}
+                    {playingId === piece.id ? <FaPause size={16} /> : <FaPlay size={16} className="ml-1" />}
                   </button>
                 </div>
               );
@@ -370,10 +372,24 @@ export function MusicPuzzle({ lang }: MusicPuzzleProps) {
         </div>
       )}
 
+      {/* VICTORY SCREEN */}
       {isSolved && (
-        <div className="text-center mt-8 animate-in fade-in zoom-in duration-700 pt-6 border-t border-neutral-100 dark:border-neutral-800">
-          <p className="p-3 text-green-700 dark:text-green-400 font-bold text-sm mb-4 uppercase tracking-tighter font-serif">✨ Solved in {seconds}s! ✨</p>
-          <MusicCTA label={sourceMode === 'youtube' ? "Watch Full on YouTube" : "Listen on Bandcamp"} albumUrl={trackInfo.url} baseColor={sourceMode === 'youtube' ? "#FF0000" : "#00bfff"} hoverColor={sourceMode === 'youtube' ? "#CC0000" : "#0080ff"} />
+        <div className="text-center mt-12 animate-in fade-in zoom-in duration-700 pt-10 border-t border-neutral-100 dark:border-neutral-800">
+          <div className="bg-emerald-500/10 border border-emerald-500/50 rounded-[2rem] p-8 mb-6">
+            <h3 className="text-3xl font-serif font-bold text-emerald-600 mb-2">Well Done! 🏆</h3>
+            <p className="text-neutral-600 dark:text-neutral-400 mb-6">
+              You cracked the rhythm in <strong>{seconds} seconds</strong>.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+                <MusicCTA label={sourceMode === 'youtube' ? "Watch Full Track" : "Full Track on Bandcamp"} albumUrl={trackInfo.url} baseColor={sourceMode === 'youtube' ? "#FF0000" : "#00bfff"} hoverColor={sourceMode === 'youtube' ? "#CC0000" : "#0080ff"} />
+                <button 
+                    onClick={() => window.scrollTo({ top: window.scrollY + 600, behavior: 'smooth' })}
+                    className="flex items-center justify-center gap-3 px-8 py-3 bg-neutral-900 dark:bg-white text-white dark:text-black rounded-2xl font-bold hover:scale-105 transition-all shadow-xl"
+                >
+                    Next Arcade Level <FaArrowRight />
+                </button>
+            </div>
+          </div>
         </div>
       )}
     </section>
