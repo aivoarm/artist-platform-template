@@ -12,6 +12,7 @@ import Script from 'next/script';
 import { DelayedSubscribePopup } from '../components/DelayedSubscribePopup'; 
 import { GoogleTagManager } from '@next/third-parties/google'
 import { Navbar } from '../components/nav'
+import { AddHomeBanner } from '../components/AddHomeBanner';
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || ''
 const YOUR_APP_ID = process.env.YOUR_FACEBOOK_APP_ID; 
@@ -51,19 +52,25 @@ export default async function RootLayout({
     >
       <head>
         <meta property="fb:app_id" content={YOUR_APP_ID} />
-        {/* Prevents iOS auto-zoom on inputs, which stops the horizontal wiggle */}
+        {/* Viewport lock to prevent horizontal wiggle and auto-zoom */}
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+        
+        {/* iOS PWA Meta Tags: Mandatory for "Add to Home Screen" to feel like a real app */}
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="Arman Ayva" />
+        <link rel="apple-touch-icon" href="/icon-192x192.png" />
       </head>
       <body 
         className="antialiased min-h-screen overflow-x-hidden dark:bg-black font-sans"
         suppressHydrationWarning
       >
+        {/* Banner appears at the top for mobile users only */}
+        <AddHomeBanner />
+
         <Providers> 
-          {/* By keeping the main wrapper here, we allow the body to handle the 100vw lock 
-            while the content stays centered and restricted.
-          */}
           <main className="flex-auto min-w-0 flex flex-col px-4 md:px-0 max-w-6xl mx-auto mt-8">
-              <Navbar lang={lang} />
+            <Navbar lang={lang} />
 
             <div className="flex-grow mt-6">
               {children}
