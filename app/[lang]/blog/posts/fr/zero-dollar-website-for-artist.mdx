@@ -1,0 +1,89 @@
+---
+title: "🛠️ The Zero-Cost Stack: Next.js, Vercel, & GitHub"
+publishedAt: '2025-11-10'
+summary: "A step-by-step guide to building and deploying a professional, lightning-fast portfolio or website using the powerful, free stack of Next.js for the code, Vercel for hosting, and GitHub for version control."
+image: "/images/zero-cost-stack-card.jpg"
+headerImage: "https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/v1549165042/IMG_5318a_onbcyj.jpg" 
+---
+
+## 🛠️ The Zero-Cost Stack: Next.js, Vercel, & GitHub
+
+This trifecta is a powerful combination for building and deploying a professional web presence for minimal to zero cost. It leverages world-class technology to ensure your site is fast, secure, and easy to maintain.
+
+| Component | Role | Cost | Why it's the Best Choice |
+| :--- | :--- | :--- | :--- |
+| **Next.js** | The Framework (The code) | **Free** (Open Source) | High performance, excellent SEO, and easy image optimization. Maintained by Vercel. |
+| **Vercel** | The Host (The server) | **Free** (Hobby Plan) | Zero-config deployment for Next.js, global CDN for speed, and automatic SSL. |
+| **GitHub** | The Source (The storage) | **Free** (Public/Private Repos) | Securely stores your code and automatically triggers deployments to Vercel upon every change. |
+
+---
+
+## 🚀 Step 1: Set Up Your Project on GitHub (Free)
+
+Your website code needs a home, and that's GitHub. This platform securely stores your code and manages your project's version history.
+
+* **Create a GitHub Account:** If you don't have one, sign up.
+* **Start Your Project:** You have two main options:
+    * **Option A (Recommended for Artists): Use a Template.** Search for "Next.js portfolio template GitHub" (or "Vercel template"). Many talented developers offer beautiful, free codebases. Simply "**Fork**" or "**Use this template**" to create a copy in your own repository. This saves you weeks of coding.
+    * **Option B (For Developers): Start from Scratch.** Run `npx create-next-app@latest` locally and follow the prompts. Then, push your local code to a new, empty GitHub repository.
+* **Clone Locally:** Use your preferred method (VS Code, Git CLI) to download the repository onto your computer.
+
+> **Next Step:** Your code is now securely stored and version-controlled.
+
+---
+
+## 💻 Step 2: Build and Personalize with Next.js (Free)
+
+This is where you bring your portfolio to life. Next.js is a React framework that makes building fast, modern websites straightforward.
+
+### Customize the Content:
+
+Open the project in your code editor. You will primarily be editing files to:
+* Add your own text on the About page (`/pages/about.js` or `/app/about/page.js`).
+* Replace placeholder images with your artwork (often in the `/public` folder).
+* Adjust the navigation links.
+
+### Add Your Artwork (The Key):
+
+1.  Organize your best pieces into folders.
+2.  Use the Next.js `<Image>` component. This is **crucial**! It automatically optimizes your large art files, resizing them, and serving them in modern formats (like WebP) so your site loads lightning fast on any device.
+
+### Version Control:
+
+* **Commit Your Changes:** Once you've made your customizations, commit the changes with a meaningful message (e.g., `git commit -m "Added my first five art pieces"`).
+* **Push to GitHub:** Upload your changes back to your GitHub repository (`git push origin main`).
+
+> **Next Step:** Your final code is ready for deployment.
+
+---
+
+## ☁️ Step 3: Deploy with Vercel (Free Hosting)
+
+Vercel is the creator of Next.js, so their hosting is perfectly optimized. Their **Hobby Plan** is free forever and includes everything a portfolio needs.
+
+1.  **Sign Up for Vercel:** Go to [Vercel](https://vercel.com) and sign up using your **GitHub account**. This is the key to the free, automated connection.
+2.  **Import Your Project:**
+    * In the Vercel dashboard, click "**Add New**" > "**Project**."
+    * Select your GitHub repository from the list.
+    * Vercel will automatically detect that it is a Next.js project. You can usually just click "**Deploy**."
+3.  **Your Free URL is Live!** Vercel instantly deploys your site to a free URL (e.g., `my-artist-site.vercel.app`).
+4.  **Automagic Updates:** From now on, any time you push new code to your main branch on GitHub, Vercel will automatically rebuild and deploy your site in minutes. This is the magic of continuous deployment (CI/CD).
+
+> **Next Step:** Your portfolio is now live on the internet, 100% free.
+
+---
+
+## 🌐 Step 4: Purchase and Connect Your Custom Domain (The Only Cost)
+
+The final step is connecting your professional domain name, like `https://www.yourname.com`. This is the only part that costs money (typically $10–$20 per year).
+
+1.  **Buy Your Domain:** Purchase your domain name from any registrar (Namecheap, GoDaddy, Google Domains, or even directly through Vercel).
+2.  **Connect in Vercel:**
+    * In your Vercel project settings, navigate to "**Domains**."
+    * Enter your purchased domain name.
+    * Vercel will give you a simple set of instructions (usually an A record or CNAME record) to add to your domain registrar's DNS settings.
+3.  **Wait and Confirm:** After updating your DNS settings, Vercel will verify the domain connection, often in less than an hour.
+
+## 🎉 Congratulations!
+
+Your professional artist portfolio is now live on your custom domain, running on a world-class infrastructure for minimal cost. You have full control over the code, automatic updates, and a lightning-fast site to showcase your work—all for just the price of your domain.

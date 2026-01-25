@@ -23,22 +23,19 @@ export default function ContactPage() {
         </ul>
       </div>
 
-       JotForm Embed Section
-      <div className="w-full mx-auto" style={{ minHeight: '800px' }}>
-        <iframe
-          id="ContactJotFormEmbed"
-          // Set src to the JotForm URL
-          src={jotFormSrc}
-          // The title is important for accessibility
-          title="Arman Ayva Contact Form"
-          // Set dimensions to full width and a generous height
-          width="100%"
-          height="800px"
-          frameBorder="0"
-          scrolling="yes" 
-          style={{ minHeight: '800px', border: 'none' }}
-        />
-      </div>
+
+<iframe
+  id="JotFormIFrame-250527544444255"
+  title="Formulaire de soumission Jazz"
+  allowFullScreen
+  allow="microphone; camera; geolocation"
+  src="https://form.jotform.com/250527544444255"
+  style={{
+    minWidth: '100%',
+    height: '1800px',
+    border: 'none'
+  }}
+/>
 {/*
       <div className="mt-8 text-sm text-neutral-500 dark:text-neutral-400">
         <p>
