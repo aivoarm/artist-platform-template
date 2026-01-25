@@ -7,10 +7,9 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Footer } from '../components/footer' 
 import { baseUrl } from '../sitemap' 
 import { Providers } from '../Providers'; 
-import { GoogleAnalytics } from '@next/third-parties/google'
+import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google'
 import Script from 'next/script'; 
 import { DelayedSubscribePopup } from '../components/DelayedSubscribePopup'; 
-import { GoogleTagManager } from '@next/third-parties/google'
 import { Navbar } from '../components/nav'
 import { AddHomeBanner } from '../components/AddHomeBanner';
 
@@ -52,10 +51,9 @@ export default async function RootLayout({
     >
       <head>
         <meta property="fb:app_id" content={YOUR_APP_ID} />
-        {/* Viewport lock to prevent horizontal wiggle and auto-zoom */}
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
         
-        {/* iOS PWA Meta Tags: Mandatory for "Add to Home Screen" to feel like a real app */}
+        {/* iOS PWA Meta Tags */}
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="Arman Ayva" />
@@ -65,7 +63,9 @@ export default async function RootLayout({
         className="antialiased min-h-screen overflow-x-hidden dark:bg-black font-sans"
         suppressHydrationWarning
       >
-        {/* Banner appears at the top for mobile users only */}
+        {/* Initialize GTM at the very top of the body for best tracking coverage */}
+        <GoogleTagManager gtmId="GTM-TKFS52TF" />
+
         <AddHomeBanner />
 
         <Providers> 
@@ -82,9 +82,10 @@ export default async function RootLayout({
           </main>
         </Providers>
 
+        {/* Analytics components */}
         <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
-        <GoogleTagManager gtmId='GTM-TKFS52TF' />
 
+        {/* TikTok Pixel */}
         {TIKTOK_PIXEL_ID && TIKTOK_PIXEL_ID !== 'YOUR_TIKTOK_PIXEL_ID' && (
           <>
             <Script
