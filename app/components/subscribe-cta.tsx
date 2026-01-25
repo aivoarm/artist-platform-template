@@ -3,9 +3,18 @@
 import Link from 'next/link';
 
 export function SubscribeCTA({ lang, dict }: { lang: string; dict: any }) {
-  // If dict is missing, we show nothing to prevent a crash, 
-  // OR we use the default English keys.
   if (!dict) return null;
+
+  // Google Ads Conversion Trigger
+  const handleConversionClick = () => {
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'conversion', {
+        'send_to': 'AW-11429089260/KXrCCJe6h5kZEOyf6Mkq',
+        // We don't use a callback redirect here because 
+        // the Link component handles the navigation.
+      });
+    }
+  };
 
   return (
     <section className="bg-neutral-900 text-white text-center py-16 px-4 sm:px-6 lg:px-8 rounded-2xl shadow-2xl">
@@ -21,6 +30,7 @@ export function SubscribeCTA({ lang, dict }: { lang: string; dict: any }) {
         href={`/${lang}/other/subscribe`}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={handleConversionClick} // ⬅️ Trigger conversion on click
         className="inline-block bg-sky-500 hover:bg-sky-600 text-white font-bold py-4 px-10 rounded-lg text-lg transition-colors duration-300 shadow-xl"
       >
         {dict.button || "Subscribe Now"}
