@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { FaRotateRight, FaArrowRight, FaYoutube, FaSpinner, FaForward, FaSquare } from 'react-icons/fa6';
+import { FaRotateRight, FaArrowRight, FaYoutube, FaSpinner, FaForward, FaSquare, FaPlay } from 'react-icons/fa6';
 
 interface BpmDetectiveProps {
   initialTracks: any[];
@@ -14,11 +14,14 @@ export function BpmDetective({ initialTracks, onComplete }: BpmDetectiveProps) {
   const [gameState, setGameState] = useState<'idle' | 'playing' | 'result'>('idle');
   const [loading, setLoading] = useState(false);
   const [iframeLoaded, setIframeLoaded] = useState(false);
+  // NEW: State to track if the user has clicked "Play" for the current track
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const startNewGame = () => {
     if (!initialTracks || initialTracks.length === 0) return;
     setLoading(true);
     setIframeLoaded(false);
+    setIsPlaying(false); // Reset play state for new track
     
     let randomTrack = initialTracks[Math.floor(Math.random() * initialTracks.length)];
     if (initialTracks.length > 1 && track && randomTrack.videoId === track.videoId) {
@@ -35,11 +38,12 @@ export function BpmDetective({ initialTracks, onComplete }: BpmDetectiveProps) {
     setGameState('idle');
     setTrack(null);
     setIframeLoaded(false);
+    setIsPlaying(false);
   };
 
   const checkGuess = () => {
-    // Setting state to result will unmount the iframe in the render logic below
     setGameState('result');
+    setIsPlaying(false); // Stop video on result
     const targetBpm = track?.bpm || 110;
     if (Math.abs(guess - targetBpm) <= 5 && onComplete) {
       onComplete();
@@ -73,14 +77,27 @@ export function BpmDetective({ initialTracks, onComplete }: BpmDetectiveProps) {
             <div className="flex justify-center w-full relative">
               <div className="relative w-[calc(100vw-100px)] max-w-[220px] aspect-video rounded-xl overflow-hidden bg-black shadow-lg border-2 border-neutral-200 dark:border-neutral-800 flex-shrink-0">
                 
-                {(!iframeLoaded || loading) && (
+                {/* 1. CLICK TO PLAY OVERLAY */}
+                {!isPlaying && gameState === 'playing' && (
+                  <button 
+                    onClick={() => setIsPlaying(true)}
+                    className="absolute inset-0 z-30 bg-black/60 hover:bg-black/40 transition-colors flex flex-col items-center justify-center group"
+                  >
+                    <div className="w-12 h-12 bg-red-600 text-white rounded-full flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform">
+                      <FaPlay className="ml-1" />
+                    </div>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-white mt-3 opacity-80">Click to Play</span>
+                  </button>
+                )}
+
+                {(!iframeLoaded || loading) && isPlaying && (
                   <div className="absolute inset-0 bg-neutral-200 dark:bg-neutral-800 animate-pulse flex items-center justify-center z-10">
                     <FaYoutube className="text-neutral-400" size={20} />
                   </div>
                 )}
 
-                {/* STOP LOGIC: Only render iframe when gameState is 'playing' */}
-                {gameState === 'playing' ? (
+                {/* 2. CONDITIONAL IFRAME LOADING */}
+                {gameState === 'playing' && isPlaying ? (
                   <iframe
                     width="100%"
                     height="100%"
@@ -92,12 +109,17 @@ export function BpmDetective({ initialTracks, onComplete }: BpmDetectiveProps) {
                   />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center bg-neutral-900">
-                     <FaYoutube className="text-white/20" size={40} />
+                     <img 
+                      src={`https://img.youtube.com/vi/${track.videoId}/mqdefault.jpg`} 
+                      className="absolute inset-0 w-full h-full object-cover opacity-40 blur-sm" 
+                      alt=""
+                     />
+                     <FaYoutube className="text-white/20 relative z-10" size={40} />
                   </div>
                 )}
               </div>
 
-              {/* ACTION BUTTONS (TOP RIGHT) */}
+              {/* ACTION BUTTONS */}
               <div className="absolute -right-2 top-1/2 -translate-y-1/2 flex flex-col gap-2 z-20">
                 {gameState === 'playing' && (
                   <>
@@ -144,7 +166,7 @@ export function BpmDetective({ initialTracks, onComplete }: BpmDetectiveProps) {
 
                 <button 
                   onClick={checkGuess} 
-                  className="w-full py-4 bg-neutral-900 dark:bg-white text-white dark:text-black rounded-2xl font-black uppercase tracking-widest text-[10px] active:scale-95 transition-all"
+                  className="w-full py-4 bg-neutral-900 dark:bg-white text-white dark:text-black rounded-2xl font-black uppercase tracking-widest text-[10px] active:scale-95 transition-all shadow-md"
                 >
                   Submit Guess
                 </button>
@@ -167,24 +189,13 @@ export function BpmDetective({ initialTracks, onComplete }: BpmDetectiveProps) {
                   </div>
                 </div>
 
-                {isCorrect ? (
-                  <div className="bg-emerald-500/10 border border-emerald-500/20 p-5 rounded-3xl">
-                     <button 
-                      onClick={() => window.scrollTo({ top: window.scrollY + 700, behavior: 'smooth' })}
-                      className="w-full py-4 bg-emerald-600 text-white rounded-xl font-black uppercase text-[10px] tracking-widest flex items-center justify-center gap-2"
-                     >
-                      Next Level <FaArrowRight />
-                     </button>
-                  </div>
-                ) : (
-                  <button 
-                    onClick={startNewGame} 
-                    disabled={loading}
-                    className="w-full py-4 border-2 border-neutral-200 dark:border-neutral-800 rounded-xl font-black uppercase text-[10px] tracking-widest flex items-center justify-center gap-2 active:scale-95 transition-all"
-                  >
-                    <FaRotateRight className={loading ? 'animate-spin' : ''} /> {loading ? 'Loading...' : 'Try Another'}
-                  </button>
-                )}
+                <button 
+                  onClick={startNewGame} 
+                  disabled={loading}
+                  className="w-full py-4 border-2 border-neutral-200 dark:border-neutral-800 rounded-xl font-black uppercase text-[10px] tracking-widest flex items-center justify-center gap-2 active:scale-95 transition-all"
+                >
+                  <FaRotateRight className={loading ? 'animate-spin' : ''} /> {loading ? 'Loading...' : 'Try Another'}
+                </button>
               </div>
             )}
           </div>
