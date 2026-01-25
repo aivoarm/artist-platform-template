@@ -84,5 +84,28 @@
   "description": "Suscríbete para recibir las últimas noticias, lanzamientos y oportunidades de colaboración de Arman Ayva – Compositor de Jazz de Montreal. ¡Descubre antes que nadie nuevas pistas, listas de reproducción y proyectos creativos!",
   "button": "Suscribirse ahora",
   "disclaimer": "Tu correo electrónico solo se utilizará para actualizaciones de los proyectos de Arman Ayva."
+},
+"about": {
+  "title": "Arman Ayva – Compositor de Jazz de Montreal 🎷",
+  "lead": "Donde el jazz moderno se encuentra con la narrativa cinematográfica. Arman Ayva es un compositor basado en Montreal cuyo sonido fusiona el alma del jazz clásico con la libertad del funk y el misticismo de la música del mundo.",
+  "section1_title": "Del lente a los loops: un guion sonoro",
+  "section1_text": "Antes de componer jazz, mi mundo estaba enmarcado por el lente de una cámara. Como fotógrafo y cineasta aficionado, pasé años capturando historias visuales. Hoy, utilizo esos mismos instintos visuales para crear guiones con sonido.",
+  "section2_title": "La fusión de Montreal: alma armenia y jazz-funk",
+  "section2_text": "Basada en la encrucijada creativa de Montreal, mi música es una exploración profundamente personal de la herencia y el ritmo. Uno la calidez de los motivos folclóricos armenios con la libertad de la fusión de los 70.",
+  "section3_title": "Una filosofía centrada en el estudio",
+  "section3_text": "No soy un artista de escenario; soy un entusiasta del estudio dedicado a la arquitectura del sonido. Al enfocarme exclusivamente en la producción en Apple Logic Pro, priorizo las capas intrincadas de bajo y percusión global.",
+  "section4_title": "Más allá de la composición: curando el ambiente",
+  "section4_text": "La creación es solo la mitad del viaje. Como curador de la lista 'Funky Jazz Mood Lifter' en Spotify, conecto con cientos de seguidores que comparten la pasión por los grooves instrumentales.",
+  "cta_ready": "¿Listo para sumergirte en la música?",
+  "cta_button": "Explorar la música e historias cinematográficas",
+  "disclaimer_title": "Producción musical y descargo de responsabilidad",
+  "disclaimer_lead": "Todas las composiciones presentadas en este sitio son obras originales producidas por Arman Ayva. Nos adherimos a los más altos estándares de integridad artística y legal.",
+  "disclaimer_tech_title": "Detalles de producción técnica",
+  "disclaimer_tech_text": "Estas obras se crean principalmente con Apple Logic Pro y herramientas de audio profesional.",
+  "disclaimer_royalty_title": "Uso libre de regalías (Apple Logic Pro)",
+  "disclaimer_royalty_text": "Según el acuerdo de Apple Inc., todos los loops y muestras proporcionados son libres de regalías para su uso en composiciones originales y pueden ser monetizados.",
+  "disclaimer_integrity_title": "Garantía de integridad artística",
+  "disclaimer_integrity_text": "Ninguna muestra de Apple se vende de forma independiente. Cada pista representa una composición artística original significativamente transformada.",
+  "disclaimer_contact": "Para consultas de licencias comerciales, visite la"
 }
 }

@@ -77,5 +77,28 @@
     "description": "Subscribe to receive the latest news, releases, and collaboration opportunities from Arman Ayva – Montreal Jazz Composer. Discover new tracks, playlists and upcoming projects first!",
     "button": "Subscribe Now",
     "disclaimer": "Your email will only be used for Arman Ayva project updates."
+  },
+  "about": {
+    "title": "Arman Ayva – Montreal Jazz Composer & Hobbyist 🎷",
+    "lead": "Where modern jazz meets cinematic storytelling. Arman Ayva is a Montreal-based composer whose sound merges the soul of classic jazz with the freedom of funk and the mysticism of world music.",
+    "section1_title": "From Lens to Loops: A Storyboard of Sound",
+    "section1_text": "Before I began composing jazz, my world was framed through a camera lens. As a photographer and amateur filmmaker, I spent years capturing visual stories. Today, I use those same visual instincts to storyboard with sound.",
+    "section2_title": "The Montreal Fusion: Armenian Soul meets Jazz-Funk",
+    "section2_text": "Based in the creative crossroads of Montreal, my music is a deeply personal exploration of heritage and rhythm. I bridge the warmth of Armenian folk motifs with the high-energy freedom of 1970s fusion and analog synth textures.",
+    "section3_title": "A Studio-First Philosophy",
+    "section3_text": "I am not a performing artist; I am a studio-focused hobbyist dedicated to the architecture of sound. By focusing exclusively on production within Apple Logic Pro, I prioritize the intricate layering of live bass and global percussion.",
+    "section4_title": "Beyond Composing: Curating the Vibe",
+    "section4_text": "Creation is only half the journey. As the curator of the 'Funky Jazz Mood Lifter' playlist on Spotify, I connect with hundreds of followers who share a passion for bass-heavy grooves.",
+    "cta_ready": "Ready to dive into the music?",
+    "cta_button": "Explore the Music & Cinematic Stories",
+    "disclaimer_title": "Music Production & Licensing Disclaimer",
+    "disclaimer_lead": "All music compositions presented on this website are original works produced by Arman Ayva. We adhere to the highest standards of artistic and legal integrity.",
+    "disclaimer_tech_title": "Technical Production Details",
+    "disclaimer_tech_text": "These works are created primarily using Apple Logic Pro and professional digital audio tools. Some compositions may include sounds or samples from the Logic Pro library.",
+    "disclaimer_royalty_title": "Royalty-Free Usage (Apple Logic Pro)",
+    "disclaimer_royalty_text": "According to Apple Inc.’s Logic Pro Software License Agreement, all Apple-provided loops and samples are royalty-free for use in original compositions and can be distributed and monetized.",
+    "disclaimer_integrity_title": "Artistic Integrity Guarantee",
+    "disclaimer_integrity_text": "No individual Apple loops are sold on a standalone basis. Every track represents an original artistic composition that has been significantly transformed.",
+    "disclaimer_contact": "For licensing inquiries regarding commercial use, please visit the"
   }
 }
