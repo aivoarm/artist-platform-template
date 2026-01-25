@@ -1,39 +1,38 @@
+'use client';
+
 import Link from 'next/link';
 
-export function NewReleasesSpotlight() {
+// Pass lang and the specific new_releases dictionary fragment as props
+export function NewReleasesSpotlight({ lang, dict }: { lang: string; dict: any }) {
+  if (!dict) return null;
+
   return (
     <div className="py-6">
       
-      {/* SECTION HEADER - Added explicit dark mode color */}
+      {/* SECTION HEADER */}
       <h2 className="font-bold text-3xl font-serif mb-6 tracking-tighter text-neutral-400 dark:text-neutral-50">
-        New Releases & Highlights
+        {dict.title}
       </h2>
 
-      {/* 1. SINGLE SPOTLIGHT: Take Five, Get One */}
+      {/* 1. SINGLE SPOTLIGHT */}
       <div className="border border-neutral-200 dark:border-neutral-800 p-6 rounded-xl mb-8 bg-neutral-50 dark:bg-neutral-900 shadow-xl">
         <div className="flex items-center mb-4">
           <span className="text-4xl mr-3">🎵</span>
-          {/* Heading - Added explicit dark mode color */}
           <h3 className="font-bold text-2xl tracking-tight text-neutral-900 dark:text-neutral-50">
-            New Single: Take Five, Get One
+            {dict.single_title}
           </h3>
         </div>
-        {/* Body Paragraph - Added explicit dark mode color */}
         <p className="text-lg mb-3 text-neutral-800 dark:text-neutral-50">
-          In this track, Arman Ayva fuses **electronic textures, electric piano chords, 
-          and live bass grooves** into a lush instrumental story. It's a modern groove 
-          that feels both calm and alive, blending **Jazz Fusion, Electronic, and Ambient** genres.
+          {dict.single_desc}
         </p>
-        {/* Key Info - Changed dark:text-neutral-400 to dark:text-neutral-50 */}
         <p className="text-sm font-semibold text-neutral-600 dark:text-neutral-50">
-          Key: F minor • BPM: 120 • Mood: Happy / Chill / Sexy
+          {dict.single_meta}
         </p>
         <Link 
-          href="/blog/take-five-get-one" // Assume a dedicated blog post
-          // Links look good (using blue-500)
-          className="text-sm font-semibold mt-4 inline-block text-blue-600 hover:text-blue-600 transition-colors"
+          href={`/${lang}/blog/take-five-get-one`} 
+          className="text-sm font-semibold mt-4 inline-block text-blue-600 hover:text-blue-500 transition-colors"
         >
-          Explore the Track Details →
+          {dict.explore_details}
         </Link>
       </div>
 
@@ -42,38 +41,35 @@ export function NewReleasesSpotlight() {
         
         {/* The Pizzicata Blues */}
         <div className="p-4 border border-neutral-200 dark:border-neutral-800 rounded-lg">
-          {/* Heading - Added explicit dark mode color */}
-          <h4 className="font-bold text-lg mb-2 text-neutral-900 dark:text-neutral-50">The Pizzicata Blues (6 Tracks)</h4>
-          {/* Body Text - Corrected dark mode utility and set to dark:text-neutral-50 */}
+          <h4 className="font-bold text-lg mb-2 text-neutral-900 dark:text-neutral-50">
+            {dict.pizzicata_title}
+          </h4>
           <p className="text-sm text-neutral-700 dark:text-neutral-50">
-            A conversational album reflecting on the life of an indie artist, moving through
-            playful funk (Pour In) and moody, soulful jazz (Je m'appelle Blues).
+            {dict.pizzicata_desc}
           </p>
           <Link 
-            href="/blog/pizzicata-blues"
-            // Link color looks good (neutral-500 in light, but blue on hover is fine)
+            href={`/${lang}/blog/pizzicata-blues`}
             className="text-xs font-semibold mt-2 inline-block text-neutral-500 hover:text-blue-500 transition-colors"
           >
-            See Full Track Story →
+            {dict.pizzicata_link}
           </Link>
         </div>
 
-        {/* Montreal Heist: Criminal Case #68 */}
+        {/* Montreal Heist */}
         <div className="p-4 border border-neutral-200 dark:border-neutral-800 rounded-lg">
-          {/* Heading - Added explicit dark mode color */}
-          <h4 className="font-bold text-lg mb-2 text-neutral-900 dark:text-neutral-50">Montreal Heist: Criminal Case #68</h4>
-          {/* Body Text - Corrected dark mode utility and set to dark:text-neutral-50 */}
+          <h4 className="font-bold text-lg mb-2 text-neutral-900 dark:text-neutral-50">
+            {dict.heist_title}
+          </h4>
           <p className="text-sm text-neutral-700 dark:text-neutral-50">
-            A musical crime story in four songs: *Rolling Buzz, Underground, Morning,* and *Criminal Case 68*. A narrative-driven instrumental experience.
+            {dict.heist_desc}
           </p>
           <Link 
             href="https://ffm.to/criminal_case_68"
             target="_blank"
             rel="noopener noreferrer"
-            // Link color looks good
             className="text-xs font-semibold mt-2 inline-block text-neutral-500 hover:text-blue-500 transition-colors"
           >
-            Listen on All Platforms →
+            {dict.listen_platforms}
           </Link>
         </div>
       </div>

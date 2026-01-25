@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation'; // Added to detect current page
 import { sendGTMEvent } from '@next/third-parties/google';
 
-// 1. Define the Interface to satisfy the Layout's TS check
 interface DelayedSubscribePopupProps {
   lang: string;
 }
@@ -40,29 +40,37 @@ function SubscribeCTAContent() {
   );
 }
 
-// 2. Accept 'lang' as a prop
 export function DelayedSubscribePopup({ lang }: DelayedSubscribePopupProps) {
   const [isVisible, setIsVisible] = useState(false);
-  const DELAY_TIME_MS = 30000; // 30 seconds (Your code said 10s, but the constant is 30s)
+  const pathname = usePathname(); // Get the current URL path
+  const DELAY_TIME_MS = 30000; // 30 seconds
 
   useEffect(() => {
+    // 1. Check if the current page is the 'about' page
+    // This matches /en/about, /fr/about, /hy/about, etc.
+    const isAboutPage = pathname?.endsWith('/about');
+
+    if (!isAboutPage) return;
+
+    // 2. Only start the timer if we are on the about page
     const timer = setTimeout(() => {
       setIsVisible(true);
     }, DELAY_TIME_MS);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [pathname]); // Re-run if the user navigates to a different page
 
   const closePopup = () => {
     setIsVisible(false);
   };
 
+  // If not visible (either timer not finished or wrong page), return null
   if (!isVisible) {
     return null;
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 p-4" onClick={closePopup}>
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-75 p-4" onClick={closePopup}>
       <div 
         className="relative max-w-xl w-full transform transition-all duration-300 scale-100 opacity-100" 
         onClick={(e) => e.stopPropagation()}

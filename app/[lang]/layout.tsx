@@ -11,6 +11,7 @@ import { GoogleAnalytics } from '@next/third-parties/google'
 import Script from 'next/script'; 
 import { DelayedSubscribePopup } from '../components/DelayedSubscribePopup'; 
 import { GoogleTagManager } from '@next/third-parties/google'
+import { Navbar } from '../components/nav'
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || ''
 const YOUR_APP_ID = process.env.YOUR_FACEBOOK_APP_ID; 
@@ -60,6 +61,8 @@ export default async function RootLayout({
       >
         <Providers> 
           <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
+              <Navbar lang={lang} />
+
             {children}
             {/* This will now pass the build because the Footer is typed */}
             <Footer lang={lang} />

@@ -3,10 +3,10 @@
     "name": "Arman Ayva",
     "subtitle": "Innovative Jazz-Fusion from Montreal."
   },
-  "intro": {
-    "text": "Welcome to Arman's Musical Journey! I'm an innovative artist and composer based in Montreal...",
-    "influences": "My music is a fusion of diverse influences, inspired by luminaries like Marcus Miller..."
-  },
+"intro": {
+  "text": "Welcome to the intersection of groove and melody. I’m Arman Ayva, a Montreal-based artist crafting a new language in Jazz-Fusion. My music lives in the space between live instrumentation and electronic exploration—where deep basslines meet complex, soulful arrangements.",
+  "influences": "My sound is fueled by the legacy of legends like Marcus Miller, US3, and Dave Brubeck. By blending Jazz-Funk with Ambient and Experimental elements, I strive to create music that is both intellectually stimulating and undeniably funky."
+},
   "puzzle": {
     "badge": "New Interactive Experience",
     "title": "The Musical Puzzle",
@@ -16,7 +16,6 @@
   "latest_single": { "label": "Latest Single" },
   "videos": { "title": "Arman Ayva – Video Library", "description": "Explore my discography..." },
   "playlist": { "title": "Funky Jazz Mood Lifter Playlist", "link_text": "Funky-Jazz-Mood-Lifter" },
-  "reviews": { "title": "🎷 Industry Feedback & Reviews" },
   "general": { "view_all": "View All Music & Stories", "other_stories": "All Other Stories" },
   "nav": {
     "home": "Home",
@@ -26,5 +25,57 @@
     "about": "About",
     "puzzle": "Music Puzzle",
     "contact": "Contact"
+  },
+  "reviews": {
+    "title": "🎷 Industry Feedback & Reviews",
+    "featured": {
+      "title": "Loneliness – Arman Ayva Turns Collective Struggle Into Sound",
+      "link": "https://korliblog.com/loneliness-arman-ayva-turns-collective-struggle-into-sound/",
+      "text": "Montreal-based jazz-fusion composer Arman Ayva translates history and resilience into sound..."
+    },
+    "grid": [
+      {
+        "name": "Radio Derbi Web",
+        "quote": "A work that proves more complex than it might appear at first listen..."
+      },
+      {
+        "name": "Planet Network",
+        "quote": "On aime beaucoup, pouvez-vous nous envoyer par mail le morceau en format mp3?"
+      },
+       {
+        "name": "Jazz in Family",
+        "quote": "We find both tracks truly interesting and enjoyable. It’s clear that you have a substantial volume of musical productions."
+      },
+       {
+        "name": "Cabre Music",
+        "quote": "Flows with an uplifting energy and a refreshing arrangement... The sound design is vibrant and dynamic."
+      },
+       {
+        "name": "HailTunes",
+        "quote": "From start to finish, this is a journey. You’ve found your sound, and it works."
+
+
+      }
+    ],
+    "contact_cta": "For press inquiries or reviews, please get in touch →"
+  },
+  "new_releases": {
+  "title": "New Releases & Highlights",
+  "single_title": "New Single: Take Five, Get One",
+  "single_desc": "In this track, Arman Ayva fuses **electronic textures, electric piano chords, and live bass grooves** into a lush instrumental story. It's a modern groove that feels both calm and alive, blending **Jazz Fusion, Electronic, and Ambient** genres.",
+  "single_meta": "Key: F minor • BPM: 120 • Mood: Happy / Chill / Sexy",
+  "explore_details": "Explore the Track Details",
+  "pizzicata_title": "The Pizzicata Blues (6 Tracks)",
+  "pizzicata_desc": "A conversational album reflecting on the life of an indie artist, moving through playful funk (Pour In) and moody, soulful jazz (Je m'appelle Blues).",
+  "pizzicata_link": "See Full Track Story",
+  "heist_title": "Montreal Heist: Criminal Case #68",
+  "heist_desc": "A musical crime story in four songs: Rolling Buzz, Underground, Morning, and Criminal Case 68. A narrative-driven instrumental experience.",
+  "listen_platforms": "Listen on All Platforms"
+},
+"subscribe": {
+    "title": "Stay Updated on Arman Ayva Projects",
+    "description": "Subscribe to receive the latest news, releases, and collaboration opportunities from Arman Ayva – Montreal Jazz Composer. Discover new tracks, playlists and upcoming projects first!",
+    "button": "Subscribe Now",
+    "disclaimer": "Your email will only be used for Arman Ayva project updates."
   }
 }

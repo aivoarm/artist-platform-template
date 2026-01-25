@@ -1,4 +1,31 @@
 {
+  "hero": {
+    "name": "Arman Ayva",
+    "subtitle": "Jazz-Fusion innovant de Montréal."
+  },
+  "intro": {
+    "text": "Bienvenue dans le voyage musical d'Arman ! Je suis un artiste et compositeur novateur basé à Montréal, explorant de nouveaux horizons dans les genres jazz-folk, jazz-funk, ambiant, électronique et expérimental. Ma musique est une exploration du jazz, du funk et du folk, avec des basses riches, des batteries entraînantes et des rythmes captivants.",
+    "influences": "Ma musique est une fusion d'influences diverses, inspirée par des sommités comme Marcus Miller, US3 et Dave Brubeck. Je crée des compositions empreintes d'authenticité, racontant des histoires et rayonnant de positivité."
+  },
+  "puzzle": {
+    "badge": "Nouvelle Expérience Interactive",
+    "title": "Le Puzzle Musical",
+    "description": "J'ai construit un outil personnalisé qui transforme n'importe quelle vidéo YouTube en un puzzle musical. Pouvez-vous réassembler vos morceaux préférés à l'oreille ?",
+    "button": "Commencer à Jouer"
+  },
+  "latest_single": { "label": "Dernier Single" },
+  "videos": { 
+    "title": "Arman Ayva – Vidéothèque", 
+    "description": "Explorez ma discographie, restez informé des nouveautés et trouvez des options de streaming ou d'achat." 
+  },
+  "playlist": { 
+    "title": "Playlist Funky Jazz Mood Lifter", 
+    "link_text": "Funky-Jazz-Mood-Lifter" 
+  },
+  "general": { 
+    "view_all": "Voir Toute la Musique et les Histoires", 
+    "other_stories": "Toutes les Autres Histoires" 
+  },
   "nav": {
     "home": "Accueil",
     "blog": "Musique & Blog",
@@ -8,23 +35,54 @@
     "puzzle": "Puzzle Musical",
     "contact": "Contact"
   },
-  "hero": {
-    "name": "Arman Ayva",
-    "subtitle": "Jazz-Fusion innovant de Montréal."
+  "reviews": {
+    "title": "🎷 Retours et Critiques de l'Industrie",
+    "featured": {
+      "title": "Loneliness – Arman Ayva transforme la lutte collective en son",
+      "link": "https://korliblog.com/loneliness-arman-ayva-turns-collective-struggle-into-sound/",
+      "text": "Le compositeur de jazz-fusion montréalais Arman Ayva traduit l'histoire et la résilience en musique..."
+    },
+    "grid": [
+      {
+        "name": "Radio Derbi Web",
+        "quote": "Une œuvre qui s'avère plus complexe qu'il n'y paraît à la première écoute..."
+      },
+      {
+        "name": "Planet Network",
+        "quote": "On aime beaucoup, pouvez-vous nous envoyer par mail le morceau en format mp3 ?"
+      },
+      {
+        "name": "Jazz in Family",
+        "quote": "Nous trouvons les deux titres vraiment intéressants et agréables. Il est clair que vous avez un volume important de productions musicales."
+      },
+      {
+        "name": "Cabre Music",
+        "quote": "S'écoule avec une énergie entraînante et un arrangement rafraîchissant... La conception sonore est vibrante et dynamique."
+      },
+      {
+        "name": "HailTunes",
+        "quote": "Du début à la fin, c'est un voyage. Vous avez trouvé votre son, et ça fonctionne."
+      }
+    ],
+    "contact_cta": "Pour toute demande de presse ou de critique, veuillez me contacter →"
   },
-  "intro": {
-    "text": "Bienvenue dans le voyage musical d'Arman ! Je suis un artiste et compositeur basé à Montréal, explorant de nouveaux horizons dans les genres jazz-folk, jazz-funk, ambiant et expérimental.",
-    "influences": "Ma musique est une fusion d'influences diverses, inspirée par des sommités comme Marcus Miller et Dave Brubeck."
-  },
-  "puzzle": {
-    "badge": "Nouvelle Expérience Interactive",
-    "title": "Le Puzzle Musical",
-    "description": "J'ai créé un outil qui transforme n'importe quelle vidéo YouTube en un puzzle musical.",
-    "button": "Commencer à Jouer"
-  },
-  "latest_single": { "label": "Dernier Single" },
-  "videos": { "title": "Vidéothèque", "description": "Explorez ma discographie." },
-  "playlist": { "title": "Playlist Funky Jazz", "link_text": "Voir la Playlist" },
-  "reviews": { "title": "🎷 Critiques & Retours" },
-  "general": { "view_all": "Tout Voir", "other_stories": "Autres Histoires" }
+  "new_releases": {
+  "title": "Nouveautés et points forts",
+  "single_title": "Nouveau single : Take Five, Get One",
+  "single_desc": "Dans ce titre, Arman Ayva fusionne **textures électroniques, accords de piano électrique et grooves de basse live** dans une histoire instrumentale luxuriante. C'est un groove moderne à la fois calme et vivant, mélangeant les genres **Jazz Fusion, Électronique et Ambiant**.",
+  "single_meta": "Tonalité : Fa mineur • BPM : 120 • Ambiance : Joyeux / Chill / Sexy",
+  "explore_details": "Explorer les détails du titre",
+  "pizzicata_title": "The Pizzicata Blues (6 titres)",
+  "pizzicata_desc": "Un album conversationnel réfléchissant sur la vie d'un artiste indépendant, passant du funk ludique (Pour In) au jazz mélancolique et profond (Je m'appelle Blues).",
+  "pizzicata_link": "Voir l'histoire de l'album",
+  "heist_title": "Montreal Heist: Criminal Case #68",
+  "heist_desc": "Une intrigue policière musicale en quatre chansons : Rolling Buzz, Underground, Morning et Criminal Case 68. Une expérience instrumentale narrative.",
+  "listen_platforms": "Écouter sur toutes les plateformes"
+},
+"subscribe": {
+  "title": "Restez informé des projets d'Arman Ayva",
+  "description": "Abonnez-vous pour recevoir les dernières nouvelles, les sorties et les opportunités de collaboration d'Arman Ayva – Compositeur de Jazz montréalais. Découvrez en exclusivité les nouveaux titres, les listes de lecture et les projets créatifs !",
+  "button": "S'abonner maintenant",
+  "disclaimer": "Votre adresse e-mail sera uniquement utilisée pour les mises à jour des projets d'Arman Ayva."
+} 
 }
