@@ -1,24 +1,26 @@
 'use client';
 
 import Link from 'next/link';
+import { sendGTMEvent } from '@next/third-parties/google';
 
 export function SubscribeCTA({ lang, dict }: { lang: string; dict: any }) {
   if (!dict) return null;
 
-  // Google Ads Conversion Trigger
   const handleConversionClick = () => {
+    // 1. Log to GTM for general analytics
+    sendGTMEvent({ event: 'cta_click', value: 'subscribe_main' });
+
+    // 2. Immediate Google Ads Conversion Signal
     if (typeof window !== 'undefined' && (window as any).gtag) {
       (window as any).gtag('event', 'conversion', {
         'send_to': 'AW-11429089260/KXrCCJe6h5kZEOyf6Mkq',
-        // We don't use a callback redirect here because 
-        // the Link component handles the navigation.
       });
     }
   };
 
   return (
-    <section className="bg-neutral-900 text-white text-center py-16 px-4 sm:px-6 lg:px-8 rounded-2xl shadow-2xl">
-      <h2 className="text-3xl sm:text-4xl font-bold mb-5 tracking-tight">
+    <section className="bg-neutral-900 text-white text-center py-16 px-4 rounded-2xl shadow-2xl">
+      <h2 className="text-3xl font-bold mb-5 tracking-tight">
         {dict.title || "Stay Updated on Arman Ayva Projects"}
       </h2>
       
@@ -28,17 +30,15 @@ export function SubscribeCTA({ lang, dict }: { lang: string; dict: any }) {
       
       <Link
         href={`/${lang}/other/subscribe`}
-        target="_blank"
+        // Note: target="_blank" is fine, but for conversion tracking, 
+        // same-tab navigation is often more accurate for attribution.
+        target="_blank" 
         rel="noopener noreferrer"
-        onClick={handleConversionClick} // ⬅️ Trigger conversion on click
-        className="inline-block bg-sky-500 hover:bg-sky-600 text-white font-bold py-4 px-10 rounded-lg text-lg transition-colors duration-300 shadow-xl"
+        onClick={handleConversionClick}
+        className="inline-block bg-sky-500 hover:bg-sky-600 text-white font-bold py-4 px-10 rounded-lg text-lg transition-all shadow-xl active:scale-95"
       >
         {dict.button || "Subscribe Now"}
       </Link>
-      
-      <p className="text-sm mt-4 text-neutral-400">
-        {dict.disclaimer || "Your email will only be used for project updates."}
-      </p>
     </section>
   );
 }
