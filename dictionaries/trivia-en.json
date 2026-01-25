@@ -1,0 +1,62 @@
+[
+  {
+    "question": "Which parameter on a compressor controls how quickly gain reduction begins?",
+    "options": ["Attack", "Release", "Ratio", "Threshold"],
+    "correct": 0,
+    "fact": "Fast attack times can 'smother' the initial hit of a drum, while slower times let the transient 'poke' through."
+  },
+  {
+    "question": "Which Miles Davis album is the best-selling jazz record of all time?",
+    "options": ["Bitches Brew", "Kind of Blue", "Sketches of Spain", "Birth of the Cool"],
+    "correct": 1,
+    "fact": "Kind of Blue (1959) was recorded in just two sessions with almost no rehearsal, capturing pure modal improvisation."
+  },
+  {
+    "question": "To record a 20kHz sound, what is the minimum sample rate required by the Nyquist Theorem?",
+    "options": ["20 kHz", "40 kHz", "44.1 kHz", "48 kHz"],
+    "correct": 1,
+    "fact": "The Nyquist Theorem states the sample rate must be at least twice the highest frequency you wish to capture."
+  },
+  {
+    "question": "Which waveform is known for its 'hollow' sound and contains only odd harmonics?",
+    "options": ["Sine", "Sawtooth", "Square", "Triangle"],
+    "correct": 2,
+    "fact": "Square waves are the foundation of many classic synth-bass sounds and early chiptune music."
+  },
+  {
+    "question": "What is the theoretical dynamic range of 24-bit digital audio?",
+    "options": ["96 dB", "120 dB", "144 dB", "192 dB"],
+    "correct": 2,
+    "fact": "24-bit audio offers 144 dB of range, providing a much lower noise floor than 16-bit (96 dB) CD quality."
+  },
+  {
+    "question": "Boosting which frequency range usually adds 'Presence' to a vocal?",
+    "options": ["100-200 Hz", "800 Hz", "3-5 kHz", "15-20 kHz"],
+    "correct": 2,
+    "fact": "The 3-5 kHz range is where the human ear is most sensitive to speech clarity and definition."
+  },
+  {
+    "question": "Which microphone type usually requires +48V Phantom Power?",
+    "options": ["Dynamic", "Ribbon", "Condenser", "USB"],
+    "correct": 2,
+    "fact": "Condenser microphones use an electrostatic charge to operate their diaphragm, which is powered by +48V."
+  },
+  {
+    "question": "In the 'Circle of Fifths', how many sharps are in the key of D Major?",
+    "options": ["One", "Two", "Three", "Four"],
+    "correct": 1,
+    "fact": "D Major contains F# and C#. It is one of the most popular keys for guitar-based music."
+  },
+  {
+    "question": "What is the term for a short, repeated musical phrase often used in Jazz Big Bands?",
+    "options": ["Riff", "Vamp", "Lick", "Solo"],
+    "correct": 0,
+    "fact": "A 'Riff' (or 'Head') provides the rhythmic and melodic foundation for many classic swing tunes."
+  },
+  {
+    "question": "Why is it standard practice to keep the Kick Drum and Bass in the center (Mono)?",
+    "options": ["To save CPU", "For energy balance", "For phase issues", "Vinyl limitations"],
+    "correct": 1,
+    "fact": "Low frequencies carry a lot of energy; centering them ensures power is distributed equally across both speakers."
+  }
+]

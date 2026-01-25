@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { YoutubeBpmGame } from 'app/components/game/YoutubeBpmGame';
 import { KeyGame } from 'app/components/game/KeyGame'; 
 import { getDictionary } from '../dictionaries';
+import { MusicalTrivia } from 'app/components/game/MusicTrivia';
 
 export const dynamic = 'force-dynamic'; // [cite: 1]
 
@@ -136,7 +137,20 @@ export default async function PuzzlePage({ params }: { params: Promise<{ lang: s
       color: "emerald" as const,
       steps: [dict.puzzle.keyStep1, dict.puzzle.keyStep2, dict.puzzle.keyStep3],
       Component: KeyGame
-    }
+    },
+{
+    id: "05",
+    title: dict.puzzle.triviaTitle || "Musical Trivia 💡",
+    description: dict.puzzle.triviaDesc || "Test your knowledge of music theory, history, and production.",
+    color: "blue" as const,
+    steps: [
+      dict.puzzle.triviaStep1 || "Read the question carefully.",
+      dict.puzzle.triviaStep2 || "Pick the best answer from the 4 options.",
+      dict.puzzle.triviaStep3 || "Check the 'Fact' box to learn something new!"
+    ],
+    Component: MusicalTrivia
+  }
+
   ];
 
   return (

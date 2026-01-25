@@ -115,7 +115,7 @@ export default function AboutPage() {
         </p>
 
         <hr />
-        
+          
         <h2>Technical Production Details</h2>
         <p>
           These works are created primarily using **Apple Logic Pro (version 10.7.9)** and other professional 
