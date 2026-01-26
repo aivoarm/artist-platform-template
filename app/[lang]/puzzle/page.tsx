@@ -3,6 +3,7 @@ import { getDictionary } from '../dictionaries';
 import ArcadeManager from 'app/components/game/ArcadeManager';
 import { FaPlay, FaLayerGroup, FaUnlockAlt } from 'react-icons/fa';
 import { getArcadePlaylist } from 'app/actions';
+import { baseUrl } from 'app/sitemap'; // Ensure this is imported for absolute URLs
 
 export const dynamic = 'force-dynamic';
 
@@ -20,23 +21,48 @@ const OFFLINE_TRACK = {
   image: 'https://res.cloudinary.com/dpmkshcky/image/upload/v1763230260/Cowboy_a3mnzs.png'
 };
 
+// 1. FIXED METADATA: Explicitly providing og:image
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
   const dict = await getDictionary(lang);
   
+  // Absolute URL is required for OG images
+  const ogImageUrl = "https://res.cloudinary.com/dpmkshcky/image/upload/v1763230260/Cowboy_a3mnzs.png";
+
   return {
     title: `${dict.puzzle.title} | Arman Ayva`,
     description: dict.puzzle.description,
+    openGraph: {
+      title: `${dict.puzzle.title} | Arman Ayva`,
+      description: dict.puzzle.description,
+      url: `${baseUrl}/${lang}/puzzle`,
+      siteName: 'Arman Ayva Arcade',
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: 'Arman Ayva Musical Puzzle Game Interface',
+        },
+      ],
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${dict.puzzle.title} | Arman Ayva`,
+      description: dict.puzzle.description,
+      images: [ogImageUrl],
+    },
   };
 }
+
+
 
 export default async function PuzzlePage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
   const dict = await getDictionary(lang);
   const bpmTracks = await getArcadePlaylist('PLdh9NdS_IkkXFKrfNfjpczpvC6_XE74Vl');
 
-  // CRITICAL FIX: Removed the "Component" key entirely.
-  // We only pass JSON-serializable data.
   const gamesData = [
     {
       id: 1,
