@@ -12,7 +12,9 @@ import { DelayedSubscribePopup } from '../components/DelayedSubscribePopup';
 import { ConsentWrapper } from '../components/ConsentWrapper';
 import { Analytics } from "@vercel/analytics/next"
 
-const GA_MEASUREMENT_ID = process.env.GTM_ID || ''
+// DEFINE YOUR IDs HERE
+// Make sure NEXT_PUBLIC_GA_ID is your GA4 ID (starts with G-)
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || ''; 
 const YOUR_APP_ID = process.env.YOUR_FACEBOOK_APP_ID; 
 const TIKTOK_PIXEL_ID = process.env.NEXT_PUBLIC_TIKTOK_ID || 'YOUR_TIKTOK_PIXEL_ID'; 
 
@@ -63,10 +65,10 @@ export default async function RootLayout({
         suppressHydrationWarning
       >
         <AddHomeBanner />
-<Analytics/>
+        <Analytics/>
         <Providers> 
-          {/* Wrap the entire main content in ConsentWrapper. 
-              This ensures tracking scripts only load if hasConsent is true.
+          {/* Pass the gaId here. 
+             ConsentWrapper will handle loading it ONLY after consent.
           */}
           <ConsentWrapper gaId={GA_MEASUREMENT_ID} tiktokId={TIKTOK_PIXEL_ID}>
             <main className="flex-auto min-w-0 flex flex-col px-4 md:px-0 max-w-6xl mx-auto mt-8">

@@ -6,15 +6,19 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google';
 import Script from 'next/script';
 
+interface ConsentWrapperProps {
+  children: React.ReactNode;
+  gaId: string;
+  tiktokId: string;
+  gtmId?: string; // Optional: allows passing GTM ID via props later if needed
+}
+
 export function ConsentWrapper({ 
   children, 
   gaId, 
-  tiktokId 
-}: { 
-  children: React.ReactNode; 
-  gaId: string; 
-  tiktokId: string; 
-}) {
+  tiktokId,
+  gtmId = "GTM-TKFS52TF" // Default to your existing hardcoded ID
+}: ConsentWrapperProps) {
   const [hasConsent, setHasConsent] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -31,10 +35,17 @@ export function ConsentWrapper({
   return (
     <>
       {children}
+      
+      {/* Vercel Analytics */}
       <Analytics />
       <SpeedInsights />
-      <GoogleAnalytics gaId={gaId} />
-      <GoogleTagManager gtmId="GTM-TKFS52TF" />
+      
+      {/* Google Analytics & Tag Manager */}
+      {/* We check if gaId exists to avoid errors if the env var is missing */}
+      {gaId && <GoogleAnalytics gaId={gaId} />}
+      <GoogleTagManager gtmId={gtmId} />
+
+      {/* TikTok Pixel */}
       {tiktokId && tiktokId !== 'YOUR_TIKTOK_PIXEL_ID' && (
         <>
           <Script
