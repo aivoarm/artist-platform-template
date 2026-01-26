@@ -148,12 +148,7 @@ table {
   touch-action: pan-y;
 }
 
-/* Forces iframes to stay within their parent's width */
-iframe {
-  max-width: 100% !important;
-  width: 100% !important;
-  border: none;
-}
+
 
 /* Corrects layout shift on small devices */
 @media (max-width: 640px) {
