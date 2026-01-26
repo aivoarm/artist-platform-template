@@ -2,16 +2,14 @@ import '../global.css'
 import type { Metadata } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
-import { Analytics } from '@vercel/analytics/react'
-import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Footer } from '../components/footer' 
 import { baseUrl } from '../sitemap' 
 import { Providers } from '../Providers'; 
-import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google'
-import Script from 'next/script'; 
-import { DelayedSubscribePopup } from '../components/DelayedSubscribePopup'; 
 import { Navbar } from '../components/nav'
 import { AddHomeBanner } from '../components/AddHomeBanner';
+import { CookieBanner } from '../components/CookieBanner';
+import { DelayedSubscribePopup } from '../components/DelayedSubscribePopup'; 
+import { ConsentWrapper } from '../components/ConsentWrapper';
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || ''
 const YOUR_APP_ID = process.env.YOUR_FACEBOOK_APP_ID; 
@@ -63,51 +61,27 @@ export default async function RootLayout({
         className="antialiased min-h-screen overflow-x-hidden dark:bg-black font-sans"
         suppressHydrationWarning
       >
-        {/* Initialize GTM at the very top of the body for best tracking coverage */}
-        <GoogleTagManager gtmId="GTM-TKFS52TF" />
-
         <AddHomeBanner />
 
         <Providers> 
-          <main className="flex-auto min-w-0 flex flex-col px-4 md:px-0 max-w-6xl mx-auto mt-8">
-            <Navbar lang={lang} />
+          {/* Wrap the entire main content in ConsentWrapper. 
+              This ensures tracking scripts only load if hasConsent is true.
+          */}
+          <ConsentWrapper gaId={GA_MEASUREMENT_ID} tiktokId={TIKTOK_PIXEL_ID}>
+            <main className="flex-auto min-w-0 flex flex-col px-4 md:px-0 max-w-6xl mx-auto mt-8">
+              <Navbar lang={lang} />
 
-            <div className="flex-grow mt-6">
-              {children}
-            </div>
+              <div className="flex-grow mt-6">
+                {children}
+              </div>
 
-            <Footer lang={lang} />
-            <Analytics />
-            <SpeedInsights /> 
-          </main>
+              <Footer lang={lang} />
+            </main>
+          </ConsentWrapper>
         </Providers>
 
-        {/* Analytics components */}
-        <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
-
-        {/* TikTok Pixel */}
-        {TIKTOK_PIXEL_ID && TIKTOK_PIXEL_ID !== 'YOUR_TIKTOK_PIXEL_ID' && (
-          <>
-            <Script
-              id="tiktok-pixel-base"
-              strategy="afterInteractive" 
-              dangerouslySetInnerHTML={{
-                __html: `
-                  !function (w, d, t) {
-                    w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","load","ready","trackCustom","trackEvent","subscribe","ttee"];ttq.setAndDefer=function(t,n){t[n]=function(){t.push([n].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var n=ttq.slice(0),i=0;i<ttq.methods.length;i++)ttq.setAndDefer(n,ttq.methods[i]);return n.load(t),n};
-                    ttq.load('${TIKTOK_PIXEL_ID}');
-                    ttq.page();
-                    }(window, document, 'ttq');
-                `,
-              }}
-            />
-            <Script
-                src="https://analytics.tiktok.com/i18n/pixel/sdk.js?sdk_version=2.0.0"
-                strategy="afterInteractive"
-            />
-          </>
-        )}
         <DelayedSubscribePopup lang={lang} />
+        <CookieBanner />
       </body>
     </html>
   );
