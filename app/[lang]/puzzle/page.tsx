@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const dict = await getDictionary(lang);
   
   // Absolute URL is required for OG images
-  const ogImageUrl = "https://res.cloudinary.com/dpmkshcky/image/upload/v1763230260/Cowboy_a3mnzs.png";
+  const ogImageUrl = "https://res.cloudinary.com/dpmkshcky/image/upload/v1769091826/musicpuzzle_byve3t.jpg";
 
   return {
     title: `${dict.puzzle.title} | Arman Ayva`,
@@ -36,13 +36,13 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
       title: `${dict.puzzle.title} | Arman Ayva`,
       description: dict.puzzle.description,
       url: `${baseUrl}/${lang}/puzzle`,
-      siteName: 'Arman Ayva Arcade',
+      siteName: 'Arman Ayva Musical Arcade',
       images: [
         {
           url: ogImageUrl,
           width: 1200,
           height: 630,
-          alt: 'Arman Ayva Musical Puzzle Game Interface',
+          alt: 'Arman Ayva Musical Arcade Game Interface',
         },
       ],
       type: 'website',
