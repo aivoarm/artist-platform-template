@@ -10,8 +10,9 @@ import { AddHomeBanner } from '../components/AddHomeBanner';
 import { CookieBanner } from '../components/CookieBanner';
 import { DelayedSubscribePopup } from '../components/DelayedSubscribePopup'; 
 import { ConsentWrapper } from '../components/ConsentWrapper';
+import { Analytics } from "@vercel/analytics/next"
 
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || ''
+const GA_MEASUREMENT_ID = process.env.GTM_ID || ''
 const YOUR_APP_ID = process.env.YOUR_FACEBOOK_APP_ID; 
 const TIKTOK_PIXEL_ID = process.env.NEXT_PUBLIC_TIKTOK_ID || 'YOUR_TIKTOK_PIXEL_ID'; 
 
@@ -62,7 +63,7 @@ export default async function RootLayout({
         suppressHydrationWarning
       >
         <AddHomeBanner />
-
+<Analytics/>
         <Providers> 
           {/* Wrap the entire main content in ConsentWrapper. 
               This ensures tracking scripts only load if hasConsent is true.
