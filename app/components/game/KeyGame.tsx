@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { getMusicalJazzTrack } from '../../actions';
-import { FaRotateRight, FaPlay, FaStop, FaYoutube, FaMusic, FaTrophy, FaFire, FaCircleInfo, FaArrowRight } from 'react-icons/fa6';
+import { FaRotateRight, FaPlay, FaStop, FaYoutube, FaMusic, FaTrophy, FaFire, FaCircleInfo, FaArrowRight, FaVolumeHigh } from 'react-icons/fa6';
 
 const KEYS = ['C Major', 'G Major', 'F Major', 'D Minor', 'A Minor', 'Bb Major'];
 
@@ -14,13 +14,14 @@ const KEY_MAP: Record<string, string> = {
 
 interface KeyGameProps {
   lang: string;
-  onComplete?: () => void; // Added for Arcade integration
+  onComplete?: () => void;
 }
 
 export function KeyGame({ lang, onComplete }: KeyGameProps) {
   const [video, setVideo] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [hasStartedPlayback, setHasStartedPlayback] = useState(false); // New state for mobile interaction
   const [guess, setGuess] = useState<string | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [actualKey, setActualKey] = useState<string>('');
@@ -34,15 +35,22 @@ export function KeyGame({ lang, onComplete }: KeyGameProps) {
     setGuess(null);
     setIsCorrect(null);
     setIsPlaying(false); 
+    setHasStartedPlayback(false); // Reset for new track
     
     const data = await getMusicalJazzTrack();
     if (data && !data.error) {
       setVideo(data);
       const key = KEY_MAP[data.videoId] || KEYS[Math.floor(Math.random() * KEYS.length)];
       setActualKey(key);
-      setIsPlaying(true); 
+      // We no longer set isPlaying(true) automatically here because it fails on mobile
     }
     setLoading(false);
+  };
+
+  // This function is now the "Direct User Gesture" required by mobile browsers
+  const handleStartListening = () => {
+    setHasStartedPlayback(true);
+    setIsPlaying(true);
   };
 
   const handleGuess = (selectedKey: string) => {
@@ -56,7 +64,6 @@ export function KeyGame({ lang, onComplete }: KeyGameProps) {
       setScore(s => s + 100);
       setStreak(newStreak);
 
-      // Trigger Arcade Unlock on the first correct guess (or set to 2-3 for more difficulty)
       if (!levelUnlocked && onComplete) {
         setLevelUnlocked(true);
         onComplete();
@@ -69,7 +76,7 @@ export function KeyGame({ lang, onComplete }: KeyGameProps) {
   return (
     <div className="p-8 bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-[2rem] shadow-xl max-w-2xl mx-auto my-8">
       
-      {/* Scoreboard */}
+      {/* Scoreboard stays the same... */}
       <div className="flex justify-between items-center mb-8 bg-white dark:bg-black p-5 rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-inner">
         <div className="flex flex-col">
             <span className="text-[10px] font-black uppercase text-neutral-400 tracking-widest">Total Points</span>
@@ -112,7 +119,20 @@ export function KeyGame({ lang, onComplete }: KeyGameProps) {
       ) : (
         <div className="space-y-8">
           <div className="relative aspect-video bg-black rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white dark:border-neutral-800">
-            {isPlaying ? (
+            {!hasStartedPlayback ? (
+              /* MOBILE FIX: Prompt the user to tap to start audio */
+              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-neutral-900/90 backdrop-blur-sm transition-all">
+                <button 
+                  onClick={handleStartListening}
+                  className="group flex flex-col items-center gap-4 transition-transform active:scale-95"
+                >
+                  <div className="p-6 bg-white text-black rounded-full shadow-2xl group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+                    <FaVolumeHigh size={32} />
+                  </div>
+                  <span className="font-black text-white uppercase tracking-[0.2em] text-sm">Tap to Hear Track</span>
+                </button>
+              </div>
+            ) : isPlaying ? (
               <iframe
                 width="100%" height="100%"
                 src={`https://www.youtube.com/embed/${video.videoId}?autoplay=1&controls=0&start=45&enablejsapi=1&disablekb=1`}
@@ -123,14 +143,14 @@ export function KeyGame({ lang, onComplete }: KeyGameProps) {
                 <FaMusic className="text-6xl animate-pulse" />
               </div>
             )}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="w-20 h-20 border-4 border-white/20 rounded-full animate-ping" />
-            </div>
-            <div className="absolute bottom-6 left-6">
-              <button onClick={() => setIsPlaying(!isPlaying)} className="px-8 py-3 bg-white text-black rounded-full font-black text-xs uppercase tracking-widest flex items-center gap-2 hover:scale-105 transition-all shadow-xl">
-                {isPlaying ? <><FaStop /> Stop Audio</> : <><FaPlay /> Resume Music</>}
-              </button>
-            </div>
+            
+            {hasStartedPlayback && (
+                <div className="absolute bottom-6 left-6 z-30">
+                <button onClick={() => setIsPlaying(!isPlaying)} className="px-8 py-3 bg-white text-black rounded-full font-black text-xs uppercase tracking-widest flex items-center gap-2 hover:scale-105 transition-all shadow-xl">
+                    {isPlaying ? <><FaStop /> Stop Audio</> : <><FaPlay /> Resume Music</>}
+                </button>
+                </div>
+            )}
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
@@ -140,7 +160,7 @@ export function KeyGame({ lang, onComplete }: KeyGameProps) {
               return (
                 <button
                   key={key}
-                  disabled={guess !== null}
+                  disabled={guess !== null || !hasStartedPlayback}
                   onClick={() => handleGuess(key)}
                   className={`py-5 rounded-2xl font-black text-sm transition-all border-2 ${
                     isTheCorrectAnswer 
