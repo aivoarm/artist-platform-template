@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { getMusicalJazzTrack } from '../../actions';
-import { FaRotateRight, FaPlay, FaStop, FaYoutube, FaMusic, FaTrophy, FaFire, FaCircleInfo, FaArrowRight, FaVolumeHigh } from 'react-icons/fa6';
+import { FaRotateRight, FaPlay, FaYoutube, FaMusic, FaTrophy, FaFire, FaCircleInfo, FaArrowRight, FaXmark } from 'react-icons/fa6';
 
 const KEYS = ['C Major', 'G Major', 'F Major', 'D Minor', 'A Minor', 'Bb Major'];
 
@@ -20,10 +20,7 @@ interface KeyGameProps {
 export function KeyGame({ lang, onComplete }: KeyGameProps) {
   const [video, setVideo] = useState<any>(null);
   const [loading, setLoading] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [hasStartedPlayback, setHasStartedPlayback] = useState(false); // New state for mobile interaction
   const [guess, setGuess] = useState<string | null>(null);
-  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [actualKey, setActualKey] = useState<string>('');
   
   const [score, setScore] = useState(0);
@@ -33,31 +30,26 @@ export function KeyGame({ lang, onComplete }: KeyGameProps) {
   const fetchAndPlay = async () => {
     setLoading(true);
     setGuess(null);
-    setIsCorrect(null);
-    setIsPlaying(false); 
-    setHasStartedPlayback(false); // Reset for new track
     
     const data = await getMusicalJazzTrack();
     if (data && !data.error) {
       setVideo(data);
-      const key = KEY_MAP[data.videoId] || KEYS[Math.floor(Math.random() * KEYS.length)];
+      // Logic: Prioritize KEY_MAP, fallback to random key
+      const key = (data as any).key || KEY_MAP[data.videoId] || KEYS[Math.floor(Math.random() * KEYS.length)];
       setActualKey(key);
-      // We no longer set isPlaying(true) automatically here because it fails on mobile
     }
     setLoading(false);
   };
 
-  // This function is now the "Direct User Gesture" required by mobile browsers
-  const handleStartListening = () => {
-    setHasStartedPlayback(true);
-    setIsPlaying(true);
+  const stopGame = () => {
+    setVideo(null);
+    setGuess(null);
   };
 
   const handleGuess = (selectedKey: string) => {
     if (guess) return;
     const correct = selectedKey === actualKey;
     setGuess(selectedKey);
-    setIsCorrect(correct);
 
     if (correct) {
       const newStreak = streak + 1;
@@ -73,40 +65,50 @@ export function KeyGame({ lang, onComplete }: KeyGameProps) {
     }
   };
 
+  const isCorrect = guess === actualKey;
+
   return (
-    <div className="p-8 bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-[2rem] shadow-xl max-w-2xl mx-auto my-8">
+    <div className="p-8 bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-[2rem] shadow-xl max-w-2xl mx-auto my-8 relative overflow-hidden">
       
-      {/* Scoreboard stays the same... */}
+      {/* Header & Stop Button */}
+      <div className="flex justify-between items-center mb-8">
+        <div>
+            <h2 className="text-3xl font-bold font-serif text-neutral-900 dark:text-neutral-50 flex items-center gap-3">
+              <FaYoutube className="text-red-600" /> Harmonic Detective
+            </h2>
+            <p className="text-xs text-neutral-500 font-bold uppercase tracking-widest mt-1">Identify the Key by Ear</p>
+        </div>
+        <div className="flex items-center gap-2">
+          {video && (
+            <button onClick={stopGame} className="p-3 text-neutral-400 hover:text-red-500 transition-colors">
+              <FaXmark size={20} />
+            </button>
+          )}
+          <button 
+            onClick={fetchAndPlay} 
+            disabled={loading}
+            className="p-3 bg-neutral-200 dark:bg-neutral-800 rounded-xl hover:bg-neutral-300 dark:hover:bg-neutral-700 transition-all shadow-sm"
+          >
+            <FaRotateRight className={loading ? "animate-spin text-blue-500" : "text-neutral-500"} />
+          </button>
+        </div>
+      </div>
+
+      {/* Scoreboard */}
       <div className="flex justify-between items-center mb-8 bg-white dark:bg-black p-5 rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-inner">
         <div className="flex flex-col">
-            <span className="text-[10px] font-black uppercase text-neutral-400 tracking-widest">Total Points</span>
+            <span className="text-[10px] font-black uppercase text-neutral-400 tracking-widest">Score</span>
             <div className="flex items-center gap-2 text-amber-500 font-bold text-xl">
                <FaTrophy /> <span>{score}</span>
             </div>
         </div>
         <div className="flex flex-col items-end">
-            <span className="text-[10px] font-black uppercase text-neutral-400 tracking-widest">Win Streak</span>
+            <span className="text-[10px] font-black uppercase text-neutral-400 tracking-widest">Streak</span>
             <div className="flex items-center gap-2 text-orange-500 font-bold text-xl">
                <FaFire className={streak > 0 ? "animate-bounce" : ""} /> 
                <span>{streak}</span>
             </div>
         </div>
-      </div>
-
-      <div className="flex justify-between items-center mb-8">
-        <div>
-            <h2 className="text-3xl font-bold font-serif text-neutral-900 dark:text-neutral-50 flex items-center gap-3">
-            <FaYoutube className="text-red-600" /> Harmonic Detective
-            </h2>
-            <p className="text-xs text-neutral-500 font-bold uppercase tracking-widest mt-1">Identify the Key by Ear</p>
-        </div>
-        <button 
-          onClick={fetchAndPlay} 
-          disabled={loading}
-          className="p-3 bg-neutral-200 dark:bg-neutral-800 rounded-xl hover:bg-neutral-300 dark:hover:bg-neutral-700 transition-all shadow-sm"
-        >
-          <FaRotateRight className={loading ? "animate-spin text-blue-500" : "text-neutral-500"} />
-        </button>
       </div>
 
       {!video ? (
@@ -117,40 +119,15 @@ export function KeyGame({ lang, onComplete }: KeyGameProps) {
           <span className="font-black text-neutral-400 uppercase tracking-widest text-sm">Start Level 04</span>
         </button>
       ) : (
-        <div className="space-y-8">
+        <div className="space-y-8 animate-in fade-in duration-500">
+          {/* Native YouTube Frame - controls=1 handles mobile playback reliably */}
           <div className="relative aspect-video bg-black rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white dark:border-neutral-800">
-            {!hasStartedPlayback ? (
-              /* MOBILE FIX: Prompt the user to tap to start audio */
-              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-neutral-900/90 backdrop-blur-sm transition-all">
-                <button 
-                  onClick={handleStartListening}
-                  className="group flex flex-col items-center gap-4 transition-transform active:scale-95"
-                >
-                  <div className="p-6 bg-white text-black rounded-full shadow-2xl group-hover:bg-emerald-500 group-hover:text-white transition-colors">
-                    <FaVolumeHigh size={32} />
-                  </div>
-                  <span className="font-black text-white uppercase tracking-[0.2em] text-sm">Tap to Hear Track</span>
-                </button>
-              </div>
-            ) : isPlaying ? (
-              <iframe
-                width="100%" height="100%"
-                src={`https://www.youtube.com/embed/${video.videoId}?autoplay=1&controls=0&start=45&enablejsapi=1&disablekb=1`}
-                allow="autoplay" className="opacity-40 pointer-events-none"
-              />
-            ) : (
-              <div className="absolute inset-0 flex items-center justify-center bg-neutral-800 text-neutral-600">
-                <FaMusic className="text-6xl animate-pulse" />
-              </div>
-            )}
-            
-            {hasStartedPlayback && (
-                <div className="absolute bottom-6 left-6 z-30">
-                <button onClick={() => setIsPlaying(!isPlaying)} className="px-8 py-3 bg-white text-black rounded-full font-black text-xs uppercase tracking-widest flex items-center gap-2 hover:scale-105 transition-all shadow-xl">
-                    {isPlaying ? <><FaStop /> Stop Audio</> : <><FaPlay /> Resume Music</>}
-                </button>
-                </div>
-            )}
+            <iframe
+              width="100%" height="100%"
+              src={`https://www.youtube.com/embed/${video.videoId}?autoplay=1&controls=1&start=45&enablejsapi=1&modestbranding=1`}
+              allow="autoplay; encrypted-media" 
+              className="w-full h-full"
+            />
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
@@ -160,14 +137,14 @@ export function KeyGame({ lang, onComplete }: KeyGameProps) {
               return (
                 <button
                   key={key}
-                  disabled={guess !== null || !hasStartedPlayback}
+                  disabled={guess !== null}
                   onClick={() => handleGuess(key)}
                   className={`py-5 rounded-2xl font-black text-sm transition-all border-2 ${
                     isTheCorrectAnswer 
-                      ? 'bg-emerald-500 border-emerald-400 text-white scale-105 z-10 shadow-lg shadow-emerald-500/20' 
+                      ? 'bg-emerald-500 border-emerald-400 text-white scale-105 z-10 shadow-lg' 
                       : isUserChoice && !isCorrect
                         ? 'bg-red-500 border-red-400 text-white opacity-90' 
-                        : 'bg-white dark:bg-black border-neutral-200 dark:border-neutral-800 text-neutral-400 hover:border-emerald-500 hover:text-emerald-500 disabled:opacity-40'
+                        : 'bg-white dark:bg-black border-neutral-200 dark:border-neutral-800 text-neutral-400'
                   }`}
                 >
                   {key}
@@ -177,8 +154,8 @@ export function KeyGame({ lang, onComplete }: KeyGameProps) {
           </div>
 
           {guess && (
-            <div className={`p-8 rounded-[2rem] text-center animate-in fade-in zoom-in duration-500 border-2 ${isCorrect ? 'bg-emerald-50 border-emerald-200 text-emerald-800' : 'bg-red-50 border-red-200 text-red-800'}`}>
-              <h4 className="text-3xl font-black tracking-tighter mb-2">{isCorrect ? "HARMONIC GENIUS! 🎯" : "OFF-KEY 📉"}</h4>
+            <div className={`p-8 rounded-[2rem] text-center animate-in zoom-in duration-500 border-2 ${isCorrect ? 'bg-emerald-50 border-emerald-200 text-emerald-800' : 'bg-red-50 border-red-200 text-red-800'}`}>
+              <h4 className="text-3xl font-black tracking-tighter mb-2">{isCorrect ? "PERFECT! 🎯" : "OFF-KEY 📉"}</h4>
               {!isCorrect && (
                 <p className="font-bold mb-4 flex items-center justify-center gap-2 text-sm opacity-80">
                    <FaCircleInfo /> The correct key was {actualKey}
@@ -188,16 +165,16 @@ export function KeyGame({ lang, onComplete }: KeyGameProps) {
               <div className="flex flex-col sm:flex-row gap-3 justify-center mt-4">
                   <button 
                     onClick={fetchAndPlay} 
-                    className="px-8 py-4 bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 rounded-xl font-black text-xs uppercase tracking-widest hover:scale-105 transition-transform shadow-lg"
+                    className="px-8 py-4 bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 rounded-xl font-black text-xs uppercase tracking-widest"
                   >
                     Next Track
                   </button>
-                  {levelUnlocked && (
+                  {levelUnlocked && isCorrect && (
                       <button 
                         onClick={() => window.scrollTo({ top: window.scrollY + 800, behavior: 'smooth' })}
-                        className="px-8 py-4 bg-emerald-500 text-white rounded-xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-emerald-600 transition-all shadow-lg shadow-emerald-500/20"
+                        className="px-8 py-4 bg-emerald-500 text-white rounded-xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-lg"
                       >
-                        Level 05 <FaArrowRight />
+                        Next Level <FaArrowRight />
                       </button>
                   )}
               </div>
