@@ -35,7 +35,7 @@ export function CookieBanner() {
           <p>
             We use cookies to enhance your experience and analyze our traffic. 
             By clicking "Accept", you consent to our use of cookies. 
-            Read our <Link href="en/privacy" className="underline hover:text-blue-500">Privacy Policy</Link>.
+            Read our <Link href="privacy" className="underline hover:text-blue-500">Privacy Policy</Link>.
           </p>
         </div>
         <div className="flex gap-3">
