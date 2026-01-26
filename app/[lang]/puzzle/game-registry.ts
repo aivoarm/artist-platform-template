@@ -1,7 +1,7 @@
 // app/puzzle/game-registry.ts
 import { MusicPuzzle } from 'app/components/game/MusicPuzzle';
 import { ReverseGame } from 'app/components/game/ReverseGame';
-import { YoutubeBpmGame } from 'app/components/game/YoutubeBpmGame';
+import { BpmDetective } from 'app/components/game/BpmDetective';
 import { KeyGame } from 'app/components/game/KeyGame';
 
 export const GAME_PHASES = [
@@ -24,7 +24,7 @@ export const GAME_PHASES = [
     title: 'BPM Detective 🕵️‍♂️',
     description: 'Test your internal metronome by identifying the exact BPM.',
     color: 'blue',
-    Component: YoutubeBpmGame,
+    Component: BpmDetective,
   },
   {
     id: '04',
