@@ -2,14 +2,13 @@
 
 import { useState, useCallback } from 'react';
 import { getYoutubeGameTrack } from '../../actions';
-import { FaCheck, FaRotateRight, FaXmark, FaArrowRight, FaTrophy, FaFingerprint, FaStop } from 'react-icons/fa6';
+import { FaCheck, FaRotateRight, FaXmark, FaArrowRight, FaTrophy, FaFingerprint, FaStop, FaPlay } from 'react-icons/fa6';
 
 interface BpmDetectiveProps {
   lang: string;
   onComplete?: () => void;
 }
 
-// 1. Rename function to BpmDetective so ArcadeManager can find it
 export function BpmDetective({ lang, onComplete }: BpmDetectiveProps) {
   const [video, setVideo] = useState<any>(null);
   const [loading, setLoading] = useState(false);
@@ -17,6 +16,7 @@ export function BpmDetective({ lang, onComplete }: BpmDetectiveProps) {
   const [gameState, setGameState] = useState<'idle' | 'playing' | 'result'>('idle');
   const [targetBpm, setTargetBpm] = useState(0);
   const [taps, setTaps] = useState<number[]>([]);
+  const [isPlaying, setIsPlaying] = useState(false); // New state for mobile playback
 
   const handleTap = useCallback(() => {
     const now = Date.now();
@@ -41,13 +41,12 @@ export function BpmDetective({ lang, onComplete }: BpmDetectiveProps) {
     setLoading(true);
     setGameState('idle');
     setTaps([]);
+    setIsPlaying(false); // Reset playback for new video
     
     const data = await getYoutubeGameTrack();
     
-    // 2. Fix Build Error: Check for error and use type assertion
     if (data && !('error' in data)) {
       setVideo(data);
-      // Accessing bpm via type assertion to fix build error
       const actualBpm = (data as any).bpm || Math.floor(Math.random() * (160 - 70 + 1)) + 70;
       setTargetBpm(actualBpm);
       setGameState('playing');
@@ -55,19 +54,18 @@ export function BpmDetective({ lang, onComplete }: BpmDetectiveProps) {
     setLoading(false);
   };
 
-  // 3. Add Stop Button logic
   const stopGame = () => {
     setVideo(null);
     setGameState('idle');
     setGuess(110);
     setTaps([]);
+    setIsPlaying(false);
   };
 
   const handleSubmit = () => {
     setGameState('result');
+    setIsPlaying(false); // Stop video on results
     const diff = Math.abs(guess - targetBpm);
-    
-    // 4. Update Logic: Within 10 BPM is correct
     if (diff <= 10 && onComplete) {
       onComplete();
     }
@@ -78,40 +76,63 @@ export function BpmDetective({ lang, onComplete }: BpmDetectiveProps) {
   return (
     <div className="relative p-8 border border-neutral-200 dark:border-neutral-800 rounded-[2rem] bg-white dark:bg-black text-black dark:text-white text-center shadow-xl overflow-hidden">
       
-      {/* Stop Button */}
-      {video && (
-        <button 
-          onClick={stopGame}
-          className="absolute top-6 right-6 p-2 rounded-full bg-neutral-100 dark:bg-neutral-900 hover:bg-red-100 dark:hover:bg-red-900/30 text-red-600 transition-colors z-20"
-        >
-          <FaStop size={18} />
-        </button>
-      )}
+      {/* Header with Stop Button */}
+      <div className="flex justify-between items-center mb-6 px-2">
+        <h2 className="text-xl font-black bg-gradient-to-r from-red-500 to-orange-600 bg-clip-text text-transparent">
+          BPM Detective
+        </h2>
+        {video && (
+          <button 
+            onClick={stopGame}
+            className="flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 dark:bg-red-950/30 text-red-600 hover:bg-red-100 transition-colors text-[10px] font-black uppercase tracking-widest"
+          >
+            <FaStop size={12} /> Stop Game
+          </button>
+        )}
+      </div>
 
       {gameState === 'idle' && (
         <div className="py-10">
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-red-500 to-orange-600 bg-clip-text text-transparent mb-8">
-             BPM Detective
-          </h2>
           <button 
             onClick={startNext} 
             disabled={loading}
             className="bg-red-600 hover:bg-red-700 text-white px-10 py-4 rounded-2xl font-bold active:scale-95 shadow-lg shadow-red-900/20"
           >
-            {loading ? "Analyzing..." : "Start BPM Challenge 📺"}
+            {loading ? "Analyzing..." : "Start Challenge"}
           </button>
         </div>
       )}
 
       {video && gameState !== 'idle' && (
         <div className="space-y-6 animate-in fade-in zoom-in duration-300">
-          <div className="aspect-video w-full rounded-3xl overflow-hidden shadow-2xl border-4 border-white dark:border-neutral-800 bg-neutral-900">
-            <iframe
-              width="100%" height="100%"
-              src={`https://www.youtube.com/embed/${video.videoId}?autoplay=1&controls=0&modestbranding=1&enablejsapi=1`}
-              allow="autoplay"
-              className="pointer-events-none"
-            />
+          
+          {/* Video Player Box */}
+          <div className="relative aspect-video w-full rounded-3xl overflow-hidden shadow-2xl border-4 border-white dark:border-neutral-800 bg-neutral-900">
+            {!isPlaying ? (
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-neutral-800/90 z-10">
+                <img 
+                  src={`https://img.youtube.com/vi/${video.videoId}/mqdefault.jpg`} 
+                  className="absolute inset-0 w-full h-full object-cover opacity-30 grayscale"
+                  alt=""
+                />
+                <button 
+                  onClick={() => setIsPlaying(true)}
+                  className="relative z-20 flex flex-col items-center gap-4 group"
+                >
+                  <div className="w-16 h-16 bg-white text-black rounded-full flex items-center justify-center shadow-2xl group-active:scale-90 transition-transform">
+                    <FaPlay size={20} className="ml-1" />
+                  </div>
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white">Tap to Start Music</span>
+                </button>
+              </div>
+            ) : (
+              <iframe
+                width="100%" height="100%"
+                src={`https://www.youtube.com/embed/${video.videoId}?autoplay=1&controls=0&modestbranding=1&enablejsapi=1`}
+                allow="autoplay"
+                className="pointer-events-none"
+              />
+            )}
           </div>
           
           {gameState === 'playing' ? (
@@ -126,7 +147,7 @@ export function BpmDetective({ lang, onComplete }: BpmDetectiveProps) {
 
               <div className="mb-8">
                 <p className="text-7xl font-black font-mono text-red-600 tracking-tighter tabular-nums">{guess}</p>
-                <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Detected Tempo</p>
+                <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Detected BPM</p>
               </div>
 
               <input 
@@ -162,14 +183,14 @@ export function BpmDetective({ lang, onComplete }: BpmDetectiveProps) {
               {isCorrect && (
                 <button 
                   onClick={() => window.scrollTo({ top: window.scrollY + 800, behavior: 'smooth' })} 
-                  className="w-full bg-emerald-600 text-white font-black py-4 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20"
+                  className="w-full bg-emerald-600 text-white font-black py-4 rounded-xl flex items-center justify-center gap-2"
                 >
                   Unlock Next Level <FaArrowRight />
                 </button>
               )}
 
               <button onClick={startNext} className="w-full bg-neutral-900 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2">
-                <FaRotateRight /> Try Another Track
+                <FaRotateRight /> Try Another
               </button>
             </div>
           )}
