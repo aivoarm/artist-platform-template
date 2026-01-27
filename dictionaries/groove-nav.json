@@ -1,0 +1,16 @@
+{
+  "shortcuts": [
+    { "label": "🎮 Play Arcade", "intent": "arcade" },
+    { "label": "🎷 Latest Tracks", "intent": "music" },
+    { "label": "📄 Privacy/Law 25", "intent": "privacy" },
+    { "label": "☕ Contact", "intent": "contact" },
+{ "label": "📧 Subscribe", "intent": "subscribe" }
+  ],
+  "responses": {
+    "arcade": "The Arcade is live. Head over to the Puzzle room to test your ears. Try not to miss the beat.",
+    "music": "Checking out the soul of the operation? My favorite track is 'Girl from Italy'—check the main stage.",
+    "privacy": "Checking the fine print? Respectable. Here’s the map to the legal lounge.",
+    "contact": "Want to talk shop? Drop a line via the contact form and let's see if we can jam.",
+"subscribe": "Want to stay in the loop? I'll take you to the signup sheet. No spam, just groove."
+  }
+}

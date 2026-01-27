@@ -13,6 +13,7 @@ import { CookieBanner } from '../components/CookieBanner';
 import { DelayedSubscribePopup } from '../components/DelayedSubscribePopup'; 
 import { ConsentWrapper } from '../components/ConsentWrapper';
 import { Analytics } from "@vercel/analytics/next"
+import { ProfessorGrooveBot } from '../components/ProfessorGrooveBot';
 
 // DEFINE YOUR IDs HERE
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-F8ZJR40RJT'; // Default to your ID if env is missing
@@ -67,6 +68,8 @@ export default async function RootLayout({
         suppressHydrationWarning
       >
         <AddHomeBanner />
+<ProfessorGrooveBot lang={lang} />
+
         <Analytics/>
         <Providers> 
           {/* Pass the IDs here. ConsentWrapper will handle the rest. */}
