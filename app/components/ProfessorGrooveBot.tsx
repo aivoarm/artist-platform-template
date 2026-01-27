@@ -207,7 +207,7 @@ export function ProfessorGrooveBot({ lang }: { lang: string }) {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-                  placeholder={isOnline ? "Talk shop in High-Fidelity..." : "Use the menu or enter the studio..."}
+                  placeholder={isOnline ? "Talk to professor ..." : "Use the menu or enter the studio..."}
                   className="w-full bg-neutral-50 dark:bg-black border border-neutral-200 dark:border-neutral-800 rounded-xl px-4 py-3 text-xs outline-none focus:border-emerald-500 transition-all"
                 />
                 <button onClick={sendMessage} className="absolute right-2 top-1/2 -translate-y-1/2 text-emerald-500 p-2">
