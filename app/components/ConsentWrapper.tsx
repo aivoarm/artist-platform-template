@@ -3,31 +3,30 @@
 import { useState, useEffect } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import Script from 'next/script';
 
+// ---------------------------------------------------------
+// FIX: We add 'gaId' to this interface so layout.tsx can pass it
+// ---------------------------------------------------------
 interface ConsentWrapperProps {
   children: React.ReactNode;
-  gaId: string;
   tiktokId: string;
-  gtmId?: string; // Optional: allows passing GTM ID via props later if needed
+  gaId: string; // <--- THIS WAS MISSING
 }
 
 export function ConsentWrapper({ 
   children, 
-  gaId, 
   tiktokId,
-  gtmId = "GTM-TKFS52TF" // Default to your existing hardcoded ID
+  gaId          // <--- Receive it here
 }: ConsentWrapperProps) {
   const [hasConsent, setHasConsent] = useState<boolean | null>(null);
 
   useEffect(() => {
-    // Check if user has accepted cookies
     const consent = localStorage.getItem('cookie-consent');
     setHasConsent(consent === 'accepted');
   }, []);
 
-  // If user hasn't accepted yet or declined, just show the site without tracking
   if (!hasConsent) {
     return <>{children}</>;
   }
@@ -35,15 +34,11 @@ export function ConsentWrapper({
   return (
     <>
       {children}
-      
-      {/* Vercel Analytics */}
       <Analytics />
       <SpeedInsights />
       
-      {/* Google Analytics & Tag Manager */}
-      {/* We check if gaId exists to avoid errors if the env var is missing */}
-      {gaId && <GoogleAnalytics gaId={gaId} />}
-      <GoogleTagManager gtmId={gtmId} />
+      {/* Google Analytics */}
+      <GoogleAnalytics gaId={gaId} />
 
       {/* TikTok Pixel */}
       {tiktokId && tiktokId !== 'YOUR_TIKTOK_PIXEL_ID' && (

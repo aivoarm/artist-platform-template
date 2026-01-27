@@ -13,8 +13,7 @@ import { ConsentWrapper } from '../components/ConsentWrapper';
 import { Analytics } from "@vercel/analytics/next"
 
 // DEFINE YOUR IDs HERE
-// Make sure NEXT_PUBLIC_GA_ID is your GA4 ID (starts with G-)
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || ''; 
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-F8ZJR40RJT'; // Default to your ID if env is missing
 const YOUR_APP_ID = process.env.YOUR_FACEBOOK_APP_ID; 
 const TIKTOK_PIXEL_ID = process.env.NEXT_PUBLIC_TIKTOK_ID || 'YOUR_TIKTOK_PIXEL_ID'; 
 
@@ -29,6 +28,7 @@ export const metadata: Metadata = {
 
 const cx = (...classes: any[]) => classes.filter(Boolean).join(' ')
 
+// --- IMPORTANT: This function must be "export default" ---
 export default async function RootLayout({
   children,
   params,
@@ -67,9 +67,7 @@ export default async function RootLayout({
         <AddHomeBanner />
         <Analytics/>
         <Providers> 
-          {/* Pass the gaId here. 
-             ConsentWrapper will handle loading it ONLY after consent.
-          */}
+          {/* Pass the IDs here. ConsentWrapper will handle the rest. */}
           <ConsentWrapper gaId={GA_MEASUREMENT_ID} tiktokId={TIKTOK_PIXEL_ID}>
             <main className="flex-auto min-w-0 flex flex-col px-4 md:px-0 max-w-6xl mx-auto mt-8">
               <Navbar lang={lang} />
