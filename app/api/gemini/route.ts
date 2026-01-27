@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
+
+  return NextResponse.json({ message: "API Disabled for Local Mode" }, { status: 404 });
   try {
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) return NextResponse.json({ error: "API Key missing" }, { status: 500 });
