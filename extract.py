@@ -9,7 +9,7 @@ EXCLUDE_DIRS = {
     'node_modules', '.next', '.git',  
     '__pycache__', '.pytest_cache', 'venv', 'dist', 'build', '.vscode', 
     '.idea', 'tmp', 'temp', 'logs', 'blog', 'about', 'dictionaries', 'music-production-disclaimer', 'videos', 'subscribe',
-    'other', 'radio', 'contact', 'contact-form', 'footer'
+    'other', 'radio', 'contact', 'contact-form', 'footer', 'game', 'puzzle'
 
 }
 

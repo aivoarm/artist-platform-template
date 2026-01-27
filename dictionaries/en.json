@@ -100,5 +100,12 @@
     "disclaimer_integrity_title": "Artistic Integrity Guarantee",
     "disclaimer_integrity_text": "No individual Apple loops are sold on a standalone basis. Every track represents an original artistic composition that has been significantly transformed.",
     "disclaimer_contact": "For licensing inquiries regarding commercial use, please visit the"
+  },
+  "experiments": {
+    "title": "Experiments",
+    "subtitle": "Testing Gemini 1.5 Flash integration.",
+    "placeholder": "Ask a question about music theory, math, or code...",
+    "button": "Run Experiment",
+    "loading": "Processing..."
   }
 }
