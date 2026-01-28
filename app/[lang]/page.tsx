@@ -163,8 +163,69 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
             {dict.general.view_all}
           </Link>
       </div>
+                <Reviews lang={lang} dict={dict.reviews} />
+      <hr className="my-20 border-neutral-200 dark:border-zinc-800" />
 
-      <Reviews lang={lang} dict={dict.reviews} />
+{/* $0 Architecture CTA */}
+        <div className="group relative p-6 bg-gradient-to-br from-white to-neutral-50 dark:from-neutral-900 dark:to-neutral-950 border border-neutral-200 dark:border-neutral-800 rounded-2xl shadow-sm hover:shadow-md transition-all">
+          <div className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-2">Technical Insight</div>
+          <h3 className="text-xl font-bold mb-3 text-neutral-900 dark:text-neutral-50">
+            The Architecture of a $0 Modern Website
+          </h3>
+          <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-4 leading-relaxed">
+            Curious how this portfolio was built? Read my full breakdown on using Next.js, Vercel, and modern tools to ship a high-performance site with zero overhead.
+          </p>
+          <Link 
+            href="https://medium.com/@arman_ayva/the-architecture-of-a-0-modern-website-a0440766ebf2"
+            target="_blank"
+            className="text-sm font-bold text-neutral-900 dark:text-neutral-50 flex items-center group-hover:underline"
+          >
+            Read on Medium <span className="ml-2">→</span>
+          </Link>
+        </div>
+
+     {/* Cross-Link Collaboration CTA */}
+        <div className="group relative p-8 rounded-3xl overflow-hidden transition-all duration-500
+          /* Solid Base Background */
+          bg-white dark:bg-neutral-900 
+          /* Border with subtle color hint */
+          border border-blue-100 dark:border-blue-900/30
+          /* The 'Flashout' Glow - Multi-colored shadow */
+          shadow-[0_20px_50px_rgba(59,130,246,0.1)] 
+          hover:shadow-[0_20px_60px_rgba(139,92,246,0.25)]
+          hover:-translate-y-1">
+          
+
+
+          {/* VISIBLE BACKGROUND GRADIENT - Card Identity */}
+          <div className="absolute inset-0 z-0 opacity-10 dark:opacity-20 transition-opacity group-hover:opacity-20 dark:group-hover:opacity-30">
+            <div className="absolute -top-[20%] -right-[10%] w-64 h-64 bg-blue-400 rounded-full blur-[80px]" />
+            <div className="absolute -bottom-[20%] -left-[10%] w-64 h-64 bg-purple-400 rounded-full blur-[80px]" />
+          </div>
+
+          <div className="relative z-10">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-purple-500"></span>
+              </div>
+              <h3 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50">
+                Let's Collaborate
+              </h3>
+            </div>
+            
+            <p className="text-base text-neutral-600 dark:text-neutral-400 mb-8 leading-relaxed max-w-[90%]">
+              Are you an artist, developer, or writer? I'm always open to <span className="text-blue-600 dark:text-blue-400 font-bold">cross-link collaborations</span>, guest features, and creative tech projects.
+            </p>
+            
+            <Link 
+              href={`/${lang}/contact`}
+              className="inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-300 bg-neutral-900 dark:bg-neutral-50 dark:text-neutral-900 rounded-xl group-hover:scale-105 active:scale-95 shadow-lg group-hover:shadow-purple-500/20"
+            >
+              Contact for Collaboration
+            </Link>
+          </div>
+        </div>
       
       
     </section>
