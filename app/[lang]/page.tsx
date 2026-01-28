@@ -54,23 +54,27 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
 
   return (
     <section className="antialiased">
-      {/* Hero Section: Ultra-Round and Sharp */}
-      {/* Hero Section: Optimized for LCP and Performance */}
       <div className="relative hero-container overflow-hidden rounded-[3rem] mb-12 shadow-2xl group min-h-[350px] bg-neutral-900">
         <Image 
           src={HERO_IMAGE_URL} 
           alt={dict.hero.name} 
-          // 'fill' and 'sizes' are key to reducing the LCP time
           fill
+          // 1. priority: Tells Next.js to add a <link rel="preload"> to the <head>
           priority 
+          // 2. fetchPriority: Tells the browser to download this image before other resources
+          fetchPriority="high"
+          // 3. loading="eager": Explicitly prevents lazy-loading for the LCP element
+          loading="eager"
+          // 4. decoding="sync": Ensures the image is ready to be painted immediately
+          decoding="sync"
           className="object-cover transition-transform duration-1000 group-hover:scale-105" 
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
           quality={90}
         />
         
-        {/* Overlay: Improved contrast for better readability */}
+        {/* Text Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-6 md:p-10">
-           <h1 className="text-white font-black text-5xl md:text-8xl tracking-tighter uppercase leading-[0.8] mb-4 drop-shadow-sm">
+           <h1 className="text-white font-black text-5xl md:text-8xl tracking-tighter uppercase leading-[0.8] mb-4">
              {dict.hero.name}
            </h1>
            <p className="text-white/90 text-lg md:text-2xl max-w-2xl font-medium tracking-tight italic border-l-4 border-blue-500 pl-4">
