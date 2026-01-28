@@ -1,0 +1,268 @@
+Project Structure: /Users/armanayva/web/blog
+.
+├── .env.local
+├── .gitignore
+├── .npmrc
+├── README.md
+├── app
+│   ├── ClientContentWrapper.tsx
+│   ├── Providers.tsx
+│   ├── [lang]
+│   │   ├── about
+│   │   │   └── page.tsx
+│   │   ├── blog
+│   │   │   ├── [slug]
+│   │   │   │   └── page.tsx
+│   │   │   ├── mdx.tsx
+│   │   │   ├── page.tsx
+│   │   │   ├── posts
+│   │   │   │   ├── ar
+│   │   │   │   │   ├── arabic-night.mdx
+│   │   │   │   │   ├── architecture-zero-cost.mdx
+│   │   │   │   │   ├── easy-fellow.mdx
+│   │   │   │   │   ├── egyptian-dancers.mdx
+│   │   │   │   │   ├── funky-jazz-mood-lifter.mdx
+│   │   │   │   │   ├── juanito-moving-to-us.mdx
+│   │   │   │   │   ├── my-funky-jazzification.mdx
+│   │   │   │   │   ├── pizzicata-blues.mdx
+│   │   │   │   │   ├── take-five-get-one.mdx
+│   │   │   │   │   ├── the-indie-blueprint.mdx
+│   │   │   │   │   └── zero-dollar-website-for-artist.mdx
+│   │   │   │   ├── de
+│   │   │   │   │   ├── arabic-night.mdx
+│   │   │   │   │   ├── architecture-zero-cost.mdx
+│   │   │   │   │   ├── easy-fellow.mdx
+│   │   │   │   │   ├── egyptian-dancers.mdx
+│   │   │   │   │   ├── funky-jazz-mood-lifter.mdx
+│   │   │   │   │   ├── juanito-moving-to-us.mdx
+│   │   │   │   │   ├── my-funky-jazzification.mdx
+│   │   │   │   │   ├── pizzicata-blues.mdx
+│   │   │   │   │   ├── take-five-get-one.mdx
+│   │   │   │   │   ├── the-indie-blueprint.mdx
+│   │   │   │   │   └── zero-dollar-website-for-artist.mdx
+│   │   │   │   ├── en
+│   │   │   │   │   ├── arabic-night.mdx
+│   │   │   │   │   ├── architecture-zero-cost.mdx
+│   │   │   │   │   ├── easy-fellow.mdx
+│   │   │   │   │   ├── egyptian-dancers.mdx
+│   │   │   │   │   ├── funky-jazz-mood-lifter.mdx
+│   │   │   │   │   ├── juanito-moving-to-us.mdx
+│   │   │   │   │   ├── my-funky-jazzification.mdx
+│   │   │   │   │   ├── pizzicata-blues.mdx
+│   │   │   │   │   ├── take-five-get-one.mdx
+│   │   │   │   │   ├── the-indie-blueprint.mdx
+│   │   │   │   │   └── zero-dollar-website-for-artist.mdx
+│   │   │   │   ├── es
+│   │   │   │   │   ├── arabic-night.mdx
+│   │   │   │   │   ├── architecture-zero-cost.mdx
+│   │   │   │   │   ├── easy-fellow.mdx
+│   │   │   │   │   ├── egyptian-dancers.mdx
+│   │   │   │   │   ├── funky-jazz-mood-lifter.mdx
+│   │   │   │   │   ├── juanito-moving-to-us.mdx
+│   │   │   │   │   ├── my-funky-jazzification.mdx
+│   │   │   │   │   ├── pizzicata-blues.mdx
+│   │   │   │   │   ├── take-five-get-one.mdx
+│   │   │   │   │   ├── the-indie-blueprint.mdx
+│   │   │   │   │   └── zero-dollar-website-for-artist.mdx
+│   │   │   │   ├── fr
+│   │   │   │   │   ├── arabic-night.mdx
+│   │   │   │   │   ├── architecture-zero-cost.mdx
+│   │   │   │   │   ├── easy-fellow.mdx
+│   │   │   │   │   ├── egyptian-dancers.mdx
+│   │   │   │   │   ├── funky-jazz-mood-lifter.mdx
+│   │   │   │   │   ├── juanito-moving-to-us.mdx
+│   │   │   │   │   ├── my-funky-jazzification.mdx
+│   │   │   │   │   ├── pizzicata-blues.mdx
+│   │   │   │   │   ├── take-five-get-one.mdx
+│   │   │   │   │   ├── the-indie-blueprint.mdx
+│   │   │   │   │   └── zero-dollar-website-for-artist.mdx
+│   │   │   │   ├── hy
+│   │   │   │   │   ├── arabic-night.mdx
+│   │   │   │   │   ├── architecture-zero-cost.mdx
+│   │   │   │   │   ├── easy-fellow.mdx
+│   │   │   │   │   ├── egyptian-dancers.mdx
+│   │   │   │   │   ├── funky-jazz-mood-lifter.mdx
+│   │   │   │   │   ├── juanito-moving-to-us.mdx
+│   │   │   │   │   ├── my-funky-jazzification.mdx
+│   │   │   │   │   ├── pizzicata-blues.mdx
+│   │   │   │   │   ├── take-five-get-one.mdx
+│   │   │   │   │   └── the-indie-blueprint.mdx
+│   │   │   │   ├── it
+│   │   │   │   │   ├── arabic-night.mdx
+│   │   │   │   │   ├── architecture-zero-cost.mdx
+│   │   │   │   │   ├── easy-fellow.mdx
+│   │   │   │   │   ├── egyptian-dancers.mdx
+│   │   │   │   │   ├── funky-jazz-mood-lifter.mdx
+│   │   │   │   │   ├── juanito-moving-to-us.mdx
+│   │   │   │   │   ├── my-funky-jazzification.mdx
+│   │   │   │   │   ├── pizzicata-blues.mdx
+│   │   │   │   │   ├── take-five-get-one.mdx
+│   │   │   │   │   ├── the-indie-blueprint.mdx
+│   │   │   │   │   └── zero-dollar-website-for-artist.mdx
+│   │   │   │   ├── pt
+│   │   │   │   │   ├── arabic-night.mdx
+│   │   │   │   │   ├── architecture-zero-cost.mdx
+│   │   │   │   │   ├── easy-fellow.mdx
+│   │   │   │   │   ├── egyptian-dancers.mdx
+│   │   │   │   │   ├── funky-jazz-mood-lifter.mdx
+│   │   │   │   │   ├── juanito-moving-to-us.mdx
+│   │   │   │   │   ├── my-funky-jazzification.mdx
+│   │   │   │   │   ├── pizzicata-blues.mdx
+│   │   │   │   │   ├── take-five-get-one.mdx
+│   │   │   │   │   ├── the-indie-blueprint.mdx
+│   │   │   │   │   └── zero-dollar-website-for-artist.mdx
+│   │   │   │   └── ru
+│   │   │   │       ├── arabic-night.mdx
+│   │   │   │       ├── architecture-zero-cost.mdx
+│   │   │   │       ├── easy-fellow.mdx
+│   │   │   │       ├── egyptian-dancers.mdx
+│   │   │   │       ├── funky-jazz-mood-lifter.mdx
+│   │   │   │       ├── juanito-moving-to-us.mdx
+│   │   │   │       ├── my-funky-jazzification.mdx
+│   │   │   │       ├── pizzicata-blues.mdx
+│   │   │   │       ├── take-five-get-one.mdx
+│   │   │   │       ├── the-indie-blueprint.mdx
+│   │   │   │       └── zero-dollar-website-for-artist.mdx
+│   │   │   └── utils.ts
+│   │   ├── contact
+│   │   │   └── page.tsx
+│   │   ├── dictionaries.ts
+│   │   ├── experiments
+│   │   │   └── page.tsx
+│   │   ├── layout.tsx
+│   │   ├── music-production-disclaimer
+│   │   │   └── page.tsx
+│   │   ├── other
+│   │   │   ├── subscribe
+│   │   │   │   └── page.tsx
+│   │   │   └── thank-you
+│   │   │       └── page.tsx
+│   │   ├── page.tsx
+│   │   ├── privacy
+│   │   │   └── page.tsx
+│   │   ├── puzzle
+│   │   │   ├── game-registry.ts
+│   │   │   └── page.tsx
+│   │   ├── radio
+│   │   │   └── page.tsx
+│   │   └── videos
+│   │       └── page.tsx
+│   ├── actions.ts
+│   ├── api
+│   │   ├── contact
+│   │   │   └── route.ts
+│   │   ├── debug-models
+│   │   │   └── route.ts
+│   │   ├── gemini
+│   │   │   ├── geminiService.ts
+│   │   │   └── route.ts
+│   │   ├── groq
+│   │   │   └── route.ts
+│   │   └── youtube
+│   │       ├── search
+│   │       │   └── route.ts
+│   │       └── track
+│   │           └── route.ts
+│   ├── apple-icon.png
+│   ├── components
+│   │   ├── AddHomeBanner.tsx
+│   │   ├── BandcampCTA.tsx
+│   │   ├── ConsentWrapper.tsx
+│   │   ├── CookieBanner.tsx
+│   │   ├── DelayedSubscribePopup.tsx
+│   │   ├── LanguageSwitcher.tsx
+│   │   ├── Logo.tsx
+│   │   ├── PlaylistDiscovery.tsx
+│   │   ├── PlaylistStats.tsx
+│   │   ├── PlaylistUrlInput.tsx
+│   │   ├── ProfessorGrooveBot.tsx
+│   │   ├── Reviews.tsx
+│   │   ├── SmartLink.tsx
+│   │   ├── ThemeToggle.tsx
+│   │   ├── album-cta.tsx
+│   │   ├── contact-form.tsx
+│   │   ├── experiments-client.tsx
+│   │   ├── fan-counter.tsx
+│   │   ├── footer.tsx
+│   │   ├── game
+│   │   │   ├── ArcadeManager.tsx
+│   │   │   ├── BpmDetective.tsx
+│   │   │   ├── GameSection.tsx
+│   │   │   ├── KeyGame.tsx
+│   │   │   ├── MusicCTA.tsx
+│   │   │   ├── MusicPuzzle.tsx
+│   │   │   ├── MusicTrivia.tsx
+│   │   │   ├── ProfessorGroove.tsx
+│   │   │   └── ReverseGame.tsx
+│   │   ├── gemini
+│   │   │   ├── ArtStudio.tsx
+│   │   │   ├── Dashboard.tsx
+│   │   │   ├── Icons.tsx
+│   │   │   ├── Sidebar.tsx
+│   │   │   └── TriviaGame.tsx
+│   │   ├── header.tsx
+│   │   ├── mdx.tsx
+│   │   ├── nav.tsx
+│   │   ├── new-releases-spotlight.tsx
+│   │   ├── posts.tsx
+│   │   └── subscribe-cta.tsx
+│   ├── favicon.ico
+│   ├── global.css
+│   ├── lib
+│   │   ├── conversions.ts
+│   │   └── spotify.ts
+│   ├── logo.gif
+│   ├── manifest.ts
+│   ├── not-found.tsx
+│   ├── og
+│   │   └── route.tsx
+│   ├── robots.ts
+│   ├── sitemap.ts
+│   └── types
+│       └── index.ts
+├── code_structure.txt
+├── content_app.txt
+├── dictionaries
+│   ├── ar.json
+│   ├── de.json
+│   ├── en.json
+│   ├── es.json
+│   ├── fr.json
+│   ├── groove-nav.json
+│   ├── hy.json
+│   ├── it.json
+│   ├── pt.json
+│   ├── ru.json
+│   ├── site-knowledge.json
+│   ├── stats.json
+│   └── trivia-en.json
+├── middleware.ts
+├── next-env.d.ts
+├── next.config.js
+├── package.json
+├── pnpm-lock.yaml
+├── postcss.config.js
+├── public
+│   ├── Arman Ayva.jpg
+│   ├── Test.txt
+│   ├── apple-icon.png
+│   ├── audio
+│   │   ├── segment-1.mp3
+│   │   ├── segment-2.mp3
+│   │   ├── segment-3.mp3
+│   │   ├── segment-4.mp3
+│   │   ├── segment-5.mp3
+│   │   └── segment-6.mp3
+│   ├── favicon.ico
+│   └── logo.gif
+├── scripts
+│   ├── core.py
+│   ├── extract.py
+│   ├── harvester.py
+│   ├── localize_posts.py
+│   ├── structure-only.py
+│   └── translate-site.mjs
+├── structure.txt
+├── tailwind.config.js
+├── tsconfig.json
+└── typings.d.ts
