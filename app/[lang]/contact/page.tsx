@@ -3,7 +3,7 @@ import { ContactForm } from '../../components/contact-form'; // Import the new f
 
 export default function ContactPage() {
   // Define the JotForm embed details
-  const jotFormId = "250527544444255";
+  const jotFormId = "";
   const jotFormSrc = `https://form.jotform.com/${jotFormId}`;
 
   return (
@@ -15,7 +15,7 @@ export default function ContactPage() {
       <div className="prose prose-neutral dark:prose-invert mb-10">
         <p className="text-lg">
           Do you have a project idea, a press inquiry, or a potential collaboration? 
-          I'd love to hear from you! Please use the form below to reach **Arman Ayva**.
+          I'd love to hear from you! Please use the form below to reach **Template User**.
         </p>
         <ul className="list-disc ml-6">
           <li>For licensing and commercial inquiries, please be as specific as possible.</li>
@@ -25,11 +25,11 @@ export default function ContactPage() {
 
 
 <iframe
-  id="JotFormIFrame-250527544444255"
+  id="JotFormIFrame-"
   title="Formulaire de soumission Jazz"
   allowFullScreen
   allow="microphone; camera; geolocation"
-  src="https://form.jotform.com/250527544444255"
+  src="https://form.jotform.com/"
   style={{
     minWidth: '100%',
     height: '1800px',

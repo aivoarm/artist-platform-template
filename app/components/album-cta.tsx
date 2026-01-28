@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image'; // <-- Must be imported
 
 const imageUrl = "https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.10/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center:%20,w_0.1,y_0.1/v1763230260/Cowboy_a3mnzs.png";
-  const imageAlt = "Album art for Cowboy by Arman Ayva";
+  const imageAlt = "Album art for Cowboy by Template User";
   const imageWidth = 970; // Based on the w_970 in the URL
   const imageHeight = 250; // Based on the h_250 in the URL
 export function AlbumCTA() {
@@ -13,7 +13,7 @@ export function AlbumCTA() {
 
       {/* Equivalent to h2 style="font-size:2rem; margin-bottom:20px;" */}
       <h2 className="text-3xl sm:text-4xl font-bold mb-5 tracking-tight">
-        Listet to new release – Cowboy by Arman Ayva 🎷
+        Listet to new release – Cowboy by Template User 🎷
       </h2>
       
       <div className="mx-auto mb-10 max-w-4xl rounded-lg overflow-hidden shadow-2xl">
@@ -31,7 +31,7 @@ export function AlbumCTA() {
       {/* Equivalent to p style="font-size:1.1rem; margin-bottom:30px; max-width:600px;" */}
       <p className="text-lg mb-8 max-w-2xl mx-auto text-neutral-300">
         New music is out!<strong className="text-white"> Jazz, funk, and world fusion</strong> crafted by 
-        **Arman Ayva – Montreal Jazz Composer**. Ride over to Spotify — find “Cowboy.
+        **Template User – Montreal Jazz Composer**. Ride over to Spotify — find “Cowboy.
       </p>
       
       {/* Button using Bandcamp's signature orange color (bg-orange-600 is a good match) */}
@@ -59,12 +59,12 @@ export function AlbumCTA() {
       {/* Equivalent to p style="font-size:1.1rem; margin-bottom:30px; max-width:600px;" */}
       <p className="text-lg mb-8 max-w-2xl mx-auto text-neutral-300">
         Dive into 10 tracks of <strong className="text-white">jazz, funk, and world fusion</strong> crafted by 
-        **Arman Ayva – Montreal Jazz Composer**. Experience the full album now and support 
+        **Template User – Montreal Jazz Composer**. Experience the full album now and support 
         independent music for just <strong className="text-white">$9</strong>.
       </p>
       {/* Button using Bandcamp's signature orange color (bg-orange-600 is a good match) */}
       <Link
-        href="https://armanayva.bandcamp.com/album/my-funky-jazzification" 
+        href="https://username.bandcamp.com/album/my-funky-jazzification" 
         target="_blank"
         rel="noopener noreferrer"
         className="inline-block bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 px-10 rounded-lg text-lg transition-colors duration-300 shadow-xl"

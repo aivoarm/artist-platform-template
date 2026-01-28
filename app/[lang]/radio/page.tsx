@@ -19,7 +19,7 @@ export default function RadioPage() {
     {
       // YouTube Embed is taller and should span the grid if possible, 
       // but here we keep the uniform style for simplicity.
-      name: "Arman Ayva Music Playlist (YouTube)",
+      name: "Template User Music Playlist (YouTube)",
       src: "https://www.youtube.com/embed/videoseries?list=PLdh9NdS_IkkUwmhmrqNy0oQTtjxr683kC&autoplay=0",
       height: "315", // Height adjusted for YouTube player size
     },
@@ -58,7 +58,7 @@ export default function RadioPage() {
   return (
     <section className="py-8">
       <h1 className="font-bold text-4xl font-serif mb-6 tracking-tighter">
-        Arman Ayva's Detached Radio 📻
+        Template User's Detached Radio 📻
       </h1>
       
       <div className="prose prose-neutral dark:prose-invert mb-10">

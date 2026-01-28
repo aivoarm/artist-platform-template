@@ -9,7 +9,7 @@
 { "label": "📧 Subscribe", "intent": "subscribe" }
   ],
   "responses": {
-        "about": "Who is behind the scene? Yes, it is Arman Ayva",
+        "about": "Who is behind the scene? Yes, it is Template User",
 
     "arcade": "The Arcade is live. Head over to the Puzzle room to test your ears. Try not to miss the beat.",
     "music": "Checking out the soul of the operation? My favorite track is 'Girl from Italy'—check the main stage.",

@@ -60,7 +60,7 @@ export default function PrivacyPolicy({ params }: { params: { lang: string } }) 
       <section className="mb-10 border-t border-neutral-200 dark:border-neutral-800 pt-8">
         <h2 className="text-xl font-bold mb-4 uppercase tracking-tight">5. Your Rights</h2>
         <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed">
-          Since we don't have user accounts, there is no "personal profile" to delete. However, if you have reached out via our contact form, you can request the deletion of that message at any time. For any Law 25 inquiries, please contact **Arman Ayva** via the site's contact form.
+          Since we don't have user accounts, there is no "personal profile" to delete. However, if you have reached out via our contact form, you can request the deletion of that message at any time. For any Law 25 inquiries, please contact **Template User** via the site's contact form.
         </p>
       </section>
     </section>

@@ -89,7 +89,7 @@ export default async function Blog({
             url: `${baseUrl}/${lang}/blog/${post.slug}`,
             author: {
               '@type': 'Person',
-              name: 'Arman Ayva',
+              name: 'Template User',
             },
           }),
         }}

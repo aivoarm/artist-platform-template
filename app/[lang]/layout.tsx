@@ -13,17 +13,17 @@ import { ConsentWrapper } from '../components/ConsentWrapper';
 import { Analytics } from "@vercel/analytics/next"
 import { ProfessorGrooveBot } from '../components/ProfessorGrooveBot';
 
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-F8ZJR40RJT';
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-';
 const YOUR_APP_ID = process.env.YOUR_FACEBOOK_APP_ID; 
 const TIKTOK_PIXEL_ID = process.env.NEXT_PUBLIC_TIKTOK_ID || 'YOUR_TIKTOK_PIXEL_ID'; 
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: 'Arman Ayva Personal Website',
-    template: '%s | Arman Ayva', 
+    default: 'Template User Personal Website',
+    template: '%s | Template User', 
   },
-  description: 'Arman Ayva | Montreal Jazz Composer Blending Armenian Folk & Funk',
+  description: 'Template User | Montreal Jazz Composer Blending Armenian Folk & Funk',
 }
 
 const cx = (...classes: any[]) => classes.filter(Boolean).join(' ')
@@ -54,7 +54,7 @@ export default async function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="apple-mobile-web-app-title" content="Arman Ayva" />
+        <meta name="apple-mobile-web-app-title" content="Template User" />
         <link rel="apple-touch-icon" href="/icon-192x192.png" />
       </head>
       <body 

@@ -21,7 +21,7 @@ export function SubscribeCTA({ lang, dict }: { lang: string; dict: any }) {
   return (
     <section className="bg-neutral-900 text-white text-center py-16 px-4 rounded-2xl shadow-2xl">
       <h2 className="text-3xl font-bold mb-5 tracking-tight">
-        {dict.title || "Stay Updated on Arman Ayva Projects"}
+        {dict.title || "Stay Updated on Template User Projects"}
       </h2>
       
       <p className="text-lg mb-8 max-w-2xl mx-auto text-neutral-300">

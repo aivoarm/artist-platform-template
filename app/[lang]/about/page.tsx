@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { getDictionary } from '../dictionaries';
 
-const HERO_IMAGE_URL = '/Arman%20Ayva.jpg';
+const HERO_IMAGE_URL = '/.jpg';
 
 export default async function AboutPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
@@ -17,7 +17,7 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
             src={HERO_IMAGE_URL}
             width={400} 
             height={400} 
-            alt="Arman Ayva"
+            alt="Template User"
             className="w-full h-auto object-cover rounded-lg shadow-lg" 
             priority 
           />

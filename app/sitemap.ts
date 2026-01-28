@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 import { getBlogPosts } from 'app/[lang]/blog/utils'
 
-export const baseUrl = 'https://www.armanayva.com'
+export const baseUrl = 'https://www.username.com'
 const locales = ['en', 'fr', 'es', 'it', 'de', 'hy', 'ru', 'ar']
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

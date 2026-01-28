@@ -39,7 +39,7 @@ export function NewReleasesSpotlight({ lang, dict }: { lang: string; dict: any }
             ✨ Click to buy & support the Artists directly.
           </p>
           <Link 
-            href="https://armanayva.bandcamp.com/" 
+            href="https://username.bandcamp.com/" 
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center px-5 py-2.5 text-sm font-bold text-white bg-[#629aa9] hover:bg-[#4d7a86] rounded-full transition-all shadow-md hover:shadow-lg"

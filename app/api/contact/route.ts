@@ -34,8 +34,8 @@ Message: ${message}
     // Example using a fictional external email sender:
     // await sendEmail({
     //   to: 'your-google-inbox@gmail.com',
-    //   from: 'contact-form@armanayva.com',
-    //   subject: `New Message from ArmanAyva.com Contact Form by ${name}`,
+    //   from: 'contact-form@username.com',
+    //   subject: `New Message from username.com Contact Form by ${name}`,
     //   html: `<p>Name: ${name}</p><p>Email: ${email}</p><p>Message: ${message}</p>`,
     // });
     

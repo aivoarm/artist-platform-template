@@ -4,8 +4,7 @@ import { ImageResponse } from 'next/og'
 export const runtime = 'edge'
 
 // The URL for the Cloudinary background image
-const HERO_IMAGE_URL = 'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.50/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center:Your%20Funky%20Jazz,w_0.2,y_0.3/v1570237649/17160429878_68460aeb25_o-1_udg7bx.jpg'
-
+const HERO_IMAGE_URL = 'https://res.cloudinary.com/ade,y_-0.50/c_scale,co_rgb:'
 // The GET function MUST be async to use fetch
 export async function GET(request: Request) {
   let url = new URL(request.url)
@@ -40,7 +39,7 @@ export async function GET(request: Request) {
             // Use the <img> tag and the full URL
             <img 
                 src={HERO_IMAGE_URL} 
-                alt="Arman Ayva Background" 
+                alt="Template User Background" 
                 width={1200}
                 height={630}
                 tw="absolute inset-0 w-full h-full object-cover" 
@@ -58,7 +57,7 @@ export async function GET(request: Request) {
           <h1 tw="text-6xl font-bold tracking-tight text-center max-w-4xl">
             {title}
           </h1>
-          <p tw="text-2xl mt-4">Arman Ayva | Composer & Musician</p>
+          <p tw="text-2xl mt-4">Template User | Composer & Musician</p>
         </div>
       </div>
     ),

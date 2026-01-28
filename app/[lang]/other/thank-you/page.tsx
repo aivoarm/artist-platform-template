@@ -20,7 +20,7 @@ export default function SubscribeThankYouPage() {
         </h1>
         
         <p className="text-xl text-gray-600 mb-8">
-          You're all set. Check your inbox shortly for a confirmation email and the latest updates from Arman Ayva.
+          You're all set. Check your inbox shortly for a confirmation email and the latest updates from Template User.
         </p>
         
         <Link href="/" className="inline-block bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors duration-300 shadow-lg">

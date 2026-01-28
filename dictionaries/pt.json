@@ -1,10 +1,10 @@
 {
   "hero": {
-    "name": "Arman Ayva",
+    "name": "Template User",
     "subtitle": "Jazz-Fusion Inovador de Montreal."
   },
   "intro": {
-    "text": "Bem-vindo à intersecção entre o groove e a melodia. Sou Arman Ayva, um artista baseado em Montreal criando uma nova linguagem no Jazz-Fusion. Minha música vive no espaço entre a instrumentação ao vivo e a exploração eletrônica — onde linhas de baixo profundas encontram arranjos complexos e repletos de alma.",
+    "text": "Bem-vindo à intersecção entre o groove e a melodia. Sou Template User, um artista baseado em Montreal criando uma nova linguagem no Jazz-Fusion. Minha música vive no espaço entre a instrumentação ao vivo e a exploração eletrônica — onde linhas de baixo profundas encontram arranjos complexos e repletos de alma.",
     "influences": "Meu som é alimentado pelo legado de lendas como Marcus Miller, US3 e Dave Brubeck. Ao misturar Jazz-Funk com elementos Ambientais e Experimentais, busco criar música que seja intelectualmente estimulante e inegavelmente funky."
   },
   "puzzle": {
@@ -14,7 +14,7 @@
     "button": "Começar a Jogar"
   },
   "latest_single": { "label": "Último Single" },
-  "videos": { "title": "Arman Ayva – Videoteca", "description": "Explore minha discografia..." },
+  "videos": { "title": "Template User – Videoteca", "description": "Explore minha discografia..." },
   "playlist": { "title": "Playlist Funky Jazz Mood Lifter", "link_text": "Funky-Jazz-Mood-Lifter" },
   "general": { "view_all": "Ver Todas as Músicas e Histórias", "other_stories": "Outras Histórias" },
   "nav": {
@@ -29,9 +29,9 @@
   "reviews": {
     "title": "🎷 Críticas e Feedback do Setor",
     "featured": {
-      "title": "Loneliness – Arman Ayva transforma a luta coletiva em som",
+      "title": "Loneliness – Template User transforma a luta coletiva em som",
       "link": "https://korliblog.com/loneliness-arman-ayva-turns-collective-struggle-into-sound/",
-      "text": "O compositor de jazz-fusion baseado em Montreal, Arman Ayva, traduz história e resiliência em som..."
+      "text": "O compositor de jazz-fusion baseado em Montreal, Template User, traduz história e resiliência em som..."
     },
     "grid": [
       {
@@ -60,7 +60,7 @@
   "new_releases": {
     "title": "Novos Lançamentos e Destaques",
     "single_title": "Novo Single: Take Five, Get One",
-    "single_desc": "Nesta faixa, Arman Ayva funde **texturas eletrônicas, acordes de piano elétrico e grooves de baixo ao vivo** em uma rica história instrumental. É um groove moderno que soa ao mesmo tempo calmo e vivo, misturando os gêneros **Jazz Fusion, Eletrônico e Ambient**.",
+    "single_desc": "Nesta faixa, Template User funde **texturas eletrônicas, acordes de piano elétrico e grooves de baixo ao vivo** em uma rica história instrumental. É um groove moderno que soa ao mesmo tempo calmo e vivo, misturando os gêneros **Jazz Fusion, Eletrônico e Ambient**.",
     "single_meta": "Tom: Fá menor • BPM: 120 • Clima: Feliz / Relaxante / Sensual",
     "explore_details": "Explorar Detalhes da Faixa",
     "pizzicata_title": "The Pizzicata Blues (6 Faixas)",
@@ -71,14 +71,14 @@
     "listen_platforms": "Ouvir em Todas as Plataformas"
   },
   "subscribe": {
-    "title": "Fique Atualizado sobre os Projetos de Arman Ayva",
-    "description": "Assine para receber as últimas notícias, lançamentos e oportunidades de colaboração de Arman Ayva – Compositor de Jazz de Montreal. Descubra novas faixas, playlists e projetos futuros em primeira mão!",
+    "title": "Fique Atualizado sobre os Projetos de Template User",
+    "description": "Assine para receber as últimas notícias, lançamentos e oportunidades de colaboração de Template User – Compositor de Jazz de Montreal. Descubra novas faixas, playlists e projetos futuros em primeira mão!",
     "button": "Assinar Agora",
-    "disclaimer": "Seu e-mail será usado apenas para atualizações do projeto Arman Ayva."
+    "disclaimer": "Seu e-mail será usado apenas para atualizações do projeto Template User."
   },
   "about": {
-    "title": "Arman Ayva – Compositor de Jazz e Hobbyist de Montreal 🎷",
-    "lead": "Onde o jazz moderno encontra a narrativa cinematográfica. Arman Ayva é um compositor baseado em Montreal cujo som funde a alma do jazz clássico com a liberdade do funk e o misticismo da world music.",
+    "title": "Template User – Compositor de Jazz e Hobbyist de Montreal 🎷",
+    "lead": "Onde o jazz moderno encontra a narrativa cinematográfica. Template User é um compositor baseado em Montreal cujo som funde a alma do jazz clássico com a liberdade do funk e o misticismo da world music.",
     "section1_title": "Das Lentes aos Loops: Um Storyboard de Som",
     "section1_text": "Antes de começar a compor jazz, meu mundo era emoldurado pelas lentes de uma câmera. Como fotógrafo e cineasta amador, passei anos capturando histórias visuais. Hoje, uso esses mesmos instintos visuais para criar storyboards com som.",
     "section2_title": "A Fusão de Montreal: Alma Armênia encontra o Jazz-Funk",
@@ -90,7 +90,7 @@
     "cta_ready": "Pronto para mergulhar na música?",
     "cta_button": "Explorar Músicas e Histórias Cinematográficas",
     "disclaimer_title": "Aviso Legal de Produção Musical e Licenciamento",
-    "disclaimer_lead": "Todas as composições musicais apresentadas neste site são obras originais produzidas por Arman Ayva. Aderimos aos mais altos padrões de integridade artística e legal.",
+    "disclaimer_lead": "Todas as composições musicais apresentadas neste site são obras originais produzidas por Template User. Aderimos aos mais altos padrões de integridade artística e legal.",
     "disclaimer_tech_title": "Detalhes Técnicos de Produção",
     "disclaimer_tech_text": "Estas obras são criadas principalmente usando Apple Logic Pro e ferramentas de áudio digital profissionais. Algumas composições podem incluir sons ou amostras da biblioteca do Logic Pro.",
     "disclaimer_royalty_title": "Uso Livre de Royalties (Apple Logic Pro)",

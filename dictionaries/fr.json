@@ -1,6 +1,6 @@
 {
   "hero": {
-    "name": "Arman Ayva",
+    "name": "Template User",
     "subtitle": "Jazz-Fusion innovant de Montréal."
   },
   "intro": {
@@ -15,7 +15,7 @@
   },
   "latest_single": { "label": "Dernier Single" },
   "videos": { 
-    "title": "Arman Ayva – Vidéothèque", 
+    "title": "Template User – Vidéothèque", 
     "description": "Explorez ma discographie, restez informé des nouveautés et trouvez des options de streaming ou d'achat." 
   },
   "playlist": { 
@@ -38,9 +38,9 @@
   "reviews": {
     "title": "🎷 Retours et Critiques de l'Industrie",
     "featured": {
-      "title": "Loneliness – Arman Ayva transforme la lutte collective en son",
+      "title": "Loneliness – Template User transforme la lutte collective en son",
       "link": "https://korliblog.com/loneliness-arman-ayva-turns-collective-struggle-into-sound/",
-      "text": "Le compositeur de jazz-fusion montréalais Arman Ayva traduit l'histoire et la résilience en musique..."
+      "text": "Le compositeur de jazz-fusion montréalais Template User traduit l'histoire et la résilience en musique..."
     },
     "grid": [
       {
@@ -69,7 +69,7 @@
   "new_releases": {
   "title": "Nouveautés et points forts",
   "single_title": "Nouveau single : Take Five, Get One",
-  "single_desc": "Dans ce titre, Arman Ayva fusionne **textures électroniques, accords de piano électrique et grooves de basse live** dans une histoire instrumentale luxuriante. C'est un groove moderne à la fois calme et vivant, mélangeant les genres **Jazz Fusion, Électronique et Ambiant**.",
+  "single_desc": "Dans ce titre, Template User fusionne **textures électroniques, accords de piano électrique et grooves de basse live** dans une histoire instrumentale luxuriante. C'est un groove moderne à la fois calme et vivant, mélangeant les genres **Jazz Fusion, Électronique et Ambiant**.",
   "single_meta": "Tonalité : Fa mineur • BPM : 120 • Ambiance : Joyeux / Chill / Sexy",
   "explore_details": "Explorer les détails du titre",
   "pizzicata_title": "The Pizzicata Blues (6 titres)",
@@ -80,14 +80,14 @@
   "listen_platforms": "Écouter sur toutes les plateformes"
 },
 "subscribe": {
-  "title": "Restez informé des projets d'Arman Ayva",
-  "description": "Abonnez-vous pour recevoir les dernières nouvelles, les sorties et les opportunités de collaboration d'Arman Ayva – Compositeur de Jazz montréalais. Découvrez en exclusivité les nouveaux titres, les listes de lecture et les projets créatifs !",
+  "title": "Restez informé des projets d'Template User",
+  "description": "Abonnez-vous pour recevoir les dernières nouvelles, les sorties et les opportunités de collaboration d'Template User – Compositeur de Jazz montréalais. Découvrez en exclusivité les nouveaux titres, les listes de lecture et les projets créatifs !",
   "button": "S'abonner maintenant",
-  "disclaimer": "Votre adresse e-mail sera uniquement utilisée pour les mises à jour des projets d'Arman Ayva."
+  "disclaimer": "Votre adresse e-mail sera uniquement utilisée pour les mises à jour des projets d'Template User."
 } ,
 "about": {
-  "title": "Arman Ayva – Compositeur de Jazz montréalais 🎷",
-  "lead": "Là où le jazz moderne rencontre la narration cinématographique. Arman Ayva est un compositeur basé à Montréal dont le son fusionne l'âme du jazz classique avec la liberté du funk et le mysticisme des musiques du monde.",
+  "title": "Template User – Compositeur de Jazz montréalais 🎷",
+  "lead": "Là où le jazz moderne rencontre la narration cinématographique. Template User est un compositeur basé à Montréal dont le son fusionne l'âme du jazz classique avec la liberté du funk et le mysticisme des musiques du monde.",
   "section1_title": "De l'objectif aux boucles : un storyboard sonore",
   "section1_text": "Avant de composer du jazz, mon monde était cadré par l'objectif d'une caméra. En tant que photographe et cinéaste amateur, j'ai passé des années à capturer des histoires visuelles. Aujourd'hui, j'utilise ces mêmes instincts visuels pour créer des storyboards sonores.",
   "section2_title": "La fusion montréalaise : l'âme arménienne rencontre le jazz-funk",
@@ -99,7 +99,7 @@
   "cta_ready": "Prêt à plonger dans la musique ?",
   "cta_button": "Explorer la musique et les histoires cinématographiques",
   "disclaimer_title": "Production musicale et clause de non-responsabilité",
-  "disclaimer_lead": "Toutes les compositions présentées sur ce site sont des œuvres originales produites par Arman Ayva. Nous respectons les normes les plus élevées d'intégrité artistique et légale.",
+  "disclaimer_lead": "Toutes les compositions présentées sur ce site sont des œuvres originales produites par Template User. Nous respectons les normes les plus élevées d'intégrité artistique et légale.",
   "disclaimer_tech_title": "Détails de la production technique",
   "disclaimer_tech_text": "Ces œuvres sont créées principalement avec Apple Logic Pro et des outils audio professionnels. Certaines compositions peuvent inclure des sons ou échantillons de la bibliothèque Logic Pro.",
   "disclaimer_royalty_title": "Utilisation libre de droits (Apple Logic Pro)",

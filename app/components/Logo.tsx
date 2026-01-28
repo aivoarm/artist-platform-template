@@ -6,7 +6,7 @@ export default function Logo() {
     <div className="w-[70px] h-[70px]"> {/* Fixed container prevents layout shift */}
       <Image
         src="/logo.gif" 
-        alt="Arman Ayva Company Logo"
+        alt="Template User Company Logo"
         width={70} 
         height={70}
         unoptimized={true} // Required for GIF animation

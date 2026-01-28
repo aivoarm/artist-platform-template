@@ -2,9 +2,9 @@ import { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Arman Ayva',
-    short_name: 'Ayva',
-    description: 'Montreal Jazz Composer',
+    name: 'Template User',
+    short_name: 'Artist',
+    description: 'Jazz Artist',
     start_url: '/',
     display: 'standalone',
     background_color: '#000000',

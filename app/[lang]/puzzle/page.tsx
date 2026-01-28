@@ -11,14 +11,14 @@ const DEMO_VIDEO = {
   id: '-DHuW1h1wHw',
   name: 'Dave Brubeck - Take Five',
   artist: 'The Dave Brubeck Quartet',
-  image: 'https://i.ytimg.com/vi/-DHuW1h1wHw/mqdefault.jpg'
+  image: 'https://.jpg'
 };
 
 const OFFLINE_TRACK = {
   id: 'offline',
   name: 'Girl from Italy',
-  artist: 'Arman Ayva',
-  image: 'https://res.cloudinary.com/dpmkshcky/image/upload/v1763230260/Cowboy_a3mnzs.png'
+  artist: 'Template User',
+  image: 'https://res.cloudinary.com/--.png'
 };
 
 // 1. FIXED METADATA: Explicitly providing og:image
@@ -27,29 +27,29 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const dict = await getDictionary(lang);
   
   // Absolute URL is required for OG images
-  const ogImageUrl = "https://res.cloudinary.com/dpmkshcky/image/upload/v1769091826/musicpuzzle_byve3t.jpg";
+  const ogImageUrl = "https://res.cloudinary.com/.jpg";
 
   return {
-    title: `${dict.puzzle.title} | Arman Ayva`,
+    title: `${dict.puzzle.title} | Template User`,
     description: dict.puzzle.description,
     openGraph: {
-      title: `${dict.puzzle.title} | Arman Ayva`,
+      title: `${dict.puzzle.title} | Template User`,
       description: dict.puzzle.description,
       url: `${baseUrl}/${lang}/puzzle`,
-      siteName: 'Arman Ayva Musical Arcade',
+      siteName: 'Template User Musical Arcade',
       images: [
         {
           url: ogImageUrl,
           width: 1200,
           height: 630,
-          alt: 'Arman Ayva Musical Arcade Game Interface',
+          alt: 'Template User Musical Arcade Game Interface',
         },
       ],
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${dict.puzzle.title} | Arman Ayva`,
+      title: `${dict.puzzle.title} | Template User`,
       description: dict.puzzle.description,
       images: [ogImageUrl],
     },

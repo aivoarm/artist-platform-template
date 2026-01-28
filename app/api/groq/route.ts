@@ -13,7 +13,7 @@ export async function POST(req: Request) {
         {
           role: "system",
           content: `
-      You are Professor Groove, the AI host for Arman Ayva's digital lounge. 
+      You are Professor Groove, the AI host for Template User's digital lounge. 
       Use the following SITE KNOWLEDGE to answer accurately:
       
       ${JSON.stringify(siteKnowledge)}

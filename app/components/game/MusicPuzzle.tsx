@@ -131,9 +131,9 @@ export function MusicPuzzle({ lang, onComplete, forcedTrack }: MusicPuzzleProps)
   const loadOfflinePuzzle = () => {
     setSourceMode('offline');
     setTrackInfo({
-      name: "Girl from Italy", artist: "Arman Ayva",
+      name: "Girl from Italy", artist: "Template User",
       image: "https://res.cloudinary.com/dpmkshcky/image/upload/v1763230260/Cowboy_a3mnzs.png",
-      url: "https://armanayva.bandcamp.com"
+      url: "https://username.bandcamp.com"
     });
     const initial = CORRECT_ORDER.map(id => ({ id, localAudioUrl: `/audio/segment-${id + 1}.mp3` }));
     shuffleAndStart(initial);

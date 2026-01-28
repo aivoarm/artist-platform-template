@@ -1,7 +1,7 @@
 export default function VideosPage() {
   const videoEmbeds = [
     {
-      title: "Arman Ayva – Topic Channel",
+      title: "Template User – Topic Channel",
       description: "Official auto-generated Topic channel for full catalog listening.",
       embedId: "videoseries?list=PLdh9NdS_IkkUwmhmrqNy0oQTtjxr683kC", 
       isPlaylist: true,
@@ -20,8 +20,8 @@ embedId: "videoseries?list=PLdh9NdS_IkkVM3UatJqXqwod_4a8LxRTJ&si",
       isPlaylist: false,
     },
     {
-      title: "Stuck in the Past – Jazz Funk Fusion by Arman Ayva (Official Video)",
-      description: "The original instrumental jazz score capturing.  Release Date: Sep 1- 2025. Spotify: Arman Ayva",
+      title: "Stuck in the Past – Jazz Funk Fusion by Template User (Official Video)",
+      description: "The original instrumental jazz score capturing.  Release Date: Sep 1- 2025. Spotify: Template User",
       embedId: "ycXxiJdXSbw", // ⚠️ Replace with the actual video ID
       isPlaylist: false,
     },
@@ -30,13 +30,13 @@ embedId: "videoseries?list=PLdh9NdS_IkkVM3UatJqXqwod_4a8LxRTJ&si",
   return (
     <section className="py-8">
       <h1 className="font-bold text-4xl font-serif mb-6 tracking-tighter">
-        Watch & Listen: Arman Ayva on YouTube 🎥
+        Watch & Listen: Template User on YouTube 🎥
       </h1>
       
       <div className="prose prose-neutral dark:prose-invert mb-10">
         <p className="text-lg">
           Dive into my visual and sonic stories. From full-length album visualizers to official Topic
-          channel playlists, explore the cinematic jazz fusion of Arman Ayva.
+          channel playlists, explore the cinematic jazz fusion of Template User.
         </p>
       </div>
 

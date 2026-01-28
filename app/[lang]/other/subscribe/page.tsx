@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 export default function SubscribePage() {
-  const jotFormId = "253107289846264";
+  const jotFormId = "";
   const jotFormSrc = `https://form.jotform.com/${jotFormId}`;
 
   return (
@@ -9,12 +9,12 @@ export default function SubscribePage() {
       {/* Header - No Serif, No Gray */}
       <div className="max-w-3xl mb-12">
         <h1 className="text-4xl sm:text-6xl font-bold tracking-tighter text-black dark:text-white mb-6">
-          Subscribe to Arman Ayva Projects 🎵
+          Subscribe to Template User Projects 🎵
         </h1>
         
         <p className="text-lg sm:text-xl text-black dark:text-white leading-relaxed opacity-90 font-medium tracking-tight">
           Join the exclusive mailing list to receive the latest updates on new music releases, 
-          creative projects, and collaboration opportunities from **Arman Ayva**. 
+          creative projects, and collaboration opportunities from **Template User**. 
           We promise to keep your inbox groovy!
         </p>
       </div>
@@ -24,7 +24,7 @@ export default function SubscribePage() {
         <iframe
           id="JotFormEmbed"
           src={jotFormSrc}
-          title="Arman Ayva Email Subscription Form"
+          title="Template User Email Subscription Form"
           frameBorder="0"
           scrolling="yes" 
           width="100%"

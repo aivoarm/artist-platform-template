@@ -1,61 +1,55 @@
 import os
 import sys
+import re
 from pathlib import Path
 
 # --- Configuration Constants ---
 
-# Directories to ignore during extraction (e.g., binaries, caches, dependencies)
+# Directories to ignore (Added Vercel, caches, and media folders to keep output clean)
 EXCLUDE_DIRS = {
-    'node_modules', '.next', '.git',  
-    '__pycache__', '.pytest_cache', 'venv', 'dist', 'build', '.vscode', 
-    '.idea', 'tmp', 'temp', 'logs', 'blog', 'about', 'dictionaries', 'music-production-disclaimer', 'videos', 'subscribe',
-    'other', 'radio', 'contact', 'contact-form', 'footer', 'game', 'puzzle'
-
+    'node_modules', '.next', '.git', '.vercel', '__pycache__', 
+    '.pytest_cache', 'venv', 'dist', 'build', '.vscode', 
+    '.idea', 'tmp', 'temp', 'logs', 'coverage', 'public/audio'
 }
 
-# Files to ignore (e.g., secrets, lock files, system configuration)
+# Files to ignore (Crucial for preventing credential leaks)
 EXCLUDE_FILES = {
-    '.env', '.env.local', '.gitignore', 'package-lock.json', 
-    'yarn.lock', 'pnpm-lock.yaml', 'Thumbs.db', '.DS_Store'
+    '.env', '.env.local', '.env.development', '.env.production',
+    '.gitignore', 'package-lock.json', 'yarn.lock', 'pnpm-lock.yaml', 
+    'Thumbs.db', '.DS_Store', 'favicon.ico', 'apple-icon.png', 'logo.gif',
+    'pnpm-debug.log', 'npm-debug.log', 'code_structure.txt'
 }
 
-# Extensions of files whose content should be extracted
+# Maximum file size to read (500KB) to prevent crashes or massive text files
+MAX_FILE_SIZE = 500_000 
+
+# Extensions to extract
 CODE_EXTENSIONS = (
-    '.js', '.jsx', '.ts', '.tsx', '.css', '.scss', '.less', 
-    '.json', '.html', '.htm', '.py', '.md', '.java', '.go', 
-    '.c', '.cpp', '.h', '.txt', '.xml', '.yaml', '.yml', 
-    '.sh', '.toml', '.lock'
+    '.js', '.jsx', '.ts', '.tsx', '.css', '.scss', 
+    '.json', '.html', '.py', '.md', '.mdx', '.txt', 
+    '.yaml', '.yml', '.toml'
 )
+
+# Safety: Regex patterns to detect and redact potential secrets
+SECRET_PATTERNS = [
+    re.compile(r'(key|secret|token|auth|password|pwd|api_key)\s*[:=]\s*["\'][a-zA-Z0-9_\-]{8,}', re.I),
+    re.compile(r'AI_KEY\s*[:=]\s*.*', re.I),
+    re.compile(r'DATABASE_URL\s*[:=]\s*.*', re.I)
+]
 
 # --- Main Logic ---
 
+def is_line_sensitive(line):
+    """Checks if a line of code likely contains a secret."""
+    return any(pattern.search(line) for pattern in SECRET_PATTERNS)
+
 def print_directory_structure(startpath, output_file=None):
-    """
-    Recursively prints directory structure with file contents.
-    
-    Args:
-        startpath (str): Root directory to scan
-        output_file (str, optional): File to write output to. Defaults to None (prints to console).
-    """
-    
-    output_stream = None
-    if output_file:
-        try:
-            # Open file with UTF-8 encoding for broad compatibility
-            output_stream = open(output_file, 'w', encoding='utf-8')
-        except IOError as e:
-            print(f"Error opening output file '{output_file}': {e}")
-            return
+    output_stream = open(output_file, 'w', encoding='utf-8') if output_file else sys.stdout
     
     def write_output(text):
-        if output_stream:
-            output_stream.write(text + '\n')
-        else:
-            print(text)
+        output_stream.write(text + '\n')
     
-    # Normalize startpath for clean relative path calculations
     startpath = os.path.abspath(startpath)
-    
     write_output(f"Project Structure and Content for: {os.path.basename(startpath)}")
     write_output("=" * 60 + "\n")
 
@@ -63,75 +57,52 @@ def print_directory_structure(startpath, output_file=None):
         # Exclude directories in-place
         dirs[:] = [d for d in dirs if d not in EXCLUDE_DIRS]
         
-        # Calculate depth level relative to the startpath
         relative_root = os.path.relpath(root, startpath)
         level = relative_root.count(os.sep) if relative_root != '.' else 0
-        
-        # Indentation for the directory name
         dir_indent = '│   ' * level + ('├── ' if level > 0 else '')
-        
-        # Print directory name
         write_output(f"{dir_indent}{os.path.basename(root)}/")
         
-        # Indentation for file names within this directory
         file_indent = '│   ' * (level + 1) + '├── '
         
         for file in files:
-            if file not in EXCLUDE_FILES:
-                file_path = os.path.join(root, file)
+            if file in EXCLUDE_FILES:
+                continue
                 
-                # Print file name
-                write_output(f"{file_indent}{file}")
+            file_path = os.path.join(root, file)
+            write_output(f"{file_indent}{file}")
+            
+            if file_path.lower().endswith(CODE_EXTENSIONS):
+                CONTENT_PREFIX = '│   ' * (level + 2) + '| ' 
                 
-                # Check if file content should be extracted
-                if file_path.lower().endswith(CODE_EXTENSIONS):
-                    
-                    # Consistent indentation prefix for content lines
-                    CONTENT_PREFIX = '│   ' * (level + 2) + '| ' 
-                    
-                    try:
-                        write_output(f"{CONTENT_PREFIX}--- FILE CONTENT START ({file}) ---")
-                        
-                        # Use universal read 'r' with specified encoding
-                        with open(file_path, 'r', encoding='utf-8') as content_file:
-                            content = content_file.read()
-                            
-                            # Prepend the content prefix to every line
-                            content_lines = content.split('\n')
-                            formatted_content = '\n'.join([f"{CONTENT_PREFIX}{line}" for line in content_lines])
-                            
-                            write_output(formatted_content)
-                            
-                        write_output(f"{CONTENT_PREFIX}--- FILE CONTENT END ---")
-                        write_output('')  # Empty line after content block
-                        
-                    except UnicodeDecodeError:
-                         write_output(f"{CONTENT_PREFIX}[ERROR READING FILE: Skipping due to non-UTF-8 binary content or encoding issues]")
-                         write_output('')
-                    except Exception as e:
-                        # Handle other errors like permission denied
-                        write_output(f"{CONTENT_PREFIX}[ERROR READING FILE: {str(e)}]")
-                        write_output('')
+                # Safety Check: File Size
+                if os.path.getsize(file_path) > MAX_FILE_SIZE:
+                    write_output(f"{CONTENT_PREFIX}[SKIPPED: File too large]")
+                    continue
 
-    if output_stream:
+                try:
+                    write_output(f"{CONTENT_PREFIX}--- START: {file} ---")
+                    with open(file_path, 'r', encoding='utf-8') as f:
+                        for line in f:
+                            # Safety Check: Redact secrets
+                            if is_line_sensitive(line):
+                                write_output(f"{CONTENT_PREFIX}[REDACTED POTENTIAL SECRET]")
+                            else:
+                                write_output(f"{CONTENT_PREFIX}{line.rstrip()}")
+                    write_output(f"{CONTENT_PREFIX}--- END: {file} ---\n")
+                except Exception as e:
+                    write_output(f"{CONTENT_PREFIX}[ERROR READING FILE: {str(e)}]\n")
+
+    if output_file:
         output_stream.close()
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python project_code_extractor.py <project_directory> [output_file]")
+        print("Usage: python extractor.py <project_dir> [output_file]")
         sys.exit(1)
     
-    project_dir = sys.argv[1]
-    output_file = sys.argv[2] if len(sys.argv) > 2 else "code_structure.txt"
+    target_dir = sys.argv[1]
+    out_file = sys.argv[2] if len(sys.argv) > 2 else "code_structure.txt"
     
-    if not os.path.isdir(project_dir):
-        print(f"Error: Directory '{project_dir}' does not exist.")
-        sys.exit(1)
-    
-    print(f"Starting extraction from: {project_dir}")
-    print_directory_structure(project_dir, output_file)
-    
-    if os.path.exists(output_file):
-        print(f"Extraction complete. Structure saved to: {output_file}")
-    else:
-        print("Extraction failed or output file could not be created.")
+    print(f"Extracting safely from: {target_dir}")
+    print_directory_structure(target_dir, out_file)
+    print(f"Done. Output saved to: {out_file}")

@@ -43,7 +43,7 @@ export function AddHomeBanner() {
           </div>
           
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-bold text-neutral-900 dark:text-white">Install Arman Ayva App</p>
+            <p className="text-xs font-bold text-neutral-900 dark:text-white">Install Template User App</p>
             <p className="text-[10px] text-neutral-500 flex items-center gap-1 mt-0.5">
               Tap <FaShareSquare className="text-blue-500" /> then <FaPlusSquare /> "Add to Home Screen"
             </p>

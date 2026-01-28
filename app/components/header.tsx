@@ -16,7 +16,7 @@ export function Header() {
           
           {/* Logo/Home Link */}
           <Link href="/" className="text-lg font-bold tracking-tighter text-neutral-900 dark:text-neutral-100 hover:text-blue-500 transition-colors">
-            Arman Ayva
+            Template User
           </Link>
 
           {/* Navigation Links */}

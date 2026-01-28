@@ -31,7 +31,7 @@ export function Footer({ lang }: FooterProps) {
               <li><Link href={`/${lang}/blog`} className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">All Releases</Link></li>
               <li><Link href={`/${lang}/videos`} className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">Videos (YouTube)</Link></li>
               <li><Link href={`/${lang}/radio`} className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">Detached Radio</Link></li>
-              <li><a href="https://armanayva.bandcamp.com/" target="_blank" rel="noopener noreferrer" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">Bandcamp</a></li>
+              <li><a href="https://username.bandcamp.com/" target="_blank" rel="noopener noreferrer" className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">Bandcamp</a></li>
             </ul>
           </div>
 
@@ -39,7 +39,7 @@ export function Footer({ lang }: FooterProps) {
           <div>
             <h3 className="text-md font-bold mb-3 tracking-tight text-neutral-700 dark:text-neutral-100">Info</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link href={`/${lang}/about`} className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">About Arman</Link></li>
+              <li><Link href={`/${lang}/about`} className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">About</Link></li>
               <li><Link href={`/${lang}/contact`} className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors">Contact</Link></li>
               <li><Link href={`/${lang}/privacy`} className="text-neutral-600 dark:text-neutral-400 hover:text-blue-500 transition-colors font-medium">Privacy Policy</Link></li>
               <li><button onClick={handleResetCookies} className="text-neutral-500 dark:text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200 transition-colors text-xs text-left underline">Manage Cookies</button></li>
@@ -50,7 +50,7 @@ export function Footer({ lang }: FooterProps) {
           <div className="col-span-2">
             <h3 className="text-md font-bold mb-3 tracking-tight text-neutral-700 dark:text-neutral-100">Connect</h3>
              <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                Follow Arman Ayva for the latest news on jazz-funk releases, collaborations, and Armenian folk fusion.
+                Follow Template User for the latest news on jazz-funk releases, collaborations, and Armenian folk fusion.
              </p>
              <div className="mt-4 flex flex-wrap gap-4 items-center">
                 {/* Spotify */}
@@ -66,7 +66,7 @@ export function Footer({ lang }: FooterProps) {
                 
                 {/* YouTube */}
                 <a 
-                    href="https://www.youtube.com/@armanayva" 
+                    href="https://www.youtube.com/@username" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="text-2xl text-neutral-600 hover:text-[#FF0000] dark:text-neutral-400 transition-colors"
@@ -77,7 +77,7 @@ export function Footer({ lang }: FooterProps) {
                 
                 {/* Instagram */}
                 <a 
-                    href="https://www.instagram.com/armanayva/" 
+                    href="https://www.instagram.com/username/" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="text-2xl text-neutral-600 hover:text-[#E4405F] dark:text-neutral-400 transition-colors"
@@ -88,7 +88,7 @@ export function Footer({ lang }: FooterProps) {
                 
                 {/* TikTok */}
                 <a 
-                    href="https://www.tiktok.com/@armanayva" 
+                    href="https://www.tiktok.com/@username" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="text-2xl text-neutral-600 hover:text-black dark:hover:text-white dark:text-neutral-400 transition-colors"
@@ -99,7 +99,7 @@ export function Footer({ lang }: FooterProps) {
 
                 {/* X */}
                 <a 
-                    href="https://x.com/ArmanAyva" 
+                    href="https://x.com/username" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="text-2xl text-neutral-600 hover:text-black dark:hover:text-white dark:text-neutral-400 transition-colors"
@@ -110,7 +110,7 @@ export function Footer({ lang }: FooterProps) {
                 
                 {/* Linktree */}
                 <a 
-                    href="https://linktr.ee/armanayva" 
+                    href="https://linktr.ee/username" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="text-2xl text-neutral-600 hover:text-[#43E197] dark:text-neutral-400 transition-colors"
@@ -123,7 +123,7 @@ export function Footer({ lang }: FooterProps) {
         </div>
 
         <div className="mt-12 pt-8 border-t border-neutral-200 dark:border-neutral-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-neutral-500">
-          <p>© {currentYear} Arman Ayva. All rights reserved.</p>
+          <p>© {currentYear} Template User. All rights reserved.</p>
           <div className="flex gap-4">
              <Link href={`/${lang}/music-production-disclaimer`} className="hover:underline">Disclaimer</Link>
              <Link href={`/${lang}/other/subscribe`} className="hover:underline">Subscribe</Link>

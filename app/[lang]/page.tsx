@@ -46,7 +46,7 @@ function PuzzleCTA({ lang, dict }: { lang: string; dict: any }) {
   );
 }
 
-const HERO_IMAGE_URL = 'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/v1570237649/17160429878_68460aeb25_o-1_udg7bx.jpg'
+const HERO_IMAGE_URL = 'https://res.cloudinary.com/-1_udg7bx.jpg'
 
 export default async function Page({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
@@ -100,7 +100,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
       <div className="grid md:grid-cols-2 gap-6 mb-16">
         <div className="bg-neutral-50 dark:bg-zinc-950 p-6 rounded-[2.5rem] border border-neutral-200 dark:border-zinc-800 shadow-sm transition-all hover:shadow-xl">
           <p className="text-[10px] font-black uppercase tracking-[0.3em] mb-4 text-blue-500">{dict.latest_single.label}</p>
-          <iframe className="rounded-3xl" style={{ border: 0, width: '100%', height: '120px' }} src="https://bandcamp.com/EmbeddedPlayer/track=941990581/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless title="Silk Road by Arman Ayva" />
+          <iframe className="rounded-3xl" style={{ border: 0, width: '100%', height: '120px' }} src="https://bandcamp.com/EmbeddedPlayer/track=941990581/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless title="Silk Road by Template User" />
         </div>
 
         <div className="bg-neutral-50 dark:bg-zinc-950 p-6 rounded-[2.5rem] border border-neutral-200 dark:border-zinc-800 shadow-sm transition-all hover:shadow-xl">
@@ -114,7 +114,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
             ✨ Click to buy & support the Artists directly.
           </p>
           <Link 
-            href="https://armanayva.bandcamp.com/" 
+            href="https://username.bandcamp.com/" 
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center px-5 py-2.5 text-sm font-bold text-white bg-[#629aa9] hover:bg-[#4d7a86] rounded-full transition-all shadow-md hover:shadow-lg"

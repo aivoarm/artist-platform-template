@@ -26,12 +26,12 @@ function SubscribeCTAContent() {
   return (
     <section className="bg-neutral-900 text-white text-center py-12 px-4 rounded-lg shadow-2xl relative">
       <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight">
-        Stay Updated on Arman Ayva Projects
+        Stay Updated on Template User Projects
       </h2>
       
       <p className="text-lg mb-6 max-w-lg mx-auto text-neutral-300">
         Subscribe to receive the latest news, releases, and collaboration opportunities from 
-        <strong className="text-white"> Arman Ayva</strong>.
+        <strong className="text-white"> Template User</strong>.
       </p>
       
       <Link

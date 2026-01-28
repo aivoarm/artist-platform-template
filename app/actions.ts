@@ -254,7 +254,7 @@ export async function getArcadePlaylist(playlistId: string = 'PLdh9NdS_IkkXFKrfN
       .map((item: any) => ({
         videoId: item.contentDetails.videoId,
         name: item.snippet.title,
-        artist: item.snippet.videoOwnerChannelTitle || "Arman Ayva Selection",
+        artist: item.snippet.videoOwnerChannelTitle || "Template User Selection",
         // Extract BPM from text or default
         bpm: extractBpmFromDescription(item.snippet.description)
       }));

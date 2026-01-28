@@ -1,8 +1,8 @@
 {
-  "spotify": { "count": "4,270", "label": "Listeners", "url": "https://open.spotify.com/artist/1DukxxMpzFcNZx5iIJiSK4" },
-  "youtube": { "count": "5.1k", "label": "Subscribers", "url": "https://youtube.com/@armanayva" },
-  "instagram": { "count": "1.1k", "label": "Followers", "url": "https://instagram.com/armanayva" },
-  "tiktok": { "count": "1.1k", "label": "Fans", "url": "https://tiktok.com/@armanayva" },
-  "medium": { "count": "450", "label": "Readers", "url": "https://medium.com/@arman_ayva" },
-  "facebook": { "count": "1.4k", "label": "Fans", "url": "https://facebook.com/axparaper" }
+  "spotify": { "count": "4,270", "label": "Listeners", "url": "https://open.spotify.com/artist/ID" },
+  "youtube": { "count": "5.1k", "label": "Subscribers", "url": "https://youtube.com/@username" },
+  "instagram": { "count": "1.1k", "label": "Followers", "url": "https://instagram.com/username" },
+  "tiktok": { "count": "1.1k", "label": "Fans", "url": "https://tiktok.com/@username" },
+  "medium": { "count": "450", "label": "Readers", "url": "https://medium.com/@username" },
+  "facebook": { "count": "1.4k", "label": "Fans", "url": "https://facebook.com/username" }
 }
