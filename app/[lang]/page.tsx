@@ -9,6 +9,7 @@ import { PlaylistStats } from 'app/components/PlaylistStats';
 import { Reviews } from 'app/components/Reviews';
 import { FaYoutube, FaPlay } from 'react-icons/fa';
 import { getDictionary } from './dictionaries';
+import { FanCounter } from 'app/components/fan-counter';
 
 function PuzzleCTA({ lang, dict }: { lang: string; dict: any }) {
   return (
@@ -55,8 +56,13 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
         </div>
       </div>
 
+
       <div className="prose prose-neutral dark:prose-invert max-w-none">
         <p>{dict.intro.text}</p>
+        {/* The Fan Counter Section */}
+      <FanCounter />
+<SubscribeCTA lang={lang} dict={dict.subscribe} />
+
         <div className="bg-neutral-100 dark:bg-neutral-900 p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 mb-8">
           <p className="text-xs font-bold uppercase tracking-widest mb-2 text-blue-500">{dict.latest_single.label}</p>
 
@@ -92,14 +98,13 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
           <iframe style={{ borderRadius: '12px' }} src="https://open.spotify.com/embed/playlist/0kQ3ZMgLoc9UoFtJz96qYa" width="100%" height="352" frameBorder="0" allowFullScreen loading="lazy" />
         </div>
       </div>
-
+<PlaylistStats id='0kQ3ZMgLoc9UoFtJz96qYa'/>
       <hr className="my-16 border-neutral-200 dark:border-neutral-800" />
 
 <NewReleasesSpotlight lang={lang} dict={dict.new_releases} />
 
       <hr className="my-16 border-neutral-200 dark:border-neutral-800" />
       
-<SubscribeCTA lang={lang} dict={dict.subscribe} />
       
       <hr className="my-10 border-neutral-200 dark:border-neutral-800" />
       <h2 className="font-bold text-2xl font-serif mb-6 tracking-tighter text-neutral-400">{dict.general.other_stories}</h2>
