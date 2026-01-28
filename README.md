@@ -1,8 +1,5 @@
 
 
-pnpm run build && git add . && git commit -m "Upgrade" && git push -u origin main    
-
-
 # Portfolio Blog Starter
 
 This is a porfolio site template complete with a blog. Includes:
@@ -18,7 +15,10 @@ This is a porfolio site template complete with a blog. Includes:
 
 ## Demo
 
-https://portfolio-blog-starter.vercel.app
+https://portfolio-starter-kit-opal-kappa-42.vercel.app/
+
+https://github.com/aivoarm/Artist-Portfolio-starter-kit
+
 
 ## How to Use
 
@@ -35,7 +35,7 @@ Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_mediu
 Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [pnpm](https://pnpm.io/installation) to bootstrap the example:
 
 ```bash
-pnpm create next-app --example https://github.com/vercel/examples/tree/main/solutions/blog blog
+pnpm create next-app --example https://github.com/aivoarm/Artist-Portfolio-starter-kit myblog
 ```
 
 Then, run Next.js in development mode:
