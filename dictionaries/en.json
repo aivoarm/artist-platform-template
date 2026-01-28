@@ -13,7 +13,7 @@
     "description": "I built a custom tool that turns any YouTube video into a musical jigsaw. Can you reassemble your favorite tracks by ear?",
     "button": "Start Playing"
   },
-  "latest_single": { "label": "Latest Singles" },
+  "latest_single": { "label": "Latest Releases" },
   "videos": { "title": "Arman Ayva – Video Library", "description": "Explore my discography..." },
   "playlist": { "title": "Funky Jazz Mood Lifter Playlist", "link_text": "Funky-Jazz-Mood-Lifter" },
   "general": { "view_all": "View All Music & Stories", "other_stories": "All Other Stories" },

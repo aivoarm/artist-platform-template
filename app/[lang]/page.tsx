@@ -96,6 +96,21 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
            <iframe className="rounded-3xl" style={{ border: 0, width: '100%', height: '120px' }} src="https://bandcamp.com/EmbeddedPlayer/track=2408269376/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless title="Girl From Italy" />
         </div>
       </div>
+ {/* BANDCAMP CTA */}
+        <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900 rounded-lg">
+          <p className="text-sm font-medium mb-3 text-blue-800 dark:text-blue-300">
+            ✨ Click to buy & support the Artists directly.
+          </p>
+          <Link 
+            href="https://armanayva.bandcamp.com/" 
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center px-5 py-2.5 text-sm font-bold text-white bg-[#629aa9] hover:bg-[#4d7a86] rounded-full transition-all shadow-md hover:shadow-lg"
+          >
+            Only On Bandcamp
+          </Link>
+        </div>
+              <hr className="my-20 border-neutral-200 dark:border-zinc-800" />
 
       {/* Video Section */}
       <div className="mb-20">
@@ -151,11 +166,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
 
       <Reviews lang={lang} dict={dict.reviews} />
       
-      <div className="flex flex-col items-center my-20">
-          <div className="p-4 bg-white dark:bg-zinc-900 rounded-[2rem] shadow-2xl">
-              <iframe style={{ border: 0, width: '350px', height: '470px', borderRadius: '1.5rem' }} src="https://bandcamp.com/EmbeddedPlayer/album=854312660/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/transparent=true/" seamless />
-          </div>
-      </div>
+      
     </section>
   )
 }
