@@ -31,7 +31,6 @@ export function ProfessorGrooveBot({ lang }: { lang: string }) {
     }
   }, [messages, isTyping, isWarmingUp]);
 
-  // --- STUDIO TOGGLE (Neural Link) ---
   const toggleStudio = () => {
     if (!isOnline) {
       setIsWarmingUp(true);
@@ -52,41 +51,40 @@ export function ProfessorGrooveBot({ lang }: { lang: string }) {
     }
   };
 
- // --- SHORTCUT HANDLER ---
   const handleShortcut = (intent: string) => {
-    // 1. Map intents to internal routes or external URLs
     const routeMap: Record<string, string> = { 
       arcade: '/puzzle', 
       music: '/', 
+      about: '/about', 
       privacy: '/privacy', 
       contact: '/contact',
-      subscribe: '/other/subscribe' // Or "https://yournewsletter.com"
+      subscribe: '/other/subscribe'
     };
 
     const path = routeMap[intent];
     const response = navData.responses[intent as keyof typeof navData.responses];
 
-    // Safety check
-    if (!path || !lang) {
-      console.error(`Route or Lang missing. Intent: ${intent}, Lang: ${lang}`);
-      return;
-    }
+    if (!path || !lang) return;
 
+    // 1. Show the interaction in the chat
     setMessages(prev => [...prev, 
       { role: 'user', content: intent.toUpperCase() },
       { role: 'groove', content: response }
     ]);
 
+    // 2. Delay slightly so user reads, then minimize and route
     setTimeout(() => {
-      // Check if it's an external link
-      if (path.startsWith('http')) {
-        window.open(path, '_blank');
-      } else {
-        // Construct clean local URL
-        const finalPath = path === '/' ? `/${lang}` : `/${lang}${path}`;
-        router.push(finalPath);
-      }
-    }, 1000);
+      setIsOpen(false); 
+      
+      setTimeout(() => {
+        if (path.startsWith('http')) {
+          window.open(path, '_blank');
+        } else {
+          const finalPath = path === '/' ? `/${lang}` : `/${lang}${path}`;
+          router.push(finalPath);
+        }
+      }, 300); // Transition buffer
+    }, 1200); 
   };
 
   const sendMessage = async () => {
@@ -124,17 +122,19 @@ export function ProfessorGrooveBot({ lang }: { lang: string }) {
       
       {isOpen && (
         <div className={`mb-4 w-[350px] sm:w-[380px] h-[580px] flex flex-col rounded-[2.5rem] border transition-all duration-500 shadow-2xl overflow-hidden ${
-          isOnline ? 'bg-neutral-900 border-emerald-500/50 shadow-emerald-500/20' : 'bg-white dark:bg-neutral-950 border-neutral-200 dark:border-neutral-800'
+          isOnline 
+            ? 'bg-neutral-900 border-emerald-500/50 shadow-emerald-500/20' 
+            : 'bg-neutral-100 dark:bg-neutral-950 border-neutral-300 dark:border-neutral-800' /* Updated: Slight grey background */
         }`}>
           
           {/* HEADER */}
-          <div className="p-5 border-b border-neutral-200 dark:border-neutral-800 flex items-center justify-between bg-neutral-50 dark:bg-neutral-900/50">
+          <div className="p-5 border-b border-neutral-200 dark:border-neutral-800 flex items-center justify-between bg-neutral-200/50 dark:bg-neutral-900/50">
             <div className="flex items-center gap-3">
-              <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-700 ${isOnline ? 'bg-emerald-500 rotate-[360deg]' : 'bg-neutral-200 dark:bg-neutral-800'}`}>
-                <FaMicrophoneAlt className={isOnline ? 'text-black' : 'text-neutral-500'} />
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-700 ${isOnline ? 'bg-emerald-500 rotate-[360deg]' : 'bg-neutral-800'}`}>
+                <FaMicrophoneAlt className={isOnline ? 'text-black' : 'text-neutral-100'} />
               </div>
               <div className="min-w-0">
-                 <h3 className="font-bold text-xs truncate">Professor Groove</h3>
+                 <h3 className={`font-bold text-xs truncate ${isOnline ? 'text-white' : 'text-neutral-900 dark:text-white'}`}>Professor Groove</h3>
                  <p className={`text-[8px] font-black uppercase tracking-widest ${isOnline ? 'text-emerald-500 animate-pulse' : 'text-neutral-500'}`}>
                    {isOnline ? 'Live in the Booth' : 'In the Lounge'}
                  </p>
@@ -144,7 +144,7 @@ export function ProfessorGrooveBot({ lang }: { lang: string }) {
             <button 
               onClick={toggleStudio}
               className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-tighter transition-all border ${
-                isOnline ? 'bg-red-500/10 text-red-500 border-red-500/30' : 'bg-emerald-500/20 text-emerald-500 border-emerald-500/30 hover:bg-emerald-500 hover:text-black'
+                isOnline ? 'bg-red-500/10 text-red-500 border-red-500/30' : 'bg-emerald-500/20 text-emerald-600 border-emerald-500/30 hover:bg-emerald-500 hover:text-black'
               }`}
             >
               {isOnline ? <><FaPowerOff /> Kill Power</> : <><FaDoorOpen /> Studio</>}
@@ -160,21 +160,20 @@ export function ProfessorGrooveBot({ lang }: { lang: string }) {
                   ? 'bg-blue-600 text-white rounded-tr-none' 
                   : isOnline 
                     ? 'bg-neutral-800 text-emerald-100 border border-emerald-500/10 rounded-tl-none' 
-                    : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 rounded-tl-none'
+                    : 'bg-white dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 rounded-tl-none border border-neutral-200 dark:border-transparent'
                 }`}>
                   {m.content}
                 </div>
               </div>
             ))}
             
-            {/* OFFLINE MENU OPTIONS */}
             {!isOnline && !isTyping && !isWarmingUp && (
               <div className="pt-4 grid grid-cols-2 gap-2 animate-in fade-in slide-in-from-bottom-2 duration-700">
                 {navData.shortcuts.map((btn) => (
                   <button 
                     key={btn.intent}
                     onClick={() => handleShortcut(btn.intent)}
-                    className="p-3 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl text-[10px] font-bold text-left hover:border-emerald-500 transition-all active:scale-95 shadow-sm"
+                    className="p-3 bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-800 rounded-xl text-[10px] font-bold text-left hover:border-emerald-500 transition-all active:scale-95 shadow-sm text-neutral-800 dark:text-neutral-200"
                   >
                     {btn.label}
                   </button>
@@ -184,7 +183,7 @@ export function ProfessorGrooveBot({ lang }: { lang: string }) {
 
             {isTyping && (
               <div className="flex justify-start">
-                 <div className="text-[9px] font-black uppercase tracking-widest text-emerald-500 animate-pulse bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-500/20">
+                 <div className="text-[9px] font-black uppercase tracking-widest text-emerald-600 animate-pulse bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-500/20">
                     Groove is thinking...
                  </div>
               </div>
@@ -192,7 +191,7 @@ export function ProfessorGrooveBot({ lang }: { lang: string }) {
 
             {isWarmingUp && (
               <div className="flex justify-start">
-                <div className="text-[9px] font-black uppercase tracking-widest text-emerald-500 bg-emerald-500/10 px-4 py-2 rounded-full border border-emerald-500/30 animate-pulse">
+                <div className="text-[9px] font-black uppercase tracking-widest text-emerald-600 bg-emerald-500/10 px-4 py-2 rounded-full border border-emerald-500/30 animate-pulse">
                    Warming up the vintage pre-amps...
                 </div>
               </div>
@@ -200,7 +199,7 @@ export function ProfessorGrooveBot({ lang }: { lang: string }) {
           </div>
 
           {/* INPUT */}
-          <div className="p-5 bg-white dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-800">
+          <div className="p-5 bg-neutral-200/50 dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-800">
              <div className="relative">
                 <input 
                   disabled={isWarmingUp}
@@ -208,15 +207,14 @@ export function ProfessorGrooveBot({ lang }: { lang: string }) {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
                   placeholder={isOnline ? "Talk to professor ..." : "Use the menu or enter the studio..."}
-                  className="w-full bg-neutral-50 dark:bg-black border border-neutral-200 dark:border-neutral-800 rounded-xl px-4 py-3 text-xs outline-none focus:border-emerald-500 transition-all"
+                  className="w-full bg-white dark:bg-black border border-neutral-300 dark:border-neutral-800 rounded-xl px-4 py-3 text-xs outline-none focus:border-emerald-500 transition-all text-neutral-900 dark:text-white"
                 />
-                <button onClick={sendMessage} className="absolute right-2 top-1/2 -translate-y-1/2 text-emerald-500 p-2">
+                <button onClick={sendMessage} className="absolute right-2 top-1/2 -translate-y-1/2 text-emerald-600 p-2">
                   <FaPaperPlane size={14} />
                 </button>
              </div>
              
-             {/* FOOTNOTES */}
-             <div className="mt-4 pt-4 border-t border-neutral-100 dark:border-neutral-800 opacity-40 text-[8px] uppercase tracking-tighter flex justify-between">
+             <div className="mt-4 pt-4 border-t border-neutral-300 dark:border-neutral-800 opacity-40 text-[8px] uppercase tracking-tighter flex justify-between text-neutral-600 dark:text-neutral-400">
                 <span className="flex items-center gap-1"><FaBolt /> Groq LPU™</span>
                 <span className="flex items-center gap-1"><FaShieldAlt /> Law 25 Secure</span>
              </div>

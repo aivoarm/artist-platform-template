@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { getDictionary } from '../dictionaries';
 
-const HERO_IMAGE_URL = 'https://res.cloudinary.com/dpmkshcky/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.30/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center:Jazz%20Now,w_0.2,y_0/v1570237614/img_2437-copy-copy_pzebz7.jpg'
+const HERO_IMAGE_URL = '/Arman%20Ayva.jpg';
 
 export default async function AboutPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
@@ -10,21 +10,26 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
 
   return (
     <section className="py-8">
-      <div className="hero-container mb-8">
-        <Image
-          src={HERO_IMAGE_URL}
-          width={970} height={250} 
-          alt="Arman Ayva"
-          className="w-full h-auto object-cover rounded-lg shadow-lg" 
-          priority 
-        />
+      {/* Inline Hero Section */}
+      <div className="flex flex-col md:flex-row gap-8 items-start mb-8">
+        <div className="w-full md:w-1/3">
+          <Image
+            src={HERO_IMAGE_URL}
+            width={400} 
+            height={400} 
+            alt="Arman Ayva"
+            className="w-full h-auto object-cover rounded-lg shadow-lg" 
+            priority 
+          />
+        </div>
+        <div className="w-full md:w-2/3">
+          <h1 className="font-bold text-4xl font-serif mb-6 tracking-tighter">{dict.title}</h1>
+          <p className="lead text-xl prose prose-neutral dark:prose-invert">{dict.lead}</p>
+        </div>
       </div>
-
-      <h1 className="font-bold text-4xl font-serif mb-6 tracking-tighter">{dict.title}</h1>
       
       <div className="prose prose-neutral dark:prose-invert max-w-none">
-        <p className="lead text-xl">{dict.lead}</p>
-
+        {/* Rest of the content kept intact */}
         <hr className="my-8 border-neutral-200 dark:border-neutral-800" />
         
         <h2>{dict.section1_title}</h2>

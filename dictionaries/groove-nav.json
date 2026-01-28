@@ -1,5 +1,7 @@
 {
   "shortcuts": [
+        { "label": "👤 About", "intent": "about" },
+
     { "label": "🎮 Play Arcade", "intent": "arcade" },
     { "label": "🎷 Latest", "intent": "music" },
     { "label": "📄 Privacy", "intent": "privacy" },
@@ -7,6 +9,8 @@
 { "label": "📧 Subscribe", "intent": "subscribe" }
   ],
   "responses": {
+        "about": "Who is behind the scene? Yes, it is Arman Ayva",
+
     "arcade": "The Arcade is live. Head over to the Puzzle room to test your ears. Try not to miss the beat.",
     "music": "Checking out the soul of the operation? My favorite track is 'Girl from Italy'—check the main stage.",
     "privacy": "Checking the fine print? Respectable. Here’s the map to the legal lounge.",

@@ -6,7 +6,7 @@ import { useState, useEffect, useRef } from 'react';
 import { FaBars, FaTimes, FaGlobe } from 'react-icons/fa';
 import { ThemeToggle } from './ThemeToggle';
 
-// 1. Logo Component
+// 1. Logo Component - Scaled down for a more compact sticky header
 const CLOUDINARY_LOGO_URL = "https://res.cloudinary.com/dpmkshcky/image/upload/v1763746293/logo_dxzmtf.gif";
 
 export function Logo() {
@@ -14,14 +14,14 @@ export function Logo() {
     <img
       src={CLOUDINARY_LOGO_URL}
       alt="Logo"
-      width={70} 
-      height={70}
-      className="w-[70px] h-[70px] object-cover rounded-full border-2 border-black shadow-lg"
+      width={48} 
+      height={48}
+      className="w-[48px] h-[48px] object-cover rounded-full border-2 border-black shadow-md"
     />
   );
 }
 
-// 2. Language Switcher Dropdown (Z-INDEX FIXED)
+// 2. Language Switcher Dropdown
 function LanguageSwitcher({ currentLang }: { currentLang: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
@@ -52,7 +52,6 @@ function LanguageSwitcher({ currentLang }: { currentLang: string }) {
   }, []);
 
   return (
-    // Added z-[100] to ensure the button container has priority
     <div className="relative inline-block z-[100]" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
@@ -63,7 +62,6 @@ function LanguageSwitcher({ currentLang }: { currentLang: string }) {
       </button>
 
       {isOpen && (
-        // Increased Z-INDEX to 9999 to sit above everything
         <div className="absolute right-0 mt-2 grid grid-cols-2 gap-1 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 p-2 rounded-xl shadow-2xl z-[9999] min-w-[140px]">
           {locales.map((loc) => (
             <Link
@@ -130,12 +128,12 @@ export function Navbar({ lang }: { lang: string }) {
   };
 
   return (
-    // Increased z-position of the aside to ensure nav items are always on top
-    <aside className="mb-16 tracking-tight relative z-[50]">
-      <div className="lg:sticky lg:top-20">
+    /* Removed mb-16 to eliminate the large gap */
+    <aside className="tracking-tight relative z-[50]">
+      <div className="w-full">
         <nav className="flex flex-col relative" id="nav">
-          <div className="flex justify-between items-center w-full py-1">
-            <Link href={`/${lang}`}>
+          <div className="flex justify-between items-center w-full py-0">
+            <Link href={`/${lang}`} className="flex items-center">
               <Logo />
             </Link>
             

@@ -1,5 +1,3 @@
-
-
 import '../global.css'
 import type { Metadata } from 'next'
 import { GeistSans } from 'geist/font/sans'
@@ -15,8 +13,7 @@ import { ConsentWrapper } from '../components/ConsentWrapper';
 import { Analytics } from "@vercel/analytics/next"
 import { ProfessorGrooveBot } from '../components/ProfessorGrooveBot';
 
-// DEFINE YOUR IDs HERE
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-F8ZJR40RJT'; // Default to your ID if env is missing
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-F8ZJR40RJT';
 const YOUR_APP_ID = process.env.YOUR_FACEBOOK_APP_ID; 
 const TIKTOK_PIXEL_ID = process.env.NEXT_PUBLIC_TIKTOK_ID || 'YOUR_TIKTOK_PIXEL_ID'; 
 
@@ -31,7 +28,6 @@ export const metadata: Metadata = {
 
 const cx = (...classes: any[]) => classes.filter(Boolean).join(' ')
 
-// --- IMPORTANT: This function must be "export default" ---
 export default async function RootLayout({
   children,
   params,
@@ -47,7 +43,7 @@ export default async function RootLayout({
       lang={lang}
       dir={isRTL ? 'rtl' : 'ltr'}
       className={cx(
-        'text-black dark:bg-black dark:text-white overflow-x-hidden', 
+        'text-black dark:bg-black dark:text-white', 
         GeistSans.variable,
         GeistMono.variable
       )}
@@ -56,35 +52,42 @@ export default async function RootLayout({
       <head>
         <meta property="fb:app_id" content={YOUR_APP_ID} />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-        
-        {/* iOS PWA Meta Tags */}
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="Arman Ayva" />
         <link rel="apple-touch-icon" href="/icon-192x192.png" />
       </head>
       <body 
-        className="antialiased min-h-screen overflow-x-hidden dark:bg-black font-sans"
+        className="antialiased min-h-screen dark:bg-black font-sans"
         suppressHydrationWarning
       >
         <AddHomeBanner />
-<ProfessorGrooveBot lang={lang} />
+        <ProfessorGrooveBot lang={lang} />
 
         <Analytics/>
         <Providers> 
-          {/* Pass the IDs here. ConsentWrapper will handle the rest. */}
-          <ConsentWrapper gaId={GA_MEASUREMENT_ID} tiktokId={TIKTOK_PIXEL_ID}>
-            <main className="flex-auto min-w-0 flex flex-col px-4 md:px-0 max-w-6xl mx-auto mt-8">
-              <Navbar lang={lang} />
+  <ConsentWrapper gaId={GA_MEASUREMENT_ID} tiktokId={TIKTOK_PIXEL_ID}>
+    <main className="flex-auto min-w-0 flex flex-col px-0">
+      
+      {/* FULL WIDTH STICKY HEADER */}
+      <header className="sticky top-0 z-40 w-full bg-white/90 dark:bg-black/90 backdrop-blur-md border-b border-neutral-100 dark:border-neutral-900 py-2">
+        {/* Inner container maintains the 6xl alignment for the logo/links */}
+        <div className="max-w-6xl mx-auto px-4 md:px-0">
+          <Navbar lang={lang} />
+        </div>
+      </header>
 
-              <div className="flex-grow mt-6">
-                {children}
-              </div>
+      {/* Page Content maintains 6xl width */}
+      <div className="flex-grow mt-8 max-w-6xl mx-auto w-full px-4 md:px-0">
+        {children}
+      </div>
 
-              <Footer lang={lang} />
-            </main>
-          </ConsentWrapper>
-        </Providers>
+      <footer className="max-w-6xl mx-auto w-full px-4 md:px-0">
+        <Footer lang={lang} />
+      </footer>
+    </main>
+  </ConsentWrapper>
+</Providers>
 
         <DelayedSubscribePopup lang={lang} />
         <CookieBanner />
