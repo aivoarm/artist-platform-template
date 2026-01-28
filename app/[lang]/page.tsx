@@ -55,21 +55,29 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
   return (
     <section className="antialiased">
       {/* Hero Section: Ultra-Round and Sharp */}
-      <div className="relative hero-container overflow-hidden rounded-[3rem] mb-12 shadow-2xl group">
+      {/* Hero Section: Optimized for LCP and Performance */}
+      <div className="relative hero-container overflow-hidden rounded-[3rem] mb-12 shadow-2xl group min-h-[350px] bg-neutral-900">
         <Image 
           src={HERO_IMAGE_URL} 
-          width={970} 
-          height={250} 
           alt={dict.hero.name} 
-          className="w-full h-[350px] object-cover transition-transform duration-1000 group-hover:scale-105" 
+          // 'fill' and 'sizes' are key to reducing the LCP time
+          fill
           priority 
+          className="object-cover transition-transform duration-1000 group-hover:scale-105" 
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
+          quality={90}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent flex flex-col justify-end p-10">
-           <h1 className="text-white font-black text-5xl md:text-7xl tracking-tighter uppercase leading-none mb-2">{dict.hero.name}</h1>
-           <p className="text-white/90 text-lg md:text-xl max-w-xl font-medium tracking-tight italic">{dict.hero.subtitle}</p>
+        
+        {/* Overlay: Improved contrast for better readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-6 md:p-10">
+           <h1 className="text-white font-black text-5xl md:text-8xl tracking-tighter uppercase leading-[0.8] mb-4 drop-shadow-sm">
+             {dict.hero.name}
+           </h1>
+           <p className="text-white/90 text-lg md:text-2xl max-w-2xl font-medium tracking-tight italic border-l-4 border-blue-500 pl-4">
+             {dict.hero.subtitle}
+           </p>
         </div>
       </div>
-
       {/* Intro Text: High Contrast Fix */}
       <div className="max-w-4xl mx-auto px-4 mb-16">
         <p className="text-xl md:text-2xl leading-relaxed font-medium text-black dark:text-zinc-100 tracking-tight antialiased">
