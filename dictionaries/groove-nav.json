@@ -1,8 +1,8 @@
 {
   "shortcuts": [
     { "label": "🎮 Play Arcade", "intent": "arcade" },
-    { "label": "🎷 Latest Tracks", "intent": "music" },
-    { "label": "📄 Privacy/Law 25", "intent": "privacy" },
+    { "label": "🎷 Latest", "intent": "music" },
+    { "label": "📄 Privacy", "intent": "privacy" },
     { "label": "☕ Contact", "intent": "contact" },
 { "label": "📧 Subscribe", "intent": "subscribe" }
   ],
