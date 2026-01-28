@@ -1,47 +1,51 @@
 import Link from 'next/link';
 
 export default function SubscribePage() {
-  // Define the JotForm embed details
   const jotFormId = "253107289846264";
   const jotFormSrc = `https://form.jotform.com/${jotFormId}`;
 
   return (
-    <section className="py-8">
-      <h1 className="font-bold text-4xl font-serif mb-6 tracking-tighter">
-        Subscribe to Arman Ayva Projects 🎵
-      </h1>
-      
-      <div className="prose prose-neutral dark:prose-invert mb-10">
-        <p className="text-lg">
+    <section className="py-12 px-2">
+      {/* Header - No Serif, No Gray */}
+      <div className="max-w-3xl mb-12">
+        <h1 className="text-4xl sm:text-6xl font-bold tracking-tighter text-black dark:text-white mb-6">
+          Subscribe to Arman Ayva Projects 🎵
+        </h1>
+        
+        <p className="text-lg sm:text-xl text-black dark:text-white leading-relaxed opacity-90 font-medium tracking-tight">
           Join the exclusive mailing list to receive the latest updates on new music releases, 
-          creative projects, and collaboration opportunities from **Arman Ayva – Montreal Jazz Composer**. 
+          creative projects, and collaboration opportunities from **Arman Ayva**. 
           We promise to keep your inbox groovy!
         </p>
       </div>
 
-      {/* JotForm Embed Section */}
-      <div className="w-full mx-auto" style={{ minHeight: '800px' }}>
+      {/* JotForm Section - Glass Aesthetic with Dashboard styling */}
+      <div className="glass w-full rounded-[3rem] overflow-hidden border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/80 shadow-2xl transition-all hover:border-black/20 dark:hover:border-white/20">
         <iframe
           id="JotFormEmbed"
-          // Set src to the JotForm URL
           src={jotFormSrc}
-          // The title is important for accessibility (SEO/Screen readers)
           title="Arman Ayva Email Subscription Form"
-          // Frameborder=0 removes the default border
           frameBorder="0"
-          // Scrolling=no can prevent scrollbars if the height is exact, but "yes" is safer for forms
           scrolling="yes" 
-          // Set dimensions to full width and a reasonable height
           width="100%"
           height="800px"
-          // Set a minimum height for better mobile display, adjust as needed
-          style={{ minHeight: '800px', border: 'none' }}
+          className="w-full min-h-[800px] border-none"
         />
       </div>
 
-      <div className="mt-8 text-sm text-neutral-500 dark:text-neutral-400">
-        <p>
-          Need to change your mind? You can <Link href="/contact" className="underline hover:text-blue-500">contact me</Link> anytime to manage your subscription.
+      {/* Footer - High Contrast Flip */}
+      <div className="mt-12 px-6 flex flex-col sm:flex-row justify-between items-center gap-4 border-t border-black/5 dark:border-white/5 pt-8">
+        <p className="text-sm font-bold uppercase tracking-widest text-black/40 dark:text-white/40">
+          Montreal Jazz Composer
+        </p>
+        <p className="text-sm font-medium text-black dark:text-white">
+          Need to change your mind?{' '}
+          <Link 
+            href="/contact" 
+            className="underline underline-offset-4 decoration-black/20 dark:decoration-white/20 hover:decoration-black dark:hover:decoration-white transition-all font-bold"
+          >
+            Contact me
+          </Link>
         </p>
       </div>
     </section>
