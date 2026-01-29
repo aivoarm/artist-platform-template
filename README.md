@@ -28,8 +28,9 @@ You can use my Gem. https://gemini.google.com/gem/1j-5hqjyWcijWo5yJ0zvRFGVhQmrkS
 
 
 # Start development
+```bash
 pnpm dev
-
+```
 ✨ Key Features
 
 🤖 AI Professor: Integrated ProfessorGrooveBot using Gemini for site-specific intelligence.
@@ -48,7 +49,8 @@ pnpm dev
 
 🎨 Advanced Audio: Integration with Spotify and local audio segments for a rich music experience.
 
-🛠️ Configuration
+### 🛠️ Configuration
+
 Environment Variables
 To enable the interactive features, you must provide the following in your .env.local (the Setup Wizard can do this for you):
 
@@ -61,16 +63,15 @@ YOUTUBE_API_KEY
 SPOTIFY_CLIENT_ID
 SPOTIFY_CLIENT_SECRET
 
-Content Structure
+### Content Structure
 
 Blog Posts: Located in app/[lang]/blog/posts/[lang]/.
-
 
 Translations: Located in the /dictionaries folder.
 
 Site Logic: Managed through dictionaries/site-knowledge.json.
 
-📦 Tech Stack
+### 📦 Tech Stack
 Framework: Next.js 15 (App Router)
 
 Styling: Tailwind CSS v4
@@ -80,16 +81,16 @@ Runtime: Node.js / pnpm
 
 AI Engine: Google Gemini API , Groq
 
-📝 Maintenance
+### 📝 Maintenance
 To build, commit, and push updates to your live site:
-
+```
 Bash
 pnpm run build 
 
 git add . && git commit -m "Upgrade" && git push -u origin 
 main
-
-Using free 
+```
+### Using free 
     https://www.jotform.com/ for contact
     https://cloudinary.com/ for images
 
