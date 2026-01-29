@@ -7,7 +7,7 @@ import { FaBars, FaTimes, FaGlobe } from 'react-icons/fa';
 import { ThemeToggle } from './ThemeToggle';
 
 // 1. Logo Component - Scaled down for a more compact sticky header
-const CLOUDINARY_LOGO_URL = "https://res.cloudinary.com/dpmkshcky/image/upload/v1763746293/logo_dxzmtf.gif";
+const CLOUDINARY_LOGO_URL = "https://res.cloudinary.com/dxzmtf.gif";
 
 export function Logo() {
   return (

@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { getDictionary } from '../dictionaries';
-import ArcadeManager from 'app/components/game/ArcadeManager';
 import { FaPlay, FaLayerGroup, FaUnlockAlt } from 'react-icons/fa';
 import { getArcadePlaylist } from 'app/actions';
 import { baseUrl } from 'app/sitemap'; // Ensure this is imported for absolute URLs
@@ -120,8 +119,8 @@ export default async function PuzzlePage({ params }: { params: Promise<{ lang: s
             <iframe
               width="100%"
               height="100%"
-              src="https://www.youtube.com/embed/LemCmwSZS-I?rel=0&modestbranding=1"
-              title="Musical Puzzle Tutorial"
+              src="https://www.youtube.com/"
+              title="Musical Tutorial"
               allowFullScreen
               className="absolute inset-0 w-full h-full"
             />
@@ -156,14 +155,6 @@ export default async function PuzzlePage({ params }: { params: Promise<{ lang: s
         </div>
       </header>
 
-      <ArcadeManager 
-        lang={lang} 
-        gamesData={gamesData} 
-        dict={dict} 
-        demoVideo={DEMO_VIDEO}
-        offlineTrack={OFFLINE_TRACK}
-        initialBpmTracks={bpmTracks}
-      />
     </div>
   );
 }

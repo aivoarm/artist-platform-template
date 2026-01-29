@@ -18,7 +18,7 @@ function SubscribeCTAContent() {
     // 2. Specific Google Ads Conversion (Lead)
     if (typeof window !== 'undefined' && (window as any).gtag) {
       (window as any).gtag('event', 'conversion', {
-        'send_to': 'AW-11429089260/KXrCCJe6h5kZEOyf6Mkq',
+        'send_to': 'AW-',
       });
     }
   };

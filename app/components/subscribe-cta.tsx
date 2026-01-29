@@ -13,7 +13,7 @@ export function SubscribeCTA({ lang, dict }: { lang: string; dict: any }) {
     // 2. Immediate Google Ads Conversion Signal
     if (typeof window !== 'undefined' && (window as any).gtag) {
       (window as any).gtag('event', 'conversion', {
-        'send_to': 'AW-11429089260/myRDCOKyge4bEOyf6Mkq',
+        'send_to': 'AW-',
       });
     }
   };
