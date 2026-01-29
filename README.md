@@ -78,7 +78,10 @@ AI Engine: Google Gemini API , Groq
 To build, commit, and push updates to your live site:
 
 Bash
-pnpm run build && git add . && git commit -m "Upgrade" && git push -u origin main
+pnpm run build 
+
+git add . && git commit -m "Upgrade" && git push -u origin 
+main
 
 Using free 
     https://www.jotform.com/ for contact
