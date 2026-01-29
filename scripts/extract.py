@@ -26,7 +26,7 @@ MAX_FILE_SIZE = 500_000
 # Extensions to extract
 CODE_EXTENSIONS = (
     '.js', '.jsx', '.ts', '.tsx', '.css', '.scss', 
-    '.json', '.html', '.py', '.md', '.mdx', '.txt', 
+    '.json', '.html', '.md', '.mdx', '.txt', 
     '.yaml', '.yml', '.toml'
 )
 

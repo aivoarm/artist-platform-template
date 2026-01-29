@@ -19,7 +19,13 @@ After cloning the repository, run the Setup Wizard to personalize the site with 
 pnpm install
 
 # Run the Setup Wizard
-python3 scripts/setup-wizard.py
+python3 scripts/extract.py
+```
+
+This will generate code_structure.txt  file that  you can provide to AI that can help with Next.js 
+
+You can use my Gem. https://gemini.google.com/gem/1j-5hqjyWcijWo5yJ0zvRFGVhQmrkSout?usp=sharing
+
 
 # Start development
 pnpm dev
