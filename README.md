@@ -2,6 +2,11 @@
 
 A high-performance, multi-lingual portfolio and interactive blog built with **Next.js 15**, **Tailwind v4**, and **MDX**. This platform is designed for creators and musicians to showcase work through interactive games, AI-driven chat, and localized content.
 
+## 🚀 Live Example the developers website
+
+https://www.armanayva.com
+
+
 ## 🚀 Quick Start (For New Users)
 
 The easiest way to get your own version of this platform live is to use our **Setup Wizard**.
