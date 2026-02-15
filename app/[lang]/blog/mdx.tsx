@@ -6,7 +6,6 @@ import React from 'react'
 
 // Custom Components
 import BandcampCTA from 'app/components/BandcampCTA'
-import MusicCTA from 'app/components/game/MusicCTA'
 import { PlaylistStats } from 'app/components/PlaylistStats'
 import { PlaylistDiscovery } from 'app/components/PlaylistDiscovery'
 
@@ -107,7 +106,6 @@ let components = {
   code: Code,
   Table,         // Ensure Table is here
   BandcampCTA,
-  MusicCTA,
   PlaylistStats, 
   PlaylistDiscovery,// Ensure PlaylistStats is here
 }

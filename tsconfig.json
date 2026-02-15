@@ -2,7 +2,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"] 
+      "@/*": [
+        "./*"
+      ]
     },
     "resolveJsonModule": true,
     "downlevelIteration": true,
@@ -21,7 +23,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "isolatedModules": true,
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "incremental": true,
     "plugins": [
       {
